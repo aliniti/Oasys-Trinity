@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Oasys.Common.Enums.GameEnums;
+﻿using Oasys.Common.Enums.GameEnums;
 using Oasys.Common.GameObject.Clients.ExtendedInstances.Spells;
 using Oasys.SDK;
 
@@ -11,6 +6,14 @@ namespace ProSeries.Helpers
 {
     public class Spell
     {
+        public Spell(SpellSlot slot, float[] mana, float range)
+        {
+            Mana = mana;
+            Slot = slot;
+            SpellClass = UnitManager.MyChampion.GetSpellBook().GetSpellClass(slot);
+            Range = range;
+        }
+
         public float Delay { get; set; }
         public float Range { get; set; }
         public float Speed { get; set; }
@@ -22,20 +25,12 @@ namespace ProSeries.Helpers
         public SpellSlot Slot { get; set; }
         public SpellClass SpellClass { get; set; }
 
-        public Spell(SpellSlot slot, float[] mana, float range)
-        {
-            this.Mana = mana;
-            this.Slot = slot;
-            this.SpellClass = UnitManager.MyChampion.GetSpellBook().GetSpellClass(slot);
-            this.Range = range;
-        }
-
         public Spell SetSkillShot(float delay, float width, float speed, bool collision)
         {
-            this.Delay = delay;
-            this.Width = width;
-            this.Speed = speed;
-            this.Collision = collision;
+            Delay = delay;
+            Width = width;
+            Speed = speed;
+            Collision = collision;
             return this;
         }
     }

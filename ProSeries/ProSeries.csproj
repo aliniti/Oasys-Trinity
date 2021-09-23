@@ -5,22 +5,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Oasys.Common">
-      <HintPath>..\..\..\AppData\Roaming\Oasys\Oasys.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Oasys.SDK">
-      <HintPath>..\..\..\AppData\Roaming\Oasys\Oasys.SDK.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX">
-      <HintPath>..\..\..\AppData\Roaming\Oasys\SharpDX.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Direct3D9">
-      <HintPath>..\..\..\AppData\Roaming\Oasys\SharpDX.Direct3D9.dll</HintPath>
-    </Reference>
+    <Folder Include="Core\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\" />
+    <Reference Include="Oasys.Common">
+      <HintPath>..\..\..\..\AppData\Roaming\Oasys\Oasys.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Oasys.SDK">
+      <HintPath>..\..\..\..\AppData\Roaming\Oasys\Oasys.SDK.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX">
+      <HintPath>..\..\..\..\AppData\Roaming\Oasys\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D9">
+      <HintPath>..\..\..\..\AppData\Roaming\Oasys\SharpDX.Direct3D9.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

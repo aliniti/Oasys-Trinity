@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Oasys.Common.Enums.GameEnums;
 using Oasys.Common.EventsProvider;
 using Oasys.Common.GameObject.Clients;
-using Oasys.Common.GameObject.Clients.ExtendedInstances.Spells;
 using Oasys.Common.Menu;
 using Oasys.SDK;
 using Oasys.SDK.Menu;
@@ -15,17 +13,17 @@ namespace ProSeries.Plugins
 {
     public class Plugin
     {
+        private readonly Dictionary<string, bool> pDict = new();
+
+        private int pNow;
+        private Enums.PluginType pType;
+
+        public Dictionary<string, Spell> Spells = new();
         public virtual string PluginName { get; set; }
 
         public Tab MainTab { get; set; }
         public Tab PluginTab { get; set; }
         public AIHeroClient Me => UnitManager.MyChampion;
-
-        public Dictionary<string, Spell> Spells = new Dictionary<string, Spell>();
-
-        private int pNow;
-        private Enums.PluginType pType;
-        private Dictionary<string, bool> pDict = new Dictionary<string, bool>();
 
         public Plugin Init(Tab pluginTab, Tab rootTab)
         {
@@ -55,7 +53,6 @@ namespace ProSeries.Plugins
                 }
 
                 return this;
-
             }
             catch (Exception e)
             {
@@ -69,11 +66,10 @@ namespace ProSeries.Plugins
 
         public virtual void OnLoadPlugin()
         {
-
         }
+
         public virtual async Task OnUpdate()
         {
-
         }
 
         #endregion

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Oasys.Common.EventsProvider;
 using Oasys.Common.Menu;
 using Oasys.SDK;
-using Oasys.SDK.Menu;
 using Oasys.SDK.Tools;
 using ProSeries.Plugins;
 
@@ -35,7 +34,7 @@ namespace ProSeries
         {
             try
             {
-                Type[] allowedTypes = new[] { typeof(Plugin) };
+                Type[] allowedTypes = { typeof(Plugin) };
                 Logger.Log("ProSeries: Fetching plugins....", LogSeverity.Warning);
 
                 return
@@ -60,7 +59,6 @@ namespace ProSeries
         {
             try
             {
-
                 if (LoadedPlugins.Contains(plugin) == false)
                     LoadedPlugins.Add(plugin.Init(parent, RootTab));
             }
@@ -77,9 +75,9 @@ namespace ProSeries
         {
             try
             {
-                ConstructorInfo target = type.GetConstructor(Type.EmptyTypes);
-                DynamicMethod dynamic = new DynamicMethod(string.Empty, type, new Type[0], target.DeclaringType);
-                ILGenerator il = dynamic.GetILGenerator();
+                var target = type.GetConstructor(Type.EmptyTypes);
+                var dynamic = new DynamicMethod(string.Empty, type, new Type[0], target.DeclaringType);
+                var il = dynamic.GetILGenerator();
 
                 il.DeclareLocal(target.DeclaringType);
                 il.Emit(OpCodes.Newobj, target);
@@ -87,7 +85,7 @@ namespace ProSeries
                 il.Emit(OpCodes.Ldloc_0);
                 il.Emit(OpCodes.Ret);
 
-                Func<object> method = (Func<object>)dynamic.CreateDelegate(typeof(Func<object>));
+                var method = (Func<object>) dynamic.CreateDelegate(typeof(Func<object>));
                 return method();
             }
 
@@ -98,6 +96,5 @@ namespace ProSeries
                 return null;
             }
         }
-
     }
 }

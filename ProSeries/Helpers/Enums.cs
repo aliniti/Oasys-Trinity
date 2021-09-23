@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProSeries.Helpers
+﻿namespace ProSeries.Helpers
 {
-    class Enums
+    internal class Enums
     {
         public enum PluginType
         {
