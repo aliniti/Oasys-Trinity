@@ -220,3 +220,4 @@ pip-log.txt
 *.exp
 *.ipdb
 #*.dll
+*.v2
