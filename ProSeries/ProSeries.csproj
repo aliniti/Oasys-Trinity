@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Oasys.Common">
+      <HintPath>..\..\..\AppData\Roaming\Oasys\Oasys.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Oasys.SDK">
+      <HintPath>..\..\..\AppData\Roaming\Oasys\Oasys.SDK.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX">
+      <HintPath>..\..\..\AppData\Roaming\Oasys\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D9">
+      <HintPath>..\..\..\AppData\Roaming\Oasys\SharpDX.Direct3D9.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Core\" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="echo F | xcopy &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;B:\Users\aliniti\Desktop\Oasys\Modules\$(ProjectName).omod&quot; /Y" />
+  </Target>
+
+</Project>
