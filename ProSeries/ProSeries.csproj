@@ -5,34 +5,34 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Remove="Core\**"/>
+        <Compile Remove="Core\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Remove="Core\**"/>
+        <EmbeddedResource Remove="Core\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="Core\**"/>
+        <None Remove="Core\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <Reference Include="Oasys.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\..\..\..\Desktop\Oasys.References\Oasys.Common.dll</HintPath>
-        </Reference>
-        <Reference Include="Oasys.SDK, Version=2.0.3.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\..\..\..\Desktop\Oasys.References\Oasys.SDK.dll</HintPath>
-        </Reference>
-        <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
-            <HintPath>..\..\..\..\Desktop\Oasys.References\SharpDX.dll</HintPath>
-        </Reference>
-        <Reference Include="SharpDX.Direct3D9, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
-            <HintPath>..\..\..\..\Desktop\Oasys.References\SharpDX.Direct3D9.dll</HintPath>
-        </Reference>
+      <Reference Include="Oasys.Common">
+        <HintPath>B:\Users\aliniti\Desktop\Oasys.References\Oasys.Common.dll</HintPath>
+      </Reference>
+      <Reference Include="Oasys.SDK">
+        <HintPath>B:\Users\aliniti\Desktop\Oasys.References\Oasys.SDK.dll</HintPath>
+      </Reference>
+      <Reference Include="SharpDX">
+        <HintPath>B:\Users\aliniti\Desktop\Oasys.References\SharpDX.dll</HintPath>
+      </Reference>
+      <Reference Include="SharpDX.Direct3D9">
+        <HintPath>B:\Users\aliniti\Desktop\Oasys.References\SharpDX.Direct3D9.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Exec Command="echo F | xcopy &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;B:\Users\aliniti\Desktop\Oasys\Modules\$(ProjectName).omod&quot; /Y"/>
+        <Exec Command="echo F | xcopy &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;B:\Users\aliniti\Desktop\Oasys\Modules\$(ProjectName).omod&quot; /Y" />
     </Target>
 
 </Project>
