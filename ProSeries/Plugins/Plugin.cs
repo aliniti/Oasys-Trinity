@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Oasys.Common.EventsProvider;
-using Oasys.Common.GameObject.Clients;
-using Oasys.Common.Menu;
-using Oasys.SDK;
-using Oasys.SDK.Menu;
-using Oasys.SDK.Tools;
-using ProSeries.Helpers;
-
-namespace ProSeries.Plugins
+﻿namespace ProSeries.Plugins
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Helpers;
+    using Oasys.Common.EventsProvider;
+    using Oasys.Common.GameObject.Clients;
+    using Oasys.Common.Menu;
+    using Oasys.SDK;
+    using Oasys.SDK.Menu;
+    using Oasys.SDK.Tools;
+
     public class Plugin
     {
         private readonly Dictionary<string, bool> pDict = new();
