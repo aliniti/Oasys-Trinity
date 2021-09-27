@@ -1,30 +1,38 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Core\" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="Core\**"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Oasys.Common">
-      <HintPath>..\..\..\..\AppData\Roaming\Oasys\Oasys.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Oasys.SDK">
-      <HintPath>..\..\..\..\AppData\Roaming\Oasys\Oasys.SDK.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX">
-      <HintPath>..\..\..\..\AppData\Roaming\Oasys\SharpDX.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Direct3D9">
-      <HintPath>..\..\..\..\AppData\Roaming\Oasys\SharpDX.Direct3D9.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Remove="Core\**"/>
+    </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="echo F | xcopy &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;B:\Users\aliniti\Desktop\Oasys\Modules\$(ProjectName).omod&quot; /Y" />
-  </Target>
+    <ItemGroup>
+        <None Remove="Core\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="Oasys.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\..\Desktop\Oasys.References\Oasys.Common.dll</HintPath>
+        </Reference>
+        <Reference Include="Oasys.SDK, Version=2.0.3.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\..\Desktop\Oasys.References\Oasys.SDK.dll</HintPath>
+        </Reference>
+        <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
+            <HintPath>..\..\..\..\Desktop\Oasys.References\SharpDX.dll</HintPath>
+        </Reference>
+        <Reference Include="SharpDX.Direct3D9, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
+            <HintPath>..\..\..\..\Desktop\Oasys.References\SharpDX.Direct3D9.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Exec Command="echo F | xcopy &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;B:\Users\aliniti\Desktop\Oasys\Modules\$(ProjectName).omod&quot; /Y"/>
+    </Target>
 
 </Project>

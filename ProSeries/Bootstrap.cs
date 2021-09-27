@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Threading.Tasks;
-using Oasys.Common.EventsProvider;
-using Oasys.Common.Menu;
-using Oasys.SDK;
-using Oasys.SDK.Tools;
-using ProSeries.Plugins;
-
-namespace ProSeries
+﻿namespace ProSeries
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Reflection.Emit;
+    using System.Threading.Tasks;
+    using Oasys.Common.EventsProvider;
+    using Oasys.Common.Menu;
+    using Oasys.SDK;
+    using Oasys.SDK.Tools;
+    using Plugins;
+
     public class Bootstrap
     {
-        internal static Tab RootTab;
-        internal static List<Plugin> LoadedPlugins = new();
-
+        private static Tab _rootTab;
+        private static readonly List<Plugin> _loadedPlugins = new();
 
         [OasysModuleEntryPoint]
         public static void Execute()
@@ -26,15 +25,15 @@ namespace ProSeries
 
         private static async Task OnLoad()
         {
-            RootTab = new Tab("ProSeries: Settings");
-            GetTypesByGroup("Plugins.Champions").ForEach(x => { NewPlugin((Plugin) NewInstance(x), RootTab); });
+            _rootTab = new Tab("ProSeries: Settings");
+            GetTypesByGroup("Plugins.Champions").ForEach(x => { NewPlugin((Plugin) NewInstance(x), _rootTab); });
         }
 
         private static List<Type> GetTypesByGroup(string nspace)
         {
             try
             {
-                Type[] allowedTypes = { typeof(Plugin) };
+                Type[] allowedTypes = {typeof(Plugin)};
                 Logger.Log("ProSeries: Fetching plugins....", LogSeverity.Warning);
 
                 return
@@ -59,8 +58,8 @@ namespace ProSeries
         {
             try
             {
-                if (LoadedPlugins.Contains(plugin) == false)
-                    LoadedPlugins.Add(plugin.Init(parent, RootTab));
+                if (_loadedPlugins.Contains(plugin) == false)
+                    _loadedPlugins.Add(plugin.Init(parent, _rootTab));
             }
 
             catch (Exception e)

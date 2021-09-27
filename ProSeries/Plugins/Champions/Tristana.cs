@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Oasys.Common.Menu;
-using Oasys.Common.Menu.ItemComponents;
-
-namespace ProSeries.Plugins.Champions
+﻿namespace ProSeries.Plugins.Champions
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Oasys.Common.Menu;
+    using Oasys.Common.Menu.ItemComponents;
+
     internal class Tristana : Plugin
     {
         public override string PluginName => "Tristana";

@@ -1,9 +1,9 @@
-﻿using Oasys.Common.Enums.GameEnums;
-using Oasys.Common.GameObject.Clients.ExtendedInstances.Spells;
-using Oasys.SDK;
-
-namespace ProSeries.Helpers
+﻿namespace ProSeries.Helpers
 {
+    using Oasys.Common.Enums.GameEnums;
+    using Oasys.Common.GameObject.Clients.ExtendedInstances.Spells;
+    using Oasys.SDK;
+
     public class Spell
     {
         public Spell(SpellSlot slot, float[] mana, float range)
