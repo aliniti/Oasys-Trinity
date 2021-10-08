@@ -4,17 +4,9 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
-    <ItemGroup>
-        <Compile Remove="Core\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <EmbeddedResource Remove="Core\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Remove="Core\**" />
-    </ItemGroup>
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Exec Command="echo F | xcopy &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;B:\Users\aliniti\Desktop\Oasys\Modules\$(ProjectName).omod&quot; /Y" />
+    </Target>
 
     <ItemGroup>
       <Reference Include="Oasys.Common">
@@ -29,10 +21,9 @@
       <Reference Include="SharpDX.Direct3D9">
         <HintPath>B:\Users\aliniti\Desktop\Oasys.References\SharpDX.Direct3D9.dll</HintPath>
       </Reference>
+      <Reference Include="SharpDX.Mathematics">
+        <HintPath>B:\Users\aliniti\Desktop\Oasys.References\SharpDX.Mathematics.dll</HintPath>
+      </Reference>
     </ItemGroup>
-
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Exec Command="echo F | xcopy &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;B:\Users\aliniti\Desktop\Oasys\Modules\$(ProjectName).omod&quot; /Y" />
-    </Target>
 
 </Project>
