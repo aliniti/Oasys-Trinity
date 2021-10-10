@@ -78,7 +78,7 @@
 
             _initialized = true;
             _disposed = false;
-            Logger.Log("Initialized");
+            Logger.Log("Initialized " + ItemId);
 
             ItemSpell = MyChampion.Inventory.GetItemByID(ItemId);
             OnItemInitialize?.Invoke();
@@ -90,7 +90,7 @@
 
             _initialized = false;
             _disposed = true;
-            Logger.Log("Disposed");
+            Logger.Log("Disposed " + ItemId);
 
             ItemSpell = null;
             OnItemDispose?.Invoke();

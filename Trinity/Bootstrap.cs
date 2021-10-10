@@ -6,6 +6,8 @@
     using Items;
     using Oasys.Common.Enums.GameEnums;
     using Oasys.Common.EventsProvider;
+    using Oasys.Common.GameObject.Clients;
+    using Oasys.Common.GameObject.Clients.ExtendedInstances.Spells;
     using Oasys.Common.Menu;
     using Oasys.SDK;
     using Oasys.SDK.Menu;
@@ -22,10 +24,11 @@
         private static async Task GameEvents_OnGameLoadComplete()
         {
             AllItems.AddRange(ConsumableItems);
-            AllItems.AddRange(PostAttackItems);
+            //AllItems.AddRange(PostAttackItems);
 
             Initialize();
             CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
+            //GameEvents.OnGameProcessSpell += GameEvents_OnGameProcessSpell;
         }
 
         private static async Task GameEvents_OnGameMatchComplete()
@@ -41,51 +44,43 @@
         private static readonly List<ActiveItem> ConsumableItems = new()
         {
             // item: Health_Potion
-            new ActiveItem(ItemID.Health_Potion, Enums.TargetingType.ProximityAlly, float.MaxValue,
-                new[] { Enums.ActivationType.CheckOnlyOnMe, Enums.ActivationType.CheckAllyLowHP }),
+            new ActiveItem(55, ItemID.Health_Potion, Enums.TargetingType.ProximityAlly, float.MaxValue,
+                new[] { Enums.ActivationType.CheckOnlyOnMe, Enums.ActivationType.CheckAllyLowHP }, 
+                "Item2003"),
             
             // item: Refillable_Potion
-            new ActiveItem(ItemID.Refillable_Potion, Enums.TargetingType.ProximityAlly, float.MaxValue,
-                new[] { Enums.ActivationType.CheckOnlyOnMe, Enums.ActivationType.CheckAllyLowHP }),
+            new ActiveItem(55, ItemID.Refillable_Potion, Enums.TargetingType.ProximityAlly, float.MaxValue,
+                new[] { Enums.ActivationType.CheckOnlyOnMe, Enums.ActivationType.CheckAllyLowHP }, 
+                "ItemCrystalFlask"),
             
             // item: Corrupting_Potion
-            new ActiveItem(ItemID.Corrupting_Potion, Enums.TargetingType.ProximityAlly, float.MaxValue,
-                new[] { Enums.ActivationType.CheckOnlyOnMe, Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckAllyLowMP }),
+            new ActiveItem(55, ItemID.Corrupting_Potion, Enums.TargetingType.ProximityAlly, float.MaxValue,
+                new[] { Enums.ActivationType.CheckOnlyOnMe, Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckAllyLowMP },
+                "ItemDarkCrystalFlask"),
             
             // item: Total_Biscuit_of_Rejuvenation
-            new ActiveItem(ItemID.Total_Biscuit_of_Rejuvenation, Enums.TargetingType.ProximityAlly, float.MaxValue,
-                new[] { Enums.ActivationType.CheckOnlyOnMe, Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckAllyLowMP }),
+            new ActiveItem(55, ItemID.Total_Biscuit_of_Everlasting_Will, Enums.TargetingType.ProximityAlly, float.MaxValue,
+                new[] { Enums.ActivationType.CheckOnlyOnMe, Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckAllyLowMP }, 
+                "Item2010"),
             
             // item: Elixir_of_Iron
-            new ActiveItem(ItemID.Elixir_of_Iron, Enums.TargetingType.ProximityAlly, float.MaxValue,
-                new[] {Enums.ActivationType.CheckOnlyOnMe }),
+            new ActiveItem(100, ItemID.Elixir_of_Iron, Enums.TargetingType.ProximityAlly, float.MaxValue,
+                new[] {Enums.ActivationType.CheckOnlyOnMe }, 
+                "ElixirOfIron"),
             
             // item: Elixir_of_Wrath
-            new ActiveItem(ItemID.Elixir_of_Wrath, Enums.TargetingType.ProximityAlly, float.MaxValue,
-                new[] {Enums.ActivationType.CheckOnlyOnMe }),
+            new ActiveItem(100, ItemID.Elixir_of_Wrath, Enums.TargetingType.ProximityAlly, float.MaxValue,
+                new[] {Enums.ActivationType.CheckOnlyOnMe }, 
+                "ElixirOfWrath"),
             
             // item: Elixir_of_Sorcery
-            new ActiveItem(ItemID.Elixir_of_Sorcery, Enums.TargetingType.ProximityAlly, float.MaxValue,
-                new[] {Enums.ActivationType.CheckOnlyOnMe }),
+            new ActiveItem(100, ItemID.Elixir_of_Sorcery, Enums.TargetingType.ProximityAlly, float.MaxValue,
+                new[] {Enums.ActivationType.CheckOnlyOnMe }, 
+                "ElixirOfSorcery"),
             
             // item: Your_Cut (Pyke Assist)
-            new ActiveItem(ItemID.Your_Cut, Enums.TargetingType.ProximityAlly, float.MaxValue,
+            new ActiveItem(100, ItemID.Your_Cut, Enums.TargetingType.ProximityAlly, float.MaxValue,
                 new[] { Enums.ActivationType.CheckOnlyOnMe }),
-        };
-
-        private static readonly List<ActiveItem> PostAttackItems = new()
-        {
-            // item: tiamat
-            new ActiveItem(ItemID.Tiamat, Enums.TargetingType.ProximityEnemy, 350,
-                new[] {Enums.ActivationType.CheckEnemyLowHP, Enums.ActivationType.CheckOnlyOnMe, Enums.ActivationType.PostAttack }),
-            
-            // item: titanic_hydra
-            new ActiveItem(ItemID.Titanic_Hydra, Enums.TargetingType.ProximityEnemy, float.MaxValue,
-                new[] {Enums.ActivationType.CheckEnemyLowHP, Enums.ActivationType.CheckOnlyOnMe, Enums.ActivationType.PostAttack }),
-            
-            // item: ravenous_hydra
-            new ActiveItem(ItemID.Ravenous_Hydra, Enums.TargetingType.ProximityEnemy, 350,
-                new[] {Enums.ActivationType.CheckEnemyLowHP, Enums.ActivationType.CheckOnlyOnMe, Enums.ActivationType.PostAttack })
         };
 
         private static void Initialize()
@@ -101,17 +96,6 @@
             }
 
             MenuManager.AddTab(consumablesItemMenu);
-
-            var postAttackItemMenu = new Tab("Trinity: PostAttack");
-
-            foreach (var item in PostAttackItems)
-            {
-                item.OnItemInitialize += () => InitializedPostAttackItems.Add(item);
-                item.OnItemDispose += () => InitializedPostAttackItems.Remove(item);
-                item.Initialize(postAttackItemMenu);
-            }
-
-            MenuManager.AddTab(postAttackItemMenu);
         }
 
         private static async Task CoreEvents_OnCoreMainTick()
@@ -121,7 +105,6 @@
                 initializedNormalTickItem.OnTick();
             }
         }
-
     }
 
 }
