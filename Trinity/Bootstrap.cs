@@ -38,9 +38,7 @@
 
         private static List<ActiveItemBase> AllItems = new();
         private static readonly List<ActiveItemBase> InitializedTickItems = new();
-        private static readonly List<ActiveItemBase> InitializedPostAttackItems = new();
 
-  
         private static readonly List<ActiveItem> ConsumableItems = new()
         {
             // item: Health_Potion
