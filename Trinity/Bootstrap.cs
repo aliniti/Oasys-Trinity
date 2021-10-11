@@ -4,17 +4,22 @@
     using System.Threading.Tasks;
     using Helpers;
     using Items;
+    using Oasys.Common;
     using Oasys.Common.Enums.GameEnums;
     using Oasys.Common.EventsProvider;
     using Oasys.Common.GameObject.Clients;
-    using Oasys.Common.GameObject.Clients.ExtendedInstances.Spells;
     using Oasys.Common.Menu;
     using Oasys.SDK;
     using Oasys.SDK.Menu;
+    using Oasys.SDK.Tools;
 
     public class Bootstrap
     {
-        [OasysModuleEntryPoint]
+        public static List<Champion> AllChampions = new();
+        private static List<ActiveItemBase> AllItems = new();
+        private static readonly List<ActiveItemBase> InitializedTickItems = new();
+
+        [Oasys.SDK.OasysModuleEntryPoint]
         public static void Execute()
         {
             GameEvents.OnGameLoadComplete += GameEvents_OnGameLoadComplete;
@@ -25,20 +30,16 @@
         {
             AllItems.AddRange(ConsumableItems);
             AllItems.AddRange(CleanseItems);
-            //AllItems.AddRange(PostAttackItems);
 
             Initialize();
+            ReCacheHeroes();
             CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
-            //GameEvents.OnGameProcessSpell += GameEvents_OnGameProcessSpell;
         }
 
         private static async Task GameEvents_OnGameMatchComplete()
         {
             CoreEvents.OnCoreMainTick -= CoreEvents_OnCoreMainTick;
         }
-
-        private static List<ActiveItemBase> AllItems = new();
-        private static readonly List<ActiveItemBase> InitializedTickItems = new();
 
         private static readonly List<ActiveItem> CleanseItems = new()
         {
@@ -124,6 +125,18 @@
             }
 
             MenuManager.AddTab(cleanseItemMenu);
+        }
+
+        private static void ReCacheHeroes()
+        {
+            foreach (var u in ObjectManagerExport.HeroCollection)
+            {
+                var hero = u.Value;
+                if (hero.IsAlive)
+                {
+                    AllChampions.Add(new Champion(hero));
+                }
+            }
         }
 
         private static async Task CoreEvents_OnCoreMainTick()

@@ -1,11 +1,10 @@
 ﻿namespace Trinity.Items
 {
+    using Helpers;
     using Oasys.SDK;
     using Oasys.Common.Enums.GameEnums;
-    using System.Linq;
-    using Helpers;
     using Oasys.Common.Extensions;
-    using Oasys.Common.GameObject.Clients;
+    using System.Linq;
 
     public class ActiveItem : ActiveItemBase
     {
@@ -14,7 +13,6 @@
         public Enums.ActivationType[] ActivationTypes { get; set; }
         public string ItemBuffName { get; set; }
         public Enums.TargetingType TargetingType { get; set; }
-
 
         public ActiveItem(int usePct, ItemID itemId, Enums.TargetingType tType, float range,  Enums.ActivationType[] aTypes, 
             string itemBuffName = "")
@@ -41,21 +39,21 @@
             if (ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowMP))
                 this.CreateTabAllyLowMana(UsePct);
 
-            //if (ActivationTypes.Contains(Enums.ActivationType.CheckAuras))
-            //    this.CreateTabAuraCleanse(UsePct);
-
+            if (ActivationTypes.Contains(Enums.ActivationType.CheckAuras))
+                this.CreateTabAuraCleanse(UsePct);
         }
 
         public override void OnTick()
         {
             if (TargetingType.ToString().Contains("Enemy"))
             {
-                var hero = UnitManager.EnemyChampions
-                    .FirstOrDefault(x => x.NetworkID == TargetSelector.GetBestChampionTarget().NetworkID);
+                var hero = Bootstrap.AllChampions
+                    .FirstOrDefault(x => x.Instance.NetworkID == 
+                                         TargetSelector.GetBestChampionTarget().NetworkID);
 
-                if (hero != null && hero.IsValidTarget(Range))
+                if (hero != null && hero.Instance.IsValidTarget(Range))
                 {
-                    this.ItemCheckEnemyLowHealth(hero);
+                    this.ItemCheckEnemyLowHealth(hero.Instance);
                 }
             }
             
@@ -65,16 +63,18 @@
                 {
                     this.ItemCheckLowHealth(UnitManager.MyChampion);
                     this.ItemCheckLowMana(UnitManager.MyChampion);
+                    this.ItemCheckAuras(UnitManager.MyChampion);
                 }
             }
             else
             {
-                foreach (var hero in UnitManager.Allies.Select(unit => unit as AIHeroClient))
+                foreach (var hero in Bootstrap.AllChampions.Where(x => x.Instance.Team == UnitManager.MyChampion.Team))
                 {
-                    if (UnitManager.MyChampion.Position.Distance(hero.Position) <= Range)
+                    if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range)
                     {
-                        this.ItemCheckLowHealth(hero);
-                        this.ItemCheckLowMana(hero);
+                        this.ItemCheckLowHealth(hero.Instance);
+                        this.ItemCheckLowMana(hero.Instance);
+                        this.ItemCheckAuras(hero.Instance);
                     }
                 }
             }

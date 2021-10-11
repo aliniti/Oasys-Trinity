@@ -1,9 +1,7 @@
-﻿using Oasys.Common.Menu.ItemComponents;
-using Trinity.Items;
-
-namespace Trinity.Helpers
+﻿namespace Trinity.Helpers
 {
-    using Oasys.Common.Enums.GameEnums;
+    using Oasys.Common.Menu.ItemComponents;
+    using Items;
 
     public static class Menu
     {
@@ -139,6 +137,13 @@ namespace Trinity.Helpers
             };
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Polymorphs"]);
+            item.ItemSwitch[item.ItemId + "Silence"] = new()
+            {
+                IsOn = false,
+                Title = "Use " + item.ItemId + " -> Silence"
+            };
+
+            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Silence"]);
             item.ItemSwitch[item.ItemId + "Blinds"] = new()
             {
                 IsOn = false,
@@ -180,6 +185,13 @@ namespace Trinity.Helpers
             };
 
             item.ItemTab.AddItem(item.ItemCounter[item.ItemId + "MinimumBuffsDuration"]);
+            item.ItemSwitch[item.ItemId + "SwitchMinimumBuffHP"] = new()
+            {
+                IsOn = false,
+                Title = "Use " + item.ItemId + " -> Enable Minimum HP (%) to Use"
+            };
+
+            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "SwitchMinimumBuffHP"]);
             item.ItemCounter[item.ItemId + "MinimumBuffsHP"] = new Counter
             {
                 Title = item.ItemId + " -> Minimum HP (%) to Use",
