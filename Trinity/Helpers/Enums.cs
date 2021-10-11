@@ -10,6 +10,7 @@
             CheckAllyLowMP,
             CheckAllyLowHP,
             CheckEnemyLowHP,
+            CheckAuras
         }
 
         public enum AutoSpellType

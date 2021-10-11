@@ -52,25 +52,6 @@
             GameEvents.OnSellItem += GameEvents_OnSellItem;
         }
 
-
-        private async Task GameEvents_OnSellItem(Hero heroUpdatingItem, List<HeroInventory.Item> updatedItemList, 
-            HeroInventory.Item updatedItem, float updatedGametime)
-        {
-            if (updatedItem.ID == this.ItemId)
-            {
-                DisposeItem();
-            }
-        }
-
-        private async Task GameEvents_OnBuyItem(Hero heroUpdatingItem, List<HeroInventory.Item> updatedItemList, 
-            HeroInventory.Item updatedItem, float updatedGametime)
-        {
-            if (updatedItem.ID == this.ItemId)
-            {
-                InitializeItem();
-            }
-        }
-
         public virtual void InitializeItem()
         {
             if (_initialized) 
@@ -96,9 +77,25 @@
             OnItemDispose?.Invoke();
         }
 
+        private async Task GameEvents_OnSellItem(Hero heroUpdatingItem, List<HeroInventory.Item> updatedItemList,
+            HeroInventory.Item updatedItem, float updatedGametime)
+        {
+            if (updatedItem.ID == this.ItemId)
+            {
+                DisposeItem();
+            }
+        }
+
+        private async Task GameEvents_OnBuyItem(Hero heroUpdatingItem, List<HeroInventory.Item> updatedItemList,
+            HeroInventory.Item updatedItem, float updatedGametime)
+        {
+            if (updatedItem.ID == this.ItemId)
+            {
+                InitializeItem();
+            }
+        }
 
         public abstract void OnTick();
         public abstract void CreateTab();
-        public abstract void OnPostAttack();
     }
 }

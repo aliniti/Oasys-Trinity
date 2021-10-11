@@ -6,7 +6,6 @@
     using Helpers;
     using Oasys.Common.Extensions;
     using Oasys.Common.GameObject.Clients;
-    using Oasys.SDK.Tools;
 
     public class ActiveItem : ActiveItemBase
     {
@@ -41,6 +40,10 @@
             
             if (ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowMP))
                 this.CreateTabAllyLowMana(UsePct);
+
+            //if (ActivationTypes.Contains(Enums.ActivationType.CheckAuras))
+            //    this.CreateTabAuraCleanse(UsePct);
+
         }
 
         public override void OnTick()
@@ -50,7 +53,7 @@
                 var hero = UnitManager.EnemyChampions
                     .FirstOrDefault(x => x.NetworkID == TargetSelector.GetBestChampionTarget().NetworkID);
 
-                if (hero != null)
+                if (hero != null && hero.IsValidTarget(Range))
                 {
                     this.ItemCheckEnemyLowHealth(hero);
                 }
@@ -75,11 +78,6 @@
                     }
                 }
             }
-        }
-        
-        public override void OnPostAttack()
-        {
-
         }
     }
 }

@@ -3,6 +3,8 @@ using Trinity.Items;
 
 namespace Trinity.Helpers
 {
+    using Oasys.Common.Enums.GameEnums;
+
     public static class Menu
     {
         public static void CreateTabEnableSwitch(this ActiveItem item)
@@ -57,7 +59,137 @@ namespace Trinity.Helpers
             
             item.ItemTab.AddItem(item.ItemCounter[item.ItemId.ToString()]);
         }
-        
-        
+
+        public static void CreateTabAuraCleanse(this ActiveItem item, int pctUse = 100)
+        {
+            item.ItemSwitch[item.ItemId + "Ignite"] = new()
+            {
+                IsOn = true,
+                Title = "Use " + item.ItemId + " -> Ignite"
+            };
+
+            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Ignite"]);
+            item.ItemSwitch[item.ItemId + "Exhaust"] = new()
+            {
+                IsOn = true,
+                Title = "Use " + item.ItemId + " -> Exhaust"
+            };
+
+            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Exhaust"]);
+            item.ItemSwitch[item.ItemId + "Suppression"] = new()
+            {
+                IsOn = true,
+                Title = "Use " + item.ItemId + " -> Suppression"
+            };
+
+            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Suppression"]);
+            item.ItemSwitch[item.ItemId + "Knockups"] = new()
+            {
+                IsOn = false,
+                Title = "Use " + item.ItemId + " -> Knockups"
+            };
+
+            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Knockups"]);
+            item.ItemSwitch[item.ItemId + "Sleep"] = new()
+            {
+                IsOn = true,
+                Title = "Use " + item.ItemId + " -> Sleep"
+            };
+
+            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Sleep"]);
+            item.ItemSwitch[item.ItemId + "Stuns"] = new()
+            {
+                IsOn = true,
+                Title = "Use " + item.ItemId + " -> Stuns"
+            };
+
+            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Stuns"]);
+            item.ItemSwitch[item.ItemId + "Charms"] = new()
+            {
+                IsOn = true,
+                Title = "Use " + item.ItemId + " -> Charms"
+            };
+
+            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Charms"]);
+            item.ItemSwitch[item.ItemId + "Taunts"] = new()
+            {
+                IsOn = true,
+                Title = "Use " + item.ItemId + " -> Taunts"
+            };
+
+            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Taunts"]);
+            item.ItemSwitch[item.ItemId + "Fear"] = new()
+            {
+                IsOn = true,
+                Title = "Use " + item.ItemId + " -> Fear"
+            };
+
+            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Fear"]);
+            item.ItemSwitch[item.ItemId + "Snares"] = new()
+            {
+                IsOn = true,
+                Title = "Use " + item.ItemId + " -> Snares"
+            };
+
+            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Snares"]);
+            item.ItemSwitch[item.ItemId + "Polymorphs"] = new()
+            {
+                IsOn = true,
+                Title = "Use " + item.ItemId + " -> Polymorphs"
+            };
+
+            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Polymorphs"]);
+            item.ItemSwitch[item.ItemId + "Blinds"] = new()
+            {
+                IsOn = false,
+                Title = "Use " + item.ItemId + " -> Blinds"
+            };
+
+            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Blinds"]);
+            item.ItemSwitch[item.ItemId + "Slows"] = new()
+            {
+                IsOn = false,
+                Title = "Use " + item.ItemId + " -> Slows"
+            };
+
+            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Slows"]);
+            item.ItemSwitch[item.ItemId + "Poison"] = new()
+            {
+                IsOn = false,
+                Title = "Use " + item.ItemId + " -> Posion"
+            };
+
+            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Poison"]);
+            item.ItemCounter[item.ItemId + "MinimumBuffs"] = new Counter
+            {
+                Title = item.ItemId + " -> Minimum Buffs to Use",
+                MaxValue = 5,
+                MinValue = 1,
+                Value = 1,
+                ValueFrequency = 1
+            };
+
+            item.ItemTab.AddItem(item.ItemCounter[item.ItemId + "MinimumBuffs"]);
+            item.ItemCounter[item.ItemId + "MinimumBuffsDuration"] = new Counter
+            {
+                Title = item.ItemId + " -> Minimum Buff Duration (in ms)",
+                MaxValue = 2000,
+                MinValue = 250,
+                Value = 250,
+                ValueFrequency = 50
+            };
+
+            item.ItemTab.AddItem(item.ItemCounter[item.ItemId + "MinimumBuffsDuration"]);
+            item.ItemCounter[item.ItemId + "MinimumBuffsHP"] = new Counter
+            {
+                Title = item.ItemId + " -> Minimum HP (%) to Use",
+                MaxValue = 100,
+                MinValue = 20,
+                Value = 100,
+                ValueFrequency = 15
+            };
+
+            item.ItemTab.AddItem(item.ItemCounter[item.ItemId + "MinimumBuffsHP"]);
+        }
     }
 }

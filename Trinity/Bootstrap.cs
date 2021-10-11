@@ -24,6 +24,7 @@
         private static async Task GameEvents_OnGameLoadComplete()
         {
             AllItems.AddRange(ConsumableItems);
+            AllItems.AddRange(CleanseItems);
             //AllItems.AddRange(PostAttackItems);
 
             Initialize();
@@ -38,6 +39,25 @@
 
         private static List<ActiveItemBase> AllItems = new();
         private static readonly List<ActiveItemBase> InitializedTickItems = new();
+
+        private static readonly List<ActiveItem> CleanseItems = new()
+        {
+            // item: Quicksilver_Sash
+            new ActiveItem(100, ItemID.Quicksilver_Sash, Enums.TargetingType.ProximityAlly, 1100, 
+                new [] {Enums.ActivationType.CheckAuras, Enums.ActivationType.CheckOnlyOnMe }),
+
+            // item: Mercurial_Scimitar
+            new ActiveItem(100, ItemID.Mercurial_Scimitar, Enums.TargetingType.ProximityAlly, 1100, 
+                new [] {Enums.ActivationType.CheckAuras, Enums.ActivationType.CheckOnlyOnMe }),
+
+            // item: Dervish_Blade
+            new ActiveItem(100, ItemID.Dervish_Blade, Enums.TargetingType.ProximityAlly, 1100,
+                new[] { Enums.ActivationType.CheckAuras, Enums.ActivationType.CheckOnlyOnMe }),
+
+            // item: Mikaels_Crucible
+            new ActiveItem(20, ItemID.Mikaels_Crucible, Enums.TargetingType.ProximityAlly, 600,
+                new[] { Enums.ActivationType.CheckAuras, Enums.ActivationType.CheckOnlyOnMe, Enums.ActivationType.CheckAllyLowHP  }),
+        };
 
         private static readonly List<ActiveItem> ConsumableItems = new()
         {
@@ -83,7 +103,6 @@
 
         private static void Initialize()
         {
- 
             var consumablesItemMenu = new Tab("Trinity: Regen");
 
             foreach (var item in ConsumableItems)
@@ -94,6 +113,17 @@
             }
 
             MenuManager.AddTab(consumablesItemMenu);
+
+            var cleanseItemMenu = new Tab("Trinity: Cleanse");
+
+            foreach (var item in CleanseItems)
+            {
+                item.OnItemInitialize += () => InitializedTickItems.Add(item);
+                item.OnItemDispose += () => InitializedTickItems.Remove(item);
+                item.Initialize(cleanseItemMenu);
+            }
+
+            MenuManager.AddTab(cleanseItemMenu);
         }
 
         private static async Task CoreEvents_OnCoreMainTick()
