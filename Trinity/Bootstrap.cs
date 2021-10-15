@@ -7,11 +7,8 @@
     using Oasys.Common;
     using Oasys.Common.Enums.GameEnums;
     using Oasys.Common.EventsProvider;
-    using Oasys.Common.GameObject.Clients;
     using Oasys.Common.Menu;
-    using Oasys.SDK;
     using Oasys.SDK.Menu;
-    using Oasys.SDK.Tools;
 
     public class Bootstrap
     {
@@ -19,7 +16,8 @@
         private static List<ActiveItemBase> AllItems = new();
         private static readonly List<ActiveItemBase> InitializedTickItems = new();
 
-        [Oasys.SDK.OasysModuleEntryPoint]
+
+        [OasysModuleEntryPoint]
         public static void Execute()
         {
             GameEvents.OnGameLoadComplete += GameEvents_OnGameLoadComplete;
@@ -32,7 +30,7 @@
             AllItems.AddRange(CleanseItems);
 
             Initialize();
-            ReCacheHeroes();
+            NewHeroCache();
             CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
         }
 
@@ -127,7 +125,7 @@
             MenuManager.AddTab(cleanseItemMenu);
         }
 
-        private static void ReCacheHeroes()
+        private static void NewHeroCache()
         {
             foreach (var u in ObjectManagerExport.HeroCollection)
             {

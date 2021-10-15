@@ -16,6 +16,9 @@ namespace Trinity.Helpers
 {
     public class Enums
     {
+        /// <summary>
+        /// The item activation type
+        /// </summary>
         public enum ActivationType
         {
             PostAttack,
@@ -27,6 +30,9 @@ namespace Trinity.Helpers
             CheckAuras
         }
 
+        /// <summary>
+        /// The auto spell type (not yet implemented)
+        /// </summary>
         public enum AutoSpellType
         {
             Evade,
@@ -37,6 +43,9 @@ namespace Trinity.Helpers
             Slow
         }
 
+        /// <summary>
+        /// The spell cast type (not yet implemented)
+        /// </summary>
         public enum CastType
         {
             Unknown,
@@ -50,6 +59,9 @@ namespace Trinity.Helpers
             Sector
         }
 
+        /// <summary>
+        /// The collision object type (not yet implemented)
+        /// </summary>
         public enum CollisionObjectType
         {
             AllyHeroes,
@@ -59,6 +71,9 @@ namespace Trinity.Helpers
             Terrain
         }
 
+        /// <summary>
+        /// The consumable item type (not yet implemented)
+        /// </summary>
         public enum ConsumableItemType
         {
             MP,
@@ -67,6 +82,9 @@ namespace Trinity.Helpers
             Instant
         }
 
+        /// <summary>
+        /// The emulation type (not yet implemented)
+        /// </summary>
         public enum EmulationType
         {
             None,
@@ -87,6 +105,9 @@ namespace Trinity.Helpers
             Buff
         }
 
+        /// <summary>
+        /// The offensive item type (not yet implemented)
+        /// </summary>
         public enum OffensiveItemTypes
         {
             Evade,
@@ -97,6 +118,9 @@ namespace Trinity.Helpers
             Slow
         }
 
+        /// <summary>
+        /// The smite type (not yet implemented)
+        /// </summary>
         public enum SmiteType
         {
             Basic,
@@ -104,6 +128,9 @@ namespace Trinity.Helpers
             BlueSmite
         }
 
+        /// <summary>
+        /// The targeting type
+        /// </summary>
         public enum TargetingType
         {
             UnitAlly,
