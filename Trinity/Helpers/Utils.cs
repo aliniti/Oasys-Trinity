@@ -55,7 +55,7 @@ namespace Trinity.Helpers
         #region Tidy : Clustered Units
 
         /// <summary>
-        /// Gets the radius cluster of units
+        /// Gets the radius cluster of units.
         /// </summary>
         /// <param name="target"></param>
         /// <param name="otherUnits"></param>
@@ -73,7 +73,30 @@ namespace Trinity.Helpers
         }
 
         /// <summary>
-        /// Returns the radius cluster count;
+        /// Gets the best unit in cluster radius.
+        /// </summary>
+        /// <param name="units"></param>
+        /// <param name="clusterRange"></param>
+        /// <returns></returns>
+        internal static AIBaseClient GetBestUnitForCluster(IEnumerable<AIBaseClient> units, float clusterRange)
+        {
+            IEnumerable<AIBaseClient> aiUnits = units as AIBaseClient[] ?? units.ToArray();
+
+            if (units != null && aiUnits.Any())
+            {
+                var firstOrDefault = (from u in aiUnits 
+                    select new { Count = GetRadiusClusterCount(u, aiUnits, clusterRange),
+                        Unit = u }).OrderByDescending(a => a.Count).FirstOrDefault();
+
+                if (firstOrDefault != null)
+                    return firstOrDefault.Unit;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the radius cluster count.
         /// </summary>
         /// <param name="target"></param>
         /// <param name="otherUnits"></param>
@@ -213,7 +236,7 @@ namespace Trinity.Helpers
         #region Tidy Item Aura Check
 
         /// <summary>
-        /// Checks and updates aura info to the champion object,
+        /// Checks and updates aura info to the champion object.
         /// </summary>
         /// <param name="item"></param>
         /// <param name="hero"></param>
