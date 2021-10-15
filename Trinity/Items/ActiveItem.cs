@@ -1,4 +1,18 @@
-﻿namespace Trinity.Items
+﻿#region Copyright © 2021 Kurisu Solutions
+//    This program is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+//
+//       Document:	Helpers\ActiveItem.cs
+//       Date:		10/14/2021
+//       Author:	Robin Kurisu
+//
+//    You should have received a copy of the GNU General Public License
+//    along with this program.  If not, see http://www.gnu.org/licenses/
+#endregion
+
+namespace Trinity.Items
 {
     using Helpers;
     using Oasys.SDK;
@@ -14,7 +28,7 @@
         public string ItemBuffName { get; set; }
         public Enums.TargetingType TargetingType { get; set; }
 
-        public ActiveItem(int usePct, ItemID itemId, Enums.TargetingType tType, float range,  Enums.ActivationType[] aTypes, 
+        public ActiveItem(int usePct, ItemID itemId, Enums.TargetingType tType, float range, Enums.ActivationType[] aTypes, 
             string itemBuffName = "")
         {
             UsePct = usePct;
