@@ -68,12 +68,6 @@
 
         #region Tidy: Item Casting
 
-        /// <summary>
-        /// Returns wether the item is safe to cast.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="unit"></param>
-        /// <returns></returns>
         public static bool IsSafeCast(this ActiveItem item, AIHeroClient unit)
         {
             if (unit.IsRecalling || unit.IsCastingSpell || unit.IsEmpoweredRecalling)
@@ -90,11 +84,6 @@
             return true;
         }
 
-        /// <summary>
-        /// Casts the item leaving a timestamp in game time.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="unit"></param>
         public static void UseItem(this ActiveItem item, AIHeroClient unit)
         {
             if (!IsSafeCast(item, unit))
