@@ -1,24 +1,7 @@
-﻿#region Copyright © 2021 Kurisu Solutions
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU General Public License as published by
-//    the Free Software Foundation, either version 3 of the License, or
-//    (at your option) any later version.
-//
-//       Document:	Helpers\Enums.cs
-//       Date:		10/14/2021
-//       Author:	Robin Kurisu
-//
-//    You should have received a copy of the GNU General Public License
-//    along with this program.  If not, see http://www.gnu.org/licenses/
-#endregion
-
-namespace Trinity.Helpers
+﻿namespace Trinity.Helpers
 {
     public class Enums
     {
-        /// <summary>
-        /// The item activation type
-        /// </summary>
         public enum ActivationType
         {
             PostAttack,
@@ -30,9 +13,6 @@ namespace Trinity.Helpers
             CheckAuras
         }
 
-        /// <summary>
-        /// The auto spell type (not yet implemented)
-        /// </summary>
         public enum AutoSpellType
         {
             Evade,
@@ -43,9 +23,6 @@ namespace Trinity.Helpers
             Slow
         }
 
-        /// <summary>
-        /// The spell cast type (not yet implemented)
-        /// </summary>
         public enum CastType
         {
             Unknown,
@@ -59,9 +36,6 @@ namespace Trinity.Helpers
             Sector
         }
 
-        /// <summary>
-        /// The collision object type (not yet implemented)
-        /// </summary>
         public enum CollisionObjectType
         {
             AllyHeroes,
@@ -71,9 +45,6 @@ namespace Trinity.Helpers
             Terrain
         }
 
-        /// <summary>
-        /// The consumable item type (not yet implemented)
-        /// </summary>
         public enum ConsumableItemType
         {
             MP,
@@ -82,9 +53,6 @@ namespace Trinity.Helpers
             Instant
         }
 
-        /// <summary>
-        /// The emulation type (not yet implemented)
-        /// </summary>
         public enum EmulationType
         {
             None,
@@ -105,9 +73,6 @@ namespace Trinity.Helpers
             Buff
         }
 
-        /// <summary>
-        /// The offensive item type (not yet implemented)
-        /// </summary>
         public enum OffensiveItemTypes
         {
             Evade,
@@ -118,9 +83,6 @@ namespace Trinity.Helpers
             Slow
         }
 
-        /// <summary>
-        /// The smite type (not yet implemented)
-        /// </summary>
         public enum SmiteType
         {
             Basic,
@@ -128,9 +90,6 @@ namespace Trinity.Helpers
             BlueSmite
         }
 
-        /// <summary>
-        /// The targeting type
-        /// </summary>
         public enum TargetingType
         {
             UnitAlly,

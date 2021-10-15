@@ -1,18 +1,4 @@
-﻿#region Copyright © 2021 Kurisu Solutions
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU General Public License as published by
-//    the Free Software Foundation, either version 3 of the License, or
-//    (at your option) any later version.
-//
-//       Document:	Items\ActiveItemBase.cs
-//       Date:		10/14/2021
-//       Author:	Robin Kurisu
-//
-//    You should have received a copy of the GNU General Public License
-//    along with this program.  If not, see http://www.gnu.org/licenses/
-#endregion
-
-namespace Trinity.Items
+﻿namespace Trinity.Items
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;

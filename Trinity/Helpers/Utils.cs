@@ -1,18 +1,4 @@
-﻿#region Copyright © 2021 Kurisu Solutions
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU General Public License as published by
-//    the Free Software Foundation, either version 3 of the License, or
-//    (at your option) any later version.
-//
-//       Document:	Helpers\Utils.cs
-//       Date:		10/14/2021
-//       Author:	Robin Kurisu
-//
-//    You should have received a copy of the GNU General Public License
-//    along with this program.  If not, see http://www.gnu.org/licenses/
-#endregion
-
-namespace Trinity.Helpers
+﻿namespace Trinity.Helpers
 {
     using Oasys.SDK;
     using Oasys.SDK.SpellCasting;
@@ -28,23 +14,11 @@ namespace Trinity.Helpers
     {
         #region Tidy : ValidUnit
 
-        /// <summary>
-        /// Returns wheter this unit is valid or not 
-        /// </summary>
-        /// <param name="u"></param>
-        /// <param name="hero"></param>
-        /// <returns></returns>
         public static bool ValidHero(this AIHeroClient hero)
         {
             return hero is { IsAlive: true, IsTargetable: true, IsVisible: true };
         }
 
-        /// <summary>
-        /// Returns wheter this unit is valid or not (lite: less checks)
-        /// </summary>
-        /// <param name="u"></param>
-        /// <param name="hero"></param>
-        /// <returns></returns>
         public static bool ValidHeroLite(this AIHeroClient hero)
         {
             return hero is { IsAlive: true };
@@ -54,13 +28,6 @@ namespace Trinity.Helpers
 
         #region Tidy : Clustered Units
 
-        /// <summary>
-        /// Gets the radius cluster of units.
-        /// </summary>
-        /// <param name="target"></param>
-        /// <param name="otherUnits"></param>
-        /// <param name="radius"></param>
-        /// <returns></returns>
         internal static IEnumerable<AIBaseClient> GetRadiusCluster(this AIBaseClient target, IEnumerable<AIBaseClient> otherUnits, float radius)
         {
             if (target != null)
@@ -72,12 +39,6 @@ namespace Trinity.Helpers
             return null;
         }
 
-        /// <summary>
-        /// Gets the best unit in cluster radius.
-        /// </summary>
-        /// <param name="units"></param>
-        /// <param name="clusterRange"></param>
-        /// <returns></returns>
         internal static AIBaseClient GetBestUnitForCluster(IEnumerable<AIBaseClient> units, float clusterRange)
         {
             IEnumerable<AIBaseClient> aiUnits = units as AIBaseClient[] ?? units.ToArray();
@@ -95,13 +56,6 @@ namespace Trinity.Helpers
             return null;
         }
 
-        /// <summary>
-        /// Returns the radius cluster count.
-        /// </summary>
-        /// <param name="target"></param>
-        /// <param name="otherUnits"></param>
-        /// <param name="radius"></param>
-        /// <returns></returns>
         internal static int GetRadiusClusterCount(this AIBaseClient target, IEnumerable<AIBaseClient> otherUnits, float radius)
         {
             var rdx = radius * radius;
@@ -175,13 +129,8 @@ namespace Trinity.Helpers
 
         #endregion
 
-        #region Tidy: ItemsHP or MP
+        #region Tidy: Items HP or MP
 
-        /// <summary>
-        /// Uses item on ENEMY health percent if it meets the user setting.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="unit"></param>
         public static void ItemCheckEnemyLowHealth(this ActiveItem item, AIHeroClient unit)
         {
             if (item.ActivationTypes.Contains(Enums.ActivationType.CheckEnemyLowHP))
@@ -195,11 +144,6 @@ namespace Trinity.Helpers
             }
         }
 
-        /// <summary>
-        /// Uses item on ALLY health percent if it meets the user setting.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="unit"></param>
         public static void ItemCheckAllyLowHealth(this ActiveItem item, AIHeroClient unit)
         {
             if (item.ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowHP))
@@ -213,11 +157,6 @@ namespace Trinity.Helpers
             }
         }
 
-        /// <summary>
-        /// Uses item on ALLY mana percent if it meets the user setting.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="unit"></param>
         public static void ItemCheckAllyLowMana(this ActiveItem item, AIHeroClient unit)
         {
             if (item.ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowMP))
@@ -234,12 +173,7 @@ namespace Trinity.Helpers
         #endregion
 
         #region Tidy Item Aura Check
-
-        /// <summary>
-        /// Checks and updates aura info to the champion object.
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="hero"></param>
+         
         public static void ItemCheckAuras(this ActiveItem item, AIHeroClient hero)
         {
             if (item.ActivationTypes.Contains(Enums.ActivationType.CheckAuras))
