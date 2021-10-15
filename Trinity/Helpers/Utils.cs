@@ -1,4 +1,18 @@
-﻿namespace Trinity.Helpers
+﻿#region Copyright © 2021 Kurisu Solutions
+//    This program is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+//
+//       Document:	Helpers\Utils.cs
+//       Date:		10/14/2021
+//       Author:	Robin Kurisu
+//
+//    You should have received a copy of the GNU General Public License
+//    along with this program.  If not, see http://www.gnu.org/licenses/
+#endregion
+
+namespace Trinity.Helpers
 {
     using Oasys.SDK;
     using Oasys.SDK.SpellCasting;
@@ -12,28 +26,145 @@
 
     public static class Utils
     {
+        #region Tidy : ValidUnit
+
+        /// <summary>
+        /// Returns wheter this unit is valid or not 
+        /// </summary>
+        /// <param name="u"></param>
+        /// <param name="hero"></param>
+        /// <returns></returns>
+        public static bool ValidHero(this AIHeroClient hero)
+        {
+            return hero is { IsAlive: true, IsTargetable: true, IsVisible: true };
+        }
+
+        /// <summary>
+        /// Returns wheter this unit is valid or not (lite: less checks)
+        /// </summary>
+        /// <param name="u"></param>
+        /// <param name="hero"></param>
+        /// <returns></returns>
+        public static bool ValidHeroLite(this AIHeroClient hero)
+        {
+            return hero is { IsAlive: true };
+        }
+
+        #endregion
+
+        #region Tidy : Clustered Units
+
+        /// <summary>
+        /// Gets the radius cluster of units
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="otherUnits"></param>
+        /// <param name="radius"></param>
+        /// <returns></returns>
+        internal static IEnumerable<AIBaseClient> GetRadiusCluster(this AIBaseClient target, IEnumerable<AIBaseClient> otherUnits, float radius)
+        {
+            if (target != null)
+            {
+                var targetLoc = target.Position;
+                return otherUnits.Where(u => u.Position.DistanceSquared(targetLoc) <= radius * radius);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the radius cluster count;
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="otherUnits"></param>
+        /// <param name="radius"></param>
+        /// <returns></returns>
+        internal static int GetRadiusClusterCount(this AIBaseClient target, IEnumerable<AIBaseClient> otherUnits, float radius)
+        {
+            var rdx = radius * radius;
+            var targetLoc = target.Position;
+
+            return otherUnits.Count(u => u.Position.DistanceSquared(targetLoc) <= rdx);
+        }
+
+        #endregion
+
+        #region Tidy: Item Casting
+
+        /// <summary>
+        /// Returns wether the item is safe to cast.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="unit"></param>
+        /// <returns></returns>
         public static bool IsSafeCast(this ActiveItem item, AIHeroClient unit)
         {
             if (unit.IsRecalling || unit.IsCastingSpell || unit.IsEmpoweredRecalling)
             {
                 return false;
             }
-            
+
             var nexus = UnitManager.AllyNexus;
             if (nexus != null && nexus.Distance(unit.Position) <= 1000)
             {
                 return false;
             }
-            
+
             return true;
         }
 
+        /// <summary>
+        /// Casts the item leaving a timestamp in game time.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="unit"></param>
+        public static void UseItem(this ActiveItem item, AIHeroClient unit)
+        {
+            if (!IsSafeCast(item, unit))
+            {
+                return;
+            }
+
+            if (item.TargetingType.ToString().Contains("Proximity"))
+            {
+                ItemCastProvider.CastItem(item.ItemId);
+                item.LastUsedTimeStamp = (int)(GameEngine.GameTime * 1000);
+            }
+
+            if (item.TargetingType.ToString().Contains("Unit"))
+            {
+                if (unit != null)
+                {
+                    ItemCastProvider.CastItem(item.ItemId, unit);
+                    item.LastUsedTimeStamp = (int)(GameEngine.GameTime * 1000);
+                }
+            }
+
+            if (item.TargetingType.ToString().Contains("Skillshot"))
+            {
+                if (unit != null)
+                {
+                    ItemCastProvider.CastItem(item.ItemId, unit.AIManager.ServerPosition);
+                    item.LastUsedTimeStamp = (int)(GameEngine.GameTime * 1000);
+                }
+            }
+        }
+
+        #endregion
+
+        #region Tidy: ItemsHP or MP
+
+        /// <summary>
+        /// Uses item on ENEMY health percent if it meets the user setting.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="unit"></param>
         public static void ItemCheckEnemyLowHealth(this ActiveItem item, AIHeroClient unit)
         {
             if (item.ActivationTypes.Contains(Enums.ActivationType.CheckEnemyLowHP))
             {
                 var pctHealth = unit.Health / unit.MaxHealth * 100;
-                if (pctHealth <= item.ItemCounter[item.ItemId.ToString()].Value && 
+                if (pctHealth <= item.ItemCounter[item.ItemId.ToString()].Value &&
                     item.ItemSwitch[item.ItemId.ToString()].IsOn)
                 {
                     UseItem(item, unit);
@@ -41,7 +172,12 @@
             }
         }
 
-        public static void ItemCheckLowHealth(this ActiveItem item, AIHeroClient unit)
+        /// <summary>
+        /// Uses item on ALLY health percent if it meets the user setting.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="unit"></param>
+        public static void ItemCheckAllyLowHealth(this ActiveItem item, AIHeroClient unit)
         {
             if (item.ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowHP))
             {
@@ -54,12 +190,17 @@
             }
         }
 
-        public static void ItemCheckLowMana(this ActiveItem item, AIHeroClient unit)
+        /// <summary>
+        /// Uses item on ALLY mana percent if it meets the user setting.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="unit"></param>
+        public static void ItemCheckAllyLowMana(this ActiveItem item, AIHeroClient unit)
         {
             if (item.ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowMP))
             {
                 var pctMana = unit.Mana / unit.MaxMana * 100;
-                if (pctMana <= item.ItemCounter[item.ItemId.ToString()].Value && 
+                if (pctMana <= item.ItemCounter[item.ItemId.ToString()].Value &&
                     item.ItemSwitch[item.ItemId.ToString()].IsOn)
                 {
                     UseItem(item, unit);
@@ -67,94 +208,77 @@
             }
         }
 
+        #endregion
+
+        #region Tidy Item Aura Check
+
+        /// <summary>
+        /// Checks and updates aura info to the champion object,
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="hero"></param>
         public static void ItemCheckAuras(this ActiveItem item, AIHeroClient hero)
         {
             if (item.ActivationTypes.Contains(Enums.ActivationType.CheckAuras))
             {
                 var champObj = Bootstrap.AllChampions.FirstOrDefault(x => x.Instance.NetworkID == hero.NetworkID);
-                if (champObj?.Instance != null)
+                if (champObj?.Instance == null)
+                    return;
+
+
+                var healthPct = champObj.Instance.Health / champObj.Instance.MaxHealth * 100;
+                if (healthPct > item.ItemCounter[item.ItemId + "MinimumBuffsHP"].Value &&
+                    item.ItemSwitch[item.ItemId + "SwitchMinimumBuffHP"].IsOn)
+                    return;
+
+                champObj.AuraInfo[item.ItemId + "BuffCount"] = GetAuras(item, champObj).Count();
+                champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
+
+                if (champObj.AuraInfo[item.ItemId + "BuffCount"] > 0)
                 {
-                    var healthPct = champObj.Instance.Health / champObj.Instance.MaxHealth * 100;
-
-                    if (!(healthPct > item.ItemCounter[item.ItemId + "MinimumBuffsHP"].Value) 
-                        || !item.ItemSwitch[item.ItemId + "SwitchMinimumBuffHP"].IsOn)
+                    foreach (var buff in GetAuras(item, champObj))
                     {
-                        champObj.AuraInfo[item.ItemId + "BuffCount"] = GetAuras(item, champObj).Count();
-                        champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
-
-                        if (champObj.AuraInfo[item.ItemId + "BuffCount"] > 0)
+                        var length = (int)(buff.EndTime - buff.StartTime);
+                        if (length >= champObj.AuraInfo[item.ItemId + "BuffHighestTime"])
                         {
-                            foreach (var buff in GetAuras(item, champObj))
-                            {
-                                var length = (int) (buff.EndTime - buff.StartTime);
-                                if (length >= champObj.AuraInfo[item.ItemId + "BuffHighestTime"])
-                                {
-                                    champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = length * 1000;
-                                }
-                            }
-
-                            champObj.AuraInfo[item.ItemId + "BuffTimestamp"] = (int) (GameEngine.GameTime * 1000);
-                        }
-                        else
-                        {
-                            if (champObj.AuraInfo[item.ItemId + "BuffHighestTime"] > 0)
-                            {
-                                champObj.AuraInfo[item.ItemId + "BuffHighestTime"] -= champObj.AuraInfo[item.ItemId + "BuffHighestTime"];
-                            }
-                            else
-                            {
-                                champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
-                            }
-                        }
-
-                        if (champObj.AuraInfo[item.ItemId + "BuffCount"] >= item.ItemCounter[item.ItemId + "MinimumBuffs"].Value &&
-                            champObj.AuraInfo[item.ItemId + "BuffHighestTime"] >= item.ItemCounter[item.ItemId + "MinimumBuffsDuration"].Value)
-                        {
-                            UseItem(item, champObj.Instance);
-                            champObj.AuraInfo[item.ItemId + "BuffCount"] = 0;
-                            champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
+                            champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = length * 1000;
                         }
                     }
+
+                    champObj.AuraInfo[item.ItemId + "BuffTimestamp"] = (int)(GameEngine.GameTime * 1000);
+                }
+                else
+                {
+                    if (champObj.AuraInfo[item.ItemId + "BuffHighestTime"] > 0)
+                    {
+                        champObj.AuraInfo[item.ItemId + "BuffHighestTime"] -= champObj.AuraInfo[item.ItemId + "BuffHighestTime"];
+                    }
+                    else
+                    {
+                        champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
+                    }
+                }
+
+                if (champObj.AuraInfo[item.ItemId + "BuffCount"] < item.ItemCounter[item.ItemId + "MinimumBuffs"].Value)
+                    return;
+
+                if (champObj.AuraInfo[item.ItemId + "BuffHighestTime"] >= item.ItemCounter[item.ItemId + "MinimumBuffsDuration"].Value)
+                {
+                    UseItem(item, champObj.Instance);
+                    champObj.AuraInfo[item.ItemId + "BuffCount"] = 0;
+                    champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
                 }
             }
         }
 
-        public static void UseItem(this ActiveItem item, AIHeroClient unit)
-        {
-            if (!IsSafeCast(item, unit))
-            {
-                return;
-            }
+        #endregion
 
-            if (item.TargetingType.ToString().Contains("Proximity"))
-            {
-                ItemCastProvider.CastItem(item.ItemId);
-                item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
-            }
-
-            if (item.TargetingType.ToString().Contains("Unit"))
-            {
-                if (unit != null)
-                {
-                    ItemCastProvider.CastItem(item.ItemId, unit);
-                    item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
-                }
-            }
-
-            if (item.TargetingType.ToString().Contains("Skillshot"))
-            {
-                if (unit != null)
-                {
-                    ItemCastProvider.CastItem(item.ItemId, unit.AIManager.ServerPosition);
-                    item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
-                }
-            }
-        }
+        #region Cache: Auras
 
         public static IEnumerable<BuffEntry> GetAuras(this ActiveItem item, Champion champion)
         {
             return champion.Instance.BuffManager.GetBuffList()
-                .Where(buff => buff.IsActive && 
+                .Where(buff => buff.IsActive &&
                  (buff.EntryType == BuffType.Snare && item.ItemSwitch[item.ItemId + "Snares"].IsOn ||
                   buff.EntryType == BuffType.Sleep && item.ItemSwitch[item.ItemId + "Sleep"].IsOn ||
                   buff.EntryType == BuffType.Knockup && item.ItemSwitch[item.ItemId + "Knockups"].IsOn ||
@@ -171,5 +295,7 @@
                   buff.Name.ToLower() == "summonerexhaust" && item.ItemSwitch[item.ItemId + "Exhaust"].IsOn ||
                   buff.Name.ToLower() == "summonerdot" && item.ItemSwitch[item.ItemId + "Ignite"].IsOn);
         }
+
+        #endregion
     }
 }

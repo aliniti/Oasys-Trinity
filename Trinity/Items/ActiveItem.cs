@@ -45,24 +45,12 @@
 
         public override void OnTick()
         {
-            if (TargetingType.ToString().Contains("Enemy"))
-            {
-                var hero = Bootstrap.AllChampions
-                    .FirstOrDefault(x => x.Instance.NetworkID == 
-                                         TargetSelector.GetBestChampionTarget().NetworkID);
-
-                if (hero != null && hero.Instance.IsValidTarget(Range))
-                {
-                    this.ItemCheckEnemyLowHealth(hero.Instance);
-                }
-            }
-            
             if (ActivationTypes.Contains(Enums.ActivationType.CheckOnlyOnMe))
             {
                 if (!UnitManager.MyChampion.BuffManager.HasBuff(ItemBuffName))
                 {
-                    this.ItemCheckLowHealth(UnitManager.MyChampion);
-                    this.ItemCheckLowMana(UnitManager.MyChampion);
+                    this.ItemCheckAllyLowHealth(UnitManager.MyChampion);
+                    this.ItemCheckAllyLowMana(UnitManager.MyChampion);
                     this.ItemCheckAuras(UnitManager.MyChampion);
                 }
             }
@@ -72,8 +60,8 @@
                 {
                     if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range)
                     {
-                        this.ItemCheckLowHealth(hero.Instance);
-                        this.ItemCheckLowMana(hero.Instance);
+                        this.ItemCheckAllyLowHealth(hero.Instance);
+                        this.ItemCheckAllyLowMana(hero.Instance);
                         this.ItemCheckAuras(hero.Instance);
                     }
                 }
