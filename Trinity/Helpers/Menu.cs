@@ -5,6 +5,10 @@
 
     public static class Menu
     {
+        /// <summary>
+        /// Creates the item tab enable / disable switch
+        /// </summary>
+        /// <param name="item"></param>
         public static void CreateTabEnableSwitch(this ActiveItem item)
         {
             item.ItemSwitch[item.ItemId.ToString()] = new Switch
@@ -15,7 +19,31 @@
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId.ToString()]);
         }
-        
+
+        /// <summary>
+        /// Creates the item low health ENEMY counter
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="pctUse"></param>       
+        public static void CreateTabEnemyLowHealth(this ActiveItem item, int pctUse = 95)
+        {
+            item.ItemCounter[item.ItemId.ToString()] = new Counter
+            {
+                Title = "Use " + item.ItemId + " at Enemy Percent HP < (%)",
+                MaxValue = 100,
+                MinValue = 10,
+                Value = pctUse,
+                ValueFrequency = 5
+            };
+
+            item.ItemTab.AddItem(item.ItemCounter[item.ItemId.ToString()]);
+        }
+
+        /// <summary>
+        /// Creates the item low health ALLY counter
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="pctUse"></param>       
         public static void CreateTabAllyLowHealth(this ActiveItem item, int pctUse = 80)
         {
             item.ItemCounter[item.ItemId.ToString()] = new Counter
@@ -30,6 +58,11 @@
             item.ItemTab.AddItem(item.ItemCounter[item.ItemId.ToString()]);
         }
 
+        /// <summary>
+        /// Creates the item low mana ALLY counter
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="pctUse"></param>       
         public static void CreateTabAllyLowMana(this ActiveItem item, int pctUse = 55)
         {
             item.ItemCounter[item.ItemId.ToString()] = new Counter
@@ -44,20 +77,11 @@
             item.ItemTab.AddItem(item.ItemCounter[item.ItemId.ToString()]);
         }
 
-        public static void CreateTabEnemyLowHealth(this ActiveItem item, int pctUse = 95)
-        {
-            item.ItemCounter[item.ItemId.ToString()] = new Counter
-            {
-                Title = "Use " + item.ItemId + " at Enemy Percent HP < (%)",
-                MaxValue = 100,
-                MinValue = 10,
-                Value = pctUse,
-                ValueFrequency = 5
-            };
-            
-            item.ItemTab.AddItem(item.ItemCounter[item.ItemId.ToString()]);
-        }
-
+        /// <summary>
+        /// Creates the item tab enable / disable aura switches
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="pctUse"></param>
         public static void CreateTabAuraCleanse(this ActiveItem item, int pctUse = 100)
         {
             item.ItemSwitch[item.ItemId + "Ignite"] = new()
