@@ -282,14 +282,14 @@ namespace Trinity.Helpers
                     }
                 }
 
-                if (champObj.AuraInfo[item.ItemId + "BuffCount"] < item.ItemCounter[item.ItemId + "MinimumBuffs"].Value)
-                    return;
-
-                if (champObj.AuraInfo[item.ItemId + "BuffHighestTime"] >= item.ItemCounter[item.ItemId + "MinimumBuffsDuration"].Value)
+                if (champObj.AuraInfo[item.ItemId + "BuffCount"] >= item.ItemCounter[item.ItemId + "MinimumBuffs"].Value)
                 {
-                    UseItem(item, champObj.Instance);
-                    champObj.AuraInfo[item.ItemId + "BuffCount"] = 0;
-                    champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
+                    if (champObj.AuraInfo[item.ItemId + "BuffHighestTime"] >= item.ItemCounter[item.ItemId + "MinimumBuffsDuration"].Value)
+                    {
+                        UseItem(item, champObj.Instance);
+                        champObj.AuraInfo[item.ItemId + "BuffCount"] = 0;
+                        champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
+                    }
                 }
             }
         }
