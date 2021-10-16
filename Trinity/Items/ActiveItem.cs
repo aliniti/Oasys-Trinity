@@ -45,6 +45,18 @@
 
         public override void OnTick()
         {
+            if (TargetingType.ToString().Contains("Enemy"))
+            {
+                var target = TargetSelector.GetBestChampionTarget();
+                var allChamps = Bootstrap.AllChampions;
+
+                var attacker = allChamps.FirstOrDefault(x => x.Instance.NetworkID == target.NetworkID);
+                if (attacker != null && attacker.Instance.IsValidTarget())
+                {
+                    this.ItemCheckEnemyLowHealth(attacker.Instance);
+                }
+            }
+
             if (ActivationTypes.Contains(Enums.ActivationType.CheckOnlyOnMe))
             {
                 if (!UnitManager.MyChampion.BuffManager.HasBuff(ItemBuffName))

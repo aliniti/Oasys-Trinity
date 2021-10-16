@@ -14,8 +14,9 @@
     {
         public static List<Champion> AllChampions = new();
         private static List<ActiveItemBase> AllItems = new();
-        private static readonly List<ActiveItemBase> InitializedTickItems = new();
 
+        private static readonly List<ActiveItemBase> InitializedTickItems = new();
+        private static readonly List<ActiveItemBase> InitializedInputItems = new();
 
         [OasysModuleEntryPoint]
         public static void Execute()
@@ -28,16 +29,37 @@
         {
             AllItems.AddRange(ConsumableItems);
             AllItems.AddRange(CleanseItems);
+            AllItems.AddRange(OffensiveItems);
 
             Initialize();
             NewHeroCache();
             CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
+            CoreEvents.OnCoreMainInputAsync += CoreEvents_OnCoreMainInputAsync;
         }
 
         private static async Task GameEvents_OnGameMatchComplete()
         {
+            AllItems.Clear();
             CoreEvents.OnCoreMainTick -= CoreEvents_OnCoreMainTick;
+            CoreEvents.OnCoreMainInputAsync -= CoreEvents_OnCoreMainInputAsync;
         }
+
+        private static readonly List<ActiveItem> OffensiveItems = new()
+        {
+            // item: Youmuus_Ghostblade
+            new ActiveItem(90, ItemID.Youmuus_Ghostblade, Enums.TargetingType.ProximityEnemy, 1100, 
+                new[] {Enums.ActivationType.CheckEnemyLowHP}),
+
+            // item: Bilgewater_Cutlass
+            new ActiveItem(90, ItemID.Bilgewater_Cutlass, Enums.TargetingType.UnitEnemy, 575,
+                new[]  { Enums.ActivationType.CheckEnemyLowHP, Enums.ActivationType.CheckAllyLowHP, 
+                        Enums.ActivationType.CheckOnlyOnMe }),
+
+            // item: Blade_of_the_Ruined_King
+            new ActiveItem(90, ItemID.Blade_of_the_Ruined_King, Enums.TargetingType.UnitEnemy, 575,
+                new[] { Enums.ActivationType.CheckEnemyLowHP, Enums.ActivationType.CheckAllyLowHP, 
+                        Enums.ActivationType.CheckOnlyOnMe }),
+        };
 
         private static readonly List<ActiveItem> CleanseItems = new()
         {
@@ -102,6 +124,23 @@
 
         private static void Initialize()
         {
+            #region Tidy : Offensive Item Menu
+
+            var offensseItemMenu = new Tab("Trinity: Offense");
+
+            foreach (var item in OffensiveItems)
+            {
+                item.OnItemInitialize += () => InitializedInputItems.Add(item);
+                item.OnItemDispose += () => InitializedInputItems.Remove(item);
+                item.Initialize(offensseItemMenu);
+            }
+
+            MenuManager.AddTab(offensseItemMenu);
+
+            #endregion
+
+            #region Tidy : Cosumable Item Menu
+
             var consumablesItemMenu = new Tab("Trinity: Regen");
 
             foreach (var item in ConsumableItems)
@@ -113,6 +152,10 @@
 
             MenuManager.AddTab(consumablesItemMenu);
 
+            #endregion
+
+            #region Tidy : Cleanse Item Menu
+
             var cleanseItemMenu = new Tab("Trinity: Cleanse");
 
             foreach (var item in CleanseItems)
@@ -123,6 +166,8 @@
             }
 
             MenuManager.AddTab(cleanseItemMenu);
+
+            #endregion
         }
 
         private static void NewHeroCache()
@@ -139,11 +184,18 @@
 
         private static async Task CoreEvents_OnCoreMainTick()
         {
-            foreach (var initializedNormalTickItem in InitializedTickItems)
+            foreach (var initializedOnTickItem in InitializedTickItems)
             {
-                initializedNormalTickItem.OnTick();
+                initializedOnTickItem.OnTick();
+            }
+        }
+
+        private static async Task CoreEvents_OnCoreMainInputAsync()
+        {
+            foreach (var initializedInputItem in InitializedInputItems)
+            {
+                initializedInputItem.OnTick();
             }
         }
     }
-
 }

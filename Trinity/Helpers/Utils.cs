@@ -66,7 +66,7 @@
 
         #endregion
 
-        #region Tidy: Item Casting
+        #region Tidy : Item Casting
 
         public static bool IsSafeCast(this ActiveItem item, AIHeroClient unit)
         {
@@ -118,7 +118,7 @@
 
         #endregion
 
-        #region Tidy: Items HP or MP
+        #region Tidy : Items HP or MP
 
         public static void ItemCheckEnemyLowHealth(this ActiveItem item, AIHeroClient unit)
         {
@@ -161,8 +161,8 @@
 
         #endregion
 
-        #region Tidy Item Aura Check
-         
+        #region Tidy : Item Aura Check
+
         public static void ItemCheckAuras(this ActiveItem item, AIHeroClient hero)
         {
             if (item.ActivationTypes.Contains(Enums.ActivationType.CheckAuras))
@@ -219,7 +219,7 @@
 
         #endregion
 
-        #region Cache: Auras
+        #region Cache : Auras
 
         public static IEnumerable<BuffEntry> GetAuras(this ActiveItem item, Champion champion)
         {
