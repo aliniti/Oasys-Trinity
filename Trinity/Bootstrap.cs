@@ -18,7 +18,7 @@
         private static readonly List<ActiveItemBase> InitializedTickItems = new();
         private static readonly List<ActiveItemBase> InitializedInputItems = new();
 
-        [OasysModuleEntryPoint]
+        [Oasys.SDK.OasysModuleEntryPoint]
         public static void Execute()
         {
             GameEvents.OnGameLoadComplete += GameEvents_OnGameLoadComplete;

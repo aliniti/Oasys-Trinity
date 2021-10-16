@@ -171,7 +171,6 @@
                 if (champObj?.Instance == null)
                     return;
 
-
                 var healthPct = champObj.Instance.Health / champObj.Instance.MaxHealth * 100;
                 if (healthPct > item.ItemCounter[item.ItemId + "MinimumBuffsHP"].Value &&
                     item.ItemSwitch[item.ItemId + "SwitchMinimumBuffHP"].IsOn)

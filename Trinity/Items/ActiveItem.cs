@@ -5,6 +5,7 @@
     using Oasys.Common.Enums.GameEnums;
     using Oasys.Common.Extensions;
     using System.Linq;
+    using Oasys.Common.GameObject.Clients;
 
     public class ActiveItem : ActiveItemBase
     {
@@ -47,13 +48,9 @@
         {
             if (TargetingType.ToString().Contains("Enemy"))
             {
-                var target = TargetSelector.GetBestChampionTarget();
-                var allChamps = Bootstrap.AllChampions;
-
-                var attacker = allChamps.FirstOrDefault(x => x.Instance.NetworkID == target.NetworkID);
-                if (attacker != null && attacker.Instance.IsValidTarget())
+                if (TargetSelector.GetBestChampionTarget() is AIHeroClient target && target.IsValidTarget())
                 {
-                    this.ItemCheckEnemyLowHealth(attacker.Instance);
+                    this.ItemCheckEnemyLowHealth(target);
                 }
             }
 
