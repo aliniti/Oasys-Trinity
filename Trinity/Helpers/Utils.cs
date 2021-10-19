@@ -253,7 +253,7 @@
 
         #region Tidy : Spells HP & Mana
 
-        public static void SpellCheckAllyEnemyHealth(this AutoSpell spell, AIHeroClient unit)
+        public static void SpellCheckEnemyLowHealth(this AutoSpell spell, AIHeroClient unit)
         {
             if (spell.ActivationTypes.Contains(Enums.ActivationType.CheckEnemyLowHP))
             {
