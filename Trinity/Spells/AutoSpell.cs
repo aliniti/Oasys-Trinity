@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Trinity.Spells
+﻿namespace Trinity.Spells
 {
     using Helpers;
-    using Oasys.Common.Enums.GameEnums;
     using Oasys.SDK;
+    using Oasys.Common.Extensions;
+    using Oasys.SDK.SpellCasting;
+    using System.Linq;
 
     public class AutoSpell : AutoSpellBase
     {
@@ -18,7 +14,7 @@ namespace Trinity.Spells
         public Enums.ActivationType[] ActivationTypes { get; set; }
         public Enums.TargetingType TargetingType { get; set; }
 
-        public AutoSpell(int usePct, string championName, SpellSlot slot, Enums.TargetingType tType, float range, 
+        public AutoSpell(int usePct, string championName, CastSlot slot, Enums.TargetingType tType, float range, 
             Enums.ActivationType[] aType)
         {
             ChampionName = championName;
@@ -43,6 +39,8 @@ namespace Trinity.Spells
             if (ActivationTypes.Contains(Enums.ActivationType.CheckEnemyLowHP))
                 this.CreateSpellTabEnemyLowHP();
 
+            if (ActivationTypes.Contains(Enums.ActivationType.CheckPlayerMana))
+                this.CreateSpellTabAllyMinimumMP();
         }
 
         public override void OnTick()
@@ -52,6 +50,27 @@ namespace Trinity.Spells
                 if (this.SpellCheckMinimumMana(UnitManager.MyChampion))
                 {
                     return;
+                }
+            }
+
+            if (ActivationTypes.Contains(Enums.ActivationType.CheckOnlyOnMe))
+            {
+                this.SpellCheckAllyLowHealth(UnitManager.MyChampion);
+                this.SpellCheckAllyLowMana(UnitManager.MyChampion);
+            }
+            else
+            {
+                foreach (var u in Bootstrap.AllChampions)
+                {
+                    var hero = u.Value;
+                    if (hero.Instance.Team == UnitManager.MyChampion.Team)
+                    {
+                        if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range)
+                        {
+                            this.SpellCheckAllyLowHealth(hero.Instance);
+                            this.SpellCheckAllyLowMana(hero.Instance);
+                        }
+                    }
                 }
             }
         }

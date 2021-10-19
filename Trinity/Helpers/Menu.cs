@@ -16,6 +16,8 @@
                 IsOn = true,
                 Title = "Use " + tabName
             };
+
+            spell.SpellTab.AddItem(spell.SpellSwitch[spell.ChampionName + spell.Slot]);
         }
 
         public static void CreateSpellTabAllyLowHP(this AutoSpell spell, int pctUse = 90)
@@ -63,15 +65,15 @@
             spell.SpellTab.AddItem(spell.SpellCounter[tabName + "ehp"]);
         }
 
-        public static void CreateSpellTabAllyMinimumMP(this AutoSpell spell, int pctUse = 65)
+        public static void CreateSpellTabAllyMinimumMP(this AutoSpell spell)
         {
             var tabName = spell.ChampionName + spell.Slot;
             spell.SpellCounter[tabName + "amm"] = new Counter
             {
-                Title = "Use " + tabName + " at ALLY Percent MP > (%)",
+                Title = "Use " + tabName + " if Mana > (%)",
                 MaxValue = 100,
                 MinValue = 10,
-                Value = pctUse,
+                Value = 55,
                 ValueFrequency = 5
             };
 

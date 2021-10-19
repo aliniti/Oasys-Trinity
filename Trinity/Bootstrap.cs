@@ -1,19 +1,22 @@
 ﻿namespace Trinity
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Helpers;
     using Items;
+    using Helpers;
     using Oasys.Common;
     using Oasys.Common.Enums.GameEnums;
     using Oasys.Common.EventsProvider;
+    using Oasys.Common.GameObject.Clients;
     using Oasys.Common.Menu;
     using Oasys.SDK.Menu;
+    using Oasys.SDK.SpellCasting;
+    using Oasys.SDK.Tools;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Spells;
 
     public class Bootstrap
     {
-        public static List<Champion> AllChampions = new();
+        public static Dictionary<uint, Champion> AllChampions = new();
         private static List<ActiveItemBase> AllItems = new();
         private static List<AutoSpellBase> AllSpells = new();
 
@@ -30,14 +33,13 @@
 
         private static async Task GameEvents_OnGameLoadComplete()
         {
+            AllSpells.AddRange(AutoSpells);
             AllItems.AddRange(ConsumableItems);
             AllItems.AddRange(CleanseItems);
             AllItems.AddRange(OffensiveItems);
             AllItems.AddRange(KleptoItems);
-            //AllSpells.AddRange(AutoSpells);
 
             Initialize();
-            NewHeroCache();
             CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
             CoreEvents.OnCoreMainInputAsync += CoreEvents_OnCoreMainInputAsync;
         }
@@ -49,9 +51,22 @@
             CoreEvents.OnCoreMainInputAsync -= CoreEvents_OnCoreMainInputAsync;
         }
 
+        private static void UpdateTrinityHeroCache()
+        {
+            foreach (var unit in ObjectManagerExport.HeroCollection)
+            {
+                if (unit.Value is AIHeroClient hero && AllChampions.ContainsKey(hero.NetworkID) == false)
+                {
+                    AllChampions[hero.NetworkID] = new Champion(hero);
+                    Logger.Log(hero.ModelName + " cached!");
+                    break;
+                }
+            }
+        }
+
         private static readonly List<AutoSpell> AutoSpells = new()
         {
-            new AutoSpell(90, "Annie", SpellSlot.E, Enums.TargetingType.UnitAlly, 800, 
+            new AutoSpell(90, "Annie", CastSlot.E, Enums.TargetingType.UnitAlly, 800, 
                 new [] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckPlayerMana })
         };
 
@@ -144,8 +159,8 @@
                 new[] { Enums.ActivationType.CheckAuras, Enums.ActivationType.CheckOnlyOnMe }),
 
             // item: Mikaels_Crucible
-            new ActiveItem(20, ItemID.Mikaels_Crucible, Enums.TargetingType.ProximityAlly, 600,
-                new[] { Enums.ActivationType.CheckAuras, Enums.ActivationType.CheckOnlyOnMe, Enums.ActivationType.CheckAllyLowHP  }),
+            new ActiveItem(20, ItemID.Mikaels_Crucible, Enums.TargetingType.UnitAlly, 600,
+                new[] { Enums.ActivationType.CheckAuras, Enums.ActivationType.CheckAllyLowHP  }),
         };
 
         private static readonly List<ActiveItem> ConsumableItems = new()
@@ -248,6 +263,8 @@
             MenuManager.AddTab(kleptoItemMenu);
             #endregion
 
+            #region Tidy : Auto Spells Menu
+
             var autoSpellsMenu = new Tab("Trinity: Auto Spells");
             foreach (var spell in AutoSpells)
             {
@@ -257,26 +274,22 @@
             }
 
             MenuManager.AddTab(autoSpellsMenu);
-        }
-
-        private static void NewHeroCache()
-        {
-            foreach (var u in ObjectManagerExport.HeroCollection)
-            {
-                var hero = u.Value;
-                if (hero.IsAlive)
-                {
-                    AllChampions.Add(new Champion(hero));
-                }
-            }
+            #endregion
         }
 
         private static async Task CoreEvents_OnCoreMainTick()
         {
-            foreach (var initializedOnTickItem in InitializedTickItems)
+            foreach (var initializedTickItem in InitializedTickItems)
             {
-                initializedOnTickItem.OnTick();
+                initializedTickItem.OnTick();
             }
+
+            foreach (var initializedTickSpell in InitializedTickSpells)
+            {
+                initializedTickSpell.OnTick();
+            }
+
+            UpdateTrinityHeroCache();
         }
 
         private static async Task CoreEvents_OnCoreMainInputAsync()

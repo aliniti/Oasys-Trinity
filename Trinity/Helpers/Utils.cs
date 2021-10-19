@@ -10,6 +10,7 @@
     using System.Linq;
     using Spells;
     using Items;
+    using Oasys.SDK.Tools;
 
     public static class Utils
     {
@@ -28,17 +29,6 @@
         #endregion
 
         #region Tidy : Clustered Units
-
-        internal static IEnumerable<AIBaseClient> GetRadiusCluster(this AIBaseClient target, IEnumerable<AIBaseClient> otherUnits, float radius)
-        {
-            if (target != null)
-            {
-                var targetLoc = target.Position;
-                return otherUnits.Where(u => u.Position.DistanceSquared(targetLoc) <= radius * radius);
-            }
-
-            return null;
-        }
 
         internal static AIBaseClient GetBestUnitForCluster(IEnumerable<AIBaseClient> units, float clusterRange)
         {
@@ -102,7 +92,7 @@
             {
                 if (unit != null)
                 {
-                    ItemCastProvider.CastItem(item.ItemId, unit);
+                    ItemCastProvider.CastItem(item.ItemId, unit.Position);
                     item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
                 }
             }
@@ -111,7 +101,7 @@
             {
                 if (unit != null)
                 {
-                    ItemCastProvider.CastItem(item.ItemId, unit.AIManager.ServerPosition);
+                    ItemCastProvider.CastItem(item.ItemId, unit.Position);
                     item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
                 }
             }
@@ -126,24 +116,27 @@
 
             if (spell.TargetingType.ToString().Contains("Proximity"))
             {
-                SpellCastProvider.CastSpell((CastSlot) spell.Slot);
-                spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                if (spell.SpellClass.IsSpellReady)
+                {
+                    SpellCastProvider.CastSpell(spell.Slot);
+                    spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                }
             }
 
             if (spell.TargetingType.ToString().Contains("Unit"))
             {
-                if (unit != null)
+                if (unit != null && spell.SpellClass.IsSpellReady)
                 {
-                    SpellCastProvider.CastSpell((CastSlot) spell.Slot, unit.Position);
+                    SpellCastProvider.CastSpell(spell.Slot, unit.Position);
                     spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
                 }
             }
 
             if (spell.TargetingType.ToString().Contains("Skillshot"))
             {
-                if (unit != null)
+                if (unit != null && spell.SpellClass.IsSpellReady)
                 {
-                    SpellCastProvider.CastSpell((CastSlot) spell.Slot, unit.Position);
+                    SpellCastProvider.CastSpell(spell.Slot, unit.Position);
                     spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
                 }
             }
@@ -200,7 +193,9 @@
         {
             if (item.ActivationTypes.Contains(Enums.ActivationType.CheckAuras))
             {
-                var champObj = Bootstrap.AllChampions.FirstOrDefault(x => x.Instance.NetworkID == hero.NetworkID);
+                var champObj = Bootstrap.AllChampions
+                    .FirstOrDefault(x => x.Value.Instance.NetworkID == hero.NetworkID).Value;
+                
                 if (champObj?.Instance == null)
                     return;
 

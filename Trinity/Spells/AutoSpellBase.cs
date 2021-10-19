@@ -6,6 +6,7 @@
     using Oasys.Common.Menu;
     using Oasys.Common.Menu.ItemComponents;
     using Oasys.SDK;
+    using Oasys.SDK.SpellCasting;
     using Oasys.SDK.Tools;
 
     public delegate void OnSpellInitialize();
@@ -29,10 +30,10 @@
 
         public Tab SpellTab { get; set; }
         public string ChampionName { get; set; }
-        public SpellSlot Slot { get; set; }
+        public CastSlot Slot { get; set; }
         public float Range { get; set; }
 
-        public SpellClass SpellInstance { get; set; }
+        public SpellClass SpellClass { get; set; }
         public Dictionary<string, Switch> SpellSwitch = new();
         public Dictionary<string, Counter> SpellCounter = new();
 
@@ -59,7 +60,7 @@
 
             CreateTab();
             //Logger.Log("Initialized " + ChampionName + " " + Slot);
-            SpellInstance = UnitManager.MyChampion.GetSpellBook().GetSpellClass(Slot);
+            SpellClass = UnitManager.MyChampion.GetSpellBook().GetSpellClass((SpellSlot) Slot - 16);
             OnSpellInitialize?.Invoke();
         }
 
@@ -73,7 +74,7 @@
             _disposed = true;
             _initialized = false;
 
-            SpellInstance = null;
+            SpellClass = null;
             //Logger.Log("Disposed " + ChampionName + " " + Slot);
             OnSpellDispose?.Invoke();
         }

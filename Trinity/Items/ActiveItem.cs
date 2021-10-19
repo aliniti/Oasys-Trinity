@@ -6,6 +6,7 @@
     using Oasys.Common.Extensions;
     using System.Linq;
     using Oasys.Common.GameObject.Clients;
+    using Oasys.SDK.Tools;
 
     public class ActiveItem : ActiveItemBase
     {
@@ -65,13 +66,17 @@
             }
             else
             {
-                foreach (var hero in Bootstrap.AllChampions.Where(x => x.Instance.Team == UnitManager.MyChampion.Team))
+                foreach (var u in Bootstrap.AllChampions)
                 {
-                    if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range)
+                    var hero = u.Value;
+                    if (hero.Instance.Team == UnitManager.MyChampion.Team)
                     {
-                        this.ItemCheckAllyLowHealth(hero.Instance);
-                        this.ItemCheckAllyLowMana(hero.Instance);
-                        this.ItemCheckAuras(hero.Instance);
+                        if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range)
+                        {
+                            this.ItemCheckAllyLowHealth(hero.Instance);
+                            this.ItemCheckAllyLowMana(hero.Instance);
+                            this.ItemCheckAuras(hero.Instance);
+                        }
                     }
                 }
             }
