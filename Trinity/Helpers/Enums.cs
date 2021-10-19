@@ -4,8 +4,7 @@
     {
         public enum ActivationType
         {
-            PostAttack,
-            CheckEnemyProximity,
+            CheckPlayerMana,
             CheckOnlyOnMe,
             CheckAllyLowMP,
             CheckAllyLowHP,

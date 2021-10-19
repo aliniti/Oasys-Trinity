@@ -8,6 +8,7 @@ namespace Trinity.Spells
 {
     using Helpers;
     using Oasys.Common.Enums.GameEnums;
+    using Oasys.SDK;
 
     public class AutoSpell : AutoSpellBase
     {
@@ -33,13 +34,26 @@ namespace Trinity.Spells
             // the enable disable switch
             this.CreateSpellTabEnableSwitch();
 
+            if (ActivationTypes.Contains(Enums.ActivationType.CheckEnemyLowHP))
+                this.CreateSpellTabEnemyLowHP();
+
             if (ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowHP))
-                this.CreateSpellTabAllyLowHealth(UsePct);
+                this.CreateSpellTabAllyLowHP(UsePct);
+
+            if (ActivationTypes.Contains(Enums.ActivationType.CheckEnemyLowHP))
+                this.CreateSpellTabEnemyLowHP();
+
         }
 
         public override void OnTick()
         {
-            
+            if (ActivationTypes.Contains(Enums.ActivationType.CheckPlayerMana))
+            {
+                if (this.SpellCheckMinimumMana(UnitManager.MyChampion))
+                {
+                    return;
+                }
+            }
         }
     }
 }

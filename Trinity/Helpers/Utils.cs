@@ -3,16 +3,17 @@
     using Oasys.SDK;
     using Oasys.SDK.SpellCasting;
     using Oasys.Common.Enums.GameEnums;
-    using Oasys.Common.GameObject.Clients.ExtendedInstances;
     using Oasys.Common.Extensions;
     using Oasys.Common.GameObject.Clients;
+    using Oasys.Common.GameObject.Clients.ExtendedInstances;
     using System.Collections.Generic;
     using System.Linq;
+    using Spells;
     using Items;
 
     public static class Utils
     {
-        #region Tidy : ValidUnit
+        #region Tidy : Valid Unit
 
         public static bool ValidHero(this AIHeroClient hero)
         {
@@ -66,9 +67,9 @@
 
         #endregion
 
-        #region Tidy : Item Casting
+        #region Tidy : Casting
 
-        public static bool IsSafeCast(this ActiveItem item, AIHeroClient unit)
+        public static bool IsSafeCast(AIHeroClient unit)
         {
             if (unit.IsRecalling || unit.IsCastingSpell || unit.IsEmpoweredRecalling)
             {
@@ -86,7 +87,7 @@
 
         public static void UseItem(this ActiveItem item, AIHeroClient unit)
         {
-            if (!IsSafeCast(item, unit))
+            if (!IsSafeCast(unit))
             {
                 return;
             }
@@ -94,7 +95,7 @@
             if (item.TargetingType.ToString().Contains("Proximity"))
             {
                 ItemCastProvider.CastItem(item.ItemId);
-                item.LastUsedTimeStamp = (int)(GameEngine.GameTime * 1000);
+                item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
             }
 
             if (item.TargetingType.ToString().Contains("Unit"))
@@ -102,7 +103,7 @@
                 if (unit != null)
                 {
                     ItemCastProvider.CastItem(item.ItemId, unit);
-                    item.LastUsedTimeStamp = (int)(GameEngine.GameTime * 1000);
+                    item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
                 }
             }
 
@@ -111,21 +112,53 @@
                 if (unit != null)
                 {
                     ItemCastProvider.CastItem(item.ItemId, unit.AIManager.ServerPosition);
-                    item.LastUsedTimeStamp = (int)(GameEngine.GameTime * 1000);
+                    item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                }
+            }
+        }
+
+        public static void UseSpell(this AutoSpell spell, AIHeroClient unit)
+        {
+            if (!IsSafeCast(unit))
+            {
+                return;
+            }
+
+            if (spell.TargetingType.ToString().Contains("Proximity"))
+            {
+                SpellCastProvider.CastSpell((CastSlot) spell.Slot);
+                spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+            }
+
+            if (spell.TargetingType.ToString().Contains("Unit"))
+            {
+                if (unit != null)
+                {
+                    SpellCastProvider.CastSpell((CastSlot) spell.Slot, unit.Position);
+                    spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                }
+            }
+
+            if (spell.TargetingType.ToString().Contains("Skillshot"))
+            {
+                if (unit != null)
+                {
+                    SpellCastProvider.CastSpell((CastSlot) spell.Slot, unit.Position);
+                    spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
                 }
             }
         }
 
         #endregion
 
-        #region Tidy : Items HP or MP
+        #region Tidy : Items HP & Mana
 
         public static void ItemCheckEnemyLowHealth(this ActiveItem item, AIHeroClient unit)
         {
             if (item.ActivationTypes.Contains(Enums.ActivationType.CheckEnemyLowHP))
             {
                 var pctHealth = unit.Health / unit.MaxHealth * 100;
-                if (pctHealth <= item.ItemCounter[item.ItemId.ToString()].Value &&
+                if (pctHealth <= item.ItemCounter[item.ItemId + "ehp"].Value &&
                     item.ItemSwitch[item.ItemId.ToString()].IsOn)
                 {
                     UseItem(item, unit);
@@ -138,7 +171,7 @@
             if (item.ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowHP))
             {
                 var pctHealth = unit.Health / unit.MaxHealth * 100;
-                if (pctHealth <= item.ItemCounter[item.ItemId.ToString()].Value &&
+                if (pctHealth <= item.ItemCounter[item.ItemId + "ahp"].Value &&
                     item.ItemSwitch[item.ItemId.ToString()].IsOn)
                 {
                     UseItem(item, unit);
@@ -151,7 +184,7 @@
             if (item.ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowMP))
             {
                 var pctMana = unit.Mana / unit.MaxMana * 100;
-                if (pctMana <= item.ItemCounter[item.ItemId.ToString()].Value &&
+                if (pctMana <= item.ItemCounter[item.ItemId + "amp"].Value &&
                     item.ItemSwitch[item.ItemId.ToString()].IsOn)
                 {
                     UseItem(item, unit);
@@ -190,7 +223,7 @@
                         }
                     }
 
-                    champObj.AuraInfo[item.ItemId + "BuffTimestamp"] = (int)(GameEngine.GameTime * 1000);
+                    champObj.AuraInfo[item.ItemId + "BuffTimestamp"] = (int) (GameEngine.GameTime * 1000);
                 }
                 else
                 {
@@ -215,6 +248,58 @@
                 }
             }
         }
+
+        #endregion
+
+        #region Tidy : Spells HP & Mana
+
+        public static void SpellCheckAllyEnemyHealth(this AutoSpell spell, AIHeroClient unit)
+        {
+            if (spell.ActivationTypes.Contains(Enums.ActivationType.CheckEnemyLowHP))
+            {
+                var pctHealth = unit.Health / unit.MaxHealth * 100;
+                if (pctHealth <= spell.SpellCounter[spell.ChampionName + spell.Slot + "ehp"].Value &&
+                    spell.SpellSwitch[spell.ChampionName + spell.Slot].IsOn)
+                {
+                    UseSpell(spell, unit);
+                }
+            }
+        }
+
+        public static void SpellCheckAllyLowHealth(this AutoSpell spell, AIHeroClient unit)
+        {
+            if (spell.ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowHP))
+            {
+                var pctHealth = unit.Health / unit.MaxHealth * 100;
+                if (pctHealth <= spell.SpellCounter[spell.ChampionName + spell.Slot + "ahp"].Value &&
+                    spell.SpellSwitch[spell.ChampionName + spell.Slot].IsOn)
+                {
+                    UseSpell(spell, unit);
+                }
+            }
+        }
+
+        public static void SpellCheckAllyLowMana(this AutoSpell spell, AIHeroClient unit)
+        {
+            if (spell.ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowMP))
+            {
+                var pctMana = unit.Mana / unit.MaxMana * 100;
+                if (pctMana <= spell.SpellCounter[spell.ChampionName + spell.Slot + "amp"].Value &&
+                    spell.SpellSwitch[spell.ChampionName + spell.Slot].IsOn)
+                {
+                    UseSpell(spell, unit);
+                }
+
+            }
+        }
+
+        public static bool SpellCheckMinimumMana(this AutoSpell spell, AIHeroClient unit)
+        {
+            var pctMana = unit.Mana / unit.MaxMana * 100;
+            return pctMana <= spell.SpellCounter[spell.ChampionName + spell.Slot + "amm"].Value &&
+                   spell.SpellSwitch[spell.ChampionName + spell.Slot].IsOn;
+        }
+
 
         #endregion
 

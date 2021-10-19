@@ -51,8 +51,8 @@
 
         private static readonly List<AutoSpell> AutoSpells = new()
         {
-            new AutoSpell(90, "Annie", SpellSlot.E, Enums.TargetingType.UnitAlly, 
-                800, new [] { Enums.ActivationType.CheckAllyLowHP })
+            new AutoSpell(90, "Annie", SpellSlot.E, Enums.TargetingType.UnitAlly, 800, 
+                new [] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckPlayerMana })
         };
 
         private static readonly List<ActiveItem> KleptoItems = new()

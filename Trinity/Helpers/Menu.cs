@@ -18,19 +18,64 @@
             };
         }
 
-        public static void CreateSpellTabAllyLowHealth(this AutoSpell spell, int pctUse = 90)
+        public static void CreateSpellTabAllyLowHP(this AutoSpell spell, int pctUse = 90)
         {
             var tabName = spell.ChampionName + spell.Slot;
-            spell.SpellCounter[tabName] = new Counter
+            spell.SpellCounter[tabName + "ahp"] = new Counter
             {
-                Title = "Use " + tabName + " at Ally Percent HP < (%)",
+                Title = "Use " + tabName + " at ALLY Percent HP < (%)",
                 MaxValue = 100,
                 MinValue = 10,
                 Value = pctUse,
                 ValueFrequency = 5
             };
 
-            spell.SpellTab.AddItem(spell.SpellCounter[tabName]);
+            spell.SpellTab.AddItem(spell.SpellCounter[tabName + "ahp"]);
+        }
+
+        public static void CreateSpellTabAllyLowMP(this AutoSpell spell, int pctUse = 90)
+        {
+            var tabName = spell.ChampionName + spell.Slot;
+            spell.SpellCounter[tabName + "amp"] = new Counter
+            {
+                Title = "Use " + tabName + " at ALLY Percent MP < (%)",
+                MaxValue = 100,
+                MinValue = 10,
+                Value = pctUse,
+                ValueFrequency = 5
+            };
+
+            spell.SpellTab.AddItem(spell.SpellCounter[tabName + "amp"]);
+        }
+
+        public static void CreateSpellTabEnemyLowHP(this AutoSpell spell, int pctUse = 25)
+        {
+            var tabName = spell.ChampionName + spell.Slot;
+            spell.SpellCounter[tabName + "ehp"] = new Counter
+            {
+                Title = "Use " + tabName + " at ENEMY Percent HP < (%)",
+                MaxValue = 100,
+                MinValue = 10,
+                Value = pctUse,
+                ValueFrequency = 5
+            };
+
+            spell.SpellTab.AddItem(spell.SpellCounter[tabName + "ehp"]);
+        }
+
+        public static void CreateSpellTabAllyMinimumMP(this AutoSpell spell, int pctUse = 65)
+        {
+            var tabName = spell.ChampionName + spell.Slot;
+            spell.SpellCounter[tabName + "amm"] = new Counter
+            {
+                Title = "Use " + tabName + " at ALLY Percent MP > (%)",
+                MaxValue = 100,
+                MinValue = 10,
+                Value = pctUse,
+                ValueFrequency = 5
+            };
+
+            spell.SpellTab.AddItem(spell.SpellCounter[tabName + "amm"]);
         }
 
         #endregion
@@ -50,7 +95,7 @@
 
         public static void CreateItemTabEnemyLowHealth(this ActiveItem item, int pctUse = 95)
         {
-            item.ItemCounter[item.ItemId.ToString()] = new Counter
+            item.ItemCounter[item.ItemId + "ehp"] = new Counter
             {
                 Title = "Use " + item.ItemId + " at Enemy Percent HP < (%)",
                 MaxValue = 100,
@@ -59,12 +104,12 @@
                 ValueFrequency = 5
             };
 
-            item.ItemTab.AddItem(item.ItemCounter[item.ItemId.ToString()]);
+            item.ItemTab.AddItem(item.ItemCounter[item.ItemId + "ehp"]);
         }
 
         public static void CreateItemTabAllyLowHealth(this ActiveItem item, int pctUse = 80)
         {
-            item.ItemCounter[item.ItemId.ToString()] = new Counter
+            item.ItemCounter[item.ItemId + "ahp"] = new Counter
             {
                 Title = "Use " + item.ItemId + " at Ally Percent HP < (%)",
                 MaxValue = 100,
@@ -73,12 +118,12 @@
                 ValueFrequency = 5
             };
 
-            item.ItemTab.AddItem(item.ItemCounter[item.ItemId.ToString()]);
+            item.ItemTab.AddItem(item.ItemCounter[item.ItemId + "ahp"]);
         }
 
         public static void CreateItemTabAllyLowMana(this ActiveItem item, int pctUse = 55)
         {
-            item.ItemCounter[item.ItemId.ToString()] = new Counter
+            item.ItemCounter[item.ItemId + "amp"] = new Counter
             {
                 Title = "Use " + item.ItemId + " at Ally Percent MP < (%)",
                 MaxValue = 100,
@@ -87,7 +132,7 @@
                 ValueFrequency = 5
             };
 
-            item.ItemTab.AddItem(item.ItemCounter[item.ItemId.ToString()]);
+            item.ItemTab.AddItem(item.ItemCounter[item.ItemId + "amp"]);
         }
 
         public static void CreateItemTabAuraCleanse(this ActiveItem item, int pctUse = 100)
