@@ -16,8 +16,12 @@
 
     public abstract class ActiveItemBase
     {
+        #region Public Events
+
         public event OnItemInitialize OnItemInitialize;
         public event OnItemDispose OnItemDispose;
+
+        #endregion
 
         #region Fields
 
@@ -25,8 +29,6 @@
         private bool _initialized;
 
         #endregion
-
-        #region Properties and Indexers
 
         public ItemID ItemId { get; set; }
         protected float Range { get; set; }
@@ -36,8 +38,7 @@
         public Dictionary<string, Counter> ItemCounter = new();
         private HeroInventory.Item ItemSpell { get; set; }
 
-        #endregion
-
+ 
         public void Initialize(Tab parentTab)
         {
             ItemTab = parentTab;
@@ -59,7 +60,7 @@
 
             _initialized = true;
             _disposed = false;
-            Logger.Log("Initialized " + ItemId);
+            //Logger.Log("Initialized " + ItemId);
 
             ItemSpell = MyChampion.Inventory.GetItemByID(ItemId);
             OnItemInitialize?.Invoke();
@@ -71,7 +72,7 @@
 
             _initialized = false;
             _disposed = true;
-            Logger.Log("Disposed " + ItemId);
+            //Logger.Log("Disposed " + ItemId);
 
             ItemSpell = null;
             OnItemDispose?.Invoke();

@@ -9,14 +9,17 @@
     using Oasys.Common.EventsProvider;
     using Oasys.Common.Menu;
     using Oasys.SDK.Menu;
+    using Spells;
 
     public class Bootstrap
     {
         public static List<Champion> AllChampions = new();
         private static List<ActiveItemBase> AllItems = new();
+        private static List<AutoSpellBase> AllSpells = new();
 
         private static readonly List<ActiveItemBase> InitializedTickItems = new();
         private static readonly List<ActiveItemBase> InitializedInputItems = new();
+        private static readonly List<AutoSpellBase> InitializedTickSpells = new();
 
         [Oasys.SDK.OasysModuleEntryPoint]
         public static void Execute()
@@ -31,6 +34,7 @@
             AllItems.AddRange(CleanseItems);
             AllItems.AddRange(OffensiveItems);
             AllItems.AddRange(KleptoItems);
+            //AllSpells.AddRange(AutoSpells);
 
             Initialize();
             NewHeroCache();
@@ -44,6 +48,12 @@
             CoreEvents.OnCoreMainTick -= CoreEvents_OnCoreMainTick;
             CoreEvents.OnCoreMainInputAsync -= CoreEvents_OnCoreMainInputAsync;
         }
+
+        private static readonly List<AutoSpell> AutoSpells = new()
+        {
+            new AutoSpell(90, "Annie", SpellSlot.E, Enums.TargetingType.UnitAlly, 
+                800, new [] { Enums.ActivationType.CheckAllyLowHP })
+        };
 
         private static readonly List<ActiveItem> KleptoItems = new()
         {
@@ -96,7 +106,7 @@
 
             // item: Youmuus_Ghostblade
             new ActiveItem(90, ItemID.Youmuus_Ghostblade, Enums.TargetingType.ProximityEnemy, 1100, 
-                new[] {Enums.ActivationType.CheckEnemyLowHP}),
+                new[] { Enums.ActivationType.CheckEnemyLowHP}),
 
             // item: Bilgewater_Cutlass
             new ActiveItem(90, ItemID.Bilgewater_Cutlass, Enums.TargetingType.UnitEnemy, 575,
@@ -123,11 +133,11 @@
         {
             // item: Quicksilver_Sash
             new ActiveItem(100, ItemID.Quicksilver_Sash, Enums.TargetingType.ProximityAlly, 1100, 
-                new [] {Enums.ActivationType.CheckAuras, Enums.ActivationType.CheckOnlyOnMe }),
+                new [] { Enums.ActivationType.CheckAuras, Enums.ActivationType.CheckOnlyOnMe }),
 
             // item: Mercurial_Scimitar
             new ActiveItem(100, ItemID.Mercurial_Scimitar, Enums.TargetingType.ProximityAlly, 1100, 
-                new [] {Enums.ActivationType.CheckAuras, Enums.ActivationType.CheckOnlyOnMe }),
+                new [] { Enums.ActivationType.CheckAuras, Enums.ActivationType.CheckOnlyOnMe }),
 
             // item: Dervish_Blade
             new ActiveItem(100, ItemID.Dervish_Blade, Enums.TargetingType.ProximityAlly, 1100,
@@ -162,17 +172,17 @@
             
             // item: Elixir_of_Iron
             new ActiveItem(100, ItemID.Elixir_of_Iron, Enums.TargetingType.ProximityAlly, float.MaxValue,
-                new[] {Enums.ActivationType.CheckOnlyOnMe }, 
+                new[] { Enums.ActivationType.CheckOnlyOnMe }, 
                 "ElixirOfIron"),
             
             // item: Elixir_of_Wrath
             new ActiveItem(100, ItemID.Elixir_of_Wrath, Enums.TargetingType.ProximityAlly, float.MaxValue,
-                new[] {Enums.ActivationType.CheckOnlyOnMe }, 
+                new[] { Enums.ActivationType.CheckOnlyOnMe }, 
                 "ElixirOfWrath"),
             
             // item: Elixir_of_Sorcery
             new ActiveItem(100, ItemID.Elixir_of_Sorcery, Enums.TargetingType.ProximityAlly, float.MaxValue,
-                new[] {Enums.ActivationType.CheckOnlyOnMe }, 
+                new[] { Enums.ActivationType.CheckOnlyOnMe }, 
                 "ElixirOfSorcery"),
             
             // item: Your_Cut (Pyke Assist)
@@ -237,6 +247,16 @@
 
             MenuManager.AddTab(kleptoItemMenu);
             #endregion
+
+            var autoSpellsMenu = new Tab("Trinity: Auto Spells");
+            foreach (var spell in AutoSpells)
+            {
+                spell.OnSpellInitialize += () => InitializedTickSpells.Add(spell);
+                spell.OnSpellDispose += () => InitializedTickSpells.Remove(spell);
+                spell.Initialize(autoSpellsMenu);
+            }
+
+            MenuManager.AddTab(autoSpellsMenu);
         }
 
         private static void NewHeroCache()

@@ -2,10 +2,42 @@
 {
     using Oasys.Common.Menu.ItemComponents;
     using Items;
+    using Spells;
 
     public static class Menu
     {
-        public static void CreateTabEnableSwitch(this ActiveItem item)
+        #region Spell Tabs
+
+        public static void CreateSpellTabEnableSwitch(this AutoSpell spell)
+        {
+            var tabName = spell.ChampionName + spell.Slot;
+            spell.SpellSwitch[tabName] = new Switch()
+            {
+                IsOn = true,
+                Title = "Use " + tabName
+            };
+        }
+
+        public static void CreateSpellTabAllyLowHealth(this AutoSpell spell, int pctUse = 90)
+        {
+            var tabName = spell.ChampionName + spell.Slot;
+            spell.SpellCounter[tabName] = new Counter
+            {
+                Title = "Use " + tabName + " at Ally Percent HP < (%)",
+                MaxValue = 100,
+                MinValue = 10,
+                Value = pctUse,
+                ValueFrequency = 5
+            };
+
+            spell.SpellTab.AddItem(spell.SpellCounter[tabName]);
+        }
+
+        #endregion
+
+        #region Item Tabs
+
+        public static void CreateItemTabEnableSwitch(this ActiveItem item)
         {
             item.ItemSwitch[item.ItemId.ToString()] = new Switch
             {
@@ -16,7 +48,7 @@
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId.ToString()]);
         }
 
-        public static void CreateTabEnemyLowHealth(this ActiveItem item, int pctUse = 95)
+        public static void CreateItemTabEnemyLowHealth(this ActiveItem item, int pctUse = 95)
         {
             item.ItemCounter[item.ItemId.ToString()] = new Counter
             {
@@ -29,8 +61,8 @@
 
             item.ItemTab.AddItem(item.ItemCounter[item.ItemId.ToString()]);
         }
- 
-        public static void CreateTabAllyLowHealth(this ActiveItem item, int pctUse = 80)
+
+        public static void CreateItemTabAllyLowHealth(this ActiveItem item, int pctUse = 80)
         {
             item.ItemCounter[item.ItemId.ToString()] = new Counter
             {
@@ -44,7 +76,7 @@
             item.ItemTab.AddItem(item.ItemCounter[item.ItemId.ToString()]);
         }
 
-        public static void CreateTabAllyLowMana(this ActiveItem item, int pctUse = 55)
+        public static void CreateItemTabAllyLowMana(this ActiveItem item, int pctUse = 55)
         {
             item.ItemCounter[item.ItemId.ToString()] = new Counter
             {
@@ -54,11 +86,11 @@
                 Value = pctUse,
                 ValueFrequency = 5
             };
-            
+
             item.ItemTab.AddItem(item.ItemCounter[item.ItemId.ToString()]);
         }
 
-        public static void CreateTabAuraCleanse(this ActiveItem item, int pctUse = 100)
+        public static void CreateItemTabAuraCleanse(this ActiveItem item, int pctUse = 100)
         {
             item.ItemSwitch[item.ItemId + "Ignite"] = new()
             {
@@ -203,5 +235,7 @@
 
             item.ItemTab.AddItem(item.ItemCounter[item.ItemId + "MinimumBuffsHP"]);
         }
+
+        #endregion
     }
 }

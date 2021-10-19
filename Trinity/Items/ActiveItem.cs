@@ -29,19 +29,19 @@
         public override void CreateTab()
         {
             // the enable disable switch
-            this.CreateTabEnableSwitch();
+            this.CreateItemTabEnableSwitch();
             
             if (ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowHP))
-                this.CreateTabAllyLowHealth(UsePct);
+                this.CreateItemTabAllyLowHealth(UsePct);
             
             if (ActivationTypes.Contains(Enums.ActivationType.CheckEnemyLowHP))
-                this.CreateTabEnemyLowHealth(UsePct);
+                this.CreateItemTabEnemyLowHealth(UsePct);
             
             if (ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowMP))
-                this.CreateTabAllyLowMana(UsePct);
+                this.CreateItemTabAllyLowMana(UsePct);
 
             if (ActivationTypes.Contains(Enums.ActivationType.CheckAuras))
-                this.CreateTabAuraCleanse(UsePct);
+                this.CreateItemTabAuraCleanse(UsePct);
         }
 
         public override void OnTick()
