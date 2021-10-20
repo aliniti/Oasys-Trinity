@@ -9,7 +9,6 @@
     using Oasys.Common.Menu;
     using Oasys.SDK.Menu;
     using Oasys.SDK.SpellCasting;
-    using Oasys.SDK.Tools;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Spells;
@@ -17,6 +16,7 @@
     public class Bootstrap
     {
         public static Dictionary<uint, Champion> AllChampions = new();
+
         private static List<ActiveItemBase> AllItems = new();
         private static List<AutoSpellBase> AllSpells = new();
 
@@ -50,25 +50,6 @@
             CoreEvents.OnCoreMainTick -= CoreEvents_OnCoreMainTick;
             CoreEvents.OnCoreMainInputAsync -= CoreEvents_OnCoreMainInputAsync;
         }
-
-        private static void UpdateTrinityHeroCache()
-        {
-            foreach (var unit in ObjectManagerExport.HeroCollection)
-            {
-                if (unit.Value is AIHeroClient hero && AllChampions.ContainsKey(hero.NetworkID) == false)
-                {
-                    AllChampions[hero.NetworkID] = new Champion(hero);
-                    Logger.Log(hero.ModelName + " cached!");
-                    break;
-                }
-            }
-        }
-
-        private static readonly List<AutoSpell> AutoSpells = new()
-        {
-            new AutoSpell(90, "Annie", CastSlot.E, Enums.TargetingType.UnitAlly, 800, 
-                new [] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckPlayerMana })
-        };
 
         private static readonly List<ActiveItem> KleptoItems = new()
         {
@@ -205,6 +186,22 @@
                 new[] { Enums.ActivationType.CheckOnlyOnMe }),
         };
 
+        private static readonly List<AutoSpell> AutoSpells = new()
+        {
+            new AutoSpell(90, "Kayle", CastSlot.W, Enums.TargetingType.UnitAlly, 900,
+                new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckPlayerMana }),
+
+            new AutoSpell(90, "Nami", CastSlot.W, Enums.TargetingType.UnitAlly, 725,
+                new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckPlayerMana }),
+
+            new AutoSpell(90, "Seraphine", CastSlot.W, Enums.TargetingType.ProximityAlly, 800,
+                new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckPlayerMana }),
+
+            new AutoSpell(90, "Sona", CastSlot.W, Enums.TargetingType.ProximityAlly, 1000,
+                new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckPlayerMana }),
+        };
+
+
         private static void Initialize()
         {
             #region Tidy : Offensive Item Menu
@@ -289,7 +286,14 @@
                 initializedTickSpell.OnTick();
             }
 
-            UpdateTrinityHeroCache();
+            foreach (var unit in ObjectManagerExport.HeroCollection)
+            {
+                if (unit.Value is AIHeroClient hero && AllChampions.ContainsKey(hero.NetworkID) == false)
+                {
+                    AllChampions[hero.NetworkID] = new Champion(hero);
+                    break;
+                }
+            }
         }
 
         private static async Task CoreEvents_OnCoreMainInputAsync()
