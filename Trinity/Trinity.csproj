@@ -10,21 +10,31 @@
     </Target>
 
     <ItemGroup>
+      <None Remove="Base\" />
+      <None Remove="Oasys.Common" />
+      <None Remove="Oasys.SDK" />
+      <None Remove="SharpDX.Desktop" />
+      <None Remove="SharpDX.Direct3D9" />
+      <None Remove="SharpDX.Mathematics" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Base\" />
+    </ItemGroup>
+    <ItemGroup>
       <Reference Include="Oasys.Common">
-        <HintPath>B:\Users\aliniti\Desktop\Oasys.References\Oasys.Common.dll</HintPath>
+        <HintPath>..\..\..\..\Desktop\Oasys.SDK.References\Oasys.Common.dll</HintPath>
       </Reference>
       <Reference Include="Oasys.SDK">
-        <HintPath>B:\Users\aliniti\Desktop\Oasys.References\Oasys.SDK.dll</HintPath>
+        <HintPath>..\..\..\..\Desktop\Oasys.SDK.References\Oasys.SDK.dll</HintPath>
       </Reference>
-      <Reference Include="SharpDX">
-        <HintPath>B:\Users\aliniti\Desktop\Oasys.References\SharpDX.dll</HintPath>
+      <Reference Include="SharpDX.Desktop">
+        <HintPath>..\..\..\..\Desktop\Oasys.SDK.References\SharpDX.Desktop.dll</HintPath>
       </Reference>
       <Reference Include="SharpDX.Direct3D9">
-        <HintPath>B:\Users\aliniti\Desktop\Oasys.References\SharpDX.Direct3D9.dll</HintPath>
+        <HintPath>..\..\..\..\Desktop\Oasys.SDK.References\SharpDX.Direct3D9.dll</HintPath>
       </Reference>
       <Reference Include="SharpDX.Mathematics">
-        <HintPath>B:\Users\aliniti\Desktop\Oasys.References\SharpDX.Mathematics.dll</HintPath>
+        <HintPath>..\..\..\..\Desktop\Oasys.SDK.References\SharpDX.Mathematics.dll</HintPath>
       </Reference>
     </ItemGroup>
-
 </Project>
