@@ -2,11 +2,10 @@
 {
     using System.Threading.Tasks;
     using System.Collections.Generic;
-    using Helpers;
+
     using Oasys.Common;
     using Oasys.Common.Extensions;
     using Oasys.Common.GameObject.Clients;
-    using Oasys.Common.GameObject.ObjectClass;
     using Oasys.SDK;
     using Oasys.SDK.Events;
 
@@ -47,7 +46,4 @@
                 Instance.UnitComponentInfo.UnitBoundingRadius + currentSpell.SpellData.SpellWidth;
         }
     }
-    
-    
-    
 }
