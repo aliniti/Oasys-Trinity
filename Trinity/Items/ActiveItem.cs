@@ -57,11 +57,17 @@
 
             if (ActivationTypes.Contains(Enums.ActivationType.CheckOnlyOnMe))
             {
-                if (!UnitManager.MyChampion.BuffManager.HasBuff(ItemBuffName))
+                var myChampionOnly = Bootstrap.Allies.Select(x => x.Value)
+                    .FirstOrDefault(x => x.Instance.NetworkID == UnitManager.MyChampion.NetworkID);
+
+                if (myChampionOnly != null)
                 {
-                    this.ItemCheckAllyLowHealth(UnitManager.MyChampion);
-                    this.ItemCheckAllyLowMana(UnitManager.MyChampion);
-                    this.ItemCheckAuras(UnitManager.MyChampion);
+                    if (!UnitManager.MyChampion.BuffManager.HasBuff(ItemBuffName) && myChampionOnly.InWayDanger)
+                    {
+                        this.ItemCheckAllyLowHealth(myChampionOnly.Instance);
+                        this.ItemCheckAllyLowMana(myChampionOnly.Instance);
+                        this.ItemCheckAuras(myChampionOnly.Instance);
+                    }
                 }
             }
             else

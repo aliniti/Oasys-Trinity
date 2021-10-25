@@ -55,8 +55,14 @@
 
             if (ActivationTypes.Contains(Enums.ActivationType.CheckOnlyOnMe))
             {
-                this.SpellCheckAllyLowHealth(UnitManager.MyChampion);
-                this.SpellCheckAllyLowMana(UnitManager.MyChampion);
+                var myChampionOnly = Bootstrap.Allies.Select(x => x.Value)
+                    .FirstOrDefault(x => x.Instance.NetworkID == UnitManager.MyChampion.NetworkID);
+
+                if (myChampionOnly != null && myChampionOnly.InWayDanger)
+                {
+                    this.SpellCheckAllyLowHealth(myChampionOnly.Instance);
+                    this.SpellCheckAllyLowMana(myChampionOnly.Instance);
+                }
             }
             else
             {

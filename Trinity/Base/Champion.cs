@@ -8,6 +8,7 @@
     using Oasys.Common.GameObject.Clients;
     using Oasys.SDK;
     using Oasys.SDK.Events;
+    using Oasys.SDK.Tools;
 
     public class Champion
     {
@@ -35,19 +36,27 @@
         public void CheckProjectionSegment(AIBaseClient unit)
         {
             if (unit.Team == UnitManager.MyChampion.Team) return;
-            if (unit.IsAlive == false || !unit.IsCastingSpell) return;
-                
-            var currentSpell = unit.GetCurrentCastingSpell();
-            var startTime = currentSpell.CastStartTime * 1000;
-            var gameTime = GameEngine.GameTime * 1000;
-            var spellTick = Math.Max(0, gameTime - startTime);
-            var spellWidth = Math.Max(100, currentSpell.SpellData.SpellWidth);
+            if (unit.IsAlive)
+            {
+                if (unit.IsCastingSpell)
+                {
+                    var currentSpell = unit.GetCurrentCastingSpell();
+                    var startTime = currentSpell.CastStartTime * 1000;
+                    var gameTime = GameEngine.GameTime * 1000;
+                    var spellTick = Math.Max(0, gameTime - startTime);
+                    var spellWidth = Math.Max(0, currentSpell.SpellData.SpellWidth);
 
-            var proj = Instance.Position.ProjectOn(
-                currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
+                    var proj = Instance.Position.ProjectOn(
+                        currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
 
-            InWayDanger = proj.IsOnSegment && spellTick < 1000 && Instance.Position.Distance(proj.SegmentPoint) <=
-                Instance.UnitComponentInfo.UnitBoundingRadius + spellWidth;
+                    InWayDanger = proj.IsOnSegment && spellTick < 1000 && Instance.Position.Distance(proj.SegmentPoint) <=
+                        Instance.UnitComponentInfo.UnitBoundingRadius + spellWidth;
+                }
+                else
+                {
+                    InWayDanger = false;
+                }
+            }
         }
     }
 }
