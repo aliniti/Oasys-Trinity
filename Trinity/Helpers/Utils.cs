@@ -12,7 +12,6 @@
     using Spells;
     using Items;
     using Base;
-    
 
     public static class Utils
     {
@@ -92,13 +91,16 @@
 
             if (item.TargetingType.ToString().Contains("Proximity"))
             {
-                ItemCastProvider.CastItem(item.ItemId);
-                item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                if (item.SpellClass.IsSpellReady)
+                {
+                    ItemCastProvider.CastItem(item.ItemId);
+                    item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                }
             }
 
             if (item.TargetingType.ToString().Contains("Unit"))
             {
-                if (unit != null)
+                if (unit != null && item.SpellClass.IsSpellReady)
                 {
                     ItemCastProvider.CastItem(item.ItemId, unit.Position);
                     item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
@@ -107,7 +109,7 @@
 
             if (item.TargetingType.ToString().Contains("Skillshot"))
             {
-                if (unit != null)
+                if (unit != null && item.SpellClass.IsSpellReady)
                 {
                     ItemCastProvider.CastItem(item.ItemId, unit.Position);
                     item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);

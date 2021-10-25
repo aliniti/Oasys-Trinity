@@ -5,11 +5,12 @@
     using Oasys.Common.Enums.GameEnums;
     using Oasys.Common.EventsProvider;
     using Oasys.Common.GameObject.Clients.ExtendedInstances;
+    using Oasys.Common.GameObject.Clients.ExtendedInstances.Spells;
     using Oasys.Common.GameObject.ObjectClass;
     using Oasys.Common.Menu;
     using Oasys.Common.Menu.ItemComponents;
+    using Oasys.SDK;
     using Oasys.SDK.Tools;
-    using static Oasys.SDK.UnitManager;
 
     public delegate void OnItemInitialize();
     public delegate void OnItemDispose();
@@ -36,14 +37,14 @@
         
         public Dictionary<string, Switch> ItemSwitch = new();
         public Dictionary<string, Counter> ItemCounter = new();
-        private HeroInventory.Item ItemSpell { get; set; }
 
- 
+        public SpellClass SpellClass { get; set; }
+
         public void Initialize(Tab parentTab)
         {
             ItemTab = parentTab;
 
-            if (MyChampion.Inventory.HasItem(ItemId))
+            if (UnitManager.MyChampion.Inventory.HasItem(ItemId))
                 InitializeItem();
             else
                 DisposeItem();
@@ -60,9 +61,11 @@
 
             _initialized = true;
             _disposed = false;
-            //Logger.Log("Initialized " + ItemId);
+            Logger.Log("Initialized " + ItemId);
 
-            ItemSpell = MyChampion.Inventory.GetItemByID(ItemId);
+            var itemSlot = UnitManager.MyChampion.Inventory.GetItemByID(ItemId).Slot;
+
+            SpellClass = UnitManager.MyChampion.GetSpellBook().GetSpellClass((SpellSlot) itemSlot + 6);
             OnItemInitialize?.Invoke();
         }
 
@@ -72,9 +75,9 @@
 
             _initialized = false;
             _disposed = true;
-            //Logger.Log("Disposed " + ItemId);
+            Logger.Log("Disposed " + ItemId);
 
-            ItemSpell = null;
+            SpellClass = null;
             OnItemDispose?.Invoke();
         }
 

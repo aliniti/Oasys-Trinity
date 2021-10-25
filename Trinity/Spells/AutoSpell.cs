@@ -65,7 +65,7 @@
                     var hero = u.Value;
                     if (hero.Instance.Team == UnitManager.MyChampion.Team)
                     {
-                        if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range)
+                        if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range && hero.InWayDanger)
                         {
                             this.SpellCheckAllyLowHealth(hero.Instance);
                             this.SpellCheckAllyLowMana(hero.Instance);
