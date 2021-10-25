@@ -12,10 +12,12 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Spells;
+    using Base;
+    using Oasys.SDK;
 
     public class Bootstrap
     {
-        public static Dictionary<uint, Champion> AllChampions = new();
+        public static Dictionary<uint, Champion> Allies = new();
 
         private static List<ActiveItemBase> AllItems = new();
         private static List<AutoSpellBase> AllSpells = new();
@@ -288,10 +290,13 @@
 
             foreach (var unit in ObjectManagerExport.HeroCollection)
             {
-                if (unit.Value is AIHeroClient hero && AllChampions.ContainsKey(hero.NetworkID) == false)
+                if (unit.Value is AIHeroClient hero && Allies.ContainsKey(hero.NetworkID) == false)
                 {
-                    AllChampions[hero.NetworkID] = new Champion(hero);
-                    break;
+                    if (hero.Team == UnitManager.MyChampion.Team)
+                    {
+                        Allies[hero.NetworkID] = new Champion(hero);
+                        break;
+                    }
                 }
             }
         }

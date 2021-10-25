@@ -2,15 +2,20 @@
 {
     using System.Threading.Tasks;
     using System.Collections.Generic;
+    using Helpers;
+    using Oasys.Common;
+    using Oasys.Common.Extensions;
     using Oasys.Common.GameObject.Clients;
+    using Oasys.Common.GameObject.ObjectClass;
+    using Oasys.SDK;
     using Oasys.SDK.Events;
 
     public class Champion
     {
+        public bool InWay { get; set; }
         public AIHeroClient Instance { get; set; }
         public Dictionary<string, int> AuraInfo;
-        public Dictionary<uint, Spell> ActiveSpells = new();
-
+        
         public Champion(AIHeroClient instance)
         {
             Instance = instance;
@@ -21,15 +26,28 @@
 
         private async Task CoreEvents_OnCoreMainTick()
         {
-            if (Instance != null && Instance.IsAlive && Instance.IsCastingSpell)
+            foreach (var u in ObjectManagerExport.HeroCollection)
             {
-                ActiveSpells[Instance.NetworkID] = new Spell();
+                var unit = u.Value;
+                CheckProjectionSegment(unit);
             }
         }
 
-        internal void IsGettingHitBySpell()
+        public void CheckProjectionSegment(AIBaseClient unit)
         {
+            if (unit.Team == UnitManager.MyChampion.Team) return;
+            if (unit.IsAlive == false || !unit.IsCastingSpell) return;
+                
+            var currentSpell = unit.GetCurrentCastingSpell();
 
+            var proj = Instance.Position.ProjectOn(
+                currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
+
+            InWay = proj.IsOnSegment && Instance.Position.Distance(proj.SegmentPoint) <=
+                Instance.UnitComponentInfo.UnitBoundingRadius + currentSpell.SpellData.SpellWidth;
         }
     }
+    
+    
+    
 }

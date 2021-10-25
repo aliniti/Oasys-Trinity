@@ -2,6 +2,7 @@
 {
     using Oasys.SDK;
     using Oasys.SDK.SpellCasting;
+    using Oasys.Common;
     using Oasys.Common.Enums.GameEnums;
     using Oasys.Common.Extensions;
     using Oasys.Common.GameObject.Clients;
@@ -10,7 +11,8 @@
     using System.Linq;
     using Spells;
     using Items;
-    using Oasys.SDK.Tools;
+    using Base;
+    
 
     public static class Utils
     {
@@ -26,6 +28,12 @@
             return hero is { IsAlive: true };
         }
 
+        public static AIHeroClient GetHeroByNetworkId(uint networkId)
+        {
+            return ObjectManagerExport.HeroCollection
+                .Select(n => n.Value).FirstOrDefault(x => x.NetworkID == networkId);
+        }
+
         #endregion
 
         #region Tidy : Clustered Units
@@ -34,7 +42,7 @@
         {
             IEnumerable<AIBaseClient> aiUnits = units as AIBaseClient[] ?? units.ToArray();
 
-            if (units != null && aiUnits.Any())
+            if (aiUnits.Any())
             {
                 var firstOrDefault = (from u in aiUnits 
                     select new { Count = GetRadiusClusterCount(u, aiUnits, clusterRange),
@@ -193,7 +201,7 @@
         {
             if (item.ActivationTypes.Contains(Enums.ActivationType.CheckAuras))
             {
-                var champObj = Bootstrap.AllChampions
+                var champObj = Bootstrap.Allies
                     .FirstOrDefault(x => x.Value.Instance.NetworkID == hero.NetworkID).Value;
                 
                 if (champObj?.Instance == null)

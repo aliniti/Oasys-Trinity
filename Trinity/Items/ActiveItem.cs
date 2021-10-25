@@ -66,7 +66,7 @@
             }
             else
             {
-                foreach (var u in Bootstrap.AllChampions)
+                foreach (var u in Bootstrap.Allies)
                 {
                     var hero = u.Value;
                     if (hero.Instance.Team == UnitManager.MyChampion.Team)
