@@ -117,7 +117,7 @@
 
             // item: Seraphs_Embrace
             new ActiveItem(55, ItemID.Seraphs_Embrace, Enums.TargetingType.ProximityAlly, float.MaxValue,
-                new[] { Enums.ActivationType.CheckAllyLowHP }),
+                new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckOnlyOnMe }),
         };
 
         private static readonly List<ActiveItem> OffensiveItems = new()
