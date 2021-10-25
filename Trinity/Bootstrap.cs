@@ -37,6 +37,7 @@
         {
             AllSpells.AddRange(AutoSpells);
             AllItems.AddRange(ConsumableItems);
+            AllItems.AddRange(DefensiveItems);
             AllItems.AddRange(CleanseItems);
             AllItems.AddRange(OffensiveItems);
             AllItems.AddRange(KleptoItems);
@@ -94,6 +95,29 @@
             // item: Pilfered_Health_Potion
             new ActiveItem(100, ItemID.Pilfered_Health_Potion, Enums.TargetingType.ProximityAlly, 
                 float.MaxValue, new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckOnlyOnMe })
+        };
+
+        private static readonly List<ActiveItem> DefensiveItems = new()
+        {
+            // item: Stopwatch
+            new ActiveItem(40, ItemID.Stopwatch, Enums.TargetingType.ProximityAlly, 1200,
+                new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckOnlyOnMe }),
+
+            // item: Zhonyas_Hourglass
+            new ActiveItem(40, ItemID.Zhonyas_Hourglass, Enums.TargetingType.ProximityAlly, 1200,
+                new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckOnlyOnMe }),
+
+            // item: Locket_of_the_Iron_Solari
+            new ActiveItem(65, ItemID.Locket_of_the_Iron_Solari, Enums.TargetingType.ProximityAlly, 600,
+                new[] { Enums.ActivationType.CheckAllyLowHP }),
+
+            // item: Redemption
+            new ActiveItem(35, ItemID.Redemption, Enums.TargetingType.ProximityAlly, float.MaxValue,
+                new[] { Enums.ActivationType.CheckAllyLowHP }),
+
+            // item: Seraphs_Embrace
+            new ActiveItem(55, ItemID.Seraphs_Embrace, Enums.TargetingType.ProximityAlly, float.MaxValue,
+                new[] { Enums.ActivationType.CheckAllyLowHP }),
         };
 
         private static readonly List<ActiveItem> OffensiveItems = new()
@@ -250,18 +274,33 @@
 
         private static void Initialize()
         {
+            #region Tidy: Defensive Item Menu
+
+            var defensiveItemMenu = new Tab("Trinity: Defensive");
+
+            foreach (var item in DefensiveItems)
+            {
+                item.OnItemInitialize += () => InitializedTickItems.Add(item);
+                item.OnItemDispose += () => InitializedTickItems.Remove(item);
+                item.Initialize(defensiveItemMenu);
+            }
+
+            MenuManager.AddTab(defensiveItemMenu);
+
+            #endregion
+
             #region Tidy : Offensive Item Menu
 
-            var offensseItemMenu = new Tab("Trinity: Offense");
+            var offensiveItemMenu = new Tab("Trinity: Offensive");
 
             foreach (var item in OffensiveItems)
             {
                 item.OnItemInitialize += () => InitializedInputItems.Add(item);
                 item.OnItemDispose += () => InitializedInputItems.Remove(item);
-                item.Initialize(offensseItemMenu);
+                item.Initialize(offensiveItemMenu);
             }
 
-            MenuManager.AddTab(offensseItemMenu);
+            MenuManager.AddTab(offensiveItemMenu);
             #endregion
 
             #region Tidy : Cosumable Item Menu
