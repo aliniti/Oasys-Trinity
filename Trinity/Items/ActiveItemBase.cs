@@ -86,7 +86,10 @@
         {
             if (updatedItem.ID == this.ItemId)
             {
-                DisposeItem();
+                if (heroUpdatingItem.NetworkID == UnitManager.MyChampion.NetworkID)
+                {
+                    DisposeItem();
+                }
             }
         }
 
@@ -95,7 +98,10 @@
         {
             if (updatedItem.ID == this.ItemId)
             {
-                InitializeItem();
+                if (heroUpdatingItem.NetworkID == UnitManager.MyChampion.NetworkID)
+                {
+                    InitializeItem();
+                }
             }
         }
 

@@ -3,10 +3,9 @@
     using Helpers;
     using Oasys.SDK;
     using Oasys.Common.Enums.GameEnums;
+    using Oasys.Common.GameObject.Clients;
     using Oasys.Common.Extensions;
     using System.Linq;
-    using Oasys.Common.GameObject.Clients;
-    using Oasys.SDK.Tools;
 
     public class ActiveItem : ActiveItemBase
     {

@@ -46,8 +46,7 @@
                     var spellTick = Math.Max(0, gameTime - startTime);
                     var spellWidth = Math.Max(0, currentSpell.SpellData.SpellWidth);
 
-                    var proj = Instance.Position.ProjectOn(
-                        currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
+                    var proj = Instance.Position.ProjectOn(currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
 
                     InWayDanger = proj.IsOnSegment && spellTick < 1000 && Instance.Position.Distance(proj.SegmentPoint) <=
                         Instance.UnitComponentInfo.UnitBoundingRadius + spellWidth;
