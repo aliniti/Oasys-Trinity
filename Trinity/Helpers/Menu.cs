@@ -82,6 +82,51 @@
 
         #endregion
 
+        #region Ignite Tabs
+
+        public static void CreateIgniteTabs(this AutoSpell spell)
+        {
+            spell.SpellSwitch["igcombo"] = new Switch()
+            {
+                IsOn = true,
+                Title = "Use Ignite on Combo"
+            };
+
+            spell.SpellTab.AddItem(spell.SpellSwitch["igcombo"]);
+            
+            spell.SpellCounter["igminhp"] = new Counter
+            {
+                Title = "Min Target HP % <=",
+                MaxValue = 100,
+                MinValue = 5,
+                Value = 15,
+                ValueFrequency = 5
+            };
+
+            spell.SpellTab.AddItem(spell.SpellCounter["igminhp"]);
+
+            spell.SpellCounter["igmaxhp"] = new Counter
+            {
+                Title = "Max Target HP % <=",
+                MaxValue = 100,
+                MinValue = 5,
+                Value = 70,
+                ValueFrequency = 5
+            };
+
+            spell.SpellTab.AddItem(spell.SpellCounter["igmaxhp"]);
+
+            spell.SpellSwitch["igks"] = new Switch()
+            {
+                IsOn = true,
+                Title = "Use Ignite to KS"
+            };
+
+            spell.SpellTab.AddItem(spell.SpellSwitch["igks"]);
+        }
+
+        #endregion
+
         #region Item Tabs
 
         public static void CreateItemTabEnableSwitch(this ActiveItem item)

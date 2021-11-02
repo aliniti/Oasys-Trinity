@@ -7,7 +7,6 @@
     using Oasys.Common.Menu.ItemComponents;
     using Oasys.SDK;
     using Oasys.SDK.SpellCasting;
-    using Oasys.SDK.Tools;
 
     public delegate void OnSpellInitialize();
     public delegate void OnSpellDispose();
@@ -45,7 +44,6 @@
                 InitializeSpell();
             else
                 DisposeSpell();
-
         }
 
         public virtual void InitializeSpell()

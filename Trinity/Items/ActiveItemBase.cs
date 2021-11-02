@@ -61,7 +61,7 @@
 
             _initialized = true;
             _disposed = false;
-            Logger.Log("Initialized " + ItemId);
+            //Logger.Log("Initialized " + ItemId);
 
             var itemSlot = UnitManager.MyChampion.Inventory.GetItemByID(ItemId).Slot;
             SpellClass = UnitManager.MyChampion.GetSpellBook().GetSpellClass((SpellSlot) itemSlot + 6);
@@ -75,8 +75,7 @@
             _initialized = false;
             _disposed = true; 
             
-            Logger.Log("Disposed " + ItemId);
-
+            //Logger.Log("Disposed " + ItemId);
             SpellClass = null;
             OnItemDispose?.Invoke();
         }
