@@ -222,18 +222,25 @@
 
             new AutoSpell(90, "Orianna", CastSlot.E, Enums.TargetingType.UnitAlly, 1100,
                 new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckPlayerMana }),
+
             new AutoSpell(90, "Diana", CastSlot.W, Enums.TargetingType.ProximityAlly, float.MaxValue,
                 new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckPlayerMana, Enums.ActivationType.CheckOnlyOnMe }),
+
             new AutoSpell(90, "Janna", CastSlot.E, Enums.TargetingType.UnitAlly, 800,
                 new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckPlayerMana }),
+
             new AutoSpell(90, "Garen", CastSlot.W, Enums.TargetingType.ProximityAlly, float.MaxValue,
                 new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckPlayerMana, Enums.ActivationType.CheckOnlyOnMe }),
+
             new AutoSpell(90, "Lulu", CastSlot.E, Enums.TargetingType.UnitAlly, 650,
                 new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckPlayerMana }),
+
             new AutoSpell(90, "Lux", CastSlot.W, Enums.TargetingType.SkillshotAlly, 1075,
                 new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckPlayerMana }),
+
             new AutoSpell(90, "Annie", CastSlot.E, Enums.TargetingType.SkillshotAlly, 800,
                 new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckPlayerMana }),
+
             new AutoSpell(90, "Nautilus", CastSlot.W, Enums.TargetingType.ProximityAlly, float.MaxValue,
                 new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckPlayerMana, Enums.ActivationType.CheckOnlyOnMe }),
 
@@ -243,16 +250,22 @@
 
             new AutoSpell(20, "Zilean", CastSlot.R, Enums.TargetingType.UnitAlly, 900,
                 new[] { Enums.ActivationType.CheckAllyLowHP }),
+
             new AutoSpell(20, "Kindred", CastSlot.R, Enums.TargetingType.UnitAlly, 400,
                 new[] { Enums.ActivationType.CheckAllyLowHP }),
+
             new AutoSpell(20, "Aatrox", CastSlot.R, Enums.TargetingType.UnitAlly, float.MaxValue,
                 new[] { Enums.ActivationType.CheckAllyLowHP }),
+
             new AutoSpell(20, "Lulu", CastSlot.R, Enums.TargetingType.UnitAlly, 900,
                 new[] { Enums.ActivationType.CheckAllyLowHP }),
+
             new AutoSpell(20, "Tryndamere", CastSlot.R, Enums.TargetingType.UnitAlly, float.MaxValue,
                 new[] { Enums.ActivationType.CheckAllyLowHP }),
+
             new AutoSpell(35, "Soraka", CastSlot.R, Enums.TargetingType.ProximityAlly, float.MaxValue,
                 new[] { Enums.ActivationType.CheckAllyLowHP }),
+
             new AutoSpell(25, "Mundo", CastSlot.R, Enums.TargetingType.ProximityAlly, float.MaxValue,
                 new[] { Enums.ActivationType.CheckAllyLowHP }),
 
