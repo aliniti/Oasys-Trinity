@@ -26,30 +26,40 @@
 
         private async Task CoreEvents_OnCoreMainTick()
         {
+            if (Instance.IsEnemy)
+            {
+                return;
+            }
+
             foreach (var u in ObjectManagerExport.HeroCollection)
             {
                 var unit = u.Value;
-                CheckProjectionSegment(unit);
+                if (unit.IsEnemy)
+                {
+                    CheckProjectionSegment(unit);
+                }
             }
         }
 
         public void CheckProjectionSegment(AIBaseClient unit)
         {
-            if (unit.Team == UnitManager.MyChampion.Team) return;
             if (unit.IsAlive)
             {
                 if (unit.IsCastingSpell)
                 {
                     var currentSpell = unit.GetCurrentCastingSpell();
-                    var startTime = currentSpell.CastStartTime * 1000;
-                    var gameTime = GameEngine.GameTime * 1000;
-                    var spellTick = Math.Max(0, gameTime - startTime);
-                    var spellWidth = Math.Max(0, currentSpell.SpellData.SpellWidth);
+                    if (currentSpell.SpellData.SpellName is not null)
+                    {
+                        var startTime = currentSpell.CastStartTime * 1000;
+                        var gameTime = GameEngine.GameTime * 1000;
+                        var spellTick = Math.Max(0, gameTime - startTime);
+                        var spellWidth = Math.Max(25, currentSpell.SpellData.SpellWidth);
 
-                    var proj = Instance.Position.ProjectOn(currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
+                        var proj = Instance.Position.ProjectOn(currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
 
-                    InWayDanger = proj.IsOnSegment && spellTick < 1000 && Instance.Position.Distance(proj.SegmentPoint) <=
-                        Instance.UnitComponentInfo.UnitBoundingRadius + spellWidth;
+                        InWayDanger = proj.IsOnSegment && spellTick < 1000 && Instance.Position.Distance(proj.SegmentPoint) <=
+                            Instance.UnitComponentInfo.UnitBoundingRadius + spellWidth;
+                    }
                 }
                 else
                 {

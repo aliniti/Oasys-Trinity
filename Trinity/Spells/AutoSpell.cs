@@ -25,6 +25,17 @@
             UsePct = usePct;
         }
 
+        public AutoSpell(int usePct, string championName, string spellName, Enums.TargetingType tType, float range,
+            Enums.ActivationType[] aType)
+        {
+            ChampionName = championName;
+            SpellName = spellName;
+            TargetingType = tType;
+            ActivationTypes = aType;
+            Range = range;
+            UsePct = usePct;
+        }
+
         public override void CreateTab()
         {
             // the enable disable switch

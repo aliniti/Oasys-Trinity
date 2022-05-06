@@ -56,20 +56,25 @@
 
             if (ActivationTypes.Contains(Enums.ActivationType.CheckOnlyOnMe))
             {
-                var myChampionOnly = Bootstrap.Allies.Select(x => x.Value)
+                var myHero = Bootstrap.Allies.Select(x => x.Value)
                     .FirstOrDefault(x => x.Instance.NetworkID == UnitManager.MyChampion.NetworkID);
 
-                if (myChampionOnly != null)
+                if (myHero != null)
                 {
-                    if (!UnitManager.MyChampion.BuffManager.HasBuff(ItemBuffName) && myChampionOnly.InWayDanger)
+                    if (!string.IsNullOrEmpty(ItemBuffName) && UnitManager.MyChampion.BuffManager.HasBuff(ItemBuffName))
                     {
-                        this.ItemCheckAllyLowHealth(myChampionOnly.Instance);
-                        this.ItemCheckAllyLowMana(myChampionOnly.Instance);
-                        this.ItemCheckAuras(myChampionOnly.Instance);
+                        return;
+                    }
+
+                    if (myHero.InWayDanger)
+                    {
+                        this.ItemCheckAllyLowHealth(myHero.Instance);
+                        this.ItemCheckAllyLowMana(myHero.Instance);
+                        this.ItemCheckAuras(myHero.Instance);
                     }
                 }
             }
-            else
+            else 
             {
                 foreach (var u in Bootstrap.Allies)
                 {

@@ -45,14 +45,20 @@
             ItemTab = parentTab;
 
             if (UnitManager.MyChampion.Inventory.HasItem(ItemId))
+            {
                 InitializeItem();
+            }
             else
+            {
                 DisposeItem();
+            }
 
-            CreateTab();
             GameEvents.OnBuyItem += GameEvents_OnBuyItem;
             GameEvents.OnSellItem += GameEvents_OnSellItem;
+
+            CreateTab();
         }
+
 
         public virtual void InitializeItem()
         {
@@ -61,7 +67,7 @@
 
             _initialized = true;
             _disposed = false;
-            //Logger.Log("Initialized " + ItemId);
+            Logger.Log("Initialized " + ItemId);
 
             var itemSlot = UnitManager.MyChampion.Inventory.GetItemByID(ItemId).Slot;
             SpellClass = UnitManager.MyChampion.GetSpellBook().GetSpellClass((SpellSlot) itemSlot + 6);

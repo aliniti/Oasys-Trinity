@@ -17,6 +17,11 @@
     {
         #region Tidy : Valid Unit
 
+        public static bool Exists(uint ownerId)
+        {
+            return Bootstrap.Enemies.ContainsKey(ownerId) && Bootstrap.Enemies[ownerId].Instance.IsAlive;
+        }
+
         public static bool ValidHero(this AIHeroClient hero)
         {
             return hero is { IsAlive: true, IsTargetable: true, IsVisible: true };
@@ -294,7 +299,6 @@
                 {
                     UseSpell(spell, unit);
                 }
-
             }
         }
 
@@ -305,8 +309,25 @@
                    spell.SpellSwitch[spell.ChampionName + spell.Slot].IsOn;
         }
 
-
         #endregion
+
+        public static void GetSpellClassByName(this AutoSpellBase spell)
+        {
+            var summonerOne = UnitManager.MyChampion.GetSpellBook().GetSpellClass(SpellSlot.Summoner1);
+            var summonerTwo = UnitManager.MyChampion.GetSpellBook().GetSpellClass(SpellSlot.Summoner2);
+
+            if (summonerOne.SpellData.SpellName == spell.SpellName)
+            {
+                spell.SpellClass = summonerOne;
+                spell.Slot = CastSlot.Summoner1;
+            }
+
+            if (summonerTwo.SpellData.SpellName == spell.SpellName)
+            {
+                spell.SpellClass = summonerTwo;
+                spell.Slot = CastSlot.Summoner2;
+            }
+        }
 
         #region Cache : Auras
 

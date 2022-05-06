@@ -17,7 +17,7 @@
                 Title = "Use " + tabName
             };
 
-            spell.SpellTab.AddItem(spell.SpellSwitch[spell.ChampionName + spell.Slot]);
+            spell.SpellTab.AddItem(spell.SpellSwitch[tabName]);
         }
 
         public static void CreateSpellTabAllyLowHP(this AutoSpell spell, int pctUse = 90)
@@ -89,14 +89,14 @@
             spell.SpellSwitch["igcombo"] = new Switch()
             {
                 IsOn = true,
-                Title = "Use Ignite on Combo"
+                Title = "Ignite on Combo"
             };
 
             spell.SpellTab.AddItem(spell.SpellSwitch["igcombo"]);
             
             spell.SpellCounter["igminhp"] = new Counter
             {
-                Title = "Min Target HP % <=",
+                Title = "Ignite Min Target HP % <=",
                 MaxValue = 100,
                 MinValue = 5,
                 Value = 15,
@@ -107,7 +107,7 @@
 
             spell.SpellCounter["igmaxhp"] = new Counter
             {
-                Title = "Max Target HP % <=",
+                Title = "Ignite Max Target HP % <=",
                 MaxValue = 100,
                 MinValue = 5,
                 Value = 70,
@@ -119,7 +119,7 @@
             spell.SpellSwitch["igks"] = new Switch()
             {
                 IsOn = true,
-                Title = "Use Ignite to KS"
+                Title = "Ignite to KS"
             };
 
             spell.SpellTab.AddItem(spell.SpellSwitch["igks"]);
@@ -134,7 +134,7 @@
             item.ItemSwitch[item.ItemId.ToString()] = new Switch
             {
                 IsOn = true,
-                Title = "Use " + item.ItemId
+                Title = "Use " + Translations.ItemNames[item.ItemId]
             };
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId.ToString()]);
@@ -144,7 +144,7 @@
         {
             item.ItemCounter[item.ItemId + "ehp"] = new Counter
             {
-                Title = "Use " + item.ItemId + " at Enemy Percent HP < (%)",
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " at Enemy Percent HP < (%)",
                 MaxValue = 100,
                 MinValue = 10,
                 Value = pctUse,
@@ -158,7 +158,7 @@
         {
             item.ItemCounter[item.ItemId + "ahp"] = new Counter
             {
-                Title = "Use " + item.ItemId + " at Ally Percent HP < (%)",
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " at Ally Percent HP < (%)",
                 MaxValue = 100,
                 MinValue = 10,
                 Value = pctUse,
@@ -172,7 +172,7 @@
         {
             item.ItemCounter[item.ItemId + "amp"] = new Counter
             {
-                Title = "Use " + item.ItemId + " at Ally Percent MP < (%)",
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " at Ally Percent MP < (%)",
                 MaxValue = 100,
                 MinValue = 10,
                 Value = pctUse,
@@ -187,111 +187,111 @@
             item.ItemSwitch[item.ItemId + "Ignite"] = new()
             {
                 IsOn = true,
-                Title = "Use " + item.ItemId + " -> Ignite"
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Ignite"
             };
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Ignite"]);
             item.ItemSwitch[item.ItemId + "Exhaust"] = new()
             {
                 IsOn = true,
-                Title = "Use " + item.ItemId + " -> Exhaust"
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Exhaust"
             };
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Exhaust"]);
             item.ItemSwitch[item.ItemId + "Suppression"] = new()
             {
                 IsOn = true,
-                Title = "Use " + item.ItemId + " -> Suppression"
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Suppression"
             };
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Suppression"]);
             item.ItemSwitch[item.ItemId + "Knockups"] = new()
             {
                 IsOn = false,
-                Title = "Use " + item.ItemId + " -> Knockups"
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Knockups"
             };
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Knockups"]);
             item.ItemSwitch[item.ItemId + "Sleep"] = new()
             {
                 IsOn = true,
-                Title = "Use " + item.ItemId + " -> Sleep"
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Sleep"
             };
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Sleep"]);
             item.ItemSwitch[item.ItemId + "Stuns"] = new()
             {
                 IsOn = true,
-                Title = "Use " + item.ItemId + " -> Stuns"
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Stuns"
             };
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Stuns"]);
             item.ItemSwitch[item.ItemId + "Charms"] = new()
             {
                 IsOn = true,
-                Title = "Use " + item.ItemId + " -> Charms"
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Charms"
             };
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Charms"]);
             item.ItemSwitch[item.ItemId + "Taunts"] = new()
             {
                 IsOn = true,
-                Title = "Use " + item.ItemId + " -> Taunts"
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Taunts"
             };
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Taunts"]);
             item.ItemSwitch[item.ItemId + "Fear"] = new()
             {
                 IsOn = true,
-                Title = "Use " + item.ItemId + " -> Fear"
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Fear"
             };
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Fear"]);
             item.ItemSwitch[item.ItemId + "Snares"] = new()
             {
                 IsOn = true,
-                Title = "Use " + item.ItemId + " -> Snares"
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Snares"
             };
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Snares"]);
             item.ItemSwitch[item.ItemId + "Polymorphs"] = new()
             {
                 IsOn = true,
-                Title = "Use " + item.ItemId + " -> Polymorphs"
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Polymorphs"
             };
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Polymorphs"]);
             item.ItemSwitch[item.ItemId + "Silence"] = new()
             {
                 IsOn = false,
-                Title = "Use " + item.ItemId + " -> Silence"
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Silence"
             };
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Silence"]);
             item.ItemSwitch[item.ItemId + "Blinds"] = new()
             {
                 IsOn = false,
-                Title = "Use " + item.ItemId + " -> Blinds"
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Blinds"
             };
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Blinds"]);
             item.ItemSwitch[item.ItemId + "Slows"] = new()
             {
                 IsOn = false,
-                Title = "Use " + item.ItemId + " -> Slows"
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Slows"
             };
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Slows"]);
             item.ItemSwitch[item.ItemId + "Poison"] = new()
             {
                 IsOn = false,
-                Title = "Use " + item.ItemId + " -> Posion"
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Posion"
             };
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Poison"]);
             item.ItemCounter[item.ItemId + "MinimumBuffs"] = new Counter
             {
-                Title = item.ItemId + " -> Minimum Buffs to Use",
+                Title = Translations.ItemNames[item.ItemId] + " -> Minimum Buffs to Use",
                 MaxValue = 5,
                 MinValue = 1,
                 Value = 1,
@@ -301,7 +301,7 @@
             item.ItemTab.AddItem(item.ItemCounter[item.ItemId + "MinimumBuffs"]);
             item.ItemCounter[item.ItemId + "MinimumBuffsDuration"] = new Counter
             {
-                Title = item.ItemId + " -> Minimum Buff Duration (in ms)",
+                Title = Translations.ItemNames[item.ItemId] + " -> Minimum Buff Duration (in ms)",
                 MaxValue = 2000,
                 MinValue = 250,
                 Value = 250,
@@ -312,13 +312,13 @@
             item.ItemSwitch[item.ItemId + "SwitchMinimumBuffHP"] = new()
             {
                 IsOn = false,
-                Title = "Use " + item.ItemId + " -> Enable Minimum HP (%) to Use"
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Enable Minimum HP (%) to Use"
             };
 
             item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "SwitchMinimumBuffHP"]);
             item.ItemCounter[item.ItemId + "MinimumBuffsHP"] = new Counter
             {
-                Title = item.ItemId + " -> Minimum HP (%) to Use",
+                Title = Translations.ItemNames[item.ItemId] + " -> Minimum HP (%) to Use",
                 MaxValue = 100,
                 MinValue = 20,
                 Value = 100,

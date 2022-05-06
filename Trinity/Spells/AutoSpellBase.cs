@@ -1,12 +1,14 @@
 ﻿namespace Trinity.Spells
 {
-    using System.Collections.Generic;
+    using Oasys.SDK;
+    using Oasys.SDK.SpellCasting;
+    using Oasys.SDK.Tools;
     using Oasys.Common.Enums.GameEnums;
     using Oasys.Common.GameObject.Clients.ExtendedInstances.Spells;
     using Oasys.Common.Menu;
     using Oasys.Common.Menu.ItemComponents;
-    using Oasys.SDK;
-    using Oasys.SDK.SpellCasting;
+    using System.Collections.Generic;
+    using Helpers;
 
     public delegate void OnSpellInitialize();
     public delegate void OnSpellDispose();
@@ -29,6 +31,7 @@
 
         public Tab SpellTab { get; set; }
         public string ChampionName { get; set; }
+        public string SpellName { get; set; }
         public CastSlot Slot { get; set; }
         public float Range { get; set; }
 
@@ -41,9 +44,18 @@
             SpellTab = parentTab;
 
             if (UnitManager.MyChampion.ModelName == ChampionName)
+            {
                 InitializeSpell();
-            else
-                DisposeSpell();
+            }
+            else switch (string.IsNullOrEmpty(SpellName))
+            {
+                case false:
+                    InitializeSpell();
+                    break;
+                default:
+                    DisposeSpell();
+                    break;
+            }
         }
 
         public virtual void InitializeSpell()
@@ -56,10 +68,26 @@
             _disposed = false;
             _initialized = true;
 
-            CreateTab();
-            //Logger.Log("Initialized " + ChampionName + " " + Slot);
-            SpellClass = UnitManager.MyChampion.GetSpellBook().GetSpellClass((SpellSlot) Slot - 16);
-            OnSpellInitialize?.Invoke();
+            switch (string.IsNullOrEmpty(SpellName))
+            {
+                case false:
+                    this.GetSpellClassByName();
+                    break;
+                default:
+                    SpellClass = UnitManager.MyChampion.GetSpellBook().GetSpellClass((SpellSlot) Slot - 16);
+                    break;
+            }
+
+            if (SpellClass != null)
+            {
+                CreateTab();
+                OnSpellInitialize?.Invoke();
+                Logger.Log("Initialized " + ChampionName + " " + Slot);
+            }
+            else
+            {
+                DisposeSpell();
+            }
         }
 
         public virtual void DisposeSpell()

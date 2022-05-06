@@ -221,3 +221,5 @@ pip-log.txt
 *.ipdb
 #*.dll
 *.v2
+*.v1
+Trinity/.editorconfig
