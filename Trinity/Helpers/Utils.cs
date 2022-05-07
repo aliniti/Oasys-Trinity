@@ -200,6 +200,30 @@
             }
         }
 
+        public static void ItemCheckAoECount(this ActiveItem item, AIHeroClient unit)
+        {
+            if (item.ActivationTypes.Contains(Enums.ActivationType.CheckAoECount))
+            {
+                if (item.TargetingType.ToString().Contains("Ally"))
+                {
+                    var unitCount = unit.GetRadiusClusterCount(UnitManager.AllyChampions, item.Range);
+                    if (unitCount >= item.ItemCounter[item.ItemId + "aoe"].Value)
+                    {
+                        UseItem(item, unit);
+                    }
+                }
+
+                if (item.TargetingType.ToString().Contains("Enemy"))
+                {
+                    var unitCount = unit.GetRadiusClusterCount(UnitManager.EnemyChampions, item.Range);
+                    if (unitCount >= item.ItemCounter[item.ItemId + "aoe"].Value)
+                    {
+                        UseItem(item, unit);
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region Tidy : Item Aura Check

@@ -11,12 +11,13 @@
     {
         public int UsePct { get; set; }
         public int LastUsedTimeStamp { get; set; }
+        public float Range { get; set; }
         public Enums.ActivationType[] ActivationTypes { get; set; }
         public string ItemBuffName { get; set; }
         public Enums.TargetingType TargetingType { get; set; }
 
-        public ActiveItem(int usePct, ItemID itemId, Enums.TargetingType tType, float range, Enums.ActivationType[] aTypes, 
-            string itemBuffName = "")
+        public ActiveItem(int usePct, ItemID itemId, Enums.TargetingType tType, float range, Enums.ActivationType[] aTypes,
+            string itemBuffName = null)
         {
             UsePct = usePct;
             TargetingType = tType;
@@ -42,6 +43,9 @@
 
             if (ActivationTypes.Contains(Enums.ActivationType.CheckAuras))
                 this.CreateItemTabAuraCleanse(UsePct);
+
+            if (ActivationTypes.Contains(Enums.ActivationType.CheckAoECount))
+                this.CreateItemCheckAoECount();
         }
 
         public override void OnTick()
@@ -61,7 +65,7 @@
 
                 if (myHero != null)
                 {
-                    if (!string.IsNullOrEmpty(ItemBuffName) && UnitManager.MyChampion.BuffManager.HasBuff(ItemBuffName))
+                    if (ItemBuffName != null && UnitManager.MyChampion.BuffManager.HasBuff(ItemBuffName))
                     {
                         return;
                     }
@@ -72,6 +76,8 @@
                         this.ItemCheckAllyLowMana(myHero.Instance);
                         this.ItemCheckAuras(myHero.Instance);
                     }
+
+                    this.ItemCheckAoECount(myHero.Instance);
                 }
             }
             else 
@@ -81,12 +87,22 @@
                     var hero = u.Value;
                     if (hero.Instance.Team == UnitManager.MyChampion.Team)
                     {
-                        if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range && hero.InWayDanger)
+                        if (ItemBuffName != null && hero.Instance.BuffManager.HasBuff(ItemBuffName))
                         {
-                            this.ItemCheckAllyLowHealth(hero.Instance);
-                            this.ItemCheckAllyLowMana(hero.Instance);
-                            this.ItemCheckAuras(hero.Instance);
+                            return;
                         }
+
+                        if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range)
+                        {
+                            if (hero.InWayDanger)
+                            {
+                                this.ItemCheckAllyLowHealth(hero.Instance);
+                                this.ItemCheckAllyLowMana(hero.Instance);
+                                this.ItemCheckAuras(hero.Instance);
+                            }
+                        }
+
+                        this.ItemCheckAoECount(hero.Instance);
                     }
                 }
             }

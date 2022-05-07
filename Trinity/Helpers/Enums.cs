@@ -9,7 +9,8 @@
             CheckAllyLowMP,
             CheckAllyLowHP,
             CheckEnemyLowHP,
-            CheckAuras
+            CheckAuras,
+            CheckAoECount
         }
 
         public enum TargetingType

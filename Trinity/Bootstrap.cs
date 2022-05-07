@@ -16,6 +16,7 @@
     using Oasys.SDK.SpellCasting;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Oasys.SDK.Tools;
 
     public class Bootstrap
     {
@@ -85,27 +86,62 @@
                 new[] { Enums.ActivationType.CheckAllyLowHP }),
 
             // item: Redemption
-            new ActiveItem(35, ItemID.Redemption, Enums.TargetingType.ProximityAlly, float.MaxValue,
+            new ActiveItem(35, ItemID.Redemption, Enums.TargetingType.ProximityAlly, 5500,
                 new[] { Enums.ActivationType.CheckAllyLowHP }),
 
             // item: Seraphs_Embrace
             new ActiveItem(55, ItemID.Seraphs_Embrace, Enums.TargetingType.ProximityAlly, float.MaxValue,
-                new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckOnlyOnMe })
+                new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckOnlyOnMe }),
+
+            // item: Shurelyas_Battlesong
+            new ActiveItem(55, ItemID.Shurelyas_Battlesong, Enums.TargetingType.ProximityAlly, 450,
+                new[] { Enums.ActivationType.CheckEnemyLowHP, Enums.ActivationType.CheckAllyLowHP }),
+
+            // item: Gargoyle_Stoneplate
+            new ActiveItem(2, ItemID.Gargoyle_Stoneplate, Enums.TargetingType.ProximityEnemy, 450,
+                new[] { Enums.ActivationType.CheckAoECount, Enums.ActivationType.CheckOnlyOnMe }),
         };
 
         private static readonly List<ActiveItem> OffensiveItems = new()
         {
+            // item: Ironspike_Whip
+            new ActiveItem(90, ItemID.Ironspike_Whip, Enums.TargetingType.ProximityEnemy, 450,
+                new[] { Enums.ActivationType.CheckEnemyLowHP, Enums.ActivationType.CheckAoECount, 
+                    Enums.ActivationType.CheckOnlyOnMe }),
+
+            // item: Stridebreaker
+            new ActiveItem(90, ItemID.Stridebreaker, Enums.TargetingType.ProximityEnemy, 450,
+                new[] { Enums.ActivationType.CheckEnemyLowHP, Enums.ActivationType.CheckAoECount, 
+                    Enums.ActivationType.CheckOnlyOnMe }),
+
+            // item: Goredrinker
+            new ActiveItem(90, ItemID.Goredrinker, Enums.TargetingType.ProximityEnemy, 450,
+                new[] { Enums.ActivationType.CheckEnemyLowHP, Enums.ActivationType.CheckAoECount, 
+                    Enums.ActivationType.CheckOnlyOnMe }),
+
+            // item: Prowlers_Claw
+            new ActiveItem(90, ItemID.Prowlers_Claw, Enums.TargetingType.UnitEnemy, 500,
+                new[] { Enums.ActivationType.CheckEnemyLowHP, Enums.ActivationType.CheckOnlyOnMe }),
+
+            // item: Everfrost
+            new ActiveItem(90, ItemID.Everfrost, Enums.TargetingType.SkillshotEnemy, 525,
+                new[] { Enums.ActivationType.CheckEnemyLowHP, Enums.ActivationType.CheckOnlyOnMe }),
+
             // item: Youmuus_Ghostblade
             new ActiveItem(90, ItemID.Youmuus_Ghostblade, Enums.TargetingType.ProximityEnemy, 1100,
-                new[] { Enums.ActivationType.CheckEnemyLowHP }),
+                new[] { Enums.ActivationType.CheckEnemyLowHP, Enums.ActivationType.CheckOnlyOnMe }),
 
             // item: Blade_of_the_Ruined_King
             new ActiveItem(90, ItemID.Blade_of_The_Ruined_King, Enums.TargetingType.UnitEnemy, 575,
                 new[] { Enums.ActivationType.CheckEnemyLowHP, Enums.ActivationType.CheckOnlyOnMe }),
 
             // item: Hextech_Protobelt_RocketBelt
-            new ActiveItem(90, ItemID.Hextech_Rocketbelt, Enums.TargetingType.SkillshotEnemy, 575,
+            new ActiveItem(75, ItemID.Hextech_Rocketbelt, Enums.TargetingType.SkillshotEnemy, 575,
                 new[] { Enums.ActivationType.CheckEnemyLowHP, Enums.ActivationType.CheckOnlyOnMe }),
+
+            // item: Randuins_Omen
+            new ActiveItem(2, ItemID.Randuins_Omen, Enums.TargetingType.ProximityEnemy, 450,
+                new[] { Enums.ActivationType.CheckAoECount, Enums.ActivationType.CheckOnlyOnMe }),
         };
 
         private static readonly List<ActiveItem> CleanseItems = new()
@@ -120,28 +156,32 @@
 
             // item: Mikaels_Crucible
             new ActiveItem(20, ItemID.Mikaels_Blessing, Enums.TargetingType.UnitAlly, 600,
-                new[] { Enums.ActivationType.CheckAuras, Enums.ActivationType.CheckAllyLowHP })
+                new[] { Enums.ActivationType.CheckAuras, Enums.ActivationType.CheckAllyLowHP }),
+
+            // item: Silvermere_Dawn
+            new ActiveItem(100, ItemID.Silvermere_Dawn, Enums.TargetingType.ProximityAlly, 1100,
+                new[] { Enums.ActivationType.CheckAuras, Enums.ActivationType.CheckOnlyOnMe }),
         };
 
         private static readonly List<ActiveItem> ConsumableItems = new()
         {
             // item: Health_Potion
-            new ActiveItem(55, ItemID.Health_Potion, Enums.TargetingType.ProximityAlly, float.MaxValue,
+            new ActiveItem(65, ItemID.Health_Potion, Enums.TargetingType.ProximityAlly, float.MaxValue,
                 new[] { Enums.ActivationType.CheckOnlyOnMe, Enums.ActivationType.CheckAllyLowHP },
                 "Item2003"),
 
             // item: Refillable_Potion
-            new ActiveItem(55, ItemID.Refillable_Potion, Enums.TargetingType.ProximityAlly, float.MaxValue,
+            new ActiveItem(65, ItemID.Refillable_Potion, Enums.TargetingType.ProximityAlly, float.MaxValue,
                 new[] { Enums.ActivationType.CheckOnlyOnMe, Enums.ActivationType.CheckAllyLowHP },
                 "ItemCrystalFlask"),
 
             // item: Corrupting_Potion
-            new ActiveItem(55, ItemID.Corrupting_Potion, Enums.TargetingType.ProximityAlly, float.MaxValue,
+            new ActiveItem(65, ItemID.Corrupting_Potion, Enums.TargetingType.ProximityAlly, float.MaxValue,
                 new[] { Enums.ActivationType.CheckOnlyOnMe, Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckAllyLowMP },
                 "ItemDarkCrystalFlask"),
 
             // item: Total_Biscuit_of_Rejuvenation
-            new ActiveItem(55, ItemID.Total_Biscuit_of_Everlasting_Will, Enums.TargetingType.ProximityAlly, float.MaxValue,
+            new ActiveItem(65, ItemID.Total_Biscuit_of_Everlasting_Will, Enums.TargetingType.ProximityAlly, float.MaxValue,
                 new[] { Enums.ActivationType.CheckOnlyOnMe, Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckAllyLowMP },
                 "Item2010"),
 
@@ -178,6 +218,9 @@
 
             new AutoSpell(35, "Heal", "SummonerHeal", Enums.TargetingType.ProximityAlly, 850,
                 new[] { Enums.ActivationType.CheckAllyLowHP }),
+
+            //new AutoSpell(35, "Cleanse", "SummonerBoost", Enums.TargetingType.ProximityAlly, 1200,
+            //    new[] { Enums.ActivationType.CheckAuras, Enums.ActivationType.CheckOnlyOnMe }),
         };
 
         private static readonly List<AutoSpell> AutoSpells = new()
@@ -379,6 +422,7 @@
                         if (!Allies.ContainsKey(hero.NetworkID))
                         {
                             Allies[hero.NetworkID] = new Champion(hero);
+                            break;
                         }
                     }
                     else
@@ -386,6 +430,7 @@
                         if (!Enemies.ContainsKey(hero.NetworkID))
                         {
                             Enemies[hero.NetworkID] = new Champion(hero);
+                            break;
                         }
                     }
                 }

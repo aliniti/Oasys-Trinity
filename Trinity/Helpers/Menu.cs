@@ -182,6 +182,20 @@
             item.ItemTab.AddItem(item.ItemCounter[item.ItemId + "amp"]);
         }
 
+        public static void CreateItemCheckAoECount(this ActiveItem item, int pctUse = 2)
+        {
+            item.ItemCounter[item.ItemId + "aoe"] = new Counter
+            {
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " when Enemies Near >=",
+                MaxValue = 5,
+                MinValue = 1,
+                Value = pctUse,
+                ValueFrequency = 1
+            };
+
+            item.ItemTab.AddItem(item.ItemCounter[item.ItemId + "aoe"]);
+        }
+
         public static void CreateItemTabAuraCleanse(this ActiveItem item, int pctUse = 100)
         {
             item.ItemSwitch[item.ItemId + "Ignite"] = new()

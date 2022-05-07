@@ -8,7 +8,6 @@
     using Oasys.Common.GameObject.Clients;
     using Oasys.SDK;
     using Oasys.SDK.Events;
-    using Oasys.SDK.Tools;
 
     public class Champion
     {
@@ -18,15 +17,15 @@
         
         public Champion(AIHeroClient instance)
         {
-            Instance = instance;
-            AuraInfo = new Dictionary<string, int>();
+            this.Instance = instance;
+            this.AuraInfo = new Dictionary<string, int>();
 
             CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
         }
 
         private async Task CoreEvents_OnCoreMainTick()
         {
-            if (Instance.IsEnemy)
+            if (this.Instance.IsEnemy)
             {
                 return;
             }
@@ -34,9 +33,22 @@
             foreach (var u in ObjectManagerExport.HeroCollection)
             {
                 var unit = u.Value;
-                if (unit.IsEnemy)
+                switch (unit.IsEnemy)
                 {
-                    CheckProjectionSegment(unit);
+                    case true:
+                        CheckProjectionSegment(unit);
+                        break;
+                }
+            }
+
+            foreach (var t in ObjectManagerExport.TurretCollection)
+            {
+                var turret = t.Value;
+                switch (turret.IsEnemy)
+                {
+                    case true:
+                        CheckProjectionSegment(turret);
+                        break;
                 }
             }
         }
@@ -53,17 +65,15 @@
                         var startTime = currentSpell.CastStartTime * 1000;
                         var gameTime = GameEngine.GameTime * 1000;
                         var spellTick = Math.Max(0, gameTime - startTime);
-                        var spellWidth = Math.Max(25, currentSpell.SpellData.SpellWidth);
 
-                        var proj = Instance.Position.ProjectOn(currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
+                        var width = currentSpell.SpellData.SpellRadius > 0 ? currentSpell.SpellData.SpellRadius : currentSpell.SpellData.SpellWidth;
+                        var spellWidth = Math.Max(50, width);
 
-                        InWayDanger = proj.IsOnSegment && spellTick < 1000 && Instance.Position.Distance(proj.SegmentPoint) <=
-                            Instance.UnitComponentInfo.UnitBoundingRadius + spellWidth;
+                        var proj = this.Instance.Position.ProjectOn(currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
+
+                        this.InWayDanger = proj.IsOnSegment && spellTick < 1000 && this.Instance.Position.Distance(proj.SegmentPoint) <=
+                            (int) (this.Instance.UnitComponentInfo.UnitBoundingRadius + spellWidth);
                     }
-                }
-                else
-                {
-                    InWayDanger = false;
                 }
             }
         }

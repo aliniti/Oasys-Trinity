@@ -32,7 +32,6 @@
         #endregion
 
         public ItemID ItemId { get; set; }
-        protected float Range { get; set; }
         public Tab ItemTab { get; set; }
         
         public Dictionary<string, Switch> ItemSwitch = new();

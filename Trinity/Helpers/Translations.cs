@@ -7,6 +7,13 @@
     {
         public static readonly Dictionary<ItemID, string> ItemNames = new()
         {
+            [ItemID.Everfrost] = "Everfrost",
+            [ItemID.Ironspike_Whip] = "Ironspike Whip",
+            [ItemID.Prowlers_Claw] = "Prowler's Claw",
+            [ItemID.Goredrinker] = "Goredrinker",
+            [ItemID.Gargoyle_Stoneplate] = "Gargoyle Stoneplate",
+            [ItemID.Stridebreaker] = "Stridebreaker",
+            [ItemID.Silvermere_Dawn] = "Silvermere Dawn",
             [ItemID.Seraphs_Embrace] = "Seraph's Embrace",
             [ItemID.Edge_of_Night] = "Edge of Night",
             [ItemID.Randuins_Omen] = "Randuin's Omen",
