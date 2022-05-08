@@ -243,17 +243,17 @@
             spell.SpellSwitch["igcombo"] = new Switch()
             {
                 IsOn = true,
-                Title = "Ignite on Combo"
+                Title = "Use Ignite"
             };
 
             spell.SpellTab.AddItem(spell.SpellSwitch["igcombo"]);
             
             spell.SpellCounter["igminhp"] = new Counter
             {
-                Title = "Ignite Min Target HP % <=",
+                Title = "Ignite Min Target HP (%)",
                 MaxValue = 100,
                 MinValue = 5,
-                Value = 15,
+                Value = 25,
                 ValueFrequency = 5
             };
 
@@ -261,7 +261,7 @@
 
             spell.SpellCounter["igmaxhp"] = new Counter
             {
-                Title = "Ignite Max Target HP % <=",
+                Title = "Ignite Max Target HP (%)",
                 MaxValue = 100,
                 MinValue = 5,
                 Value = 70,
@@ -272,7 +272,7 @@
 
             spell.SpellSwitch["igks"] = new Switch()
             {
-                IsOn = true,
+                IsOn = false,
                 Title = "Ignite to KS"
             };
 
