@@ -207,8 +207,11 @@
 
         private static readonly List<AutoSpell> SummonerInputSpells = new()
         {
-            new Ignite(100, "Ignite", "SummonerDot",Enums.TargetingType.UnitEnemy, 600, 
+            new Ignite(55, "Ignite", "SummonerDot",Enums.TargetingType.UnitEnemy, 600, 
                 new [] { Enums.ActivationType.CheckEnemyLowHP }),
+
+            new AutoSpell(55, "Exhaust", "SummonerExhaust", Enums.TargetingType.UnitEnemy, 650,
+                new[] { Enums.ActivationType.CheckEnemyLowHP, Enums.ActivationType.CheckOnlyOnMe }),
         };
 
         private static readonly List<AutoSpell> SummonerTickSpells = new()
@@ -219,8 +222,8 @@
             new AutoSpell(35, "Heal", "SummonerHeal", Enums.TargetingType.ProximityAlly, 850,
                 new[] { Enums.ActivationType.CheckAllyLowHP }),
 
-            //new AutoSpell(35, "Cleanse", "SummonerBoost", Enums.TargetingType.ProximityAlly, 1200,
-            //    new[] { Enums.ActivationType.CheckAuras, Enums.ActivationType.CheckOnlyOnMe }),
+            new AutoSpell(100, "Cleanse", "SummonerBoost", Enums.TargetingType.ProximityAlly, 1200,
+                new[] { Enums.ActivationType.CheckAuras, Enums.ActivationType.CheckOnlyOnMe }),
         };
 
         private static readonly List<AutoSpell> AutoSpells = new()
@@ -253,7 +256,7 @@
 
             #endregion
 
-            #region Anti-Lethal Spells
+            #region Anti-Kill Secure Spells
 
             new AutoSpell(20, "Zilean", CastSlot.R, Enums.TargetingType.UnitAlly, 900,
                 new[] { Enums.ActivationType.CheckAllyLowHP }),
@@ -262,19 +265,19 @@
                 new[] { Enums.ActivationType.CheckAllyLowHP }),
 
             new AutoSpell(20, "Aatrox", CastSlot.R, Enums.TargetingType.UnitAlly, float.MaxValue,
-                new[] { Enums.ActivationType.CheckAllyLowHP }),
+                new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckOnlyOnMe }),
 
             new AutoSpell(20, "Lulu", CastSlot.R, Enums.TargetingType.UnitAlly, 900,
                 new[] { Enums.ActivationType.CheckAllyLowHP }),
 
             new AutoSpell(20, "Tryndamere", CastSlot.R, Enums.TargetingType.UnitAlly, float.MaxValue,
-                new[] { Enums.ActivationType.CheckAllyLowHP }),
+                new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckOnlyOnMe }),
 
             new AutoSpell(35, "Soraka", CastSlot.R, Enums.TargetingType.ProximityAlly, float.MaxValue,
                 new[] { Enums.ActivationType.CheckAllyLowHP }),
 
             new AutoSpell(25, "Mundo", CastSlot.R, Enums.TargetingType.ProximityAlly, float.MaxValue,
-                new[] { Enums.ActivationType.CheckAllyLowHP }),
+                new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckOnlyOnMe }),
 
             #endregion
 

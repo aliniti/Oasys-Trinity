@@ -52,6 +52,9 @@
 
             if (ActivationTypes.Contains(Enums.ActivationType.CheckPlayerMana))
                 this.CreateSpellTabAllyMinimumMP();
+
+            if (ActivationTypes.Contains(Enums.ActivationType.CheckAuras))
+                this.CreateSpellTabAuraCleanse();
         }
 
         public override void OnTick()
@@ -69,10 +72,14 @@
                 var myChampionOnly = Bootstrap.Allies.Select(x => x.Value)
                     .FirstOrDefault(x => x.Instance.NetworkID == UnitManager.MyChampion.NetworkID);
 
-                if (myChampionOnly != null && myChampionOnly.InWayDanger)
+                if (myChampionOnly != null)
                 {
-                    this.SpellCheckAllyLowHealth(myChampionOnly.Instance);
-                    this.SpellCheckAllyLowMana(myChampionOnly.Instance);
+                    if (myChampionOnly.InWayDanger)
+                    {
+                        this.SpellCheckAllyLowHealth(myChampionOnly.Instance);
+                        this.SpellCheckAllyLowMana(myChampionOnly.Instance);
+                        this.SpellCheckAuras(myChampionOnly.Instance);
+                    }
                 }
             }
             else
@@ -82,10 +89,14 @@
                     var hero = u.Value;
                     if (hero.Instance.Team == UnitManager.MyChampion.Team)
                     {
-                        if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range && hero.InWayDanger)
+                        if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range)
                         {
-                            this.SpellCheckAllyLowHealth(hero.Instance);
-                            this.SpellCheckAllyLowMana(hero.Instance);
+                            if (hero.InWayDanger)
+                            {
+                                this.SpellCheckAllyLowHealth(hero.Instance);
+                                this.SpellCheckAllyLowMana(hero.Instance);
+                                this.SpellCheckAuras(hero.Instance);
+                            }
                         }
                     }
                 }

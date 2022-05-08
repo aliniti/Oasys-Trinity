@@ -38,6 +38,7 @@
         public SpellClass SpellClass { get; set; }
         public Dictionary<string, Switch> SpellSwitch = new();
         public Dictionary<string, Counter> SpellCounter = new();
+        public Dictionary<string, Group> SpellGroup = new();
 
         public void Initialize(Tab parentTab)
         {

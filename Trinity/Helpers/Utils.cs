@@ -285,6 +285,66 @@
 
         #endregion
 
+        #region Tidy : Spell Aura Check
+
+        public static void SpellCheckAuras(this AutoSpell spell, AIHeroClient hero)
+        {
+            if (spell.ActivationTypes.Contains(Enums.ActivationType.CheckAuras))
+            {
+                var tabName = spell.ChampionName + spell.Slot;
+                var champObj = Bootstrap.Allies
+                    .FirstOrDefault(x => x.Value.Instance.NetworkID == hero.NetworkID).Value;
+
+                if (champObj?.Instance == null)
+                    return;
+
+                var healthPct = champObj.Instance.Health / champObj.Instance.MaxHealth * 100;
+                if (healthPct > spell.SpellCounter[tabName + "MinimumBuffsHP"].Value &&
+                    spell.SpellSwitch[tabName + "SwitchMinimumBuffHP"].IsOn)
+                    return;
+
+                champObj.AuraInfo[tabName + "BuffCount"] = GetAuras(spell, champObj).Count();
+                champObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
+
+                if (champObj.AuraInfo[tabName + "BuffCount"] > 0)
+                {
+                    foreach (var buff in GetAuras(spell, champObj))
+                    {
+                        var length = (int)(buff.EndTime - buff.StartTime);
+                        if (length >= champObj.AuraInfo[tabName + "BuffHighestTime"])
+                        {
+                            champObj.AuraInfo[tabName + "BuffHighestTime"] = length * 1000;
+                        }
+                    }
+
+                    champObj.AuraInfo[tabName + "BuffTimestamp"] = (int)(GameEngine.GameTime * 1000);
+                }
+                else
+                {
+                    if (champObj.AuraInfo[tabName + "BuffHighestTime"] > 0)
+                    {
+                        champObj.AuraInfo[tabName + "BuffHighestTime"] -= champObj.AuraInfo[tabName + "BuffHighestTime"];
+                    }
+                    else
+                    {
+                        champObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
+                    }
+                }
+
+                if (champObj.AuraInfo[tabName + "BuffCount"] >= spell.SpellCounter[tabName + "MinimumBuffs"].Value)
+                {
+                    if (champObj.AuraInfo[tabName + "BuffHighestTime"] >= spell.SpellCounter[tabName + "MinimumBuffsDuration"].Value)
+                    {
+                        UseSpell(spell, champObj.Instance);
+                        champObj.AuraInfo[tabName + "BuffCount"] = 0;
+                        champObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
+                    }
+                }
+            }
+        }
+
+        #endregion
+
         #region Tidy : Spells HP & Mana
 
         public static void SpellCheckEnemyLowHealth(this AutoSpell spell, AIHeroClient unit)
@@ -335,6 +395,8 @@
 
         #endregion
 
+        #region Tidy : Misc
+
         public static void GetSpellClassByName(this AutoSpellBase spell)
         {
             var summonerOne = UnitManager.MyChampion.GetSpellBook().GetSpellClass(SpellSlot.Summoner1);
@@ -353,27 +415,51 @@
             }
         }
 
+        #endregion
+
         #region Cache : Auras
 
         public static IEnumerable<BuffEntry> GetAuras(this ActiveItem item, Champion champion)
         {
             return champion.Instance.BuffManager.GetBuffList()
                 .Where(buff => buff.IsActive &&
-                 (buff.EntryType == BuffType.Snare && item.ItemSwitch[item.ItemId + "Snares"].IsOn ||
-                  buff.EntryType == BuffType.Sleep && item.ItemSwitch[item.ItemId + "Sleep"].IsOn ||
-                  buff.EntryType == BuffType.Knockup && item.ItemSwitch[item.ItemId + "Knockups"].IsOn ||
-                  buff.EntryType == BuffType.Silence && item.ItemSwitch[item.ItemId + "Silence"].IsOn ||
-                  buff.EntryType == BuffType.Charm && item.ItemSwitch[item.ItemId + "Charms"].IsOn ||
-                  buff.EntryType == BuffType.Taunt && item.ItemSwitch[item.ItemId + "Taunts"].IsOn ||
-                  buff.EntryType == BuffType.Stun && item.ItemSwitch[item.ItemId + "Stuns"].IsOn ||
-                  buff.EntryType == BuffType.Flee && item.ItemSwitch[item.ItemId + "Fear"].IsOn ||
-                  buff.EntryType == BuffType.Polymorph && item.ItemSwitch[item.ItemId + "Polymorphs"].IsOn ||
-                  buff.EntryType == BuffType.Blind && item.ItemSwitch[item.ItemId + "Blinds"].IsOn ||
-                  buff.EntryType == BuffType.Suppression && item.ItemSwitch[item.ItemId + "Suppression"].IsOn ||
-                  buff.EntryType == BuffType.Poison && item.ItemSwitch[item.ItemId + "Poison"].IsOn ||
-                  buff.EntryType == BuffType.Slow && item.ItemSwitch[item.ItemId + "Slows"].IsOn) ||
-                  buff.Name.ToLower() == "summonerexhaust" && item.ItemSwitch[item.ItemId + "Exhaust"].IsOn ||
-                  buff.Name.ToLower() == "summonerdot" && item.ItemSwitch[item.ItemId + "Ignite"].IsOn);
+             (buff.EntryType == BuffType.Snare && item.ItemSwitch[item.ItemId + "Snares"].IsOn ||
+              buff.EntryType == BuffType.Sleep && item.ItemSwitch[item.ItemId + "Sleep"].IsOn ||
+              buff.EntryType == BuffType.Knockup && item.ItemSwitch[item.ItemId + "Knockups"].IsOn ||
+              buff.EntryType == BuffType.Silence && item.ItemSwitch[item.ItemId + "Silence"].IsOn ||
+              buff.EntryType == BuffType.Charm && item.ItemSwitch[item.ItemId + "Charms"].IsOn ||
+              buff.EntryType == BuffType.Taunt && item.ItemSwitch[item.ItemId + "Taunts"].IsOn ||
+              buff.EntryType == BuffType.Stun && item.ItemSwitch[item.ItemId + "Stuns"].IsOn ||
+              buff.EntryType == BuffType.Flee && item.ItemSwitch[item.ItemId + "Fear"].IsOn ||
+              buff.EntryType == BuffType.Polymorph && item.ItemSwitch[item.ItemId + "Polymorphs"].IsOn ||
+              buff.EntryType == BuffType.Blind && item.ItemSwitch[item.ItemId + "Blinds"].IsOn ||
+              buff.EntryType == BuffType.Suppression && item.ItemSwitch[item.ItemId + "Suppression"].IsOn ||
+              buff.EntryType == BuffType.Poison && item.ItemSwitch[item.ItemId + "Poison"].IsOn ||
+              buff.EntryType == BuffType.Slow && item.ItemSwitch[item.ItemId + "Slows"].IsOn) ||
+              buff.Name.ToLower() == "summonerexhaust" && item.ItemSwitch[item.ItemId + "Exhaust"].IsOn ||
+              buff.Name.ToLower() == "summonerdot" && item.ItemSwitch[item.ItemId + "Ignite"].IsOn);
+        }
+
+        public static IEnumerable<BuffEntry> GetAuras(this AutoSpell spell, Champion champion)
+        {
+            var tabName = spell.ChampionName + spell.Slot;
+            return champion.Instance.BuffManager.GetBuffList()
+                .Where(buff => buff.IsActive &&
+               (buff.EntryType == BuffType.Snare && spell.SpellSwitch[tabName + "Snares"].IsOn ||
+                buff.EntryType == BuffType.Sleep && spell.SpellSwitch[tabName + "Sleep"].IsOn ||
+                buff.EntryType == BuffType.Knockup && spell.SpellSwitch[tabName + "Knockups"].IsOn ||
+                buff.EntryType == BuffType.Silence && spell.SpellSwitch[tabName + "Silence"].IsOn ||
+                buff.EntryType == BuffType.Charm && spell.SpellSwitch[tabName + "Charms"].IsOn ||
+                buff.EntryType == BuffType.Taunt && spell.SpellSwitch[tabName + "Taunts"].IsOn ||
+                buff.EntryType == BuffType.Stun && spell.SpellSwitch[tabName + "Stuns"].IsOn ||
+                buff.EntryType == BuffType.Flee && spell.SpellSwitch[tabName + "Fear"].IsOn ||
+                buff.EntryType == BuffType.Polymorph && spell.SpellSwitch[tabName + "Polymorphs"].IsOn ||
+                buff.EntryType == BuffType.Blind && spell.SpellSwitch[tabName + "Blinds"].IsOn ||
+                buff.EntryType == BuffType.Suppression && spell.SpellSwitch[tabName + "Suppression"].IsOn ||
+                buff.EntryType == BuffType.Poison && spell.SpellSwitch[tabName + "Poison"].IsOn ||
+                buff.EntryType == BuffType.Slow && spell.SpellSwitch[tabName + "Slows"].IsOn) ||
+               buff.Name.ToLower() == "summonerexhaust" && spell.SpellSwitch[tabName + "Exhaust"].IsOn ||
+               buff.Name.ToLower() == "summonerdot" && spell.SpellSwitch[tabName + "Ignite"].IsOn);
         }
 
         #endregion

@@ -2,6 +2,7 @@
 {
     using Oasys.Common.Menu.ItemComponents;
     using Items;
+    using Oasys.Common.Menu;
     using Spells;
 
     public static class Menu
@@ -78,6 +79,159 @@
             };
 
             spell.SpellTab.AddItem(spell.SpellCounter[tabName + "amm"]);
+        }
+
+        public static void CreateSpellTabAuraCleanse(this AutoSpell spell)
+        {
+            var tabName = spell.ChampionName + spell.Slot;
+            spell.SpellGroup[tabName + "buffs"] = new Group
+            {
+                Title = tabName
+            };
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellSwitch[tabName + "Ignite"] = new()
+                {
+                    IsOn = true,
+                    Title = "Use " + tabName + " -> Ignite"
+                });
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellSwitch[tabName + "Exhaust"] = new()
+                {
+                    IsOn = true,
+                    Title = "Use " + tabName + " -> Exhaust"
+                });
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellSwitch[tabName + "Suppression"] = new()
+                {
+                    IsOn = true,
+                    Title = "Use " + tabName + " -> Suppression"
+                });
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellSwitch[tabName + "Knockups"] = new()
+                {
+                    IsOn = false,
+                    Title = "Use " + tabName + " -> Knockups"
+                });
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellSwitch[tabName + "Sleep"] = new()
+                {
+                    IsOn = true,
+                    Title = "Use " + tabName + " -> Sleep"
+                });
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellSwitch[tabName + "Stuns"] = new()
+                {
+                    IsOn = true,
+                    Title = "Use " + tabName + " -> Stuns"
+                });
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellSwitch[tabName + "Charms"] = new()
+                {
+                    IsOn = true,
+                    Title = "Use " + tabName + " -> Charms"
+                });
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellSwitch[tabName + "Taunts"] = new()
+                {
+                    IsOn = true,
+                    Title = "Use " + tabName + " -> Taunts"
+                });
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellSwitch[tabName + "Fear"] = new()
+                {
+                    IsOn = true,
+                    Title = "Use " + tabName + " -> Fear"
+                });
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellSwitch[tabName + "Snares"] = new()
+                {
+                    IsOn = true,
+                    Title = "Use " + tabName + " -> Snares"
+                });
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellSwitch[tabName + "Polymorphs"] = new()
+                {
+                    IsOn = true,
+                    Title = "Use " + tabName + " -> Polymorphs"
+                });
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellSwitch[tabName + "Silence"] = new()
+                {
+                    IsOn = false,
+                    Title = "Use " + tabName + " -> Silence"
+                });
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellSwitch[tabName + "Blinds"] = new()
+                {
+                    IsOn = false,
+                    Title = "Use " + tabName + " -> Blinds"
+                });
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellSwitch[tabName + "Slows"] = new()
+                {
+                    IsOn = false,
+                    Title = "Use " + tabName + " -> Slows"
+                });
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellSwitch[tabName + "Poison"] = new()
+                {
+                    IsOn = false,
+                    Title = "Use " + tabName + " -> Posion"
+                });
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellCounter[tabName + "MinimumBuffs"] = new Counter
+                {
+                    Title = tabName + " -> Minimum Buffs to Use",
+                    MaxValue = 5,
+                    MinValue = 1,
+                    Value = 1,
+                    ValueFrequency = 1
+                });
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellCounter[tabName + "MinimumBuffsDuration"] = new Counter
+                {
+                    Title = tabName + " -> Minimum Buff Duration (in ms)",
+                    MaxValue = 2000,
+                    MinValue = 250,
+                    Value = 250,
+                    ValueFrequency = 50
+                });
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellSwitch[tabName + "SwitchMinimumBuffHP"] = new()
+                {
+                    IsOn = false,
+                    Title = "Use " + tabName + " -> Enable Minimum HP (%) to Use"
+                });
+
+            spell.SpellGroup[tabName + "buffs"].AddItem(
+                spell.SpellCounter[tabName + "MinimumBuffsHP"] = new Counter
+                {
+                    Title = tabName + " -> Minimum HP (%) to Use",
+                    MaxValue = 100,
+                    MinValue = 20,
+                    Value = 100,
+                    ValueFrequency = 15
+                });
+
+            spell.SpellTab.AddGroup(spell.SpellGroup[tabName + "buffs"]);
         }
 
         #endregion
@@ -198,148 +352,154 @@
 
         public static void CreateItemTabAuraCleanse(this ActiveItem item, int pctUse = 100)
         {
-            item.ItemSwitch[item.ItemId + "Ignite"] = new()
+            item.ItemGroup[item.ItemId + "buffs"] = new Group
+            {
+                Title = Translations.ItemNames[item.ItemId] + "",
+            };
+
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemSwitch[item.ItemId + "Ignite"] = new()
             {
                 IsOn = true,
                 Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Ignite"
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Ignite"]);
-            item.ItemSwitch[item.ItemId + "Exhaust"] = new()
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemSwitch[item.ItemId + "Exhaust"] = new()
             {
                 IsOn = true,
                 Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Exhaust"
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Exhaust"]);
-            item.ItemSwitch[item.ItemId + "Suppression"] = new()
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemSwitch[item.ItemId + "Suppression"] = new()
             {
                 IsOn = true,
                 Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Suppression"
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Suppression"]);
-            item.ItemSwitch[item.ItemId + "Knockups"] = new()
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemSwitch[item.ItemId + "Knockups"] = new()
             {
                 IsOn = false,
                 Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Knockups"
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Knockups"]);
-            item.ItemSwitch[item.ItemId + "Sleep"] = new()
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemSwitch[item.ItemId + "Sleep"] = new()
             {
                 IsOn = true,
                 Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Sleep"
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Sleep"]);
-            item.ItemSwitch[item.ItemId + "Stuns"] = new()
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemSwitch[item.ItemId + "Stuns"] = new()
             {
                 IsOn = true,
                 Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Stuns"
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Stuns"]);
-            item.ItemSwitch[item.ItemId + "Charms"] = new()
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemSwitch[item.ItemId + "Charms"] = new()
             {
                 IsOn = true,
                 Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Charms"
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Charms"]);
-            item.ItemSwitch[item.ItemId + "Taunts"] = new()
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemSwitch[item.ItemId + "Taunts"] = new()
             {
                 IsOn = true,
                 Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Taunts"
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Taunts"]);
-            item.ItemSwitch[item.ItemId + "Fear"] = new()
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemSwitch[item.ItemId + "Fear"] = new()
             {
                 IsOn = true,
                 Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Fear"
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Fear"]);
-            item.ItemSwitch[item.ItemId + "Snares"] = new()
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemSwitch[item.ItemId + "Snares"] = new()
             {
                 IsOn = true,
                 Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Snares"
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Snares"]);
-            item.ItemSwitch[item.ItemId + "Polymorphs"] = new()
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemSwitch[item.ItemId + "Polymorphs"] = new()
             {
                 IsOn = true,
                 Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Polymorphs"
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Polymorphs"]);
-            item.ItemSwitch[item.ItemId + "Silence"] = new()
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemSwitch[item.ItemId + "Silence"] = new()
             {
                 IsOn = false,
                 Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Silence"
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Silence"]);
-            item.ItemSwitch[item.ItemId + "Blinds"] = new()
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemSwitch[item.ItemId + "Blinds"] = new()
             {
                 IsOn = false,
                 Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Blinds"
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Blinds"]);
-            item.ItemSwitch[item.ItemId + "Slows"] = new()
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemSwitch[item.ItemId + "Slows"] = new()
             {
                 IsOn = false,
                 Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Slows"
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Slows"]);
-            item.ItemSwitch[item.ItemId + "Poison"] = new()
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemSwitch[item.ItemId + "Poison"] = new()
             {
                 IsOn = false,
                 Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Posion"
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "Poison"]);
-            item.ItemCounter[item.ItemId + "MinimumBuffs"] = new Counter
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemCounter[item.ItemId + "MinimumBuffs"] = new Counter
             {
                 Title = Translations.ItemNames[item.ItemId] + " -> Minimum Buffs to Use",
                 MaxValue = 5,
                 MinValue = 1,
                 Value = 1,
                 ValueFrequency = 1
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemCounter[item.ItemId + "MinimumBuffs"]);
-            item.ItemCounter[item.ItemId + "MinimumBuffsDuration"] = new Counter
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemCounter[item.ItemId + "MinimumBuffsDuration"] = new Counter
             {
                 Title = Translations.ItemNames[item.ItemId] + " -> Minimum Buff Duration (in ms)",
                 MaxValue = 2000,
                 MinValue = 250,
                 Value = 250,
                 ValueFrequency = 50
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemCounter[item.ItemId + "MinimumBuffsDuration"]);
-            item.ItemSwitch[item.ItemId + "SwitchMinimumBuffHP"] = new()
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemSwitch[item.ItemId + "SwitchMinimumBuffHP"] = new()
             {
                 IsOn = false,
                 Title = "Use " + Translations.ItemNames[item.ItemId] + " -> Enable Minimum HP (%) to Use"
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemSwitch[item.ItemId + "SwitchMinimumBuffHP"]);
-            item.ItemCounter[item.ItemId + "MinimumBuffsHP"] = new Counter
+            item.ItemGroup[item.ItemId + "buffs"].AddItem(
+                item.ItemCounter[item.ItemId + "MinimumBuffsHP"] = new Counter
             {
                 Title = Translations.ItemNames[item.ItemId] + " -> Minimum HP (%) to Use",
                 MaxValue = 100,
                 MinValue = 20,
                 Value = 100,
                 ValueFrequency = 15
-            };
+            });
 
-            item.ItemTab.AddItem(item.ItemCounter[item.ItemId + "MinimumBuffsHP"]);
+            item.ItemTab.AddGroup(item.ItemGroup[item.ItemId + "buffs"]);
         }
 
         #endregion

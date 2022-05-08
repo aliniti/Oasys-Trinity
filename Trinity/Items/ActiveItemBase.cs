@@ -36,6 +36,7 @@
         
         public Dictionary<string, Switch> ItemSwitch = new();
         public Dictionary<string, Counter> ItemCounter = new();
+        public Dictionary<string, Group> ItemGroup = new();
 
         public SpellClass SpellClass { get; set; }
 
