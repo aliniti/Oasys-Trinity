@@ -42,13 +42,10 @@
             this.CreateSpellTabEnableSwitch();
 
             if (ActivationTypes.Contains(Enums.ActivationType.CheckEnemyLowHP))
-                this.CreateSpellTabEnemyLowHP();
+                this.CreateSpellTabEnemyLowHP(UsePct);
 
             if (ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowHP))
                 this.CreateSpellTabAllyLowHP(UsePct);
-
-            if (ActivationTypes.Contains(Enums.ActivationType.CheckEnemyLowHP))
-                this.CreateSpellTabEnemyLowHP();
 
             if (ActivationTypes.Contains(Enums.ActivationType.CheckPlayerMana))
                 this.CreateSpellTabAllyMinimumMP();
@@ -76,9 +73,9 @@
                 {
                     if (myChampionOnly.InWayDanger)
                     {
+                        this.SpellCheckAuras(myChampionOnly.Instance);
                         this.SpellCheckAllyLowHealth(myChampionOnly.Instance);
                         this.SpellCheckAllyLowMana(myChampionOnly.Instance);
-                        this.SpellCheckAuras(myChampionOnly.Instance);
                     }
                 }
             }
@@ -93,9 +90,9 @@
                         {
                             if (hero.InWayDanger)
                             {
+                                this.SpellCheckAuras(hero.Instance);
                                 this.SpellCheckAllyLowHealth(hero.Instance);
                                 this.SpellCheckAllyLowMana(hero.Instance);
-                                this.SpellCheckAuras(hero.Instance);
                             }
                         }
                     }

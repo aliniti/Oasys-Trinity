@@ -210,8 +210,8 @@
                     Title = tabName + " -> Minimum Buff Duration (in ms)",
                     MaxValue = 2000,
                     MinValue = 250,
-                    Value = 250,
-                    ValueFrequency = 50
+                    Value = 1000,
+                    ValueFrequency = 250
                 });
 
             spell.SpellGroup[tabName + "buffs"].AddItem(
@@ -478,8 +478,8 @@
                 Title = Translations.ItemNames[item.ItemId] + " -> Minimum Buff Duration (in ms)",
                 MaxValue = 2000,
                 MinValue = 250,
-                Value = 250,
-                ValueFrequency = 50
+                Value = 1000,
+                ValueFrequency = 250
             });
 
             item.ItemGroup[item.ItemId + "buffs"].AddItem(

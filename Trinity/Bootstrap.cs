@@ -211,7 +211,7 @@
                 new [] { Enums.ActivationType.CheckEnemyLowHP }),
 
             new AutoSpell(55, "Exhaust", "SummonerExhaust", Enums.TargetingType.UnitEnemy, 650,
-                new[] { Enums.ActivationType.CheckEnemyLowHP, Enums.ActivationType.CheckOnlyOnMe }),
+                new[] { Enums.ActivationType.CheckEnemyLowHP }),
         };
 
         private static readonly List<AutoSpell> SummonerTickSpells = new()
@@ -294,6 +294,10 @@
 
             new AutoSpell(90, "Sona", CastSlot.W, Enums.TargetingType.ProximityAlly, 1000,
                 new[] { Enums.ActivationType.CheckAllyLowHP, Enums.ActivationType.CheckPlayerMana }),
+
+            #endregion
+
+            #region Evader Spells
 
             #endregion
 

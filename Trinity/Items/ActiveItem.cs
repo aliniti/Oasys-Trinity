@@ -70,14 +70,14 @@
                         return;
                     }
 
+                    this.ItemCheckAuras(myHero.Instance);
+                    this.ItemCheckAoECount(myHero.Instance);
+
                     if (myHero.InWayDanger)
                     {
                         this.ItemCheckAllyLowHealth(myHero.Instance);
                         this.ItemCheckAllyLowMana(myHero.Instance);
-                        this.ItemCheckAuras(myHero.Instance);
                     }
-
-                    this.ItemCheckAoECount(myHero.Instance);
                 }
             }
             else 
@@ -94,15 +94,15 @@
 
                         if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range)
                         {
+                            this.ItemCheckAuras(hero.Instance);
+                            this.ItemCheckAoECount(hero.Instance);
+
                             if (hero.InWayDanger)
                             {
                                 this.ItemCheckAllyLowHealth(hero.Instance);
                                 this.ItemCheckAllyLowMana(hero.Instance);
-                                this.ItemCheckAuras(hero.Instance);
                             }
                         }
-
-                        this.ItemCheckAoECount(hero.Instance);
                     }
                 }
             }
