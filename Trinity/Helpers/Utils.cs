@@ -362,7 +362,7 @@
         /// <param name="item">The item.</param>
         /// <param name="hero">The hero.</param>
         /// <returns></returns>
-        public static void ItemCheckAuras(this ActiveItem item, AIHeroClient hero)
+        public static void CheckItemAuras(this ActiveItem item, AIHeroClient hero)
         {
             if (item.ActivationTypes.Contains(ActivationType.CheckAuras))
             {
@@ -414,7 +414,7 @@
         /// <param name="spell">The spell.</param>
         /// <param name="hero">The hero.</param>
         /// <returns></returns>
-        public static void SpellCheckAuras(this AutoSpell spell, AIHeroClient hero)
+        public static void CheckSpellAuras(this AutoSpell spell, AIHeroClient hero)
         {
             if (spell.ActivationTypes.Contains(ActivationType.CheckAuras))
             {

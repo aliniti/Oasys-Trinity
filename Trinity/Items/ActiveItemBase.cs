@@ -18,7 +18,6 @@
 
     public delegate void OnItemInitialize();
     public delegate void OnItemDispose();
-
     public abstract class ActiveItemBase
     {
         #region Fields

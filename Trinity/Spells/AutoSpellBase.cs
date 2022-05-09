@@ -16,7 +16,6 @@
 
     public delegate void OnSpellInitialize();
     public delegate void OnSpellDispose();
-
     public abstract class AutoSpellBase
     {
         #region Fields
@@ -25,17 +24,17 @@
         private bool _initialized;
 
         /// <summary>
-        /// The spell counters
+        ///     The spell counters
         /// </summary>
         public Dictionary<string, Counter> SpellCounter = new();
 
         /// <summary>
-        /// The spell groups
+        ///     The spell groups
         /// </summary>
         public Dictionary<string, Group> SpellGroup = new();
 
         /// <summary>
-        /// The spell switchs
+        ///     The spell switchs
         /// </summary>
         public Dictionary<string, Switch> SpellSwitch = new();
 

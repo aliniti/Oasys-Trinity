@@ -68,7 +68,7 @@
         #region Constructors and Destructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ActiveItem"/> class.
+        ///     Initializes a new instance of the <see cref="ActiveItem" /> class.
         /// </summary>
         /// <param name="usePct">The use PCT.</param>
         /// <param name="itemId">The item identifier.</param>
@@ -127,7 +127,7 @@
                 {
                     if (ItemBuffName != null && UnitManager.MyChampion.BuffManager.HasBuff(ItemBuffName)) return;
 
-                    this.ItemCheckAuras(myHero.Instance);
+                    this.CheckItemAuras(myHero.Instance);
                     this.CheckItemAoECount(myHero.Instance);
 
                     if (myHero.InWayDanger)
@@ -148,7 +148,7 @@
 
                         if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range)
                         {
-                            this.ItemCheckAuras(hero.Instance);
+                            this.CheckItemAuras(hero.Instance);
                             this.CheckItemAoECount(hero.Instance);
 
                             if (hero.InWayDanger)

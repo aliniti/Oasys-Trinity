@@ -41,32 +41,32 @@
     public enum TargetingType
     {
         /// <summary>
-        /// The unit is ally
+        ///     The unit is ally
         /// </summary>
         UnitAlly,
 
         /// <summary>
-        /// The unit is enemy
+        ///     The unit is enemy
         /// </summary>
         UnitEnemy,
 
         /// <summary>
-        /// The proximity of ally
+        ///     The proximity of ally
         /// </summary>
         ProximityAlly,
 
         /// <summary>
-        /// The proximity of enemy
+        ///     The proximity of enemy
         /// </summary>
         ProximityEnemy,
 
         /// <summary>
-        /// The skillshot on ally
+        ///     The skillshot on ally
         /// </summary>
         SkillshotAlly,
 
         /// <summary>
-        /// The skillshot on enemy
+        ///     The skillshot on enemy
         /// </summary>
         SkillshotEnemy
     }

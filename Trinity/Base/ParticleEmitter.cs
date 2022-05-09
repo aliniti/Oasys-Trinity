@@ -75,7 +75,6 @@
 
         #region Static Fields and Constants
 
-
         /// <summary>
         ///     The emitters
         /// </summary>

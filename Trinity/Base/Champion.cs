@@ -1,6 +1,6 @@
 ﻿namespace Trinity.Base
 {
-    #region 
+    #region
 
     using System;
     using System.Collections.Generic;
@@ -16,7 +16,6 @@
     public class Champion
     {
         #region Properties and Encapsulation
-
 
         /// <summary>
         ///     Gets or sets the instance.
@@ -48,7 +47,7 @@
         #region Constructors and Destructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Champion"/> class.
+        ///     Initializes a new instance of the <see cref="Champion" /> class.
         /// </summary>
         /// <param name="instance">The instance.</param>
         public Champion(AIHeroClient instance)
