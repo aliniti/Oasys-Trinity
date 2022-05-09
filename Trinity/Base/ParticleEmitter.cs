@@ -1,12 +1,80 @@
 ﻿namespace Trinity.Base
 {
+    #region
+
     using System.Collections.Generic;
     using Oasys.Common.Enums.GameEnums;
     using Oasys.Common.GameObject;
 
+    #endregion
+
     public class ParticleEmitter
     {
+        #region Properties and Encapsulation
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this <see cref="ParticleEmitter" /> is included.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if included; otherwise, <c>false</c>.
+        /// </value>
+        public bool Included { get; set; }
+
+
+        /// <summary>
+        ///     Gets or sets the object.
+        /// </summary>
+        /// <value>
+        ///     The object.
+        /// </value>
+        public GameObjectBase Obj { get; set; }
+
+
+        /// <summary>
+        ///     Gets or sets the damage.
+        /// </summary>
+        /// <value>
+        ///     The damage.
+        /// </value>
+        public int Damage { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the start tick.
+        /// </summary>
+        /// <value>
+        ///     The start.
+        /// </value>
+        public int Start { get; set; }
+
+
+        /// <summary>
+        ///     Gets or sets the slot.
+        /// </summary>
+        /// <value>
+        ///     The slot.
+        /// </value>
+        public SpellSlot Slot { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the name.
+        /// </summary>
+        /// <value>
+        ///     The name.
+        /// </value>
+        public string Name { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the owner identifier.
+        /// </summary>
+        /// <value>
+        ///     The owner identifier.
+        /// </value>
+        public uint OwnerId { get; set; }
+
+        #endregion
+
         #region Static Fields and Constants
+
 
         /// <summary>
         ///     The emitters
@@ -37,50 +105,6 @@
             Included = inculded;
             Damage = incdmg;
         }
-
-        #endregion
-
-        #region Fields
-
-        /// <summary>
-        ///     The damage
-        /// </summary>
-        public int Damage;
-
-        /// <summary>
-        ///     The included
-        /// </summary>
-        public bool Included;
-
-        /// <summary>
-        ///     The limiter
-        /// </summary>
-        public int Limiter;
-
-        /// <summary>
-        ///     The name
-        /// </summary>
-        public string Name;
-
-        /// <summary>
-        ///     The object
-        /// </summary>
-        public GameObjectBase Obj;
-
-        /// <summary>
-        ///     The ownerId
-        /// </summary>
-        public uint OwnerId;
-
-        /// <summary>
-        ///     The slot
-        /// </summary>
-        public SpellSlot Slot;
-
-        /// <summary>
-        ///     The start tick
-        /// </summary>
-        public int Start;
 
         #endregion
     }

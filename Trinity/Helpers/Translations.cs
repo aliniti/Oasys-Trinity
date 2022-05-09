@@ -1,10 +1,16 @@
 ﻿namespace Trinity.Helpers
 {
+    #region
+
     using System.Collections.Generic;
     using Oasys.Common.Enums.GameEnums;
 
+    #endregion
+
     public static class Translations
     {
+        #region Static Fields and Constants
+
         public static readonly Dictionary<ItemID, string> ItemNames = new()
         {
             [ItemID.Everfrost] = "Everfrost",
@@ -48,5 +54,7 @@
             [ItemID.Titanic_Hydra] = "Titanic Hydra",
             [ItemID.Ravenous_Hydra] = "Ravenous Hydra"
         };
+
+        #endregion
     }
 }

@@ -8,14 +8,49 @@
 
     public class AutoSpell : AutoSpellBase
     {
+        /// <summary>
+        ///     Gets or sets the use PCT.
+        /// </summary>
+        /// <value>
+        ///     The use PCT.
+        /// </value>
         public int UsePct { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the last used time stamp.
+        /// </summary>
+        /// <value>
+        ///     The last used time stamp.
+        /// </value>
         public int LastUsedTimeStamp { get; set; }
 
-        public Enums.ActivationType[] ActivationTypes { get; set; }
-        public Enums.TargetingType TargetingType { get; set; }
+        /// <summary>
+        ///     Gets or sets the activation types.
+        /// </summary>
+        /// <value>
+        ///     The activation types.
+        /// </value>
+        public ActivationType[] ActivationTypes { get; set; }
 
-        public AutoSpell(int usePct, string championName, CastSlot slot, Enums.TargetingType tType, float range, 
-            Enums.ActivationType[] aType)
+        /// <summary>
+        ///     Gets or sets the type of the targeting.
+        /// </summary>
+        /// <value>
+        ///     The type of the targeting.
+        /// </value>
+        public TargetingType TargetingType { get; set; }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="AutoSpell"/> class.
+        /// </summary>
+        /// <param name="usePct">The use PCT.</param>
+        /// <param name="championName">Name of the champion.</param>
+        /// <param name="slot">The slot.</param>
+        /// <param name="tType">Type of the t.</param>
+        /// <param name="range">The range.</param>
+        /// <param name="aType">a type.</param>
+        public AutoSpell(int usePct, string championName, CastSlot slot, TargetingType tType, float range, 
+            ActivationType[] aType)
         {
             ChampionName = championName;
             Slot = slot;
@@ -25,8 +60,17 @@
             UsePct = usePct;
         }
 
-        public AutoSpell(int usePct, string championName, string spellName, Enums.TargetingType tType, float range,
-            Enums.ActivationType[] aType)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="AutoSpell"/> class.
+        /// </summary>
+        /// <param name="usePct">The use PCT.</param>
+        /// <param name="championName">Name of the champion.</param>
+        /// <param name="spellName">Name of the spell.</param>
+        /// <param name="tType">Type of the t.</param>
+        /// <param name="range">The range.</param>
+        /// <param name="aType">a type.</param>
+        public AutoSpell(int usePct, string championName, string spellName, TargetingType tType, float range,
+            ActivationType[] aType)
         {
             ChampionName = championName;
             SpellName = spellName;
@@ -36,35 +80,41 @@
             UsePct = usePct;
         }
 
+        /// <summary>
+        ///     Creates the tab.
+        /// </summary>
         public override void CreateTab()
         {
             // the enable disable switch
             this.CreateSpellTabEnableSwitch();
 
-            if (ActivationTypes.Contains(Enums.ActivationType.CheckEnemyLowHP))
+            if (ActivationTypes.Contains(ActivationType.CheckEnemyLowHP))
                 this.CreateSpellTabEnemyLowHP(UsePct);
 
-            if (ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowHP))
+            if (ActivationTypes.Contains(ActivationType.CheckAllyLowHP))
                 this.CreateSpellTabAllyLowHP(UsePct);
 
-            if (ActivationTypes.Contains(Enums.ActivationType.CheckPlayerMana))
+            if (ActivationTypes.Contains(ActivationType.CheckPlayerMana))
                 this.CreateSpellTabAllyMinimumMP();
 
-            if (ActivationTypes.Contains(Enums.ActivationType.CheckAuras))
+            if (ActivationTypes.Contains(ActivationType.CheckAuras))
                 this.CreateSpellTabAuraCleanse();
         }
 
+        /// <summary>
+        ///     Called when [OnTick].
+        /// </summary>
         public override void OnTick()
         {
-            if (ActivationTypes.Contains(Enums.ActivationType.CheckPlayerMana))
+            if (ActivationTypes.Contains(ActivationType.CheckPlayerMana))
             {
-                if (this.SpellCheckMinimumMana(UnitManager.MyChampion))
+                if (this.CheckSpellMinimumMana(UnitManager.MyChampion))
                 {
                     return;
                 }
             }
 
-            if (ActivationTypes.Contains(Enums.ActivationType.CheckOnlyOnMe))
+            if (ActivationTypes.Contains(ActivationType.CheckOnlyOnMe))
             {
                 var myChampionOnly = Bootstrap.Allies.Select(x => x.Value)
                     .FirstOrDefault(x => x.Instance.NetworkID == UnitManager.MyChampion.NetworkID);
@@ -74,8 +124,8 @@
                     if (myChampionOnly.InWayDanger)
                     {
                         this.SpellCheckAuras(myChampionOnly.Instance);
-                        this.SpellCheckAllyLowHealth(myChampionOnly.Instance);
-                        this.SpellCheckAllyLowMana(myChampionOnly.Instance);
+                        this.CheckSpellAllyLowHealth(myChampionOnly.Instance);
+                        this.CheckSpellAllyLowMana(myChampionOnly.Instance);
                     }
                 }
             }
@@ -91,8 +141,8 @@
                             if (hero.InWayDanger)
                             {
                                 this.SpellCheckAuras(hero.Instance);
-                                this.SpellCheckAllyLowHealth(hero.Instance);
-                                this.SpellCheckAllyLowMana(hero.Instance);
+                                this.CheckSpellAllyLowHealth(hero.Instance);
+                                this.CheckSpellAllyLowMana(hero.Instance);
                             }
                         }
                     }

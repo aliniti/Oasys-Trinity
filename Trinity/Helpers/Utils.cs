@@ -1,56 +1,43 @@
 ﻿namespace Trinity.Helpers
 {
-    using Oasys.SDK;
-    using Oasys.SDK.SpellCasting;
-    using Oasys.Common;
+    #region
+
+    using System.Collections.Generic;
+    using System.Linq;
+    using Base;
+    using Items;
     using Oasys.Common.Enums.GameEnums;
     using Oasys.Common.Extensions;
     using Oasys.Common.GameObject.Clients;
     using Oasys.Common.GameObject.Clients.ExtendedInstances;
-    using System.Collections.Generic;
-    using System.Linq;
+    using Oasys.SDK;
+    using Oasys.SDK.SpellCasting;
     using Spells;
-    using Items;
-    using Base;
+
+    #endregion
 
     public static class Utils
     {
-        #region Tidy : Valid Unit
+        #region Public Methods and Operators
 
-        public static bool Exists(uint ownerId)
-        {
-            return Bootstrap.Enemies.ContainsKey(ownerId) && Bootstrap.Enemies[ownerId].Instance.IsAlive;
-        }
-
-        public static bool ValidHero(this AIHeroClient hero)
-        {
-            return hero is { IsAlive: true, IsTargetable: true, IsVisible: true };
-        }
-
-        public static bool ValidHeroLite(this AIHeroClient hero)
-        {
-            return hero is { IsAlive: true };
-        }
-
-        public static AIHeroClient GetHeroByNetworkId(uint networkId)
-        {
-            return ObjectManagerExport.HeroCollection
-                .Select(n => n.Value).FirstOrDefault(x => x.NetworkID == networkId);
-        }
-
-        #endregion
-
-        #region Tidy : Clustered Units
-
-        internal static AIBaseClient GetBestUnitForCluster(IEnumerable<AIBaseClient> units, float clusterRange)
+        /// <summary>
+        ///     Gets the best unit for cluster.
+        /// </summary>
+        /// <param name="units">The units.</param>
+        /// <param name="clusterRange">The cluster range.</param>
+        /// <returns></returns>
+        public static AIBaseClient GetBestUnitForCluster(IEnumerable<AIBaseClient> units, float clusterRange)
         {
             IEnumerable<AIBaseClient> aiUnits = units as AIBaseClient[] ?? units.ToArray();
 
             if (aiUnits.Any())
             {
-                var firstOrDefault = (from u in aiUnits 
-                    select new { Count = GetRadiusClusterCount(u, aiUnits, clusterRange),
-                        Unit = u }).OrderByDescending(a => a.Count).FirstOrDefault();
+                var firstOrDefault = (from u in aiUnits
+                    select new
+                    {
+                        Count = GetRadiusClusterCount(u, aiUnits, clusterRange),
+                        Unit = u
+                    }).OrderByDescending(a => a.Count).FirstOrDefault();
 
                 if (firstOrDefault != null)
                     return firstOrDefault.Unit;
@@ -59,7 +46,14 @@
             return null;
         }
 
-        internal static int GetRadiusClusterCount(this AIBaseClient target, IEnumerable<AIBaseClient> otherUnits, float radius)
+        /// <summary>
+        ///     Gets the radius cluster count.
+        /// </summary>
+        /// <param name="target">The target.</param>
+        /// <param name="otherUnits">The other units.</param>
+        /// <param name="radius">The radius.</param>
+        /// <returns></returns>
+        public static int GetRadiusClusterCount(this AIBaseClient target, IEnumerable<AIBaseClient> otherUnits, float radius)
         {
             var rdx = radius * radius;
             var targetLoc = target.Position;
@@ -67,174 +61,314 @@
             return otherUnits.Count(u => u.Position.DistanceSquared(targetLoc) <= rdx);
         }
 
-        #endregion
 
-        #region Tidy : Casting
-
-        public static bool IsSafeCast(AIHeroClient unit)
+        /// <summary>
+        ///     Checks the item enemy low health.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="unit">The unit.</param>
+        public static void CheckItemEnemyLowHealth(this ActiveItem item, AIHeroClient unit)
         {
-            if (unit.IsRecalling || unit.IsCastingSpell || unit.IsEmpoweredRecalling)
-            {
-                return false;
-            }
-
-            var nexus = UnitManager.AllyNexus;
-            if (nexus != null && nexus.Distance(unit.Position) <= 1000)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public static void UseItem(this ActiveItem item, AIHeroClient unit)
-        {
-            if (!IsSafeCast(unit))
-            {
-                return;
-            }
-
-            if (item.TargetingType.ToString().Contains("Proximity"))
-            {
-                if (item.SpellClass.IsSpellReady)
-                {
-                    ItemCastProvider.CastItem(item.ItemId);
-                    item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
-                }
-            }
-
-            if (item.TargetingType.ToString().Contains("Unit"))
-            {
-                if (unit != null && item.SpellClass.IsSpellReady)
-                {
-                    ItemCastProvider.CastItem(item.ItemId, unit.Position);
-                    item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
-                }
-            }
-
-            if (item.TargetingType.ToString().Contains("Skillshot"))
-            {
-                if (unit != null && item.SpellClass.IsSpellReady)
-                {
-                    ItemCastProvider.CastItem(item.ItemId, unit.Position);
-                    item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
-                }
-            }
-        }
-
-        public static void UseSpell(this AutoSpell spell, AIHeroClient unit)
-        {
-            if (!IsSafeCast(unit))
-            {
-                return;
-            }
-
-            if (spell.TargetingType.ToString().Contains("Proximity"))
-            {
-                if (spell.SpellClass.IsSpellReady)
-                {
-                    SpellCastProvider.CastSpell(spell.Slot);
-                    spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
-                }
-            }
-
-            if (spell.TargetingType.ToString().Contains("Unit"))
-            {
-                if (unit != null && spell.SpellClass.IsSpellReady)
-                {
-                    SpellCastProvider.CastSpell(spell.Slot, unit.Position);
-                    spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
-                }
-            }
-
-            if (spell.TargetingType.ToString().Contains("Skillshot"))
-            {
-                if (unit != null && spell.SpellClass.IsSpellReady)
-                {
-                    SpellCastProvider.CastSpell(spell.Slot, unit.Position);
-                    spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
-                }
-            }
-        }
-
-        #endregion
-
-        #region Tidy : Items HP & Mana
-
-        public static void ItemCheckEnemyLowHealth(this ActiveItem item, AIHeroClient unit)
-        {
-            if (item.ActivationTypes.Contains(Enums.ActivationType.CheckEnemyLowHP))
+            if (item.ActivationTypes.Contains(ActivationType.CheckEnemyLowHP))
             {
                 var pctHealth = unit.Health / unit.MaxHealth * 100;
                 if (pctHealth <= item.ItemCounter[item.ItemId + "ehp"].Value &&
                     item.ItemSwitch[item.ItemId.ToString()].IsOn)
-                {
                     UseItem(item, unit);
-                }
             }
         }
 
-        public static void ItemCheckAllyLowHealth(this ActiveItem item, AIHeroClient unit)
+        /// <summary>
+        ///     Checks the item ally low health.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="unit">The unit.</param>
+        public static void CheckItemAllyLowHealth(this ActiveItem item, AIHeroClient unit)
         {
-            if (item.ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowHP))
+            if (item.ActivationTypes.Contains(ActivationType.CheckAllyLowHP))
             {
                 var pctHealth = unit.Health / unit.MaxHealth * 100;
                 if (pctHealth <= item.ItemCounter[item.ItemId + "ahp"].Value &&
                     item.ItemSwitch[item.ItemId.ToString()].IsOn)
-                {
                     UseItem(item, unit);
-                }
             }
         }
 
-        public static void ItemCheckAllyLowMana(this ActiveItem item, AIHeroClient unit)
+        /// <summary>
+        ///     Checks the item ally low mana.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="unit">The unit.</param>
+        public static void CheckItemAllyLowMana(this ActiveItem item, AIHeroClient unit)
         {
-            if (item.ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowMP))
+            if (item.ActivationTypes.Contains(ActivationType.CheckAllyLowMP))
             {
                 var pctMana = unit.Mana / unit.MaxMana * 100;
                 if (pctMana <= item.ItemCounter[item.ItemId + "amp"].Value &&
                     item.ItemSwitch[item.ItemId.ToString()].IsOn)
-                {
                     UseItem(item, unit);
-                }
             }
         }
 
-        public static void ItemCheckAoECount(this ActiveItem item, AIHeroClient unit)
+        /// <summary>
+        ///     Checks the item ao e count.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="unit">The unit.</param>
+        public static void CheckItemAoECount(this ActiveItem item, AIHeroClient unit)
         {
-            if (item.ActivationTypes.Contains(Enums.ActivationType.CheckAoECount))
+            if (item.ActivationTypes.Contains(ActivationType.CheckAoECount))
             {
                 if (item.TargetingType.ToString().Contains("Ally"))
                 {
                     var unitCount = unit.GetRadiusClusterCount(UnitManager.AllyChampions, item.Range);
-                    if (unitCount >= item.ItemCounter[item.ItemId + "aoe"].Value)
-                    {
-                        UseItem(item, unit);
-                    }
+                    if (unitCount >= item.ItemCounter[item.ItemId + "aoe"].Value) UseItem(item, unit);
                 }
 
                 if (item.TargetingType.ToString().Contains("Enemy"))
                 {
                     var unitCount = unit.GetRadiusClusterCount(UnitManager.EnemyChampions, item.Range);
-                    if (unitCount >= item.ItemCounter[item.ItemId + "aoe"].Value)
-                    {
-                        UseItem(item, unit);
-                    }
+                    if (unitCount >= item.ItemCounter[item.ItemId + "aoe"].Value) UseItem(item, unit);
                 }
             }
         }
 
-        #endregion
+        /// <summary>
+        ///     Checks the spell enemy low health.
+        /// </summary>
+        /// <param name="spell">The spell.</param>
+        /// <param name="unit">The unit.</param>
+        public static void CheckSpellEnemyLowHealth(this AutoSpell spell, AIHeroClient unit)
+        {
+            if (spell.ActivationTypes.Contains(ActivationType.CheckEnemyLowHP))
+            {
+                var pctHealth = unit.Health / unit.MaxHealth * 100;
+                if (pctHealth <= spell.SpellCounter[spell.ChampionName + spell.Slot + "ehp"].Value &&
+                    spell.SpellSwitch[spell.ChampionName + spell.Slot].IsOn)
+                    UseSpell(spell, unit);
+            }
+        }
 
-        #region Tidy : Item Aura Check
+        /// <summary>
+        ///     Checks the spell ally low health.
+        /// </summary>
+        /// <param name="spell">The spell.</param>
+        /// <param name="unit">The unit.</param>
+        public static void CheckSpellAllyLowHealth(this AutoSpell spell, AIHeroClient unit)
+        {
+            if (spell.ActivationTypes.Contains(ActivationType.CheckAllyLowHP))
+            {
+                var pctHealth = unit.Health / unit.MaxHealth * 100;
+                if (pctHealth <= spell.SpellCounter[spell.ChampionName + spell.Slot + "ahp"].Value &&
+                    spell.SpellSwitch[spell.ChampionName + spell.Slot].IsOn)
+                    UseSpell(spell, unit);
+            }
+        }
 
+        /// <summary>
+        ///     Checks the spell ally low mana.
+        /// </summary>
+        /// <param name="spell">The spell.</param>
+        /// <param name="unit">The unit.</param>
+        public static void CheckSpellAllyLowMana(this AutoSpell spell, AIHeroClient unit)
+        {
+            if (spell.ActivationTypes.Contains(ActivationType.CheckAllyLowMP))
+            {
+                var pctMana = unit.Mana / unit.MaxMana * 100;
+                if (pctMana <= spell.SpellCounter[spell.ChampionName + spell.Slot + "amp"].Value &&
+                    spell.SpellSwitch[spell.ChampionName + spell.Slot].IsOn)
+                    UseSpell(spell, unit);
+            }
+        }
+
+        /// <summary>
+        ///     Checks the spell minimum mana.
+        /// </summary>
+        /// <param name="spell">The spell.</param>
+        /// <param name="unit">The unit.</param>
+        /// <returns></returns>
+        public static bool CheckSpellMinimumMana(this AutoSpell spell, AIHeroClient unit)
+        {
+            var pctMana = unit.Mana / unit.MaxMana * 100;
+            return pctMana <= spell.SpellCounter[spell.ChampionName + spell.Slot + "amm"].Value &&
+                   spell.SpellSwitch[spell.ChampionName + spell.Slot].IsOn;
+        }
+
+        /// <summary>
+        ///     Determines whether [is safe cast] [the specified unit].
+        /// </summary>
+        /// <param name="unit">The unit.</param>
+        /// <returns>
+        ///     <c>true</c> if [is safe cast] [the specified unit]; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsSafeCast(AIHeroClient unit)
+        {
+            if (unit.IsRecalling || unit.IsCastingSpell || unit.IsEmpoweredRecalling) return false;
+
+            var nexus = UnitManager.AllyNexus;
+            if (nexus != null && nexus.Distance(unit.Position) <= 1000) return false;
+
+            return true;
+        }
+
+        /// <summary>
+        ///     Uses the item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="unit">The unit.</param>
+        /// <returns></returns>
+        public static void UseItem(this ActiveItem item, AIHeroClient unit)
+        {
+            if (!IsSafeCast(unit)) return;
+
+            if (item.TargetingType.ToString().Contains("Proximity"))
+                if (item.SpellClass.IsSpellReady)
+                {
+                    ItemCastProvider.CastItem(item.ItemId);
+                    item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                }
+
+            if (item.TargetingType.ToString().Contains("Unit"))
+                if (unit != null && item.SpellClass.IsSpellReady)
+                {
+                    ItemCastProvider.CastItem(item.ItemId, unit.Position);
+                    item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                }
+
+            if (item.TargetingType.ToString().Contains("Skillshot"))
+                if (unit != null && item.SpellClass.IsSpellReady)
+                {
+                    ItemCastProvider.CastItem(item.ItemId, unit.Position);
+                    item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                }
+        }
+
+        /// <summary>
+        ///     Uses the spell.
+        /// </summary>
+        /// <param name="spell">The spell.</param>
+        /// <param name="unit">The unit.</param>
+        /// <returns></returns>
+        public static void UseSpell(this AutoSpell spell, AIHeroClient unit)
+        {
+            if (!IsSafeCast(unit)) return;
+
+            if (spell.TargetingType.ToString().Contains("Proximity"))
+                if (spell.SpellClass.IsSpellReady)
+                {
+                    SpellCastProvider.CastSpell(spell.Slot);
+                    spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                }
+
+            if (spell.TargetingType.ToString().Contains("Unit"))
+                if (unit != null && spell.SpellClass.IsSpellReady)
+                {
+                    SpellCastProvider.CastSpell(spell.Slot, unit.Position);
+                    spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                }
+
+            if (spell.TargetingType.ToString().Contains("Skillshot"))
+                if (unit != null && spell.SpellClass.IsSpellReady)
+                {
+                    SpellCastProvider.CastSpell(spell.Slot, unit.Position);
+                    spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                }
+        }
+
+        /// <summary>
+        ///     Gets and sets the name of the spell class by.
+        /// </summary>
+        /// <param name="spell">The spell.</param>
+        /// <returns></returns>
+        public static void GetSpellClassByName(this AutoSpellBase spell)
+        {
+            var summonerOne = UnitManager.MyChampion.GetSpellBook()
+                .GetSpellClass(SpellSlot.Summoner1);
+
+            var summonerTwo = UnitManager.MyChampion.GetSpellBook()
+                .GetSpellClass(SpellSlot.Summoner2);
+
+            if (summonerOne.SpellData.SpellName == spell.SpellName)
+            {
+                spell.SpellClass = summonerOne;
+                spell.Slot = CastSlot.Summoner1;
+            }
+
+            if (summonerTwo.SpellData.SpellName == spell.SpellName)
+            {
+                spell.SpellClass = summonerTwo;
+                spell.Slot = CastSlot.Summoner2;
+            }
+        }
+
+        /// <summary>
+        ///     Gets the auras.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="champion">The champion.</param>
+        /// <returns></returns>
+        public static IEnumerable<BuffEntry> GetAuras(this ActiveItem item, Champion champion)
+        {
+            return champion.Instance.BuffManager.GetBuffList()
+                .Where(buff => buff.IsActive &&
+                               (buff.EntryType == BuffType.Snare && item.ItemSwitch[item.ItemId + "Snares"].IsOn ||
+                                buff.EntryType == BuffType.Sleep && item.ItemSwitch[item.ItemId + "Sleep"].IsOn ||
+                                buff.EntryType == BuffType.Knockup && item.ItemSwitch[item.ItemId + "Knockups"].IsOn ||
+                                buff.EntryType == BuffType.Silence && item.ItemSwitch[item.ItemId + "Silence"].IsOn ||
+                                buff.EntryType == BuffType.Charm && item.ItemSwitch[item.ItemId + "Charms"].IsOn ||
+                                buff.EntryType == BuffType.Taunt && item.ItemSwitch[item.ItemId + "Taunts"].IsOn ||
+                                buff.EntryType == BuffType.Stun && item.ItemSwitch[item.ItemId + "Stuns"].IsOn ||
+                                buff.EntryType == BuffType.Flee && item.ItemSwitch[item.ItemId + "Fear"].IsOn ||
+                                buff.EntryType == BuffType.Polymorph && item.ItemSwitch[item.ItemId + "Polymorphs"].IsOn ||
+                                buff.EntryType == BuffType.Blind && item.ItemSwitch[item.ItemId + "Blinds"].IsOn ||
+                                buff.EntryType == BuffType.Suppression && item.ItemSwitch[item.ItemId + "Suppression"].IsOn ||
+                                buff.EntryType == BuffType.Poison && item.ItemSwitch[item.ItemId + "Poison"].IsOn ||
+                                buff.EntryType == BuffType.Slow && item.ItemSwitch[item.ItemId + "Slows"].IsOn) ||
+                               buff.Name.ToLower() == "summonerexhaust" && item.ItemSwitch[item.ItemId + "Exhaust"].IsOn ||
+                               buff.Name.ToLower() == "summonerdot" && item.ItemSwitch[item.ItemId + "Ignite"].IsOn);
+        }
+
+        /// <summary>
+        ///     Gets the auras.
+        /// </summary>
+        /// <param name="spell">The spell.</param>
+        /// <param name="champion">The champion.</param>
+        /// <returns></returns>
+        public static IEnumerable<BuffEntry> GetAuras(this AutoSpell spell, Champion champion)
+        {
+            var tabName = spell.ChampionName + spell.Slot;
+            return champion.Instance.BuffManager.GetBuffList()
+                .Where(buff => buff.IsActive &&
+                               (buff.EntryType == BuffType.Snare && spell.SpellSwitch[tabName + "Snares"].IsOn ||
+                                buff.EntryType == BuffType.Sleep && spell.SpellSwitch[tabName + "Sleep"].IsOn ||
+                                buff.EntryType == BuffType.Knockup && spell.SpellSwitch[tabName + "Knockups"].IsOn ||
+                                buff.EntryType == BuffType.Silence && spell.SpellSwitch[tabName + "Silence"].IsOn ||
+                                buff.EntryType == BuffType.Charm && spell.SpellSwitch[tabName + "Charms"].IsOn ||
+                                buff.EntryType == BuffType.Taunt && spell.SpellSwitch[tabName + "Taunts"].IsOn ||
+                                buff.EntryType == BuffType.Stun && spell.SpellSwitch[tabName + "Stuns"].IsOn ||
+                                buff.EntryType == BuffType.Flee && spell.SpellSwitch[tabName + "Fear"].IsOn ||
+                                buff.EntryType == BuffType.Polymorph && spell.SpellSwitch[tabName + "Polymorphs"].IsOn ||
+                                buff.EntryType == BuffType.Blind && spell.SpellSwitch[tabName + "Blinds"].IsOn ||
+                                buff.EntryType == BuffType.Suppression && spell.SpellSwitch[tabName + "Suppression"].IsOn ||
+                                buff.EntryType == BuffType.Poison && spell.SpellSwitch[tabName + "Poison"].IsOn ||
+                                buff.EntryType == BuffType.Slow && spell.SpellSwitch[tabName + "Slows"].IsOn) ||
+                               buff.Name.ToLower() == "summonerexhaust" && spell.SpellSwitch[tabName + "Exhaust"].IsOn ||
+                               buff.Name.ToLower() == "summonerdot" && spell.SpellSwitch[tabName + "Ignite"].IsOn);
+        }
+
+        /// <summary>
+        ///     Checks the auras per item
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="hero">The hero.</param>
+        /// <returns></returns>
         public static void ItemCheckAuras(this ActiveItem item, AIHeroClient hero)
         {
-            if (item.ActivationTypes.Contains(Enums.ActivationType.CheckAuras))
+            if (item.ActivationTypes.Contains(ActivationType.CheckAuras))
             {
                 var champObj = Bootstrap.Allies
                     .FirstOrDefault(x => x.Value.Instance.NetworkID == hero.NetworkID).Value;
-                
+
                 if (champObj?.Instance == null)
                     return;
 
@@ -250,11 +384,8 @@
                 {
                     foreach (var buff in GetAuras(item, champObj))
                     {
-                        var length = (int)(buff.EndTime - buff.StartTime);
-                        if (length >= champObj.AuraInfo[item.ItemId + "BuffHighestTime"])
-                        {
-                            champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = length * 1000;
-                        }
+                        var length = (int) (buff.EndTime - buff.StartTime);
+                        if (length >= champObj.AuraInfo[item.ItemId + "BuffHighestTime"]) champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = length * 1000;
                     }
 
                     champObj.AuraInfo[item.ItemId + "BuffTimestamp"] = (int) (GameEngine.GameTime * 1000);
@@ -262,34 +393,30 @@
                 else
                 {
                     if (champObj.AuraInfo[item.ItemId + "BuffHighestTime"] > 0)
-                    {
                         champObj.AuraInfo[item.ItemId + "BuffHighestTime"] -= champObj.AuraInfo[item.ItemId + "BuffHighestTime"];
-                    }
                     else
-                    {
                         champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
-                    }
                 }
 
                 if (champObj.AuraInfo[item.ItemId + "BuffCount"] >= item.ItemCounter[item.ItemId + "MinimumBuffs"].Value)
-                {
                     if (champObj.AuraInfo[item.ItemId + "BuffHighestTime"] >= item.ItemCounter[item.ItemId + "MinimumBuffsDuration"].Value)
                     {
                         UseItem(item, champObj.Instance);
                         champObj.AuraInfo[item.ItemId + "BuffCount"] = 0;
                         champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
                     }
-                }
             }
         }
 
-        #endregion
-
-        #region Tidy : Spell Aura Check
-
+        /// <summary>
+        ///     Checks the auras per spell
+        /// </summary>
+        /// <param name="spell">The spell.</param>
+        /// <param name="hero">The hero.</param>
+        /// <returns></returns>
         public static void SpellCheckAuras(this AutoSpell spell, AIHeroClient hero)
         {
-            if (spell.ActivationTypes.Contains(Enums.ActivationType.CheckAuras))
+            if (spell.ActivationTypes.Contains(ActivationType.CheckAuras))
             {
                 var tabName = spell.ChampionName + spell.Slot;
                 var champObj = Bootstrap.Allies
@@ -310,156 +437,28 @@
                 {
                     foreach (var buff in GetAuras(spell, champObj))
                     {
-                        var length = (int)(buff.EndTime - buff.StartTime);
-                        if (length >= champObj.AuraInfo[tabName + "BuffHighestTime"])
-                        {
-                            champObj.AuraInfo[tabName + "BuffHighestTime"] = length * 1000;
-                        }
+                        var length = (int) (buff.EndTime - buff.StartTime);
+                        if (length >= champObj.AuraInfo[tabName + "BuffHighestTime"]) champObj.AuraInfo[tabName + "BuffHighestTime"] = length * 1000;
                     }
 
-                    champObj.AuraInfo[tabName + "BuffTimestamp"] = (int)(GameEngine.GameTime * 1000);
+                    champObj.AuraInfo[tabName + "BuffTimestamp"] = (int) (GameEngine.GameTime * 1000);
                 }
                 else
                 {
                     if (champObj.AuraInfo[tabName + "BuffHighestTime"] > 0)
-                    {
                         champObj.AuraInfo[tabName + "BuffHighestTime"] -= champObj.AuraInfo[tabName + "BuffHighestTime"];
-                    }
                     else
-                    {
                         champObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
-                    }
                 }
 
                 if (champObj.AuraInfo[tabName + "BuffCount"] >= spell.SpellCounter[tabName + "MinimumBuffs"].Value)
-                {
                     if (champObj.AuraInfo[tabName + "BuffHighestTime"] >= spell.SpellCounter[tabName + "MinimumBuffsDuration"].Value)
                     {
                         UseSpell(spell, champObj.Instance);
                         champObj.AuraInfo[tabName + "BuffCount"] = 0;
                         champObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
                     }
-                }
             }
-        }
-
-        #endregion
-
-        #region Tidy : Spells HP & Mana
-
-        public static void SpellCheckEnemyLowHealth(this AutoSpell spell, AIHeroClient unit)
-        {
-            if (spell.ActivationTypes.Contains(Enums.ActivationType.CheckEnemyLowHP))
-            {
-                var pctHealth = unit.Health / unit.MaxHealth * 100;
-                if (pctHealth <= spell.SpellCounter[spell.ChampionName + spell.Slot + "ehp"].Value &&
-                    spell.SpellSwitch[spell.ChampionName + spell.Slot].IsOn)
-                {
-                    UseSpell(spell, unit);
-                }
-            }
-        }
-
-        public static void SpellCheckAllyLowHealth(this AutoSpell spell, AIHeroClient unit)
-        {
-            if (spell.ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowHP))
-            {
-                var pctHealth = unit.Health / unit.MaxHealth * 100;
-                if (pctHealth <= spell.SpellCounter[spell.ChampionName + spell.Slot + "ahp"].Value &&
-                    spell.SpellSwitch[spell.ChampionName + spell.Slot].IsOn)
-                {
-                    UseSpell(spell, unit);
-                }
-            }
-        }
-
-        public static void SpellCheckAllyLowMana(this AutoSpell spell, AIHeroClient unit)
-        {
-            if (spell.ActivationTypes.Contains(Enums.ActivationType.CheckAllyLowMP))
-            {
-                var pctMana = unit.Mana / unit.MaxMana * 100;
-                if (pctMana <= spell.SpellCounter[spell.ChampionName + spell.Slot + "amp"].Value &&
-                    spell.SpellSwitch[spell.ChampionName + spell.Slot].IsOn)
-                {
-                    UseSpell(spell, unit);
-                }
-            }
-        }
-
-        public static bool SpellCheckMinimumMana(this AutoSpell spell, AIHeroClient unit)
-        {
-            var pctMana = unit.Mana / unit.MaxMana * 100;
-            return pctMana <= spell.SpellCounter[spell.ChampionName + spell.Slot + "amm"].Value &&
-                   spell.SpellSwitch[spell.ChampionName + spell.Slot].IsOn;
-        }
-
-        #endregion
-
-        #region Tidy : Misc
-
-        public static void GetSpellClassByName(this AutoSpellBase spell)
-        {
-            var summonerOne = UnitManager.MyChampion.GetSpellBook().GetSpellClass(SpellSlot.Summoner1);
-            var summonerTwo = UnitManager.MyChampion.GetSpellBook().GetSpellClass(SpellSlot.Summoner2);
-
-            if (summonerOne.SpellData.SpellName == spell.SpellName)
-            {
-                spell.SpellClass = summonerOne;
-                spell.Slot = CastSlot.Summoner1;
-            }
-
-            if (summonerTwo.SpellData.SpellName == spell.SpellName)
-            {
-                spell.SpellClass = summonerTwo;
-                spell.Slot = CastSlot.Summoner2;
-            }
-        }
-
-        #endregion
-
-        #region Cache : Auras
-
-        public static IEnumerable<BuffEntry> GetAuras(this ActiveItem item, Champion champion)
-        {
-            return champion.Instance.BuffManager.GetBuffList()
-                .Where(buff => buff.IsActive &&
-             (buff.EntryType == BuffType.Snare && item.ItemSwitch[item.ItemId + "Snares"].IsOn ||
-              buff.EntryType == BuffType.Sleep && item.ItemSwitch[item.ItemId + "Sleep"].IsOn ||
-              buff.EntryType == BuffType.Knockup && item.ItemSwitch[item.ItemId + "Knockups"].IsOn ||
-              buff.EntryType == BuffType.Silence && item.ItemSwitch[item.ItemId + "Silence"].IsOn ||
-              buff.EntryType == BuffType.Charm && item.ItemSwitch[item.ItemId + "Charms"].IsOn ||
-              buff.EntryType == BuffType.Taunt && item.ItemSwitch[item.ItemId + "Taunts"].IsOn ||
-              buff.EntryType == BuffType.Stun && item.ItemSwitch[item.ItemId + "Stuns"].IsOn ||
-              buff.EntryType == BuffType.Flee && item.ItemSwitch[item.ItemId + "Fear"].IsOn ||
-              buff.EntryType == BuffType.Polymorph && item.ItemSwitch[item.ItemId + "Polymorphs"].IsOn ||
-              buff.EntryType == BuffType.Blind && item.ItemSwitch[item.ItemId + "Blinds"].IsOn ||
-              buff.EntryType == BuffType.Suppression && item.ItemSwitch[item.ItemId + "Suppression"].IsOn ||
-              buff.EntryType == BuffType.Poison && item.ItemSwitch[item.ItemId + "Poison"].IsOn ||
-              buff.EntryType == BuffType.Slow && item.ItemSwitch[item.ItemId + "Slows"].IsOn) ||
-              buff.Name.ToLower() == "summonerexhaust" && item.ItemSwitch[item.ItemId + "Exhaust"].IsOn ||
-              buff.Name.ToLower() == "summonerdot" && item.ItemSwitch[item.ItemId + "Ignite"].IsOn);
-        }
-
-        public static IEnumerable<BuffEntry> GetAuras(this AutoSpell spell, Champion champion)
-        {
-            var tabName = spell.ChampionName + spell.Slot;
-            return champion.Instance.BuffManager.GetBuffList()
-                .Where(buff => buff.IsActive &&
-               (buff.EntryType == BuffType.Snare && spell.SpellSwitch[tabName + "Snares"].IsOn ||
-                buff.EntryType == BuffType.Sleep && spell.SpellSwitch[tabName + "Sleep"].IsOn ||
-                buff.EntryType == BuffType.Knockup && spell.SpellSwitch[tabName + "Knockups"].IsOn ||
-                buff.EntryType == BuffType.Silence && spell.SpellSwitch[tabName + "Silence"].IsOn ||
-                buff.EntryType == BuffType.Charm && spell.SpellSwitch[tabName + "Charms"].IsOn ||
-                buff.EntryType == BuffType.Taunt && spell.SpellSwitch[tabName + "Taunts"].IsOn ||
-                buff.EntryType == BuffType.Stun && spell.SpellSwitch[tabName + "Stuns"].IsOn ||
-                buff.EntryType == BuffType.Flee && spell.SpellSwitch[tabName + "Fear"].IsOn ||
-                buff.EntryType == BuffType.Polymorph && spell.SpellSwitch[tabName + "Polymorphs"].IsOn ||
-                buff.EntryType == BuffType.Blind && spell.SpellSwitch[tabName + "Blinds"].IsOn ||
-                buff.EntryType == BuffType.Suppression && spell.SpellSwitch[tabName + "Suppression"].IsOn ||
-                buff.EntryType == BuffType.Poison && spell.SpellSwitch[tabName + "Poison"].IsOn ||
-                buff.EntryType == BuffType.Slow && spell.SpellSwitch[tabName + "Slows"].IsOn) ||
-               buff.Name.ToLower() == "summonerexhaust" && spell.SpellSwitch[tabName + "Exhaust"].IsOn ||
-               buff.Name.ToLower() == "summonerdot" && spell.SpellSwitch[tabName + "Ignite"].IsOn);
         }
 
         #endregion
