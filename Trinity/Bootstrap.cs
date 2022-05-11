@@ -2,7 +2,6 @@
 {
     #region
 
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Base;
@@ -38,12 +37,12 @@
         /// <summary>
         ///     All items
         /// </summary>
-        private static readonly List<ActiveItemBase> AllItems = new();
+        public static readonly List<ActiveItemBase> AllItems = new();
 
         /// <summary>
         ///     All spells
         /// </summary>
-        private static readonly List<AutoSpellBase> AllSpells = new();
+        public static readonly List<AutoSpellBase> AllSpells = new();
 
         /// <summary>
         ///     The initialized tick items
@@ -337,6 +336,9 @@
 
         #region Public Methods and Operators
 
+        /// <summary>
+        ///     The Oasys module entry point
+        /// </summary>
         [Oasys.SDK.OasysModuleEntryPoint]
         public static void Execute()
         {
@@ -348,6 +350,9 @@
 
         #region Private Methods and Operators
 
+        /// <summary>
+        ///     Games events [on game load complete].
+        /// </summary>
         private static async Task GameEvents_OnGameLoadComplete()
         {
             AllSpells.AddRange(AutoSpells);
@@ -358,20 +363,15 @@
             AllItems.AddRange(CleanseItems);
             AllItems.AddRange(OffensiveItems);
 
-            try
-            {
-                Initialize();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            InitializeTrinity();
 
             CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
             CoreEvents.OnCoreMainInputAsync += CoreEvents_OnCoreMainInputAsync;
         }
 
+        /// <summary>
+        ///     Games events [on game match complete].
+        /// </summary>
         private static async Task GameEvents_OnGameMatchComplete()
         {
             AllItems.Clear();
@@ -380,23 +380,12 @@
             CoreEvents.OnCoreMainInputAsync -= CoreEvents_OnCoreMainInputAsync;
         }
 
-        private static void Initialize()
+
+        /// <summary>
+        ///     Initializes the trinity add-on.
+        /// </summary>
+        private static void InitializeTrinity()
         {
-            #region Tidy: Defensive Item Menu
-
-            var defensiveItemMenu = new Tab("Trinity: Defensive");
-
-            foreach (var item in DefensiveItems)
-            {
-                item.OnItemInitialize += () => InitializedTickItems.Add(item);
-                item.OnItemDispose += () => InitializedTickItems.Remove(item);
-                item.Initialize(defensiveItemMenu);
-            }
-
-            MenuManager.AddTab(defensiveItemMenu);
-
-            #endregion
-
             #region Tidy : Offensive Item Menu
 
             var offensiveItemMenu = new Tab("Trinity: Offensive");
@@ -409,6 +398,21 @@
             }
 
             MenuManager.AddTab(offensiveItemMenu);
+
+            #endregion
+
+            #region Tidy: Defensive Item Menu
+
+            var defensiveItemMenu = new Tab("Trinity: Defensive");
+
+            foreach (var item in DefensiveItems)
+            {
+                item.OnItemInitialize += () => InitializedTickItems.Add(item);
+                item.OnItemDispose += () => InitializedTickItems.Remove(item);
+                item.Initialize(defensiveItemMenu);
+            }
+
+            MenuManager.AddTab(defensiveItemMenu);
 
             #endregion
 
@@ -442,20 +446,6 @@
 
             #endregion
 
-            #region Tidy : Auto Spells Menu
-
-            var autoSpellsMenu = new Tab("Trinity: Auto Spells");
-            foreach (var spell in AutoSpells)
-            {
-                spell.OnSpellInitialize += () => InitializedTickSpells.Add(spell);
-                spell.OnSpellDispose += () => InitializedTickSpells.Remove(spell);
-                spell.Initialize(autoSpellsMenu);
-            }
-
-            MenuManager.AddTab(autoSpellsMenu);
-
-            #endregion
-
             #region Tidy : Summoner Spells Menu
 
             var summonerSpellMenu = new Tab("Trinity: Summoners");
@@ -477,8 +467,50 @@
             MenuManager.AddTab(summonerSpellMenu);
 
             #endregion
+
+            #region Tidy : Auto Spells Menu
+
+            var autoSpellsMenu = new Tab("Trinity: Auto Spells");
+            foreach (var spell in AutoSpells)
+            {
+                spell.OnSpellInitialize += () => InitializedTickSpells.Add(spell);
+                spell.OnSpellDispose += () => InitializedTickSpells.Remove(spell);
+                spell.Initialize(autoSpellsMenu);
+            }
+
+            MenuManager.AddTab(autoSpellsMenu);
+
+            #endregion
         }
 
+        /// <summary>
+        ///     Gets the heroes.
+        /// </summary>
+        /// <param name="unit">The unit.</param>
+        private static void GetHeroes(AIBaseClient unit)
+        {
+            if (unit is AIHeroClient hero)
+            {
+                if (hero.Team == UnitManager.MyChampion.Team)
+                {
+                    if (!Allies.ContainsKey(hero.NetworkID))
+                    {
+                        Allies[hero.NetworkID] = new Champion(hero);
+                    }
+                }
+                else
+                {
+                    if (!Enemies.ContainsKey(hero.NetworkID))
+                    {
+                        Enemies[hero.NetworkID] = new Champion(hero);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Cores events [on core main tick].
+        /// </summary>
         private static async Task CoreEvents_OnCoreMainTick()
         {
             foreach (var initializedTickItem in InitializedTickItems)
@@ -488,33 +520,18 @@
                 initializedTickSpell.OnTick();
 
             foreach (var unit in ObjectManagerExport.HeroCollection)
-                if (unit.Value is AIHeroClient hero)
-                {
-                    if (hero.Team == UnitManager.MyChampion.Team)
-                    {
-                        if (!Allies.ContainsKey(hero.NetworkID))
-                        {
-                            Allies[hero.NetworkID] = new Champion(hero);
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        if (!Enemies.ContainsKey(hero.NetworkID))
-                        {
-                            Enemies[hero.NetworkID] = new Champion(hero);
-                            break;
-                        }
-                    }
-                }
+                GetHeroes(unit.Value);
         }
 
+        /// <summary>
+        ///     Cores events [on core main input asynchronous].
+        /// </summary>
         private static async Task CoreEvents_OnCoreMainInputAsync()
         {
-            foreach (var initializedInputItem in InitializedInputItems) 
+            foreach (var initializedInputItem in InitializedInputItems)
                 initializedInputItem.OnTick();
 
-            foreach (var initializedInputSpell in InitializedInputSpells) 
+            foreach (var initializedInputSpell in InitializedInputSpells)
                 initializedInputSpell.OnTick();
         }
 

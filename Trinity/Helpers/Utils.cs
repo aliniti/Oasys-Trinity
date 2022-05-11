@@ -220,6 +220,7 @@
         public static void UseItem(this ActiveItem item, AIHeroClient unit)
         {
             if (!IsSafeCast(unit)) return;
+            if (GameEngine.GameTime * 1000 - item.LastUsedTimeStamp < 250) return;
 
             if (item.TargetingType.ToString().Contains("Proximity"))
                 if (item.SpellClass.IsSpellReady)
@@ -252,6 +253,7 @@
         public static void UseSpell(this AutoSpell spell, AIHeroClient unit)
         {
             if (!IsSafeCast(unit)) return;
+            if (GameEngine.GameTime * 1000 - spell.LastUsedTimeStamp < 250) return;
 
             if (spell.TargetingType.ToString().Contains("Proximity"))
                 if (spell.SpellClass.IsSpellReady)

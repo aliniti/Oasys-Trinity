@@ -87,12 +87,15 @@
                             (int) (Instance.UnitComponentInfo.UnitBoundingRadius + spellWidth);
                     }
                 }
-        }
+        }   
 
         #endregion
 
         #region Private Methods and Operators
 
+        /// <summary>
+        ///     Cores events [on core main tick].
+        /// </summary>
         private async Task CoreEvents_OnCoreMainTick()
         {
             if (Instance.IsEnemy) return;

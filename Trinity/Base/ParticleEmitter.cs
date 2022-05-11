@@ -3,11 +3,17 @@
     #region
 
     using System.Collections.Generic;
-    using Oasys.Common.Enums.GameEnums;
+    using System.Threading.Tasks;
+    using Oasys.Common.EventsProvider;
     using Oasys.Common.GameObject;
+    using Oasys.Common.GameObject.Clients;
+    using Oasys.SDK;
 
     #endregion
 
+    /// <summary>
+    ///     The particle emitter class responsible for in-game troys
+    /// </summary>
     public class ParticleEmitter
     {
         #region Properties and Encapsulation
@@ -20,6 +26,37 @@
         /// </value>
         public bool Included { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the interval.
+        /// </summary>
+        /// <value>
+        ///     The interval.
+        /// </value>
+        public double Interval { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the start tick.
+        /// </summary>
+        /// <value>
+        ///     The start.
+        /// </value>
+        public float CreatedTickTime { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the delay from start.
+        /// </summary>
+        /// <value>
+        ///     The delay from start.
+        /// </value>
+        public float DelayFromStart { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the radius.
+        /// </summary>
+        /// <value>
+        ///     The radius.
+        /// </value>
+        public float Radius { get; set; }
 
         /// <summary>
         ///     Gets or sets the object.
@@ -29,31 +66,13 @@
         /// </value>
         public GameObjectBase Obj { get; set; }
 
-
         /// <summary>
-        ///     Gets or sets the damage.
+        ///     Gets or sets the limiter.
         /// </summary>
         /// <value>
-        ///     The damage.
+        ///     The limiter.
         /// </value>
-        public int Damage { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the start tick.
-        /// </summary>
-        /// <value>
-        ///     The start.
-        /// </value>
-        public int Start { get; set; }
-
-
-        /// <summary>
-        ///     Gets or sets the slot.
-        /// </summary>
-        /// <value>
-        ///     The slot.
-        /// </value>
-        public SpellSlot Slot { get; set; }
+        public int Limiter { get; set; }
 
         /// <summary>
         ///     Gets or sets the name.
@@ -69,16 +88,7 @@
         /// <value>
         ///     The owner identifier.
         /// </value>
-        public uint OwnerId { get; set; }
-
-        #endregion
-
-        #region Static Fields and Constants
-
-        /// <summary>
-        ///     The emitters
-        /// </summary>
-        public static List<ParticleEmitter> Emitters = new();
+        public string Champion { get; set; }
 
         #endregion
 
@@ -87,22 +97,67 @@
         /// <summary>
         ///     Initializes a new instance of the <see cref="ParticleEmitter" /> class.
         /// </summary>
-        /// <param name="ownerId">The ownerId.</param>
-        /// <param name="slot">The slot.</param>
+        /// <param name="champ">The champion</param>
         /// <param name="name">The name.</param>
-        /// <param name="start">The start.</param>
+        /// <param name="slot">The slot.</param>
         /// <param name="inculded">if set to <c>true</c> [inculded].</param>
-        /// <param name="incdmg">The incdmg.</param>
-        /// <param name="obj">The object.</param>
-        public ParticleEmitter(uint ownerId, SpellSlot slot, string name, int start, bool inculded, int incdmg = 0, GameObjectBase obj = null)
+        public ParticleEmitter(string champ, string name, float radius, double interval = 0.5, float delay = 0)
         {
-            OwnerId = ownerId;
-            Slot = slot;
-            Start = start;
             Name = name;
-            Obj = obj;
-            Included = inculded;
-            Damage = incdmg;
+            Radius = radius;
+            Champion = champ;
+            Interval = interval;
+            DelayFromStart = delay;
+
+            GameEvents.OnCreateObject += GameEvents_OnCreateObject;
+            GameEvents.OnDeleteObject += GameEvents_OnDeleteObject;
+            CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
+        }
+
+        #endregion
+
+        #region Private Methods and Operators
+
+        /// <summary>
+        ///     Cores events [on core main tick].
+        /// </summary>
+        private async Task CoreEvents_OnCoreMainTick()
+        {
+        }
+
+        /// <summary>
+        ///     Games events [on create object].
+        /// </summary>
+        /// <param name="objList">The object list.</param>
+        /// <param name="obj">The object.</param>
+        /// <param name="callbackGameTime">The callback game time.</param>
+        private async Task GameEvents_OnCreateObject(List<AIBaseClient> objList, AIBaseClient obj, float callbackGameTime)
+        {
+            if (obj.Name.ToLower().Contains(Name.ToLower()))
+            {
+                Obj = obj;
+                CreatedTickTime = (int) (GameEngine.GameTime * 1000);
+                Included = true;
+                //Logger.Log(obj.Name.ToLower() + " : created");
+            }
+        }
+
+        /// <summary>
+        ///     Games events [on delete object].
+        /// </summary>
+        /// <param name="objList">The object list.</param>
+        /// <param name="obj">The object.</param>
+        /// <param name="callbackGameTime">The callback game time.</param>
+        private async Task GameEvents_OnDeleteObject(List<AIBaseClient> objList, AIBaseClient obj, float callbackGameTime)
+        {
+            if (obj.Name.ToLower().Contains(Name.ToLower()))
+            {
+                Obj = null;
+                CreatedTickTime = 0;
+                Included = false;
+                Limiter = 0;
+                //Logger.Log(obj.Name.ToLower() + " : deleted");
+            }
         }
 
         #endregion
