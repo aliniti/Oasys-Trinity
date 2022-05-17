@@ -4,7 +4,6 @@
 
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Oasys.Common.EventsProvider;
     using Oasys.Common.GameObject;
     using Oasys.Common.GameObject.Clients;
     using Oasys.SDK;
@@ -108,10 +107,6 @@
             Champion = champ;
             Interval = interval;
             DelayFromStart = delay;
-
-            GameEvents.OnCreateObject += GameEvents_OnCreateObject;
-            GameEvents.OnDeleteObject += GameEvents_OnDeleteObject;
-            CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
         }
 
         #endregion

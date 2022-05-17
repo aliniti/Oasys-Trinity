@@ -105,27 +105,18 @@
         {
             // item: Ironspike_Whip
             new ActiveItem(90, ItemID.Ironspike_Whip, TargetingType.ProximityEnemy, 450,
-                new[]
-                {
-                    ActivationType.CheckEnemyLowHP, ActivationType.CheckAoECount,
-                    ActivationType.CheckOnlyOnMe
-                }),
+                new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckAoECount,
+                    ActivationType.CheckOnlyOnMe }),
 
             // item: Stridebreaker
             new ActiveItem(90, ItemID.Stridebreaker, TargetingType.ProximityEnemy, 450,
-                new[]
-                {
-                    ActivationType.CheckEnemyLowHP, ActivationType.CheckAoECount,
-                    ActivationType.CheckOnlyOnMe
-                }),
+                new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckAoECount,
+                    ActivationType.CheckOnlyOnMe }),
 
             // item: Goredrinker
             new ActiveItem(90, ItemID.Goredrinker, TargetingType.ProximityEnemy, 450,
-                new[]
-                {
-                    ActivationType.CheckEnemyLowHP, ActivationType.CheckAoECount,
-                    ActivationType.CheckOnlyOnMe
-                }),
+                new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckAoECount,
+                    ActivationType.CheckOnlyOnMe }),
 
             // item: Prowlers_Claw
             new ActiveItem(90, ItemID.Prowlers_Claw, TargetingType.UnitEnemy, 500,
@@ -181,42 +172,44 @@
         {
             // item: Health_Potion
             new ActiveItem(65, ItemID.Health_Potion, TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckOnlyOnMe, ActivationType.CheckAllyLowHP },
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe },
                 "Item2003"),
 
             // item: Refillable_Potion
             new ActiveItem(65, ItemID.Refillable_Potion, TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckOnlyOnMe, ActivationType.CheckAllyLowHP },
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe },
                 "ItemCrystalFlask"),
 
             // item: Corrupting_Potion
             new ActiveItem(65, ItemID.Corrupting_Potion, TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckOnlyOnMe, ActivationType.CheckAllyLowHP, ActivationType.CheckAllyLowMP },
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckAllyLowMP,
+                    ActivationType.CheckOnlyOnMe },
                 "ItemDarkCrystalFlask"),
 
             // item: Total_Biscuit_of_Rejuvenation
             new ActiveItem(65, ItemID.Total_Biscuit_of_Everlasting_Will, TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckOnlyOnMe, ActivationType.CheckAllyLowHP, ActivationType.CheckAllyLowMP },
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckAllyLowMP, 
+                    ActivationType.CheckOnlyOnMe },
                 "Item2010"),
 
             // item: Elixir_of_Iron
             new ActiveItem(100, ItemID.Elixir_of_Iron, TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckOnlyOnMe },
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe },
                 "ElixirOfIron"),
 
             // item: Elixir_of_Wrath
             new ActiveItem(100, ItemID.Elixir_of_Wrath, TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckOnlyOnMe },
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe },
                 "ElixirOfWrath"),
 
             // item: Elixir_of_Sorcery
             new ActiveItem(100, ItemID.Elixir_of_Sorcery, TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckOnlyOnMe },
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe },
                 "ElixirOfSorcery"),
 
             // item: Your_Cut (Pyke Assist)
             new ActiveItem(100, ItemID.Your_Cut, TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckOnlyOnMe })
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe })
         };
 
         /// <summary>
@@ -236,14 +229,17 @@
         /// </summary>
         private static readonly List<AutoSpell> SummonerTickSpells = new()
         {
-            new AutoSpell(35, "Barrier", "SummonerBarrier", TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
-
             new AutoSpell(35, "Heal", "SummonerHeal", TargetingType.ProximityAlly, 850,
                 new[] { ActivationType.CheckAllyLowHP }),
 
+            new Smite(100, "Smite", "SummonerSmite", TargetingType.UnitEnemy, 500,
+                new ActivationType[] { }),
+
+            new AutoSpell(35, "Barrier", "SummonerBarrier", TargetingType.ProximityAlly, float.MaxValue,
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
+
             new AutoSpell(100, "Cleanse", "SummonerBoost", TargetingType.ProximityAlly, 1200,
-                new[] { ActivationType.CheckAuras, ActivationType.CheckOnlyOnMe })
+                new[] { ActivationType.CheckAuras, ActivationType.CheckOnlyOnMe }),
         };
 
         /// <summary>
@@ -257,13 +253,15 @@
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana }),
 
             new AutoSpell(90, "Diana", CastSlot.W, TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana, ActivationType.CheckOnlyOnMe }),
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana, 
+                    ActivationType.CheckOnlyOnMe }),
 
             new AutoSpell(90, "Janna", CastSlot.E, TargetingType.UnitAlly, 800,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana }),
 
             new AutoSpell(90, "Garen", CastSlot.W, TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana, ActivationType.CheckOnlyOnMe }),
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana, 
+                    ActivationType.CheckOnlyOnMe }),
 
             new AutoSpell(90, "Lulu", CastSlot.E, TargetingType.UnitAlly, 650,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana }),
@@ -275,31 +273,35 @@
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana }),
 
             new AutoSpell(90, "Nautilus", CastSlot.W, TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana, ActivationType.CheckOnlyOnMe }),
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana,
+                    ActivationType.CheckOnlyOnMe }),
 
             #endregion
 
             #region Anti-Kill Secure Spells
 
-            new AutoSpell(20, "Zilean", CastSlot.R, TargetingType.UnitAlly, 900,
+            new AutoSpell(35, "Zilean", CastSlot.R, TargetingType.UnitAlly, 900,
                 new[] { ActivationType.CheckAllyLowHP }),
 
-            new AutoSpell(20, "Kindred", CastSlot.R, TargetingType.UnitAlly, 400,
+            new AutoSpell(35, "Kindred", CastSlot.R, TargetingType.UnitAlly, 400,
                 new[] { ActivationType.CheckAllyLowHP }),
 
-            new AutoSpell(20, "Aatrox", CastSlot.R, TargetingType.UnitAlly, float.MaxValue,
+            new AutoSpell(35, "Aatrox", CastSlot.R, TargetingType.UnitAlly, float.MaxValue,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
 
-            new AutoSpell(20, "Lulu", CastSlot.R, TargetingType.UnitAlly, 900,
+            new AutoSpell(35, "Lulu", CastSlot.R, TargetingType.UnitAlly, 900,
                 new[] { ActivationType.CheckAllyLowHP }),
 
-            new AutoSpell(20, "Tryndamere", CastSlot.R, TargetingType.UnitAlly, float.MaxValue,
+            new AutoSpell(35, "Tryndamere", CastSlot.R, TargetingType.UnitAlly, float.MaxValue,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
 
             new AutoSpell(35, "Soraka", CastSlot.R, TargetingType.ProximityAlly, float.MaxValue,
                 new[] { ActivationType.CheckAllyLowHP }),
 
-            new AutoSpell(25, "Mundo", CastSlot.R, TargetingType.ProximityAlly, float.MaxValue,
+            new AutoSpell(35, "Kayle", CastSlot.R, TargetingType.UnitAlly, 900,
+                new[] { ActivationType.CheckAllyLowHP }),
+
+            new AutoSpell(35, "Mundo", CastSlot.R, TargetingType.ProximityAlly, float.MaxValue,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
 
             #endregion
@@ -367,6 +369,7 @@
 
             CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
             CoreEvents.OnCoreMainInputAsync += CoreEvents_OnCoreMainInputAsync;
+            CoreEvents.OnCoreRender += CoreEvents_OnCoreRender;
         }
 
         /// <summary>
@@ -471,6 +474,7 @@
             #region Tidy : Auto Spells Menu
 
             var autoSpellsMenu = new Tab("Trinity: Auto Spells");
+
             foreach (var spell in AutoSpells)
             {
                 spell.OnSpellInitialize += () => InitializedTickSpells.Add(spell);
@@ -533,6 +537,18 @@
 
             foreach (var initializedInputSpell in InitializedInputSpells)
                 initializedInputSpell.OnTick();
+        }
+
+        /// <summary>
+        ///     Cores events [on core render].
+        /// </summary>
+        private static void CoreEvents_OnCoreRender()
+        {
+            foreach (var initializedTickItem in InitializedTickItems)
+                initializedTickItem.OnRender();
+
+            foreach (var initializedTickSpell in InitializedTickSpells)
+                initializedTickSpell.OnRender();
         }
 
         #endregion

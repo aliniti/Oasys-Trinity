@@ -140,11 +140,12 @@
         /// <param name="unit">The unit.</param>
         public static void CheckSpellEnemyLowHealth(this AutoSpell spell, AIHeroClient unit)
         {
+            var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
             if (spell.ActivationTypes.Contains(ActivationType.CheckEnemyLowHP))
             {
                 var pctHealth = unit.Health / unit.MaxHealth * 100;
-                if (pctHealth <= spell.SpellCounter[spell.ChampionName + spell.Slot + "ehp"].Value &&
-                    spell.SpellSwitch[spell.ChampionName + spell.Slot].IsOn)
+                if (pctHealth <= spell.SpellCounter[tabName + "ehp"].Value &&
+                    spell.SpellSwitch[tabName].IsOn)
                     UseSpell(spell, unit);
             }
         }
@@ -156,11 +157,12 @@
         /// <param name="unit">The unit.</param>
         public static void CheckSpellAllyLowHealth(this AutoSpell spell, AIHeroClient unit)
         {
+            var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
             if (spell.ActivationTypes.Contains(ActivationType.CheckAllyLowHP))
             {
                 var pctHealth = unit.Health / unit.MaxHealth * 100;
-                if (pctHealth <= spell.SpellCounter[spell.ChampionName + spell.Slot + "ahp"].Value &&
-                    spell.SpellSwitch[spell.ChampionName + spell.Slot].IsOn)
+                if (pctHealth <= spell.SpellCounter[tabName + "ahp"].Value &&
+                    spell.SpellSwitch[tabName].IsOn)
                     UseSpell(spell, unit);
             }
         }
@@ -172,11 +174,12 @@
         /// <param name="unit">The unit.</param>
         public static void CheckSpellAllyLowMana(this AutoSpell spell, AIHeroClient unit)
         {
+            var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
             if (spell.ActivationTypes.Contains(ActivationType.CheckAllyLowMP))
             {
                 var pctMana = unit.Mana / unit.MaxMana * 100;
-                if (pctMana <= spell.SpellCounter[spell.ChampionName + spell.Slot + "amp"].Value &&
-                    spell.SpellSwitch[spell.ChampionName + spell.Slot].IsOn)
+                if (pctMana <= spell.SpellCounter[tabName + "amp"].Value &&
+                    spell.SpellSwitch[tabName].IsOn)
                     UseSpell(spell, unit);
             }
         }
@@ -189,9 +192,11 @@
         /// <returns></returns>
         public static bool CheckSpellMinimumMana(this AutoSpell spell, AIHeroClient unit)
         {
+            var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
             var pctMana = unit.Mana / unit.MaxMana * 100;
-            return pctMana <= spell.SpellCounter[spell.ChampionName + spell.Slot + "amm"].Value &&
-                   spell.SpellSwitch[spell.ChampionName + spell.Slot].IsOn;
+
+            return pctMana <= spell.SpellCounter[tabName + "amm"].Value &&
+                   spell.SpellSwitch[tabName].IsOn;
         }
 
         /// <summary>
@@ -201,12 +206,15 @@
         /// <returns>
         ///     <c>true</c> if [is safe cast] [the specified unit]; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsSafeCast(AIHeroClient unit)
+        public static bool IsSafeCast(AIBaseClient unit)
         {
-            if (unit.IsRecalling || unit.IsCastingSpell || unit.IsEmpoweredRecalling) return false;
+            if (unit is AIHeroClient hero)
+                if (hero.IsRecalling || hero.IsCastingSpell || hero.IsEmpoweredRecalling)
+                    return false;
 
             var nexus = UnitManager.AllyNexus;
-            if (nexus != null && nexus.Distance(unit.Position) <= 1000) return false;
+            if (nexus != null && nexus.Distance(unit.Position) <= 1000)
+                return false;
 
             return true;
         }
@@ -217,7 +225,7 @@
         /// <param name="item">The item.</param>
         /// <param name="unit">The unit.</param>
         /// <returns></returns>
-        public static void UseItem(this ActiveItem item, AIHeroClient unit)
+        public static void UseItem(this ActiveItem item, AIBaseClient unit)
         {
             if (!IsSafeCast(unit)) return;
             if (GameEngine.GameTime * 1000 - item.LastUsedTimeStamp < 250) return;
@@ -250,7 +258,7 @@
         /// <param name="spell">The spell.</param>
         /// <param name="unit">The unit.</param>
         /// <returns></returns>
-        public static void UseSpell(this AutoSpell spell, AIHeroClient unit)
+        public static void UseSpell(this AutoSpell spell, AIBaseClient unit)
         {
             if (!IsSafeCast(unit)) return;
             if (GameEngine.GameTime * 1000 - spell.LastUsedTimeStamp < 250) return;
@@ -278,28 +286,39 @@
         }
 
         /// <summary>
-        ///     Gets and sets the name of the spell class by.
+        ///     Corrects the spell class if needed.
         /// </summary>
         /// <param name="spell">The spell.</param>
-        /// <returns></returns>
-        public static void GetSpellClassByName(this AutoSpellBase spell)
+        public static void CorrectSpellClass(this AutoSpellBase spell)
         {
-            var summonerOne = UnitManager.MyChampion.GetSpellBook()
-                .GetSpellClass(SpellSlot.Summoner1);
-
-            var summonerTwo = UnitManager.MyChampion.GetSpellBook()
-                .GetSpellClass(SpellSlot.Summoner2);
-
-            if (summonerOne.SpellData.SpellName == spell.SpellName)
+            var summonerOne = UnitManager.MyChampion.GetSpellBook().GetSpellClass(SpellSlot.Summoner1);
+            if (summonerOne.SpellData.SpellName.Contains("Smite") && spell.SpellName == "SummonerSmite")
             {
                 spell.SpellClass = summonerOne;
                 spell.Slot = CastSlot.Summoner1;
+                spell.IsSummonerSpell = true;
             }
 
+            else if (summonerOne.SpellData.SpellName == spell.SpellName)
+            {
+                spell.SpellClass = summonerOne;
+                spell.Slot = CastSlot.Summoner1;
+                spell.IsSummonerSpell = true;
+            }
+
+            var summonerTwo = UnitManager.MyChampion.GetSpellBook().GetSpellClass(SpellSlot.Summoner2);
             if (summonerTwo.SpellData.SpellName == spell.SpellName)
             {
                 spell.SpellClass = summonerTwo;
                 spell.Slot = CastSlot.Summoner2;
+                spell.IsSummonerSpell = true;
+            }
+
+            else if (summonerTwo.SpellData.SpellName.Contains("Smite") && spell.SpellName == "SummonerSmite")
+            {
+                spell.SpellClass = summonerTwo;
+                spell.Slot = CastSlot.Summoner1;
+                spell.IsSummonerSpell = true;
             }
         }
 
@@ -338,7 +357,7 @@
         /// <returns></returns>
         public static IEnumerable<BuffEntry> GetAuras(this AutoSpell spell, Champion champion)
         {
-            var tabName = spell.ChampionName + spell.Slot;
+            var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
             return champion.Instance.BuffManager.GetBuffList()
                 .Where(buff => buff.IsActive &&
                                (buff.EntryType == BuffType.Snare && spell.SpellSwitch[tabName + "Snares"].IsOn ||
@@ -420,7 +439,7 @@
         {
             if (spell.ActivationTypes.Contains(ActivationType.CheckAuras))
             {
-                var tabName = spell.ChampionName + spell.Slot;
+                var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
                 var champObj = Bootstrap.Allies
                     .FirstOrDefault(x => x.Value.Instance.NetworkID == hero.NetworkID).Value;
 
@@ -459,6 +478,7 @@
                         UseSpell(spell, champObj.Instance);
                         champObj.AuraInfo[tabName + "BuffCount"] = 0;
                         champObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
+
                     }
             }
         }

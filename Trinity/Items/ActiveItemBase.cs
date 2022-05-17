@@ -125,6 +125,7 @@
 
         public abstract void OnTick();
         public abstract void CreateTab();
+        public abstract void OnRender();
 
         #endregion
 

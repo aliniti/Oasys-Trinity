@@ -112,6 +112,10 @@
                 this.CreateItemCheckAoECount();
         }
 
+        public override void OnRender()
+        {
+        }
+
         public override void OnTick()
         {
             if (TargetingType.ToString().Contains("Enemy"))
@@ -130,7 +134,7 @@
                     this.CheckItemAuras(myHero.Instance);
                     this.CheckItemAoECount(myHero.Instance);
 
-                    if (myHero.InWayDanger)
+                    if (myHero.InWayDanger || UsePct == 100)
                     {
                         this.CheckItemAllyLowHealth(myHero.Instance);
                         this.CheckItemAllyLowMana(myHero.Instance);
@@ -151,7 +155,7 @@
                             this.CheckItemAuras(hero.Instance);
                             this.CheckItemAoECount(hero.Instance);
 
-                            if (hero.InWayDanger)
+                            if (hero.InWayDanger || UsePct == 100)
                             {
                                 this.CheckItemAllyLowHealth(hero.Instance);
                                 this.CheckItemAllyLowMana(hero.Instance);

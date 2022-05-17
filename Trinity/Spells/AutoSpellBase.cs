@@ -90,6 +90,14 @@
         /// </value>
         public Tab SpellTab { get; set; }
 
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is summoner spell.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if this instance is summoner spell; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsSummonerSpell { get ; set ; }
+
         #endregion
 
         #region Public Methods and Operators
@@ -129,7 +137,7 @@
             switch (string.IsNullOrEmpty(SpellName))
             {
                 case false:
-                    this.GetSpellClassByName();
+                    this.CorrectSpellClass();
                     break;
                 default:
                     SpellClass = UnitManager.MyChampion.GetSpellBook().GetSpellClass((SpellSlot) Slot - 16);
@@ -165,6 +173,7 @@
 
         public abstract void OnTick();
         public abstract void CreateTab();
+        public abstract void OnRender();
 
         #endregion
 

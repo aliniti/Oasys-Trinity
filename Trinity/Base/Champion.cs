@@ -121,6 +121,17 @@
                         break;
                 }
             }
+
+            foreach (var t in ObjectManagerExport.JungleObjectCollection)
+            {
+                var minion = t.Value;
+                switch (minion.IsNeutral)
+                {
+                    case true:
+                        CheckProjectionSegment(minion);
+                        break;
+                }
+            }
         }
 
         #endregion

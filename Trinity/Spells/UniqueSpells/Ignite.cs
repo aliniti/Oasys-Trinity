@@ -39,43 +39,38 @@
         /// </summary>
         public override void CreateTab()
         {
-            SpellSwitch["igcombo"] = new Switch
+            this.CreateSpellTabEnableSwitch();
+            var tabname = ChampionName;
+
+            SpellGroup[tabname + "grp"].AddItem(SpellSwitch["igcombo"] = new Switch
             {
                 IsOn = true,
                 Title = "Ignite on Combo"
-            };
+            });
 
-            SpellTab.AddItem(SpellSwitch["igcombo"]);
-
-            SpellCounter["igminhp"] = new Counter
+            SpellGroup[tabname + "grp"].AddItem(SpellCounter["igminhp"] = new Counter
             {
                 Title = "Ignite Min Target HP (%)",
                 MaxValue = 100,
                 MinValue = 5,
                 Value = 25,
                 ValueFrequency = 5
-            };
+            });
 
-            SpellTab.AddItem(SpellCounter["igminhp"]);
-
-            SpellCounter["igmaxhp"] = new Counter
+            SpellGroup[tabname + "grp"].AddItem(SpellCounter["igmaxhp"] = new Counter
             {
                 Title = "Ignite Max Target HP (%)",
                 MaxValue = 100,
                 MinValue = 5,
                 Value = 70,
                 ValueFrequency = 5
-            };
+            });
 
-            SpellTab.AddItem(SpellCounter["igmaxhp"]);
-
-            SpellSwitch["igks"] = new Switch
+            SpellGroup[tabname + "grp"].AddItem(SpellSwitch["igks"] = new Switch
             {
                 IsOn = false,
                 Title = "Ignite on KS"
-            };
-
-            SpellTab.AddItem(SpellSwitch["igks"]);
+            });
         }
 
         /// <summary>

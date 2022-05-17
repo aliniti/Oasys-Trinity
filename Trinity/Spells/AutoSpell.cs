@@ -5,6 +5,7 @@
     using System.Linq;
     using Helpers;
     using Oasys.Common.Extensions;
+    using Oasys.Common.GameObject.Clients;
     using Oasys.SDK;
     using Oasys.SDK.SpellCasting;
 
@@ -115,6 +116,10 @@
                 this.CreateSpellTabAuraCleanse();
         }
 
+        public override void OnRender()
+        {
+        }
+
         /// <summary>
         ///     Called when [OnTick].
         /// </summary>
@@ -123,6 +128,10 @@
             if (ActivationTypes.Contains(ActivationType.CheckPlayerMana))
                 if (this.CheckSpellMinimumMana(UnitManager.MyChampion))
                     return;
+
+            if (TargetingType.ToString().Contains("Enemy"))
+                if (TargetSelector.GetBestChampionTarget() is AIHeroClient target && target.IsValidTarget())
+                    this.CheckSpellEnemyLowHealth(target);
 
             if (ActivationTypes.Contains(ActivationType.CheckOnlyOnMe))
             {
