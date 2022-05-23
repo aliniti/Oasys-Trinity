@@ -61,7 +61,6 @@
             return otherUnits.Count(u => u.Position.DistanceSquared(targetLoc) <= rdx);
         }
 
-
         /// <summary>
         ///     Checks the item enemy low health.
         /// </summary>

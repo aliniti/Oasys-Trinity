@@ -1,5 +1,28 @@
 ﻿namespace Trinity.Helpers
 {
+    public enum DangerLevel
+    {
+        /// <summary>
+        ///     The low
+        /// </summary>
+        Low,
+
+        /// <summary>
+        ///     The medium
+        /// </summary>
+        Medium,
+
+        /// <summary>
+        ///     The high
+        /// </summary>
+        High,
+
+        /// <summary>
+        ///     The very high
+        /// </summary>
+        VeryHigh
+    }
+
     public enum ActivationType
     {
         /// <summary>
@@ -35,7 +58,12 @@
         /// <summary>
         ///     The check on aoe count
         /// </summary>
-        CheckAoECount
+        CheckAoECount,
+
+        /// <summary>
+        ///     The check on danger spells
+        /// </summary>
+        CheckDanger
     }
 
     public enum TargetingType

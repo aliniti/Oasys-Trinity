@@ -185,7 +185,6 @@
             });
         }
 
-
         /// <summary>
         ///     Called when [on render].
         /// </summary>
@@ -196,7 +195,10 @@
 
             if (!SpellSwitch[tabName + "draw"].IsOn) return;
 
-            var circ = SpellClass.IsSpellReady ? Color.Orange: Color.Gray;
+            var circ = SpellClass.IsSpellReady 
+                ? new ColorBGRA(255, 220, 0, 75) 
+                : new ColorBGRA(115, 115, 115, 75);
+
             var text = SpellSwitch[tabName].IsOn ? "Smite: ON" : "Smite : OFF";
 
             var myPos = UnitManager.MyChampion.Position;
