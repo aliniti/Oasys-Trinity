@@ -314,7 +314,7 @@
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="pctUse">The PCT use.</param>
-        public static void CreateItemCheckAoECount(this ActiveItem item, int pctUse = 2)
+        public static void CreateItemCheckProximityCount(this ActiveItem item, int pctUse = 2)
         {
             item.ItemGroup[item.ItemId + "grp"].AddItem(item.ItemCounter[item.ItemId + "aoe"] = new Counter
             {

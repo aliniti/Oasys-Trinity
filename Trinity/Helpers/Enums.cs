@@ -58,7 +58,7 @@
         /// <summary>
         ///     The check on aoe count
         /// </summary>
-        CheckAoECount,
+        CheckProximityCount,
 
         /// <summary>
         ///     The check on danger spells

@@ -95,7 +95,7 @@
 
             // item: Gargoyle_Stoneplate
             new ActiveItem(2, ItemID.Gargoyle_Stoneplate, TargetingType.ProximityEnemy, 450,
-                new[] { ActivationType.CheckAoECount, ActivationType.CheckOnlyOnMe })
+                new[] { ActivationType.CheckProximityCount, ActivationType.CheckOnlyOnMe })
         };
 
         /// <summary>
@@ -105,17 +105,17 @@
         {
             // item: Ironspike_Whip
             new ActiveItem(90, ItemID.Ironspike_Whip, TargetingType.ProximityEnemy, 450,
-                new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckAoECount,
+                new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckProximityCount,
                     ActivationType.CheckOnlyOnMe }),
 
             // item: Stridebreaker
             new ActiveItem(90, ItemID.Stridebreaker, TargetingType.ProximityEnemy, 450,
-                new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckAoECount,
+                new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckProximityCount,
                     ActivationType.CheckOnlyOnMe }),
 
             // item: Goredrinker
             new ActiveItem(90, ItemID.Goredrinker, TargetingType.ProximityEnemy, 450,
-                new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckAoECount,
+                new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckProximityCount,
                     ActivationType.CheckOnlyOnMe }),
 
             // item: Prowlers_Claw
@@ -140,7 +140,7 @@
 
             // item: Randuins_Omen
             new ActiveItem(2, ItemID.Randuins_Omen, TargetingType.ProximityEnemy, 450,
-                new[] { ActivationType.CheckAoECount, ActivationType.CheckOnlyOnMe })
+                new[] { ActivationType.CheckProximityCount, ActivationType.CheckOnlyOnMe })
         };
 
         /// <summary>

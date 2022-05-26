@@ -114,9 +114,9 @@
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="unit">The unit.</param>
-        public static void CheckItemAoECount(this ActiveItem item, AIHeroClient unit)
+        public static void CheckItemProximityCount(this ActiveItem item, AIHeroClient unit)
         {
-            if (item.ActivationTypes.Contains(ActivationType.CheckAoECount))
+            if (item.ActivationTypes.Contains(ActivationType.CheckProximityCount))
             {
                 if (item.TargetingType.ToString().Contains("Ally"))
                 {

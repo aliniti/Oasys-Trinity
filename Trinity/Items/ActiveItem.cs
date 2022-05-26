@@ -108,8 +108,8 @@
             if (ActivationTypes.Contains(ActivationType.CheckAuras))
                 this.CreateItemTabAuraCleanse(UsePct);
 
-            if (ActivationTypes.Contains(ActivationType.CheckAoECount))
-                this.CreateItemCheckAoECount();
+            if (ActivationTypes.Contains(ActivationType.CheckProximityCount))
+                this.CreateItemCheckProximityCount();
         }
 
         public override void OnRender()
@@ -132,7 +132,7 @@
                     if (ItemBuffName != null && UnitManager.MyChampion.BuffManager.HasBuff(ItemBuffName)) return;
 
                     this.CheckItemAuras(myHero.Instance);
-                    this.CheckItemAoECount(myHero.Instance);
+                    this.CheckItemProximityCount(myHero.Instance);
 
                     if (myHero.InWayDanger || UsePct == 100)
                     {
@@ -153,7 +153,7 @@
                         if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range)
                         {
                             this.CheckItemAuras(hero.Instance);
-                            this.CheckItemAoECount(hero.Instance);
+                            this.CheckItemProximityCount(hero.Instance);
 
                             if (hero.InWayDanger || UsePct == 100)
                             {
