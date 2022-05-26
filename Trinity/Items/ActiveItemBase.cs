@@ -36,9 +36,14 @@
         public Dictionary<string, Group> ItemGroup = new();
 
         /// <summary>
-        ///     The item switchs
+        ///     The item switches
         /// </summary>
         public Dictionary<string, Switch> ItemSwitch = new();
+
+        /// <summary>
+        ///     The item mode display
+        /// </summary>
+        public Dictionary<string, ModeDisplay> ItemModeDisplay = new();
 
         #endregion
 

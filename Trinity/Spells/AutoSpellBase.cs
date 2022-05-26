@@ -34,9 +34,14 @@
         public Dictionary<string, Group> SpellGroup = new();
 
         /// <summary>
-        ///     The spell switchs
+        ///     The spell switches
         /// </summary>
         public Dictionary<string, Switch> SpellSwitch = new();
+
+        /// <summary>
+        ///     The spell mode display
+        /// </summary>
+        public Dictionary<string, ModeDisplay> SpellModeDisplay = new();
 
         #endregion
 

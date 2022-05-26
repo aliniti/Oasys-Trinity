@@ -95,7 +95,15 @@
 
             // item: Gargoyle_Stoneplate
             new ActiveItem(2, ItemID.Gargoyle_Stoneplate, TargetingType.ProximityEnemy, 450,
-                new[] { ActivationType.CheckProximityCount, ActivationType.CheckOnlyOnMe })
+                new[] { ActivationType.CheckProximityCount, ActivationType.CheckOnlyOnMe }),
+
+            // item: Zekes Convergence
+            new BindingItem(100, ItemID.Zekes_Convergence, "3050ally", TargetingType.BindingUnit, 1200,
+                new[] { ActivationType.CheckAllyLowHP }),
+
+            //// item: Knights Vow
+            //new BindingItem(100, ItemID.Knights_Vow, "itemknightsvowliege", TargetingType.BindingUnit, 1200,
+            //    new[] { ActivationType.CheckAllyLowHP })
         };
 
         /// <summary>
@@ -278,7 +286,7 @@
 
             #endregion
 
-            #region Anti-Kill Secure Spells
+            #region Low-HP Spells
 
             new AutoSpell(35, "Zilean", CastSlot.R, TargetingType.UnitAlly, 900,
                 new[] { ActivationType.CheckAllyLowHP }),
@@ -328,7 +336,7 @@
 
             #region Unique Spells
 
-            new Kalista(25, "Kalista", CastSlot.R, TargetingType.ProximityAlly, 1200,
+            new BindingSpell(35, "Kalista", "kalistacoopstrikeally", CastSlot.R, TargetingType.ProximityAlly, 1200,
                 new[] { ActivationType.CheckAllyLowHP })
 
             #endregion
@@ -379,6 +387,7 @@
         {
             AllItems.Clear();
             AllSpells.Clear();
+
             CoreEvents.OnCoreMainTick -= CoreEvents_OnCoreMainTick;
             CoreEvents.OnCoreMainInputAsync -= CoreEvents_OnCoreMainInputAsync;
         }

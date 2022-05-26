@@ -114,6 +114,9 @@
 
             if (ActivationTypes.Contains(ActivationType.CheckAuras))
                 this.CreateSpellTabAuraCleanse();
+
+            if (TargetingType == TargetingType.BindingUnit)
+                this.CreateSpellTabBindingUnit();
         }
 
         public override void OnRender()
@@ -125,6 +128,13 @@
         /// </summary>
         public override void OnTick()
         {
+            var tabName = IsSummonerSpell 
+                ? ChampionName 
+                : ChampionName + Slot;
+
+            if (!SpellSwitch[tabName].IsOn) return;
+            if (!SpellClass.IsSpellReady) return;
+
             if (ActivationTypes.Contains(ActivationType.CheckPlayerMana))
                 if (this.CheckSpellMinimumMana(UnitManager.MyChampion))
                     return;

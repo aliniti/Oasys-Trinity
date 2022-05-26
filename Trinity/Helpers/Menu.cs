@@ -36,6 +36,21 @@
         }
 
         /// <summary>
+        ///     Creates the spell tab binding.
+        /// </summary>
+        /// <param name="spell">The spell.</param>
+        public static void CreateSpellTabBindingUnit(this AutoSpell spell)
+        {
+            var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
+            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellModeDisplay[tabName + "mode"] = new ModeDisplay()
+            {
+                Title = "Use " + tabName + " priority unit: ",
+                ModeNames = { "MostAD", "MaxHP" },
+                SelectedModeName = "MostAD"
+            });
+        }
+
+        /// <summary>
         ///     Creates the spell tab ally low hp.
         /// </summary>
         /// <param name="spell">The spell.</param>
@@ -248,14 +263,28 @@
                 Title = Translations.ItemNames[item.ItemId]
             };
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
-                    item.ItemSwitch[item.ItemId.ToString()] = new Switch
-                    {
-                        IsOn = true,
-                        Title = "Use " + Translations.ItemNames[item.ItemId]
-                    });
+            item.ItemGroup[item.ItemId + "grp"].AddItem(item.ItemSwitch[item.ItemId.ToString()] = new Switch
+            {
+                IsOn = true,
+                Title = "Use " + Translations.ItemNames[item.ItemId]
+            });
 
             item.ItemTab.AddGroup(item.ItemGroup[item.ItemId + "grp"]);
+
+        }
+
+        /// <summary>
+        ///     Creates the item tab binding.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        public static void CreateItemTabBindingUnit(this ActiveItem item)
+        {
+            item.ItemGroup[item.ItemId + "grp"].AddItem(item.ItemModeDisplay[item.ItemId + "mode"] = new ModeDisplay()
+            {
+                Title = "Use " + Translations.ItemNames[item.ItemId] + " priority unit: ",
+                ModeNames = { "MostAD", "MaxHP" },
+                SelectedModeName = "MostAD"
+            });
         }
 
         /// <summary>

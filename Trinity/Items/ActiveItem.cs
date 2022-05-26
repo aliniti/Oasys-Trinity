@@ -110,6 +110,9 @@
 
             if (ActivationTypes.Contains(ActivationType.CheckProximityCount))
                 this.CreateItemCheckProximityCount();
+
+            if (TargetingType == TargetingType.BindingUnit)
+                this.CreateItemTabBindingUnit();
         }
 
         public override void OnRender()
@@ -118,6 +121,9 @@
 
         public override void OnTick()
         {
+            if (!ItemSwitch[ItemId.ToString()].IsOn) return;
+            if (!SpellClass.IsSpellReady) return;
+
             if (TargetingType.ToString().Contains("Enemy"))
                 if (TargetSelector.GetBestChampionTarget() is AIHeroClient target && target.IsValidTarget())
                     this.CheckItemEnemyLowHealth(target);

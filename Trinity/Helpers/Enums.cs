@@ -96,6 +96,11 @@
         /// <summary>
         ///     The skillshot on enemy
         /// </summary>
-        SkillshotEnemy
+        SkillshotEnemy,
+
+        /// <summary>
+        ///     The binding of a unit
+        /// </summary>
+        BindingUnit,
     }
 }
