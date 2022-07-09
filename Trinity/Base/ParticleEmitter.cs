@@ -9,7 +9,6 @@
     using Oasys.Common.GameObject.Clients;
     using Oasys.SDK;
     using Oasys.SDK.Events;
-    using Geometry = Oasys.Common.Logic.Geometry;
 
     #endregion
 
@@ -177,7 +176,7 @@
                     break;
                 }
 
-                if (Geometry.Distance(unit.Instance.Position, Obj.Position) <= Radius + unit.Instance.UnitComponentInfo.UnitBoundingRadius + 35)
+                if (unit.Instance.Position.Distance(Obj.Position) <= Radius + unit.Instance.UnitComponentInfo.UnitBoundingRadius + 35)
                 {
                     // check delay (e.g fizz bait)
                     if ((int)(GameEngine.GameTime * 1000) - CreatedTickTime >= DelayFromStart)
