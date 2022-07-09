@@ -20,17 +20,17 @@
         public static void CreateSpellTabEnableSwitch(this AutoSpell spell)
         {
             var tabName = spell.IsSummonerSpell  ? spell.ChampionName : spell.ChampionName + spell.Slot;
-            spell.SpellGroup[tabName + "grp"] = new Group()
+            spell.SpellGroup[tabName + "grp"] = new Group
             {
                 Title = tabName
             };
 
             spell.SpellGroup[tabName + "grp"].AddItem(
                 spell.SpellSwitch[tabName] = new Switch
-            {
-                IsOn = true,
-                Title = "Use " + tabName
-            });
+                {
+                    IsOn = true,
+                    Title = "Use " + tabName
+                });
 
             spell.SpellTab.AddGroup(spell.SpellGroup[tabName + "grp"]);
         }
@@ -42,7 +42,7 @@
         public static void CreateSpellTabBindingUnit(this AutoSpell spell)
         {
             var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellModeDisplay[tabName + "mode"] = new ModeDisplay()
+            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellModeDisplay[tabName + "mode"] = new ModeDisplay
             {
                 Title = "Use " + tabName + " priority unit: ",
                 ModeNames = { "MostAD", "MaxHP" },
@@ -129,127 +129,127 @@
         {
             var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Ignite"] = new Switch
-                {
-                    IsOn = true,
-                    Title = "-> Ignite"
-                });
+            {
+                IsOn = true,
+                Title = "-> Ignite"
+            });
 
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Exhaust"] = new Switch
-                {
-                    IsOn = true,
-                    Title = "-> Exhaust"
-                });
+            {
+                IsOn = true,
+                Title = "-> Exhaust"
+            });
 
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Suppression"] = new Switch
-                {
-                    IsOn = true,
-                    Title = "-> Suppression"
-                });
+            {
+                IsOn = true,
+                Title = "-> Suppression"
+            });
 
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Knockups"] = new Switch
-                {
-                    IsOn = false,
-                    Title = "-> Knockups"
-                });
+            {
+                IsOn = false,
+                Title = "-> Knockups"
+            });
 
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Sleep"] = new Switch
-                {
-                    IsOn = true,
-                    Title = "-> Sleep"
-                });
+            {
+                IsOn = true,
+                Title = "-> Sleep"
+            });
 
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Stuns"] = new Switch
-                {
-                    IsOn = true,
-                    Title = "-> Stuns"
-                });
+            {
+                IsOn = true,
+                Title = "-> Stuns"
+            });
 
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Charms"] = new Switch
-                {
-                    IsOn = true,
-                    Title = "-> Charms"
-                });
+            {
+                IsOn = true,
+                Title = "-> Charms"
+            });
 
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Taunts"] = new Switch
-                {
-                    IsOn = true,
-                    Title = "-> Taunts"
-                });
+            {
+                IsOn = true,
+                Title = "-> Taunts"
+            });
 
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Fear"] = new Switch
-                {
-                    IsOn = true,
-                    Title = "-> Fear"
-                });
+            {
+                IsOn = true,
+                Title = "-> Fear"
+            });
 
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Snares"] = new Switch
-                {
-                    IsOn = true,
-                    Title = "-> Snares"
-                });
+            {
+                IsOn = true,
+                Title = "-> Snares"
+            });
 
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Polymorphs"] = new Switch
-                {
-                    IsOn = true,
-                    Title = "-> Polymorphs"
-                });
+            {
+                IsOn = true,
+                Title = "-> Polymorphs"
+            });
 
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Silence"] = new Switch
-                {
-                    IsOn = false,
-                    Title = "-> Silence"
-                });
+            {
+                IsOn = false,
+                Title = "-> Silence"
+            });
 
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Blinds"] = new Switch
-                {
-                    IsOn = false,
-                    Title = "-> Blinds"
-                });
+            {
+                IsOn = false,
+                Title = "-> Blinds"
+            });
 
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Slows"] = new Switch
-                {
-                    IsOn = false,
-                    Title = "-> Slows"
-                });
+            {
+                IsOn = false,
+                Title = "-> Slows"
+            });
 
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Poison"] = new Switch
-                {
-                    IsOn = false,
-                    Title = "-> Poison"
-                });
+            {
+                IsOn = false,
+                Title = "-> Poison"
+            });
 
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellCounter[tabName + "MinimumBuffs"] = new Counter
-                {
-                    Title = "-> Minimum Buffs to Use",
-                    MaxValue = 5,
-                    MinValue = 1,
-                    Value = 1,
-                    ValueFrequency = 1
-                });
+            {
+                Title = "-> Minimum Buffs to Use",
+                MaxValue = 5,
+                MinValue = 1,
+                Value = 1,
+                ValueFrequency = 1
+            });
 
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellCounter[tabName + "MinimumBuffsDuration"] = new Counter
-                {
-                    Title = "-> Minimum Buff Duration (in ms)",
-                    MaxValue = 2000,
-                    MinValue = 250,
-                    Value = 1000,
-                    ValueFrequency = 250
-                });
+            {
+                Title = "-> Minimum Buff Duration (in ms)",
+                MaxValue = 2000,
+                MinValue = 250,
+                Value = 1000,
+                ValueFrequency = 250
+            });
 
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "SwitchMinimumBuffHP"] = new Switch
-                {
-                    IsOn = false,
-                    Title = "-> Enable Minimum HP (%) to Use"
-                });
+            {
+                IsOn = false,
+                Title = "-> Enable Minimum HP (%) to Use"
+            });
 
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellCounter[tabName + "MinimumBuffsHP"] = new Counter
-                {
-                    Title = "-> Minimum HP (%) to Use",
-                    MaxValue = 100,
-                    MinValue = 20,
-                    Value = 100,
-                    ValueFrequency = 15
-                });
+            {
+                Title = "-> Minimum HP (%) to Use",
+                MaxValue = 100,
+                MinValue = 20,
+                Value = 100,
+                ValueFrequency = 15
+            });
         }
 
         /// <summary>
@@ -258,7 +258,7 @@
         /// <param name="item">The item.</param>
         public static void CreateItemTabEnableSwitch(this ActiveItem item)
         {
-            item.ItemGroup[item.ItemId + "grp"] = new Group()
+            item.ItemGroup[item.ItemId + "grp"] = new Group
             {
                 Title = Translations.ItemNames[item.ItemId]
             };
@@ -270,7 +270,6 @@
             });
 
             item.ItemTab.AddGroup(item.ItemGroup[item.ItemId + "grp"]);
-
         }
 
         /// <summary>
@@ -279,7 +278,7 @@
         /// <param name="item">The item.</param>
         public static void CreateItemTabBindingUnit(this ActiveItem item)
         {
-            item.ItemGroup[item.ItemId + "grp"].AddItem(item.ItemModeDisplay[item.ItemId + "mode"] = new ModeDisplay()
+            item.ItemGroup[item.ItemId + "grp"].AddItem(item.ItemModeDisplay[item.ItemId + "mode"] = new ModeDisplay
             {
                 Title = "Use " + Translations.ItemNames[item.ItemId] + " priority unit: ",
                 ModeNames = { "MostAD", "MaxHP" },

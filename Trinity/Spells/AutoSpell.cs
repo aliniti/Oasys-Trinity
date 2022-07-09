@@ -128,8 +128,8 @@
         /// </summary>
         public override void OnTick()
         {
-            var tabName = IsSummonerSpell 
-                ? ChampionName 
+            var tabName = IsSummonerSpell
+                ? ChampionName
                 : ChampionName + Slot;
 
             if (!SpellSwitch[tabName].IsOn) return;

@@ -4,9 +4,12 @@
 
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Oasys.Common.Extensions;
     using Oasys.Common.GameObject;
     using Oasys.Common.GameObject.Clients;
     using Oasys.SDK;
+    using Oasys.SDK.Events;
+    using Geometry = Oasys.Common.Logic.Geometry;
 
     #endregion
 
@@ -15,6 +18,47 @@
     /// </summary>
     public class ParticleEmitter
     {
+        #region Fields
+
+        /// <summary>
+        ///     The particle emitters (troys)
+        /// </summary>
+        private readonly List<ParticleEmitter> ParticleEmitters = new()
+        {
+            new ParticleEmitter("Lux", "e_tar_aoe", 175, 0.65),
+            new ParticleEmitter("Renekton", "R_buf", 266, 0.65),
+            new ParticleEmitter("Nasus", "SpiritFire", 385, 0.65),
+            new ParticleEmitter("Nasus", "R_Avatar", 266, 0.65),
+            new ParticleEmitter("Annie", "AnnieTibbers", 266),
+            new ParticleEmitter("Alistar", "E_TrampleAOE", 266),
+            new ParticleEmitter("Ryze", "_E", 100),
+            new ParticleEmitter("Gangplank", "_R", 400, 1.3),
+            new ParticleEmitter("Morgana", "W_tar", 275, 0.75),
+            new ParticleEmitter("Hecarim", "Hecarim_Defile", 400, 0.75),
+            new ParticleEmitter("Hecarim", "W_AoE", 400, 0.75),
+            new ParticleEmitter("Diana", "W_Shield", 225, 1),
+            new ParticleEmitter("Sion", "W_Shield", 225, 1),
+            new ParticleEmitter("Karthus", "E_Defile", 400, 1),
+            new ParticleEmitter("Elise", "W_volatile", 250, 0.3),
+            new ParticleEmitter("FiddleSticks", "Crowstorm", 400),
+            new ParticleEmitter("Fizz", "Ring_Red", 300, 1, 800),
+            new ParticleEmitter("Katarina", "deathLotus_tar", 500, 0.4),
+            new ParticleEmitter("Nautilus", "R_sequence_impact", 250, 0.65),
+            new ParticleEmitter("Kennen", "lr_buf", 250, 0.8),
+            new ParticleEmitter("Kennen", "ss_aoe", 450),
+            new ParticleEmitter("Caitlyn", "yordleTrap", 265),
+            new ParticleEmitter("Viktor", "_ChaosStorm", 425),
+            new ParticleEmitter("Viktor", "_Catalyst", 375),
+            new ParticleEmitter("Viktor", "W_AUG", 375),
+            new ParticleEmitter("Anivia", "cryo_storm", 400),
+            new ParticleEmitter("Ziggs", "ZiggsE", 325),
+            new ParticleEmitter("Ziggs", "ZiggsWRing", 325),
+            new ParticleEmitter("Soraka", "E_rune", 375),
+            new ParticleEmitter("Cassiopeia", "Miasma_tar", 150)
+        };
+
+        #endregion
+
         #region Properties and Encapsulation
 
         /// <summary>
@@ -107,6 +151,10 @@
             Champion = champ;
             Interval = interval;
             DelayFromStart = delay;
+
+            CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
+            GameEvents.OnCreateObject += GameEvents_OnCreateObject;
+            GameEvents.OnDeleteObject += GameEvents_OnDeleteObject;
         }
 
         #endregion
@@ -118,6 +166,31 @@
         /// </summary>
         private async Task CoreEvents_OnCoreMainTick()
         {
+            foreach (var b in Bootstrap.Allies)
+            {
+                var unit = b.Value;
+                if (!Included) continue;
+
+                if (Obj == null)
+                {
+                    Included = false;
+                    break;
+                }
+
+                if (Geometry.Distance(unit.Instance.Position, Obj.Position) <= Radius + unit.Instance.UnitComponentInfo.UnitBoundingRadius + 35)
+                {
+                    // check delay (e.g fizz bait)
+                    if ((int)(GameEngine.GameTime * 1000) - CreatedTickTime >= DelayFromStart)
+                        // limit the damage using an interval
+                        if ((int)(GameEngine.GameTime * 1000) - Limiter >= Interval * 1000)
+                            unit.InWayDanger = true;
+                }
+                else
+                {
+                    unit.InWayDanger = false;
+                    break;
+                }
+            }
         }
 
         /// <summary>
@@ -132,7 +205,7 @@
             {
                 Obj = obj;
                 CreatedTickTime = (int) (GameEngine.GameTime * 1000);
-                Included = true;
+                Included = Bootstrap.Enemies.Values.Find(x => x.Instance.ModelName == Champion) != null;
                 //Logger.Log(obj.Name.ToLower() + " : created");
             }
         }

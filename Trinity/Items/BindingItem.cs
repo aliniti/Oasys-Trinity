@@ -6,7 +6,6 @@
     using Helpers;
     using Oasys.Common.Enums.GameEnums;
     using Oasys.Common.Extensions;
-    using Oasys.SDK.Tools;
 
     #endregion
 
@@ -55,8 +54,7 @@
                 : max_hp;
 
             foreach (var ally in units)
-            {
-                if (!ally.Instance.IsMe/* && ally.Instance.IsValidTarget(Range, false)*/)
+                if (!ally.Instance.IsMe /* && ally.Instance.IsValidTarget(Range, false)*/)
                 {
                     if (TargetingType == TargetingType.BindingUnit && UsePct == 100)
                         if (!ally.Instance.BuffManager.HasBuff(ItemBuffName))
@@ -66,7 +64,6 @@
                         if (ally.Instance.BuffManager.HasBuff(ItemBuffName) && ally.InWayDanger)
                             this.CheckItemAllyLowHealth(ally.Instance);
                 }
-            }
         }
 
         #endregion

@@ -3,9 +3,9 @@
     #region
 
     using System.Linq;
+    using Helpers;
     using Oasys.Common.Extensions;
     using Oasys.SDK.SpellCasting;
-    using Trinity.Helpers;
 
     #endregion
 
@@ -54,12 +54,12 @@
             var max_hp = from t in Bootstrap.Allies
                 where t.Value.Instance.IsValidTarget(Range, false)
                 orderby t.Value.Instance.HealthPercent descending
-                         select t.Value;
+                select t.Value;
 
             var most_ad = from t in Bootstrap.Allies
                 where t.Value.Instance.IsValidTarget(Range, false)
                 orderby t.Value.Instance.UnitStats.BaseAttackDamage + t.Value.Instance.UnitStats.TotalAttackDamage descending
-                          select t.Value;
+                select t.Value;
 
             var units = SpellModeDisplay[tabName + "mode"].SelectedModeName == "MostAD"
                 ? most_ad

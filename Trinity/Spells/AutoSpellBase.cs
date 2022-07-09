@@ -15,7 +15,9 @@
     #endregion
 
     public delegate void OnSpellInitialize();
+
     public delegate void OnSpellDispose();
+
     public abstract class AutoSpellBase
     {
         #region Fields
@@ -34,18 +36,26 @@
         public Dictionary<string, Group> SpellGroup = new();
 
         /// <summary>
-        ///     The spell switches
-        /// </summary>
-        public Dictionary<string, Switch> SpellSwitch = new();
-
-        /// <summary>
         ///     The spell mode display
         /// </summary>
         public Dictionary<string, ModeDisplay> SpellModeDisplay = new();
 
+        /// <summary>
+        ///     The spell switches
+        /// </summary>
+        public Dictionary<string, Switch> SpellSwitch = new();
+
         #endregion
 
         #region Properties and Encapsulation
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is summoner spell.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if this instance is summoner spell; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsSummonerSpell { get ; set ; }
 
         /// <summary>
         ///     Gets or sets the slot.
@@ -94,14 +104,6 @@
         ///     The spell tab.
         /// </value>
         public Tab SpellTab { get; set; }
-
-        /// <summary>
-        ///     Gets or sets a value indicating whether this instance is summoner spell.
-        /// </summary>
-        /// <value>
-        ///     <c>true</c> if this instance is summoner spell; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsSummonerSpell { get ; set ; }
 
         #endregion
 

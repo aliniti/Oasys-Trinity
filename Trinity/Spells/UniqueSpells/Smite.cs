@@ -55,7 +55,7 @@
             ///     Gets the width.
             /// </summary>
             /// <value>
-            /// The width.
+            ///     The width.
             /// </value>
             public int Width { get; set; }
 
@@ -151,38 +151,38 @@
 
             SpellGroup[tabName + "grp"].AddItem(
                 SpellSwitch[tabName + "greed"] = new Switch
-            {
-                IsOn = true,
-                Title = "Smite Greed"
-            });
+                {
+                    IsOn = true,
+                    Title = "Smite Greed"
+                });
 
             SpellGroup[tabName + "grp"].AddItem(
                 SpellSwitch[tabName + "smt1"] = new Switch
-            {
-                IsOn = true,
-                Title = "Smite Small Minions"
-            });
+                {
+                    IsOn = true,
+                    Title = "Smite Small Minions"
+                });
 
             SpellGroup[tabName + "grp"].AddItem(
                 SpellSwitch[tabName + "smt2"] = new Switch
-            {
-                IsOn = true,
-                Title = "Smite Large Minions"
-            });
+                {
+                    IsOn = true,
+                    Title = "Smite Large Minions"
+                });
 
             SpellGroup[tabName + "grp"].AddItem(
                 SpellSwitch[tabName + "smt3"] = new Switch
-            {
-                IsOn = true,
-                Title = "Smite Epic Minions"
-            });
+                {
+                    IsOn = true,
+                    Title = "Smite Epic Minions"
+                });
 
             SpellGroup[tabName + "grp"].AddItem(
                 SpellSwitch[tabName + "draw"] = new Switch
-            {
-                IsOn = true,
-                Title = "Smite Drawings"
-            });
+                {
+                    IsOn = true,
+                    Title = "Smite Drawings"
+                });
         }
 
         /// <summary>
@@ -195,15 +195,15 @@
 
             if (!SpellSwitch[tabName + "draw"].IsOn) return;
 
-            var circ = SpellClass.IsSpellReady 
-                ? new ColorBGRA(255, 220, 0, 75) 
+            var circ = SpellClass.IsSpellReady
+                ? new ColorBGRA(255, 220, 0, 75)
                 : new ColorBGRA(115, 115, 115, 75);
 
             var text = SpellSwitch[tabName].IsOn ? "Smite: ON" : "Smite : OFF";
 
             var myPos = UnitManager.MyChampion.Position;
             var myPosToScreen = LeagueNativeRendererManager.WorldToScreen(UnitManager.MyChampion.Position);
-            
+
             RenderFactory.DrawNativeCircle(myPos, Range, circ, 3);
             RenderFactory.DrawText(text, 8,  myPosToScreen, circ);
 
@@ -258,7 +258,6 @@
                 var myHeroRadius = ObjectManagerExport.LocalPlayer.UnitComponentInfo.UnitBoundingRadius;
 
                 if (minion.IsValidTarget(Range + minionRadius + myHeroRadius) && !minion.Name.Contains("Mini"))
-                {
                     if (damage >= minion.Health)
                     {
                         if (EpicMinions.Any(x => minion.Name.Contains(x)) && SpellSwitch[tabName + "smt3"].IsOn)
@@ -271,7 +270,6 @@
                             if (LargeMinions.Any(x => minion.Name.Contains(x)) && SpellSwitch[tabName + "smt2"].IsOn)
                                 this.UseSpell(minion);
                     }
-                }
             }
         }
 

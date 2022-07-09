@@ -330,22 +330,22 @@
         public static IEnumerable<BuffEntry> GetAuras(this ActiveItem item, Champion champion)
         {
             return champion.Instance.BuffManager.GetBuffList()
-                .Where(buff => buff.IsActive &&
-                               (buff.EntryType == BuffType.Snare && item.ItemSwitch[item.ItemId + "Snares"].IsOn ||
-                                buff.EntryType == BuffType.Sleep && item.ItemSwitch[item.ItemId + "Sleep"].IsOn ||
-                                buff.EntryType == BuffType.Knockup && item.ItemSwitch[item.ItemId + "Knockups"].IsOn ||
-                                buff.EntryType == BuffType.Silence && item.ItemSwitch[item.ItemId + "Silence"].IsOn ||
-                                buff.EntryType == BuffType.Charm && item.ItemSwitch[item.ItemId + "Charms"].IsOn ||
-                                buff.EntryType == BuffType.Taunt && item.ItemSwitch[item.ItemId + "Taunts"].IsOn ||
-                                buff.EntryType == BuffType.Stun && item.ItemSwitch[item.ItemId + "Stuns"].IsOn ||
-                                buff.EntryType == BuffType.Flee && item.ItemSwitch[item.ItemId + "Fear"].IsOn ||
-                                buff.EntryType == BuffType.Polymorph && item.ItemSwitch[item.ItemId + "Polymorphs"].IsOn ||
-                                buff.EntryType == BuffType.Blind && item.ItemSwitch[item.ItemId + "Blinds"].IsOn ||
-                                buff.EntryType == BuffType.Suppression && item.ItemSwitch[item.ItemId + "Suppression"].IsOn ||
-                                buff.EntryType == BuffType.Poison && item.ItemSwitch[item.ItemId + "Poison"].IsOn ||
-                                buff.EntryType == BuffType.Slow && item.ItemSwitch[item.ItemId + "Slows"].IsOn) ||
-                               buff.Name.ToLower() == "summonerexhaust" && item.ItemSwitch[item.ItemId + "Exhaust"].IsOn ||
-                               buff.Name.ToLower() == "summonerdot" && item.ItemSwitch[item.ItemId + "Ignite"].IsOn);
+                .Where(buff => (buff.IsActive &&
+                                ((buff.EntryType == BuffType.Snare && item.ItemSwitch[item.ItemId + "Snares"].IsOn) ||
+                                 (buff.EntryType == BuffType.Sleep && item.ItemSwitch[item.ItemId + "Sleep"].IsOn) ||
+                                 (buff.EntryType == BuffType.Knockup && item.ItemSwitch[item.ItemId + "Knockups"].IsOn) ||
+                                 (buff.EntryType == BuffType.Silence && item.ItemSwitch[item.ItemId + "Silence"].IsOn) ||
+                                 (buff.EntryType == BuffType.Charm && item.ItemSwitch[item.ItemId + "Charms"].IsOn) ||
+                                 (buff.EntryType == BuffType.Taunt && item.ItemSwitch[item.ItemId + "Taunts"].IsOn) ||
+                                 (buff.EntryType == BuffType.Stun && item.ItemSwitch[item.ItemId + "Stuns"].IsOn) ||
+                                 (buff.EntryType == BuffType.Flee && item.ItemSwitch[item.ItemId + "Fear"].IsOn) ||
+                                 (buff.EntryType == BuffType.Polymorph && item.ItemSwitch[item.ItemId + "Polymorphs"].IsOn) ||
+                                 (buff.EntryType == BuffType.Blind && item.ItemSwitch[item.ItemId + "Blinds"].IsOn) ||
+                                 (buff.EntryType == BuffType.Suppression && item.ItemSwitch[item.ItemId + "Suppression"].IsOn) ||
+                                 (buff.EntryType == BuffType.Poison && item.ItemSwitch[item.ItemId + "Poison"].IsOn) ||
+                                 (buff.EntryType == BuffType.Slow && item.ItemSwitch[item.ItemId + "Slows"].IsOn))) ||
+                               (buff.Name.ToLower() == "summonerexhaust" && item.ItemSwitch[item.ItemId + "Exhaust"].IsOn) ||
+                               (buff.Name.ToLower() == "summonerdot" && item.ItemSwitch[item.ItemId + "Ignite"].IsOn));
         }
 
         /// <summary>
@@ -358,22 +358,22 @@
         {
             var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
             return champion.Instance.BuffManager.GetBuffList()
-                .Where(buff => buff.IsActive &&
-                               (buff.EntryType == BuffType.Snare && spell.SpellSwitch[tabName + "Snares"].IsOn ||
-                                buff.EntryType == BuffType.Sleep && spell.SpellSwitch[tabName + "Sleep"].IsOn ||
-                                buff.EntryType == BuffType.Knockup && spell.SpellSwitch[tabName + "Knockups"].IsOn ||
-                                buff.EntryType == BuffType.Silence && spell.SpellSwitch[tabName + "Silence"].IsOn ||
-                                buff.EntryType == BuffType.Charm && spell.SpellSwitch[tabName + "Charms"].IsOn ||
-                                buff.EntryType == BuffType.Taunt && spell.SpellSwitch[tabName + "Taunts"].IsOn ||
-                                buff.EntryType == BuffType.Stun && spell.SpellSwitch[tabName + "Stuns"].IsOn ||
-                                buff.EntryType == BuffType.Flee && spell.SpellSwitch[tabName + "Fear"].IsOn ||
-                                buff.EntryType == BuffType.Polymorph && spell.SpellSwitch[tabName + "Polymorphs"].IsOn ||
-                                buff.EntryType == BuffType.Blind && spell.SpellSwitch[tabName + "Blinds"].IsOn ||
-                                buff.EntryType == BuffType.Suppression && spell.SpellSwitch[tabName + "Suppression"].IsOn ||
-                                buff.EntryType == BuffType.Poison && spell.SpellSwitch[tabName + "Poison"].IsOn ||
-                                buff.EntryType == BuffType.Slow && spell.SpellSwitch[tabName + "Slows"].IsOn) ||
-                               buff.Name.ToLower() == "summonerexhaust" && spell.SpellSwitch[tabName + "Exhaust"].IsOn ||
-                               buff.Name.ToLower() == "summonerdot" && spell.SpellSwitch[tabName + "Ignite"].IsOn);
+                .Where(buff => (buff.IsActive &&
+                                ((buff.EntryType == BuffType.Snare && spell.SpellSwitch[tabName + "Snares"].IsOn) ||
+                                 (buff.EntryType == BuffType.Sleep && spell.SpellSwitch[tabName + "Sleep"].IsOn) ||
+                                 (buff.EntryType == BuffType.Knockup && spell.SpellSwitch[tabName + "Knockups"].IsOn) ||
+                                 (buff.EntryType == BuffType.Silence && spell.SpellSwitch[tabName + "Silence"].IsOn) ||
+                                 (buff.EntryType == BuffType.Charm && spell.SpellSwitch[tabName + "Charms"].IsOn) ||
+                                 (buff.EntryType == BuffType.Taunt && spell.SpellSwitch[tabName + "Taunts"].IsOn) ||
+                                 (buff.EntryType == BuffType.Stun && spell.SpellSwitch[tabName + "Stuns"].IsOn) ||
+                                 (buff.EntryType == BuffType.Flee && spell.SpellSwitch[tabName + "Fear"].IsOn) ||
+                                 (buff.EntryType == BuffType.Polymorph && spell.SpellSwitch[tabName + "Polymorphs"].IsOn) ||
+                                 (buff.EntryType == BuffType.Blind && spell.SpellSwitch[tabName + "Blinds"].IsOn) ||
+                                 (buff.EntryType == BuffType.Suppression && spell.SpellSwitch[tabName + "Suppression"].IsOn) ||
+                                 (buff.EntryType == BuffType.Poison && spell.SpellSwitch[tabName + "Poison"].IsOn) ||
+                                 (buff.EntryType == BuffType.Slow && spell.SpellSwitch[tabName + "Slows"].IsOn))) ||
+                               (buff.Name.ToLower() == "summonerexhaust" && spell.SpellSwitch[tabName + "Exhaust"].IsOn) ||
+                               (buff.Name.ToLower() == "summonerdot" && spell.SpellSwitch[tabName + "Ignite"].IsOn));
         }
 
         /// <summary>
@@ -477,7 +477,6 @@
                         UseSpell(spell, champObj.Instance);
                         champObj.AuraInfo[tabName + "BuffCount"] = 0;
                         champObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
-
                     }
             }
         }

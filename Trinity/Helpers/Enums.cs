@@ -101,6 +101,6 @@
         /// <summary>
         ///     The binding of a unit
         /// </summary>
-        BindingUnit,
+        BindingUnit
     }
 }

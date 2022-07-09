@@ -99,7 +99,7 @@
 
             // item: Zekes Convergence
             new BindingItem(100, ItemID.Zekes_Convergence, "3050ally", TargetingType.BindingUnit, 1200,
-                new[] { ActivationType.CheckAllyLowHP }),
+                new[] { ActivationType.CheckAllyLowHP })
 
             //// item: Knights Vow
             //new BindingItem(100, ItemID.Knights_Vow, "itemknightsvowliege", TargetingType.BindingUnit, 1200,
@@ -113,18 +113,27 @@
         {
             // item: Ironspike_Whip
             new ActiveItem(90, ItemID.Ironspike_Whip, TargetingType.ProximityEnemy, 450,
-                new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckProximityCount,
-                    ActivationType.CheckOnlyOnMe }),
+                new[]
+                {
+                    ActivationType.CheckEnemyLowHP, ActivationType.CheckProximityCount,
+                    ActivationType.CheckOnlyOnMe
+                }),
 
             // item: Stridebreaker
             new ActiveItem(90, ItemID.Stridebreaker, TargetingType.ProximityEnemy, 450,
-                new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckProximityCount,
-                    ActivationType.CheckOnlyOnMe }),
+                new[]
+                {
+                    ActivationType.CheckEnemyLowHP, ActivationType.CheckProximityCount,
+                    ActivationType.CheckOnlyOnMe
+                }),
 
             // item: Goredrinker
             new ActiveItem(90, ItemID.Goredrinker, TargetingType.ProximityEnemy, 450,
-                new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckProximityCount,
-                    ActivationType.CheckOnlyOnMe }),
+                new[]
+                {
+                    ActivationType.CheckEnemyLowHP, ActivationType.CheckProximityCount,
+                    ActivationType.CheckOnlyOnMe
+                }),
 
             // item: Prowlers_Claw
             new ActiveItem(90, ItemID.Prowlers_Claw, TargetingType.UnitEnemy, 500,
@@ -190,14 +199,20 @@
 
             // item: Corrupting_Potion
             new ActiveItem(65, ItemID.Corrupting_Potion, TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckAllyLowMP,
-                    ActivationType.CheckOnlyOnMe },
+                new[]
+                {
+                    ActivationType.CheckAllyLowHP, ActivationType.CheckAllyLowMP,
+                    ActivationType.CheckOnlyOnMe
+                },
                 "ItemDarkCrystalFlask"),
 
             // item: Total_Biscuit_of_Rejuvenation
             new ActiveItem(65, ItemID.Total_Biscuit_of_Everlasting_Will, TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckAllyLowMP, 
-                    ActivationType.CheckOnlyOnMe },
+                new[]
+                {
+                    ActivationType.CheckAllyLowHP, ActivationType.CheckAllyLowMP,
+                    ActivationType.CheckOnlyOnMe
+                },
                 "Item2010"),
 
             // item: Elixir_of_Iron
@@ -247,7 +262,7 @@
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
 
             new AutoSpell(100, "Cleanse", "SummonerBoost", TargetingType.ProximityAlly, 1200,
-                new[] { ActivationType.CheckAuras, ActivationType.CheckOnlyOnMe }),
+                new[] { ActivationType.CheckAuras, ActivationType.CheckOnlyOnMe })
         };
 
         /// <summary>
@@ -261,15 +276,21 @@
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana }),
 
             new AutoSpell(90, "Diana", CastSlot.W, TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana, 
-                    ActivationType.CheckOnlyOnMe }),
+                new[]
+                {
+                    ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana,
+                    ActivationType.CheckOnlyOnMe
+                }),
 
             new AutoSpell(90, "Janna", CastSlot.E, TargetingType.UnitAlly, 800,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana }),
 
             new AutoSpell(90, "Garen", CastSlot.W, TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana, 
-                    ActivationType.CheckOnlyOnMe }),
+                new[]
+                {
+                    ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana,
+                    ActivationType.CheckOnlyOnMe
+                }),
 
             new AutoSpell(90, "Lulu", CastSlot.E, TargetingType.UnitAlly, 650,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana }),
@@ -281,8 +302,11 @@
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana }),
 
             new AutoSpell(90, "Nautilus", CastSlot.W, TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana,
-                    ActivationType.CheckOnlyOnMe }),
+                new[]
+                {
+                    ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana,
+                    ActivationType.CheckOnlyOnMe
+                }),
 
             #endregion
 
@@ -390,6 +414,7 @@
 
             CoreEvents.OnCoreMainTick -= CoreEvents_OnCoreMainTick;
             CoreEvents.OnCoreMainInputAsync -= CoreEvents_OnCoreMainInputAsync;
+            CoreEvents.OnCoreRender -= CoreEvents_OnCoreRender;
         }
 
 
@@ -500,23 +525,19 @@
         ///     Gets the heroes.
         /// </summary>
         /// <param name="unit">The unit.</param>
-        private static void GetHeroes(AIBaseClient unit)
+        private static void LoadHeroes(AIBaseClient unit)
         {
             if (unit is AIHeroClient hero)
             {
                 if (hero.Team == UnitManager.MyChampion.Team)
                 {
                     if (!Allies.ContainsKey(hero.NetworkID))
-                    {
                         Allies[hero.NetworkID] = new Champion(hero);
-                    }
                 }
                 else
                 {
                     if (!Enemies.ContainsKey(hero.NetworkID))
-                    {
                         Enemies[hero.NetworkID] = new Champion(hero);
-                    }
                 }
             }
         }
@@ -533,7 +554,7 @@
                 initializedTickSpell.OnTick();
 
             foreach (var unit in ObjectManagerExport.HeroCollection)
-                GetHeroes(unit.Value);
+                LoadHeroes(unit.Value);
         }
 
         /// <summary>

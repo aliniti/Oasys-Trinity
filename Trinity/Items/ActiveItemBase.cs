@@ -17,7 +17,9 @@
     #endregion
 
     public delegate void OnItemInitialize();
+
     public delegate void OnItemDispose();
+
     public abstract class ActiveItemBase
     {
         #region Fields
@@ -36,14 +38,14 @@
         public Dictionary<string, Group> ItemGroup = new();
 
         /// <summary>
-        ///     The item switches
-        /// </summary>
-        public Dictionary<string, Switch> ItemSwitch = new();
-
-        /// <summary>
         ///     The item mode display
         /// </summary>
         public Dictionary<string, ModeDisplay> ItemModeDisplay = new();
+
+        /// <summary>
+        ///     The item switches
+        /// </summary>
+        public Dictionary<string, Switch> ItemSwitch = new();
 
         #endregion
 

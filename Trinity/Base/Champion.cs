@@ -82,12 +82,13 @@
                         var spellWidth = Math.Max(50, width);
 
                         var proj = Instance.Position.ProjectOn(currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
-                        var nearproj = Instance.Position.Distance(proj.SegmentPoint) <= (int)(Instance.UnitComponentInfo.UnitBoundingRadius + spellWidth);;
+                        var nearproj = Instance.Position.Distance(proj.SegmentPoint) <= (int)(Instance.UnitComponentInfo.UnitBoundingRadius + spellWidth);
+                        ;
 
                         InWayDanger = proj.IsOnSegment && nearproj && spellTick < 1000;
                     }
                 }
-        }   
+        }
 
         #endregion
 
