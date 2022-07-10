@@ -103,4 +103,158 @@
         /// </summary>
         BindingUnit
     }
+    
+    public enum CollisionObjectType
+    {
+        /// <summary>
+        ///     The ally heroes
+        /// </summary>
+        AllyHeroes,
+
+        /// <summary>
+        ///     The enemy heroes
+        /// </summary>
+        EnemyHeroes,
+
+        /// <summary>
+        ///     The ally minions
+        /// </summary>
+        AllyMinions,
+
+        /// <summary>
+        ///     The enemy minions
+        /// </summary>
+        EnemyMinions,
+
+        /// <summary>
+        ///     The terrain
+        /// </summary>
+        Terrain
+    }
+    
+    public enum CastType
+    {
+        /// <summary>
+        ///     The none
+        /// </summary>
+        None,
+
+        /// <summary>
+        ///     The linear
+        /// </summary>
+        Linear,
+
+        /// <summary>
+        ///     The missile linear
+        /// </summary>
+        MissileLinear,
+
+        /// <summary>
+        ///     The linear ao e
+        /// </summary>
+        LinearAoE,
+
+        /// <summary>
+        ///     The missile linear ao e
+        /// </summary>
+        MissileLinearAoE,
+
+        /// <summary>
+        ///     The proximity
+        /// </summary>
+        Proximity,
+
+        /// <summary>
+        ///     The targeted
+        /// </summary>
+        Targeted,
+
+        /// <summary>
+        ///     The circlular
+        /// </summary>
+        Circlular,
+
+        /// <summary>
+        ///     The sector
+        /// </summary>
+        Sector
+    }
+    
+    public enum EmulationType
+    {
+        /// <summary>
+        ///     The none
+        /// </summary>
+        None,
+
+        /// <summary>
+        ///     The automatic attack
+        /// </summary>
+        AutoAttack,
+
+        /// <summary>
+        ///     The minion attack
+        /// </summary>
+        MinionAttack,
+
+        /// <summary>
+        ///     The turret attack
+        /// </summary>
+        TurretAttack,
+
+        /// <summary>
+        ///     The spell
+        /// </summary>
+        Spell,
+
+        /// <summary>
+        ///     The danger
+        /// </summary>
+        Danger,
+
+        /// <summary>
+        ///     The ultimate
+        /// </summary>
+        Ultimate,
+
+        /// <summary>
+        ///     The crowd control
+        /// </summary>
+        CrowdControl,
+
+        /// <summary>
+        ///     The stealth
+        /// </summary>
+        Stealth,
+
+        /// <summary>
+        ///     The force exhaust
+        /// </summary>
+        ForceExhaust,
+
+        /// <summary>
+        ///     The initiator
+        /// </summary>
+        Initiator,
+
+        /// <summary>
+        ///     The gapcloser
+        /// </summary>
+        Gapcloser,
+
+        /// <summary>
+        ///     The emitter
+        /// </summary>
+        Emitter,
+
+        /// <summary>
+        ///     The item
+        /// </summary>
+        Item,
+
+        /// <summary>
+        ///     The buff
+        /// </summary>
+        Buff
+    }
 }

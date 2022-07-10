@@ -359,7 +359,7 @@
             #endregion
 
             #region Unique Spells
-
+            
             new BindingSpell(35, "Kalista", "kalistacoopstrikeally", CastSlot.R, TargetingType.ProximityAlly, 1200,
                 new[] { ActivationType.CheckAllyLowHP })
 

@@ -4,12 +4,14 @@
 
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Oasys.Common;
     using Oasys.Common.Extensions;
     using Oasys.Common.GameObject.Clients;
     using Oasys.SDK;
     using Oasys.SDK.Events;
+    using Helpers;
 
     #endregion
 
@@ -24,8 +26,7 @@
         ///     The instance.
         /// </value>
         public AIHeroClient Instance { get; set; }
-
-
+        
         /// <summary>
         ///     Gets or sets a value indicating whether [in way danger].
         /// </summary>
@@ -33,6 +34,22 @@
         ///     <c>true</c> if [in way danger]; otherwise, <c>false</c>.
         /// </value>
         public bool InWayDanger { get; set; }
+        
+        /// <summary>
+        ///     Gets or sets a value indicating whether [in extreme danger].
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if [in extreme danger]; otherwise, <c>false</c>.
+        /// </value>
+        public bool InExtremeDanger { get; set; }
+        
+        /// <summary>
+        ///     Gets or sets the emulation type.
+        /// </summary>
+        /// <value>
+        ///     The emulation type.
+        /// </value>
+        public EmulationType EmuType { get; set; }
 
         /// <summary>
         ///     Gets or sets the aura information.
@@ -79,13 +96,23 @@
                         var spellTick = Math.Max(0, gameTime - startTime);
 
                         var width = currentSpell.SpellData.SpellRadius > 0 ? currentSpell.SpellData.SpellRadius : currentSpell.SpellData.SpellWidth;
+                        if (width < 1)
+                        {
+                            width = SpellData.HeroSpells.Find(x =>
+                                String.Equals(x.SpellName, currentSpell.SpellData.SpellName,
+                                    StringComparison.CurrentCultureIgnoreCase))!.Radius;
+                        }
+                        
                         var spellWidth = Math.Max(50, width);
-
                         var proj = Instance.Position.ProjectOn(currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
                         var nearproj = Instance.Position.Distance(proj.SegmentPoint) <= (int)(Instance.UnitComponentInfo.UnitBoundingRadius + spellWidth);
-                        ;
-
+                        
+                        var isExtreme = SpellData.HeroSpells.Find(x => 
+                            String.Equals(x.SpellName, currentSpell.SpellData.SpellName, 
+                                StringComparison.CurrentCultureIgnoreCase))!.EmulationTypes.Contains(EmulationType.Ultimate);
+                        
                         InWayDanger = proj.IsOnSegment && nearproj && spellTick < 1000;
+                        InExtremeDanger = isExtreme;
                     }
                 }
         }

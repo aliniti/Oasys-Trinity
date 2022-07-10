@@ -9,6 +9,7 @@
     using Oasys.Common.GameObject.Clients;
     using Oasys.SDK;
     using Oasys.SDK.Events;
+    using Helpers;
 
     #endregion
 
@@ -39,14 +40,14 @@
             new ParticleEmitter("Sion", "W_Shield", 225, 1),
             new ParticleEmitter("Karthus", "E_Defile", 400, 1),
             new ParticleEmitter("Elise", "W_volatile", 250, 0.3),
-            new ParticleEmitter("FiddleSticks", "Crowstorm", 400),
-            new ParticleEmitter("Fizz", "Ring_Red", 300, 1, 800),
-            new ParticleEmitter("Katarina", "deathLotus_tar", 500, 0.4),
-            new ParticleEmitter("Nautilus", "R_sequence_impact", 250, 0.65),
+            new ParticleEmitter("FiddleSticks", "Crowstorm", 400, 0.5, 0f, EmulationType.Ultimate),
+            new ParticleEmitter("Fizz", "Ring_Red", 300, 1, 800, EmulationType.Ultimate),
+            new ParticleEmitter("Katarina", "deathLotus_tar", 500, 0.4, 0f, EmulationType.Ultimate),
+            new ParticleEmitter("Nautilus", "R_sequence_impact", 250, 0.65, 0f, EmulationType.Ultimate),
             new ParticleEmitter("Kennen", "lr_buf", 250, 0.8),
-            new ParticleEmitter("Kennen", "ss_aoe", 450),
+            new ParticleEmitter("Kennen", "ss_aoe", 450, 0.5, 0f, EmulationType.Ultimate),
             new ParticleEmitter("Caitlyn", "yordleTrap", 265),
-            new ParticleEmitter("Viktor", "_ChaosStorm", 425),
+            new ParticleEmitter("Viktor", "_ChaosStorm", 425, 0.5, 0f, EmulationType.Ultimate),
             new ParticleEmitter("Viktor", "_Catalyst", 375),
             new ParticleEmitter("Viktor", "W_AUG", 375),
             new ParticleEmitter("Anivia", "cryo_storm", 400),
@@ -131,6 +132,14 @@
         ///     The owner identifier.
         /// </value>
         public string Champion { get; set; }
+        
+        /// <summary>
+        ///     Gets or sets the emulation type.
+        /// </summary>
+        /// <value>
+        ///     The emulation type.
+        /// </value>
+        public EmulationType EmulationType { get; set; }
 
         #endregion
 
@@ -143,13 +152,14 @@
         /// <param name="name">The name.</param>
         /// <param name="slot">The slot.</param>
         /// <param name="inculded">if set to <c>true</c> [inculded].</param>
-        public ParticleEmitter(string champ, string name, float radius, double interval = 0.5, float delay = 0)
+        public ParticleEmitter(string champ, string name, float radius, double interval = 0.5, float delay = 0, EmulationType etype = EmulationType.None)
         {
             Name = name;
             Radius = radius;
             Champion = champ;
             Interval = interval;
             DelayFromStart = delay;
+            EmulationType = etype;
 
             CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
             GameEvents.OnCreateObject += GameEvents_OnCreateObject;
@@ -182,12 +192,10 @@
                     if ((int)(GameEngine.GameTime * 1000) - CreatedTickTime >= DelayFromStart)
                         // limit the damage using an interval
                         if ((int)(GameEngine.GameTime * 1000) - Limiter >= Interval * 1000)
+                        {
                             unit.InWayDanger = true;
-                }
-                else
-                {
-                    unit.InWayDanger = false;
-                    break;
+                            unit.InExtremeDanger = EmulationType.Equals(EmulationType.Ultimate);
+                        }
                 }
             }
         }
