@@ -4,7 +4,6 @@
 
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Oasys.Common;
     using Oasys.Common.Extensions;
@@ -102,17 +101,13 @@
                                 String.Equals(x.SpellName, currentSpell.SpellData.SpellName,
                                     StringComparison.CurrentCultureIgnoreCase))!.Radius;
                         }
-                        
+
                         var spellWidth = Math.Max(50, width);
                         var proj = Instance.Position.ProjectOn(currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
                         var nearproj = Instance.Position.Distance(proj.SegmentPoint) <= (int)(Instance.UnitComponentInfo.UnitBoundingRadius + spellWidth);
-                        
-                        var isExtreme = SpellData.HeroSpells.Find(x => 
-                            String.Equals(x.SpellName, currentSpell.SpellData.SpellName, 
-                                StringComparison.CurrentCultureIgnoreCase))!.EmulationTypes.Contains(EmulationType.Ultimate);
-                        
+
                         InWayDanger = proj.IsOnSegment && nearproj && spellTick < 1000;
-                        InExtremeDanger = isExtreme;
+                        InExtremeDanger = false; // todo:
                     }
                 }
         }
@@ -149,7 +144,7 @@
                         break;
                 }
             }
-
+            
             foreach (var t in ObjectManagerExport.JungleObjectCollection)
             {
                 var minion = t.Value;

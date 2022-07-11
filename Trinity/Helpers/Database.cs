@@ -4,7 +4,6 @@ namespace Trinity.Helpers
 
     using System.Collections.Generic;
     using Oasys.Common.Enums.GameEnums;
-    using SharpDX.Direct3D9;
 
     #endregion
 
@@ -5221,6 +5220,62 @@ namespace Trinity.Helpers
                 Delay = 300f,
                 EmulationTypes = new[] { EmulationType.Danger, EmulationType.Ultimate },
                 MissileSpeed = 4800
+            });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "qiyanaq_rock",
+                ChampionName = "qiyana",
+                Slot = SpellSlot.Q,
+                CastType = CastType.MissileLinear,
+                FixedRange = true,
+                CastRange = 865f,
+                Radius = 200f,
+                Delay = 250f,
+                EmulationTypes = new EmulationType[] { },
+                MissileSpeed = 1600
+            });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "qiyanaq_water",
+                ChampionName = "qiyana",
+                Slot = SpellSlot.Q,
+                CastType = CastType.MissileLinear,
+                FixedRange = true,
+                CastRange = 865f,
+                Radius = 200f,
+                Delay = 250f,
+                EmulationTypes = new[] { EmulationType.CrowdControl },
+                MissileSpeed = 1600
+            });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "qiyanaq_grass",
+                ChampionName = "qiyana",
+                Slot = SpellSlot.Q,
+                CastType = CastType.MissileLinear,
+                FixedRange = true,
+                CastRange = 650f,
+                Radius = 250f,
+                Delay = 250f,
+                EmulationTypes = new EmulationType[] { },
+                MissileSpeed = 1600
+            });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "qiyanar",
+                ChampionName = "qiyana",
+                Slot = SpellSlot.R,
+                CastType = CastType.MissileLinear,
+                FixedRange = true,
+                CastRange = 865f,
+                Radius = 280f,
+                Delay = 250f,
+                EmulationTypes = new[] { EmulationType.CrowdControl, EmulationType.Ultimate },
+                MissileSpeed = 2000
             });
 
             HeroSpells.Add(new SpellData
