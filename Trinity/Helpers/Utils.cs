@@ -326,7 +326,7 @@
             else if (summonerTwo.SpellData.SpellName.Contains("Smite") && spell.SpellName == "SummonerSmite")
             {
                 spell.SpellClass = summonerTwo;
-                spell.Slot = CastSlot.Summoner1;
+                spell.Slot = CastSlot.Summoner2;
                 spell.IsSummonerSpell = true;
             }
         }
