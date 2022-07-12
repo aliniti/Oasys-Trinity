@@ -4,7 +4,6 @@
 
     using System.Collections.Generic;
     using Helpers;
-    using Oasys.Common.GameObject;
     using Oasys.Common.GameObject.Clients;
     using Oasys.Common.Menu;
     using Oasys.Common.Menu.ItemComponents;
@@ -77,7 +76,6 @@
             InitializeEmitter();
         }
         
-
         public void InitializeEmitter()
         {
             if (_initialized) return;
@@ -103,6 +101,7 @@
 
             _disposed = true;
             _initialized = false;
+            OnEmitterDispose?.Invoke();
             //Logger.Log("[Trinity]: Disposed " + ChampionString + " vfx/troy prediction!");
         }
 

@@ -95,7 +95,8 @@
             new ParticleEmitter("Karthus", "E_Defile", 400, 1),
             new ParticleEmitter("Elise", "W_volatile", 250, 0.3),
             new ParticleEmitter("FiddleSticks", "Crowstorm", 400, 0.5, 0f, EmulationType.Ultimate),
-            new ParticleEmitter("Fizz", "Ring_Red", 300, 1, 800, EmulationType.Ultimate),
+            new ParticleEmitter("Fizz", "R_Ring", 300, 1, 800, EmulationType.Ultimate),
+            new ParticleEmitter("Fizz", "E1_Indicator_Ring", 300, 1, 800, EmulationType.Danger),
             new ParticleEmitter("Katarina", "deathLotus_tar", 500, 0.4, 0f, EmulationType.Ultimate),
             new ParticleEmitter("Nautilus", "R_sequence_impact", 250, 0.65, 0f, EmulationType.Ultimate),
             new ParticleEmitter("Kennen", "lr_buf", 250, 0.8),
@@ -117,11 +118,11 @@
         private static readonly List<ActiveItem> DefensiveItems = new()
         {
             // item: Stopwatch
-            new ActiveItem(40, ItemID.Stopwatch, TargetingType.ProximityAlly, 1200,
+            new ActiveItem(55, ItemID.Stopwatch, TargetingType.ProximityAlly, 1200,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
 
             // item: Zhonyas_Hourglass
-            new ActiveItem(40, ItemID.Zhonyas_Hourglass, TargetingType.ProximityAlly, 1200,
+            new ActiveItem(55, ItemID.Zhonyas_Hourglass, TargetingType.ProximityAlly, 1200,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
 
             // item: Locket_of_the_Iron_Solari
@@ -129,7 +130,7 @@
                 new[] { ActivationType.CheckAllyLowHP }),
 
             // item: Redemption
-            new ActiveItem(35, ItemID.Redemption, TargetingType.ProximityAlly, 5500,
+            new ActiveItem(55, ItemID.Redemption, TargetingType.ProximityAlly, 5500,
                 new[] { ActivationType.CheckAllyLowHP }),
 
             // item: Seraphs_Embrace

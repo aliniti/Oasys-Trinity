@@ -94,7 +94,7 @@
 
             GameEvents.OnBuyItem += GameEvents_OnBuyItem;
             GameEvents.OnSellItem += GameEvents_OnSellItem;
-
+            
             CreateTab();
         }
 

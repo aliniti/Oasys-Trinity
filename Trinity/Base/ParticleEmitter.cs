@@ -127,6 +127,7 @@ namespace Trinity.Base
                         {
                             unit.InWayDanger = true;
                             unit.InExtremeDanger = EmulationType.Equals(EmulationType.Ultimate);
+                            Limiter = (int) (GameEngine.GameTime * 1000);
                         }
             }
         }

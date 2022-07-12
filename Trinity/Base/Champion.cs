@@ -35,6 +35,14 @@
         public bool InWayDanger { get; set; }
         
         /// <summary>
+        ///     Gets or sets the [danger] tick.
+        /// </summary>
+        /// <value>
+        ///     The [danger] tick.
+        /// </value>
+        public int DangerTick { get; set; }
+        
+        /// <summary>
         ///     Gets or sets a value indicating whether [in extreme danger].
         /// </summary>
         /// <value>
@@ -73,7 +81,7 @@
 
             CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
         }
-
+        
         #endregion
 
         #region Public Methods and Operators
@@ -84,14 +92,23 @@
         /// <param name="unit">The unit.</param>
         public void CheckProjectionSegment(AIBaseClient unit)
         {
+            // failsafe
+            if ((int)(GameEngine.GameTime * 1000) - DangerTick > 750)
+            {
+                if (InWayDanger)
+                {
+                    InWayDanger = false;
+                }
+            }
+            
             if (unit.IsAlive)
                 if (unit.IsCastingSpell)
                 {
                     var currentSpell = unit.GetCurrentCastingSpell();
                     if (currentSpell.SpellData.SpellName is not null)
                     {
-                        var startTime = currentSpell.CastStartTime * 1000;
-                        var gameTime = GameEngine.GameTime * 1000;
+                        var startTime = (int) currentSpell.CastStartTime * 1000;
+                        var gameTime = (int) (GameEngine.GameTime * 1000);
                         var spellTick = Math.Max(0, gameTime - startTime);
 
                         var width = currentSpell.SpellData.SpellRadius > 0 ? currentSpell.SpellData.SpellRadius : currentSpell.SpellData.SpellWidth;
@@ -110,9 +127,12 @@
                         var spellWidth = Math.Max(50, width);
                         var proj = Instance.Position.ProjectOn(currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
                         var nearproj = Instance.Position.Distance(proj.SegmentPoint) <= (int) (Instance.UnitComponentInfo.UnitBoundingRadius + spellWidth);
-
-                        InWayDanger = proj.IsOnSegment && nearproj && spellTick < 1000;
-                        InExtremeDanger = false; // todo:
+                        
+                        if (proj.IsOnSegment && nearproj && spellTick < 1000)
+                        {
+                            DangerTick = gameTime;
+                            InWayDanger = true;
+                        }
                     }
                 }
         }
