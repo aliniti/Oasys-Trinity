@@ -21,6 +21,16 @@
         #region Public Methods and Operators
 
         /// <summary>
+        ///     Checks if the enemy exists by string
+        /// </summary>
+        /// <param name="champion"></param>
+        /// <returns></returns>
+        public static bool EnemyExists(this string champion)
+        {
+            return UnitManager.Enemies.Any(x => x.ModelName == champion);
+        }
+        
+        /// <summary>
         ///     Gets the best unit for cluster.
         /// </summary>
         /// <param name="units">The units.</param>

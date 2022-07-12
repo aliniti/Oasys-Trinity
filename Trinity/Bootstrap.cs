@@ -43,6 +43,11 @@
         ///     All spells
         /// </summary>
         public static readonly List<AutoSpellBase> AllSpells = new();
+        
+        /// <summary>
+        ///     All particle emitters (troys)
+        /// </summary>
+        private static readonly List<ParticleEmitterBase> AllParticleEmitters = new();
 
         /// <summary>
         ///     The initialized tick items
@@ -63,7 +68,49 @@
         ///     The initialized input spells
         /// </summary>
         private static readonly List<AutoSpellBase> InitializedInputSpells = new();
+        
+        /// <summary>
+        ///     The initialized particle emitters (troys)
+        /// </summary>
+        private static readonly List<ParticleEmitterBase> InitializedParticleEmitters = new();
 
+        /// <summary>
+        ///     The particle emitters (troys)
+        /// </summary>
+        private static readonly List<ParticleEmitter> ParticleEmitters = new()
+        {
+            new ParticleEmitter("Lux", "e_tar_aoe", 175, 0.65),
+            new ParticleEmitter("Renekton", "R_buf", 266, 0.65),
+            new ParticleEmitter("Nasus", "SpiritFire", 385, 0.65),
+            new ParticleEmitter("Nasus", "R_Avatar", 266, 0.65),
+            new ParticleEmitter("Annie", "AnnieTibbers", 266),
+            new ParticleEmitter("Alistar", "E_TrampleAOE", 266),
+            new ParticleEmitter("Ryze", "_E", 100),
+            new ParticleEmitter("Gangplank", "_R", 400, 1.3),
+            new ParticleEmitter("Morgana", "W_tar", 275, 0.75),
+            new ParticleEmitter("Hecarim", "Hecarim_Defile", 400, 0.75),
+            new ParticleEmitter("Hecarim", "W_AoE", 400, 0.75),
+            new ParticleEmitter("Diana", "W_Shield", 225, 1),
+            new ParticleEmitter("Sion", "W_Shield", 225, 1),
+            new ParticleEmitter("Karthus", "E_Defile", 400, 1),
+            new ParticleEmitter("Elise", "W_volatile", 250, 0.3),
+            new ParticleEmitter("FiddleSticks", "Crowstorm", 400, 0.5, 0f, EmulationType.Ultimate),
+            new ParticleEmitter("Fizz", "Ring_Red", 300, 1, 800, EmulationType.Ultimate),
+            new ParticleEmitter("Katarina", "deathLotus_tar", 500, 0.4, 0f, EmulationType.Ultimate),
+            new ParticleEmitter("Nautilus", "R_sequence_impact", 250, 0.65, 0f, EmulationType.Ultimate),
+            new ParticleEmitter("Kennen", "lr_buf", 250, 0.8),
+            new ParticleEmitter("Kennen", "ss_aoe", 450, 0.5, 0f, EmulationType.Ultimate),
+            new ParticleEmitter("Caitlyn", "yordleTrap", 265),
+            new ParticleEmitter("Viktor", "_ChaosStorm", 425, 0.5, 0f, EmulationType.Ultimate),
+            new ParticleEmitter("Viktor", "_Catalyst", 375),
+            new ParticleEmitter("Viktor", "W_AUG", 375),
+            new ParticleEmitter("Anivia", "cryo_storm", 400),
+            new ParticleEmitter("Ziggs", "ZiggsE", 325),
+            new ParticleEmitter("Ziggs", "ZiggsWRing", 325),
+            new ParticleEmitter("Soraka", "E_rune", 375),
+            new ParticleEmitter("Cassiopeia", "Miasma_tar", 150)
+        };
+        
         /// <summary>
         ///     The defensive items
         /// </summary>
@@ -388,7 +435,15 @@
         ///     Games events [on game load complete].
         /// </summary>
         private static async Task GameEvents_OnGameLoadComplete()
-        {
+        {           
+            CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
+            CoreEvents.OnCoreMainInputAsync += CoreEvents_OnCoreMainInputAsync;
+            CoreEvents.OnCoreRender += CoreEvents_OnCoreRender;
+            
+            Oasys.SDK.Events.GameEvents.OnCreateObject += GameEventsOnOnCreateObject;
+            Oasys.SDK.Events.GameEvents.OnDeleteObject += GameEventsOnOnDeleteObject;
+            
+            AllParticleEmitters.AddRange(ParticleEmitters);
             AllSpells.AddRange(AutoSpells);
             AllSpells.AddRange(SummonerInputSpells);
             AllSpells.AddRange(SummonerTickSpells);
@@ -396,25 +451,25 @@
             AllItems.AddRange(DefensiveItems);
             AllItems.AddRange(CleanseItems);
             AllItems.AddRange(OffensiveItems);
-
+            
             InitializeTrinity();
-
-            CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
-            CoreEvents.OnCoreMainInputAsync += CoreEvents_OnCoreMainInputAsync;
-            CoreEvents.OnCoreRender += CoreEvents_OnCoreRender;
         }
-
+        
         /// <summary>
         ///     Games events [on game match complete].
         /// </summary>
         private static async Task GameEvents_OnGameMatchComplete()
         {
-            AllItems.Clear();
-            AllSpells.Clear();
-
             CoreEvents.OnCoreMainTick -= CoreEvents_OnCoreMainTick;
             CoreEvents.OnCoreMainInputAsync -= CoreEvents_OnCoreMainInputAsync;
             CoreEvents.OnCoreRender -= CoreEvents_OnCoreRender;
+            
+            Oasys.SDK.Events.GameEvents.OnCreateObject -= GameEventsOnOnCreateObject;
+            Oasys.SDK.Events.GameEvents.OnDeleteObject -= GameEventsOnOnDeleteObject;
+            
+            AllItems.Clear();
+            AllSpells.Clear();
+            AllParticleEmitters.Clear();
         }
 
 
@@ -519,6 +574,21 @@
             MenuManager.AddTab(autoSpellsMenu);
 
             #endregion
+
+            #region Tidy : Prediction Menu
+            
+            var predictionMenu = new Tab("Trinity: Prediction");
+
+            foreach (var troy in ParticleEmitters)
+            {
+                troy.OnEmitterInitialize += () => InitializedParticleEmitters.Add(troy);
+                troy.OnEmitterDispose += () => InitializedParticleEmitters.Remove(troy);
+                troy.Initialize(predictionMenu);
+            }
+
+            MenuManager.AddTab(predictionMenu);
+
+            #endregion
         }
 
         /// <summary>
@@ -527,18 +597,20 @@
         /// <param name="unit">The unit.</param>
         private static void LoadHeroes(AIBaseClient unit)
         {
-            if (unit is AIHeroClient hero)
+            if (unit is not AIHeroClient hero)
             {
-                if (hero.Team == UnitManager.MyChampion.Team)
-                {
-                    if (!Allies.ContainsKey(hero.NetworkID))
-                        Allies[hero.NetworkID] = new Champion(hero);
-                }
-                else
-                {
-                    if (!Enemies.ContainsKey(hero.NetworkID))
-                        Enemies[hero.NetworkID] = new Champion(hero);
-                }
+                return;
+            }
+            
+            if (hero.Team == UnitManager.MyChampion.Team)
+            {
+                if (Allies.ContainsKey(hero.NetworkID) == false)
+                    Allies[hero.NetworkID] = new Champion(hero);
+            }
+            else
+            {
+                if (Enemies.ContainsKey(hero.NetworkID) == false)
+                    Enemies[hero.NetworkID] = new Champion(hero);
             }
         }
 
@@ -547,6 +619,9 @@
         /// </summary>
         private static async Task CoreEvents_OnCoreMainTick()
         {
+            foreach (var initializedEmitter in InitializedParticleEmitters)
+                initializedEmitter.OnTick();
+            
             foreach (var initializedTickItem in InitializedTickItems)
                 initializedTickItem.OnTick();
 
@@ -579,6 +654,24 @@
 
             foreach (var initializedTickSpell in InitializedTickSpells)
                 initializedTickSpell.OnRender();
+        }
+        
+        /// <summary>
+        ///     Game events [on create object].
+        /// </summary>
+        private static async Task GameEventsOnOnCreateObject(List<AIBaseClient> callbackobjectlist, AIBaseClient callbackobject, float callbackgametime)
+        {
+            foreach (var initializedEmitter in InitializedParticleEmitters)
+                initializedEmitter.OnCreate(callbackobjectlist, callbackobject, callbackgametime);
+        }
+        
+        /// <summary>
+        ///     Game events [on delete object].
+        /// </summary>
+        private static async Task GameEventsOnOnDeleteObject(List<AIBaseClient> callbackobjectlist, AIBaseClient callbackobject, float callbackgametime)
+        {
+            foreach (var initializedEmitter in InitializedParticleEmitters)
+                initializedEmitter.OnDelete(callbackobjectlist, callbackobject, callbackgametime);
         }
 
         #endregion

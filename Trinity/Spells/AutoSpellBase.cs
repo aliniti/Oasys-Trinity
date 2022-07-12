@@ -15,7 +15,7 @@
     #endregion
 
     public delegate void OnSpellInitialize();
-
+    
     public delegate void OnSpellDispose();
 
     public abstract class AutoSpellBase
@@ -155,7 +155,7 @@
             {
                 CreateTab();
                 OnSpellInitialize?.Invoke();
-                Logger.Log("Initialized " + ChampionName + " " + Slot);
+                Logger.Log("Initialized " + ChampionName + " auto spell - " + Slot);
             }
             else
             {
@@ -174,7 +174,7 @@
             _initialized = false;
 
             SpellClass = null;
-            //Logger.Log("Disposed " + ChampionName + " " + Slot);
+            //Logger.Log("Disposed " + ChampionName + " auto spell - " + Slot);
             OnSpellDispose?.Invoke();
         }
 

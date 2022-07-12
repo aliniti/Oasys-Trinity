@@ -97,14 +97,19 @@
                         var width = currentSpell.SpellData.SpellRadius > 0 ? currentSpell.SpellData.SpellRadius : currentSpell.SpellData.SpellWidth;
                         if (width < 1)
                         {
-                            width = SpellData.HeroSpells.Find(x =>
-                                String.Equals(x.SpellName, currentSpell.SpellData.SpellName,
-                                    StringComparison.CurrentCultureIgnoreCase))!.Radius;
+                            var entry = SpellData.HeroSpells.Find(x => 
+                                string.Equals(x.SpellName, currentSpell.SpellData.SpellName,
+                                    StringComparison.CurrentCultureIgnoreCase));
+                            
+                            if (entry != null)
+                            {
+                                width = entry.Radius;
+                            }
                         }
 
                         var spellWidth = Math.Max(50, width);
                         var proj = Instance.Position.ProjectOn(currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
-                        var nearproj = Instance.Position.Distance(proj.SegmentPoint) <= (int)(Instance.UnitComponentInfo.UnitBoundingRadius + spellWidth);
+                        var nearproj = Instance.Position.Distance(proj.SegmentPoint) <= (int) (Instance.UnitComponentInfo.UnitBoundingRadius + spellWidth);
 
                         InWayDanger = proj.IsOnSegment && nearproj && spellTick < 1000;
                         InExtremeDanger = false; // todo:
