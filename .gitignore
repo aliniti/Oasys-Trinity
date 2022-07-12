@@ -223,3 +223,4 @@ pip-log.txt
 *.v2
 *.v1
 Trinity/.editorconfig
+Trinity/.idea/
