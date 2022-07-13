@@ -63,7 +63,7 @@
         /// <summary>
         ///     The check on danger spells
         /// </summary>
-        CheckDanger
+        CheckDangerous
     }
 
     public enum TargetingType

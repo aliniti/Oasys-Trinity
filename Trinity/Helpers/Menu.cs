@@ -120,6 +120,35 @@
                 ValueFrequency = 5
             });
         }
+        
+        /// <summary>
+        ///     Creates the spell tab for dangerous spells.
+        /// </summary>
+        /// <param name="spell">The spell.</param>
+        public static void CreateTabSpellDangerousSpells(this AutoSpell spell)
+        {
+            var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
+            // spell.SpellGroup[tabName + "grp"].AddItem(
+            //     spell.SpellSwitch[tabName + "dangernorm"] = new Switch
+            //     {
+            //         IsOn = false,
+            //         Title = "Use on Dangerous (Spells)"
+            //     });
+            //
+            // spell.SpellGroup[tabName+ "grp"].AddItem(
+            //     spell.SpellSwitch[tabName + "dangernorm"] = new Switch
+            //     {
+            //         IsOn = false,
+            //         Title = "Use on CrowdControl (Spells)"
+            //     });
+            
+            spell.SpellGroup[tabName + "grp"].AddItem(
+                spell.SpellSwitch[tabName + "dangerextr"] = new Switch
+                {
+                    IsOn = true,
+                    Title = "Use on Dangerous (BETA)"
+                });
+        }
 
         /// <summary>
         ///     Creates the spell tab aura cleanse.
@@ -287,7 +316,7 @@
         }
 
         /// <summary>
-        ///     Creates the item tab enemy low health.
+        ///     Creates the item tab for enemy low health.
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="pctUse">The PCT use.</param>
@@ -304,7 +333,7 @@
         }
 
         /// <summary>
-        ///     Creates the item tab ally low health.
+        ///     Creates the item tab for ally low health.
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="pctUse">The PCT use.</param>
@@ -321,7 +350,7 @@
         }
 
         /// <summary>
-        ///     Creates the item tab ally low mana.
+        ///     Creates the item tab for ally low mana.
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="pctUse">The PCT use.</param>
@@ -338,7 +367,7 @@
         }
 
         /// <summary>
-        ///     Creates the item check aoe count.
+        ///     Creates the item tab for aoe count.
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="pctUse">The PCT use.</param>
@@ -355,7 +384,36 @@
         }
 
         /// <summary>
-        ///     Creates the item tab aura cleanse.
+        ///     Creates the item tab for dangerous spells.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        public static void CreateTabItemDangerousSpells(this ActiveItem item)
+        {
+            // item.ItemGroup[item.ItemId + "grp"].AddItem(
+            //     item.ItemSwitch[item.ItemId + "dangernorm"] = new Switch
+            //     {
+            //         IsOn = false,
+            //         Title = "Use on Dangerous (Spells)"
+            //     });
+            //
+            // item.ItemGroup[item.ItemId + "grp"].AddItem(
+            //     item.ItemSwitch[item.ItemId + "dangernorm"] = new Switch
+            //     {
+            //         IsOn = false,
+            //         Title = "Use on CrowdControl (Spells)"
+            //     });
+            
+            item.ItemGroup[item.ItemId + "grp"].AddItem(
+                item.ItemSwitch[item.ItemId + "dangerextr"] = new Switch
+                {
+                    IsOn = true,
+                    Title = "Use on Dangerous (BETA)"
+                });
+        }
+        
+
+        /// <summary>
+        ///     Creates the item tab for aura cleanse.
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="pctUse">The PCT use.</param>

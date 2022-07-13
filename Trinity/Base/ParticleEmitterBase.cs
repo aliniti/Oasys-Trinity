@@ -87,7 +87,7 @@
 
                 CreateTab();
                 OnEmitterInitialize?.Invoke();
-                Logger.Log("[Trinity]: Initialized " + ChampionString + " vfx/troy prediction!");
+                Logger.Log("Initialized " + ChampionString + " vfx/troy prediction!");
             }
             else
             {
@@ -102,7 +102,7 @@
             _disposed = true;
             _initialized = false;
             OnEmitterDispose?.Invoke();
-            //Logger.Log("[Trinity]: Disposed " + ChampionString + " vfx/troy prediction!");
+            //Logger.Log("Disposed " + ChampionString + " vfx/troy prediction!");
         }
 
         #region Public Methods and Operators

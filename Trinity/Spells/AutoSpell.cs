@@ -117,6 +117,9 @@
 
             if (TargetingType == TargetingType.BindingUnit)
                 this.CreateSpellTabBindingUnit();
+            
+            if (ActivationTypes.Contains(ActivationType.CheckDangerous))
+                this.CreateTabSpellDangerousSpells();
         }
 
         public override void OnRender()
@@ -152,6 +155,7 @@
                     if (myChampionOnly.InWayDanger)
                     {
                         this.CheckSpellAuras(myChampionOnly.Instance);
+                        this.CheckSpellDangerousSpells(myChampionOnly);
                         this.CheckSpellAllyLowHealth(myChampionOnly.Instance);
                         this.CheckSpellAllyLowMana(myChampionOnly.Instance);
                     }
@@ -166,6 +170,7 @@
                             if (hero.InWayDanger)
                             {
                                 this.CheckSpellAuras(hero.Instance);
+                                this.CheckSpellDangerousSpells(hero);
                                 this.CheckSpellAllyLowHealth(hero.Instance);
                                 this.CheckSpellAllyLowMana(hero.Instance);
                             }

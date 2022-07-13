@@ -72,7 +72,7 @@
         }
 
         /// <summary>
-        ///     Checks the item enemy low health.
+        ///     Checks the item for enemy low health.
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="unit">The unit.</param>
@@ -88,7 +88,7 @@
         }
 
         /// <summary>
-        ///     Checks the item ally low health.
+        ///     Checks the item for ally low health.
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="unit">The unit.</param>
@@ -104,7 +104,7 @@
         }
 
         /// <summary>
-        ///     Checks the item ally low mana.
+        ///     Checks the item for ally low mana.
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="unit">The unit.</param>
@@ -118,9 +118,24 @@
                     UseItem(item, unit);
             }
         }
+        
+        /// <summary>
+        ///     Checks the item for dangerous spells.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="unit">The unit.</param>
+        public static void CheckItemDangerousSpells(this ActiveItem item, Champion champion)
+        {
+            if (item.ActivationTypes.Contains(ActivationType.CheckDangerous))
+                if (item.ItemSwitch[item.ItemId + "dangerextr"].IsOn)
+                    if (champion.InWayDanger && champion.InExtremeDanger)
+                    {
+                        UseItem(item, champion.Instance);
+                    }
+        }
 
         /// <summary>
-        ///     Checks the item ao e count.
+        ///     Checks the item for aoe count.
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="unit">The unit.</param>
@@ -143,7 +158,7 @@
         }
 
         /// <summary>
-        ///     Checks the spell enemy low health.
+        ///     Checks the spell for enemy low health.
         /// </summary>
         /// <param name="spell">The spell.</param>
         /// <param name="unit">The unit.</param>
@@ -160,7 +175,7 @@
         }
 
         /// <summary>
-        ///     Checks the spell ally low health.
+        ///     Checks the spell for ally low health.
         /// </summary>
         /// <param name="spell">The spell.</param>
         /// <param name="unit">The unit.</param>
@@ -177,7 +192,7 @@
         }
 
         /// <summary>
-        ///     Checks the spell ally low mana.
+        ///     Checks the spell for ally low mana.
         /// </summary>
         /// <param name="spell">The spell.</param>
         /// <param name="unit">The unit.</param>
@@ -194,7 +209,7 @@
         }
 
         /// <summary>
-        ///     Checks the spell minimum mana.
+        ///     Checks the spell for minimum mana.
         /// </summary>
         /// <param name="spell">The spell.</param>
         /// <param name="unit">The unit.</param>
@@ -206,6 +221,23 @@
 
             return pctMana <= spell.SpellCounter[tabName + "amm"].Value &&
                    spell.SpellSwitch[tabName].IsOn;
+        }
+        
+        /// <summary>
+        ///     Checks the spell for dangerous spells.
+        /// </summary>
+        /// <param name="spell">The item.</param>
+        /// <param name="unit">The unit.</param>
+        public static void CheckSpellDangerousSpells(this AutoSpell spell, Champion champion)
+        {
+            var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
+            
+            if (spell.ActivationTypes.Contains(ActivationType.CheckDangerous))
+                if (spell.SpellSwitch[tabName + "dangerextr"].IsOn)
+                    if (champion.InWayDanger && champion.InExtremeDanger)
+                    {
+                        UseSpell(spell, champion.Instance);
+                    }
         }
 
         /// <summary>

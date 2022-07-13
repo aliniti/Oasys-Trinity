@@ -113,6 +113,9 @@
 
             if (TargetingType == TargetingType.BindingUnit)
                 this.CreateItemTabBindingUnit();
+            
+            if (ActivationTypes.Contains(ActivationType.CheckDangerous))
+                this.CreateTabItemDangerousSpells();
         }
 
         public override void OnRender()
@@ -139,6 +142,7 @@
 
                     this.CheckItemAuras(myHero.Instance);
                     this.CheckItemProximityCount(myHero.Instance);
+                    this.CheckItemDangerousSpells(myHero);
 
                     if (myHero.InWayDanger || UsePct == 100)
                     {
@@ -160,6 +164,7 @@
                         {
                             this.CheckItemAuras(hero.Instance);
                             this.CheckItemProximityCount(hero.Instance);
+                            this.CheckItemDangerousSpells(hero);
 
                             if (hero.InWayDanger || UsePct == 100)
                             {

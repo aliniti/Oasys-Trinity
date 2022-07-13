@@ -8,7 +8,6 @@ namespace Trinity.Base
     using Oasys.Common.GameObject;
     using Oasys.Common.GameObject.Clients;
     using Oasys.SDK;
-    using Oasys.SDK.Tools;
 
     #endregion
 
@@ -125,8 +124,8 @@ namespace Trinity.Base
                         // limit the damage using an interval
                         if ((int)(GameEngine.GameTime * 1000) - Limiter >= Interval * 1000)
                         {
-                            unit.InWayDanger = true;
                             unit.InExtremeDanger = EmulationType.Equals(EmulationType.Ultimate);
+                            unit.InWayDanger = true;
                             Limiter = (int) (GameEngine.GameTime * 1000);
                         }
             }

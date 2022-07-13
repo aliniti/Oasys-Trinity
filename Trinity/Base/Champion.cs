@@ -4,6 +4,7 @@
 
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Oasys.Common;
     using Oasys.Common.Extensions;
@@ -79,6 +80,7 @@
             Instance = instance;
             AuraInfo = new Dictionary<string, int>();
 
+            // todo: split into abstract class
             CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
         }
         
@@ -92,12 +94,19 @@
         /// <param name="unit">The unit.</param>
         public void CheckProjectionSegment(AIBaseClient unit)
         {
-            // failsafe
-            if ((int)(GameEngine.GameTime * 1000) - DangerTick > 750)
+            // todo: failsafe: need a better way to implement this
+            if ((int)(GameEngine.GameTime * 1000) - DangerTick > 500)
             {
+                // todo:
                 if (InWayDanger)
                 {
                     InWayDanger = false;
+                }
+                
+                // todo:
+                if (InExtremeDanger)
+                {
+                    InExtremeDanger = false;
                 }
             }
             
@@ -107,31 +116,35 @@
                     var currentSpell = unit.GetCurrentCastingSpell();
                     if (currentSpell.SpellData.SpellName is not null)
                     {
-                        var startTime = (int) currentSpell.CastStartTime * 1000;
                         var gameTime = (int) (GameEngine.GameTime * 1000);
-                        var spellTick = Math.Max(0, gameTime - startTime);
-
-                        var width = currentSpell.SpellData.SpellRadius > 0 ? currentSpell.SpellData.SpellRadius : currentSpell.SpellData.SpellWidth;
-                        if (width < 1)
-                        {
-                            var entry = SpellData.HeroSpells.Find(x => 
-                                string.Equals(x.SpellName, currentSpell.SpellData.SpellName,
-                                    StringComparison.CurrentCultureIgnoreCase));
-                            
-                            if (entry != null)
-                            {
-                                width = entry.Radius;
-                            }
-                        }
-
-                        var spellWidth = Math.Max(50, width);
-                        var proj = Instance.Position.ProjectOn(currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
-                        var nearproj = Instance.Position.Distance(proj.SegmentPoint) <= (int) (Instance.UnitComponentInfo.UnitBoundingRadius + spellWidth);
+                        var entry = SpellData.HeroSpells.Find(x => 
+                            string.Equals(x.SpellName, currentSpell.SpellData.SpellName,
+                                StringComparison.CurrentCultureIgnoreCase));
                         
-                        if (proj.IsOnSegment && nearproj && spellTick < 1000)
+                        var heroTargetAggro = currentSpell.Targets.Find(x => x.NetworkID == Instance.NetworkID) != null;
+                        if (heroTargetAggro)
                         {
-                            DangerTick = gameTime;
+                            if (entry != null)
+                                InExtremeDanger = entry.EmulationTypes.Contains(EmulationType.Ultimate);
+                            
                             InWayDanger = true;
+                            DangerTick = gameTime;
+                        }
+                        else
+                        {
+                            // skillshot projection 
+                            var radius = (int) currentSpell.SpellData.SpellWidth + Instance.UnitComponentInfo.UnitBoundingRadius;
+                            var proj = Instance.Position.ProjectOn(currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
+                            var nearit = Instance.Position.Distance(proj.SegmentPoint) <= radius;
+
+                            if (proj.IsOnSegment && nearit)
+                            {
+                                if (entry != null)
+                                    InExtremeDanger = entry.EmulationTypes.Contains(EmulationType.Ultimate);
+                                
+                                InWayDanger = true;
+                                DangerTick = gameTime;
+                            }
                         }
                     }
                 }
@@ -181,7 +194,7 @@
                 }
             }
         }
-
+        
         #endregion
     }
 }

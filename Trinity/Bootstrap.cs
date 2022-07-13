@@ -118,16 +118,16 @@
         private static readonly List<ActiveItem> DefensiveItems = new()
         {
             // item: Stopwatch
-            new ActiveItem(55, ItemID.Stopwatch, TargetingType.ProximityAlly, 1200,
-                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
+            new ActiveItem(35, ItemID.Stopwatch, TargetingType.ProximityAlly, 1200,
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, ActivationType.CheckOnlyOnMe }),
 
             // item: Zhonyas_Hourglass
-            new ActiveItem(55, ItemID.Zhonyas_Hourglass, TargetingType.ProximityAlly, 1200,
-                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
+            new ActiveItem(35, ItemID.Zhonyas_Hourglass, TargetingType.ProximityAlly, 1200,
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, ActivationType.CheckOnlyOnMe }),
 
             // item: Locket_of_the_Iron_Solari
-            new ActiveItem(65, ItemID.Locket_of_the_Iron_Solari, TargetingType.ProximityAlly, 600,
-                new[] { ActivationType.CheckAllyLowHP }),
+            new ActiveItem(55, ItemID.Locket_of_the_Iron_Solari, TargetingType.ProximityAlly, 600,
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, ActivationType.CheckDangerous }),
 
             // item: Redemption
             new ActiveItem(55, ItemID.Redemption, TargetingType.ProximityAlly, 5500,
@@ -135,11 +135,11 @@
 
             // item: Seraphs_Embrace
             new ActiveItem(55, ItemID.Seraphs_Embrace, TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, ActivationType.CheckOnlyOnMe }),
 
             // item: Shurelyas_Battlesong
             new ActiveItem(55, ItemID.Shurelyas_Battlesong, TargetingType.ProximityAlly, 450,
-                new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckAllyLowHP }),
+                new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckDangerous, ActivationType.CheckAllyLowHP }),
 
             // item: Gargoyle_Stoneplate
             new ActiveItem(2, ItemID.Gargoyle_Stoneplate, TargetingType.ProximityEnemy, 450,
@@ -321,39 +321,39 @@
             #region Shield Spells
 
             new AutoSpell(90, "Orianna", CastSlot.E, TargetingType.UnitAlly, 1100,
-                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana }),
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, ActivationType.CheckPlayerMana }),
 
             new AutoSpell(90, "Diana", CastSlot.W, TargetingType.ProximityAlly, float.MaxValue,
                 new[]
                 {
-                    ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana,
-                    ActivationType.CheckOnlyOnMe
+                    ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, 
+                    ActivationType.CheckPlayerMana, ActivationType.CheckOnlyOnMe
                 }),
 
             new AutoSpell(90, "Janna", CastSlot.E, TargetingType.UnitAlly, 800,
-                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana }),
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, ActivationType.CheckPlayerMana }),
 
             new AutoSpell(90, "Garen", CastSlot.W, TargetingType.ProximityAlly, float.MaxValue,
                 new[]
                 {
-                    ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana,
-                    ActivationType.CheckOnlyOnMe
+                    ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous,
+                    ActivationType.CheckPlayerMana, ActivationType.CheckOnlyOnMe
                 }),
 
             new AutoSpell(90, "Lulu", CastSlot.E, TargetingType.UnitAlly, 650,
-                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana }),
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, ActivationType.CheckPlayerMana }),
 
             new AutoSpell(90, "Lux", CastSlot.W, TargetingType.SkillshotAlly, 1075,
-                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana }),
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, ActivationType.CheckPlayerMana }),
 
             new AutoSpell(90, "Annie", CastSlot.E, TargetingType.SkillshotAlly, 800,
-                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana }),
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, ActivationType.CheckPlayerMana }),
 
             new AutoSpell(90, "Nautilus", CastSlot.W, TargetingType.ProximityAlly, float.MaxValue,
                 new[]
                 {
-                    ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana,
-                    ActivationType.CheckOnlyOnMe
+                    ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous,
+                    ActivationType.CheckPlayerMana,ActivationType.CheckOnlyOnMe
                 }),
 
             #endregion
@@ -379,7 +379,7 @@
                 new[] { ActivationType.CheckAllyLowHP }),
 
             new AutoSpell(35, "Kayle", CastSlot.R, TargetingType.UnitAlly, 900,
-                new[] { ActivationType.CheckAllyLowHP }),
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous }),
 
             new AutoSpell(35, "Mundo", CastSlot.R, TargetingType.ProximityAlly, float.MaxValue,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
