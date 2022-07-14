@@ -168,13 +168,13 @@ namespace Trinity.Helpers
         /// <summary>
         ///     The dangerous spells list
         /// </summary>
-        public static List<SpellData> HeroSpells = new ();
+        public static List<SpellData> HeroSpells = new List<SpellData>();
 
         #endregion
 
         #region Constructors and Destructors
         
-        public SpellData()
+        static SpellData()
         {
             HeroSpells.Add(new SpellData
             {

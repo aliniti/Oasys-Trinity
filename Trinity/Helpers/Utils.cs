@@ -21,6 +21,19 @@
         #region Public Methods and Operators
 
         /// <summary>
+        ///     Resets the champion aggro values
+        /// </summary>
+        /// <param name="champion"></param>
+        public static void ResetAggro(this Champion champion)
+        {
+            champion.AggroTick = 0;
+            champion.HasAggro = false;
+            champion.InDanger = false;
+            champion.InCrowdControl = false;
+            champion.InExtremeDanger = false;
+        }
+        
+        /// <summary>
         ///     Checks if the enemy exists by string
         /// </summary>
         /// <param name="champion"></param>
@@ -127,11 +140,31 @@
         public static void CheckItemDangerousSpells(this ActiveItem item, Champion champion)
         {
             if (item.ActivationTypes.Contains(ActivationType.CheckDangerous))
+            {
                 if (item.ItemSwitch[item.ItemId + "dangerextr"].IsOn)
-                    if (champion.InWayDanger && champion.InExtremeDanger)
+                {
+                    if (champion.HasAggro && champion.InExtremeDanger)
                     {
                         UseItem(item, champion.Instance);
                     }
+                }
+                
+                if (item.ItemSwitch[item.ItemId + "dangercc"].IsOn)
+                {
+                    if (champion.HasAggro && champion.InCrowdControl)
+                    {
+                        UseItem(item, champion.Instance);
+                    }
+                }
+                
+                if (item.ItemSwitch[item.ItemId + "dangernorm"].IsOn)
+                {
+                    if (champion.HasAggro && champion.InDanger)
+                    {
+                        UseItem(item, champion.Instance);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -231,13 +264,33 @@
         public static void CheckSpellDangerousSpells(this AutoSpell spell, Champion champion)
         {
             var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
-            
+
             if (spell.ActivationTypes.Contains(ActivationType.CheckDangerous))
+            {
                 if (spell.SpellSwitch[tabName + "dangerextr"].IsOn)
-                    if (champion.InWayDanger && champion.InExtremeDanger)
+                {
+                    if (champion.HasAggro && champion.InExtremeDanger)
                     {
                         UseSpell(spell, champion.Instance);
                     }
+                }
+
+                if (spell.SpellSwitch[tabName + "dangercc"].IsOn)
+                {
+                    if (champion.HasAggro && champion.InCrowdControl)
+                    {
+                        UseSpell(spell, champion.Instance);
+                    }
+                }
+                
+                if (spell.SpellSwitch[tabName + "dangernorm"].IsOn)
+                {
+                    if (champion.HasAggro && champion.InDanger)
+                    {
+                        UseSpell(spell, champion.Instance);
+                    }
+                }
+            }
         }
 
         /// <summary>

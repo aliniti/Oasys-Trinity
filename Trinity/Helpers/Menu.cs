@@ -125,28 +125,28 @@
         ///     Creates the spell tab for dangerous spells.
         /// </summary>
         /// <param name="spell">The spell.</param>
-        public static void CreateTabSpellDangerousSpells(this AutoSpell spell)
+        public static void CreateTabSpellDangerousSpells(this AutoSpell spell, int usePct)
         {
             var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
-            // spell.SpellGroup[tabName + "grp"].AddItem(
-            //     spell.SpellSwitch[tabName + "dangernorm"] = new Switch
-            //     {
-            //         IsOn = false,
-            //         Title = "Use on Dangerous (Spells)"
-            //     });
-            //
-            // spell.SpellGroup[tabName+ "grp"].AddItem(
-            //     spell.SpellSwitch[tabName + "dangernorm"] = new Switch
-            //     {
-            //         IsOn = false,
-            //         Title = "Use on CrowdControl (Spells)"
-            //     });
+            spell.SpellGroup[tabName + "grp"].AddItem(
+                spell.SpellSwitch[tabName + "dangernorm"] = new Switch
+                {
+                    IsOn = usePct > 60,
+                    Title = "Use on Dangerous (Spells)"
+                });
+            
+            spell.SpellGroup[tabName+ "grp"].AddItem(
+                spell.SpellSwitch[tabName + "dangercc"] = new Switch
+                {
+                    IsOn = usePct > 40,
+                    Title = "Use on CrowdControl (Spells)"
+                });
             
             spell.SpellGroup[tabName + "grp"].AddItem(
                 spell.SpellSwitch[tabName + "dangerextr"] = new Switch
                 {
                     IsOn = true,
-                    Title = "Use on Dangerous (BETA)"
+                    Title = "Use on Dangerous (Ultimates Only)"
                 });
         }
 
@@ -387,27 +387,27 @@
         ///     Creates the item tab for dangerous spells.
         /// </summary>
         /// <param name="item">The item.</param>
-        public static void CreateTabItemDangerousSpells(this ActiveItem item)
+        public static void CreateTabItemDangerousSpells(this ActiveItem item, int usePct)
         {
-            // item.ItemGroup[item.ItemId + "grp"].AddItem(
-            //     item.ItemSwitch[item.ItemId + "dangernorm"] = new Switch
-            //     {
-            //         IsOn = false,
-            //         Title = "Use on Dangerous (Spells)"
-            //     });
-            //
-            // item.ItemGroup[item.ItemId + "grp"].AddItem(
-            //     item.ItemSwitch[item.ItemId + "dangernorm"] = new Switch
-            //     {
-            //         IsOn = false,
-            //         Title = "Use on CrowdControl (Spells)"
-            //     });
+            item.ItemGroup[item.ItemId + "grp"].AddItem(
+                item.ItemSwitch[item.ItemId + "dangernorm"] = new Switch
+                {
+                    IsOn = usePct > 60,
+                    Title = "Use on Dangerous (Spells)"
+                });
+            
+            item.ItemGroup[item.ItemId + "grp"].AddItem(
+                item.ItemSwitch[item.ItemId + "dangercc"] = new Switch
+                {
+                    IsOn = usePct > 40,
+                    Title = "Use on CrowdControl (Spells)"
+                });
             
             item.ItemGroup[item.ItemId + "grp"].AddItem(
                 item.ItemSwitch[item.ItemId + "dangerextr"] = new Switch
                 {
                     IsOn = true,
-                    Title = "Use on Dangerous (BETA)"
+                    Title = "Use on Dangerous (Ultimates Only)"
                 });
         }
         

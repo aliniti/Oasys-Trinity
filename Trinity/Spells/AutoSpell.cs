@@ -119,7 +119,7 @@
                 this.CreateSpellTabBindingUnit();
             
             if (ActivationTypes.Contains(ActivationType.CheckDangerous))
-                this.CreateTabSpellDangerousSpells();
+                this.CreateTabSpellDangerousSpells(UsePct);
         }
 
         public override void OnRender()
@@ -152,7 +152,7 @@
                     .FirstOrDefault(x => x.Instance.NetworkID == UnitManager.MyChampion.NetworkID);
 
                 if (myChampionOnly != null)
-                    if (myChampionOnly.InWayDanger)
+                    if (myChampionOnly.HasAggro)
                     {
                         this.CheckSpellAuras(myChampionOnly.Instance);
                         this.CheckSpellDangerousSpells(myChampionOnly);
@@ -167,7 +167,7 @@
                     var hero = u.Value;
                     if (hero.Instance.Team == UnitManager.MyChampion.Team)
                         if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range)
-                            if (hero.InWayDanger)
+                            if (hero.HasAggro)
                             {
                                 this.CheckSpellAuras(hero.Instance);
                                 this.CheckSpellDangerousSpells(hero);

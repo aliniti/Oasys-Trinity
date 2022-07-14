@@ -124,8 +124,11 @@ namespace Trinity.Base
                         // limit the damage using an interval
                         if ((int)(GameEngine.GameTime * 1000) - Limiter >= Interval * 1000)
                         {
+                            unit.InDanger = EmulationType.Equals(EmulationType.Danger);
+                            unit.InCrowdControl = EmulationType.Equals(EmulationType.CrowdControl);
                             unit.InExtremeDanger = EmulationType.Equals(EmulationType.Ultimate);
-                            unit.InWayDanger = true;
+                            unit.HasAggro = true;
+                            
                             Limiter = (int) (GameEngine.GameTime * 1000);
                         }
             }

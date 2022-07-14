@@ -28,21 +28,29 @@
         public AIHeroClient Instance { get; set; }
         
         /// <summary>
-        ///     Gets or sets a value indicating whether [in way danger].
+        ///     Gets or sets a value indicating whether [has aggro].
         /// </summary>
         /// <value>
-        ///     <c>true</c> if [in way danger]; otherwise, <c>false</c>.
+        ///     <c>true</c> if [has aggro]; otherwise, <c>false</c>.
         /// </value>
-        public bool InWayDanger { get; set; }
+        public bool HasAggro { get; set; }
         
         /// <summary>
-        ///     Gets or sets the [danger] tick.
+        ///     Gets or sets the [aggro] tick.
         /// </summary>
         /// <value>
-        ///     The [danger] tick.
+        ///     The [aggro] tick.
         /// </value>
-        public int DangerTick { get; set; }
+        public int AggroTick { get; set; }
         
+        /// <summary>
+        ///     Gets or sets a value indicating whether [in crowd control].
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if [in crowd control]; otherwise, <c>false</c>.
+        /// </value>
+        public bool InCrowdControl { get; set; }
+
         /// <summary>
         ///     Gets or sets a value indicating whether [in extreme danger].
         /// </summary>
@@ -50,6 +58,14 @@
         ///     <c>true</c> if [in extreme danger]; otherwise, <c>false</c>.
         /// </value>
         public bool InExtremeDanger { get; set; }
+        
+        /// <summary>
+        ///     Gets or sets a value indicating whether [in danger].
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if [in danger]; otherwise, <c>false</c>.
+        /// </value>
+        public bool InDanger { get; set; }
         
         /// <summary>
         ///     Gets or sets the emulation type.
@@ -95,19 +111,9 @@
         public void CheckProjectionSegment(AIBaseClient unit)
         {
             // todo: failsafe: need a better way to implement this
-            if ((int)(GameEngine.GameTime * 1000) - DangerTick > 500)
+            if ((int)(GameEngine.GameTime * 1000) - AggroTick > 500)
             {
-                // todo:
-                if (InWayDanger)
-                {
-                    InWayDanger = false;
-                }
-                
-                // todo:
-                if (InExtremeDanger)
-                {
-                    InExtremeDanger = false;
-                }
+                this.ResetAggro();
             }
             
             if (unit.IsAlive)
@@ -117,18 +123,21 @@
                     if (currentSpell.SpellData.SpellName is not null)
                     {
                         var gameTime = (int) (GameEngine.GameTime * 1000);
-                        var entry = SpellData.HeroSpells.Find(x => 
-                            string.Equals(x.SpellName, currentSpell.SpellData.SpellName,
-                                StringComparison.CurrentCultureIgnoreCase));
+                        var entry = SpellData.HeroSpells.Find(x => x.SpellName.ToLower() == currentSpell.SpellData.SpellName.ToLower());
                         
+                        //var heroTargetAggro = currentSpell.Targets.Find(x => x.NetworkID == GameEngine.HoveredGameObjectUnderMouse.NetworkID) != null;
                         var heroTargetAggro = currentSpell.Targets.Find(x => x.NetworkID == Instance.NetworkID) != null;
                         if (heroTargetAggro)
                         {
                             if (entry != null)
+                            {
+                                InDanger = entry.EmulationTypes.Contains(EmulationType.Danger);
+                                InCrowdControl = entry.EmulationTypes.Contains(EmulationType.CrowdControl);
                                 InExtremeDanger = entry.EmulationTypes.Contains(EmulationType.Ultimate);
+                            }
                             
-                            InWayDanger = true;
-                            DangerTick = gameTime;
+                            HasAggro = true;
+                            AggroTick = gameTime;
                         }
                         else
                         {
@@ -140,10 +149,14 @@
                             if (proj.IsOnSegment && nearit)
                             {
                                 if (entry != null)
+                                {
+                                    InDanger = entry.EmulationTypes.Contains(EmulationType.Danger);
+                                    InCrowdControl = entry.EmulationTypes.Contains(EmulationType.CrowdControl);
                                     InExtremeDanger = entry.EmulationTypes.Contains(EmulationType.Ultimate);
+                                }
                                 
-                                InWayDanger = true;
-                                DangerTick = gameTime;
+                                HasAggro = true;
+                                AggroTick = gameTime;
                             }
                         }
                     }
