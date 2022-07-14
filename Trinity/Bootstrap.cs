@@ -404,12 +404,11 @@
 
             #region Evader Spells
 
-            new AutoSpell(55, "Sivir", CastSlot.E, TargetingType.ProximityAlly, float.MaxValue,
-                new[] { ActivationType.CheckDangerous, ActivationType.CheckPlayerMana, ActivationType.CheckOnlyOnMe }),
-            
-            new AutoSpell(55, "Morgana", CastSlot.E, TargetingType.UnitAlly, 750,
-                new[] { ActivationType.CheckDangerous, ActivationType.CheckPlayerMana }),
-            
+            // new AutoSpell(55, "Sivir", CastSlot.E, TargetingType.ProximityAlly, float.MaxValue,
+            //     new[] { ActivationType.CheckDangerous, ActivationType.CheckPlayerMana, ActivationType.CheckOnlyOnMe }),
+            //
+            // new AutoSpell(55, "Morgana", CastSlot.E, TargetingType.UnitAlly, 750,
+            //     new[] { ActivationType.CheckDangerous, ActivationType.CheckPlayerMana }),
             
             #endregion
 
