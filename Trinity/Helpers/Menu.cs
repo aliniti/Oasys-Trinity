@@ -116,7 +116,7 @@
                 Title = "Use " + tabName + " if Mana > (%)",
                 MaxValue = 100,
                 MinValue = 10,
-                Value = 55,
+                Value = 35,
                 ValueFrequency = 5
             });
         }

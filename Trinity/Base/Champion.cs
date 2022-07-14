@@ -125,7 +125,6 @@
                         var gameTime = (int) (GameEngine.GameTime * 1000);
                         var entry = SpellData.HeroSpells.Find(x => x.SpellName.ToLower() == currentSpell.SpellData.SpellName.ToLower());
                         
-                        //var heroTargetAggro = currentSpell.Targets.Find(x => x.NetworkID == GameEngine.HoveredGameObjectUnderMouse.NetworkID) != null;
                         var heroTargetAggro = currentSpell.Targets.Find(x => x.NetworkID == Instance.NetworkID) != null;
                         if (heroTargetAggro)
                         {
@@ -148,13 +147,19 @@
 
                             if (proj.IsOnSegment && nearit)
                             {
+                                var collision = proj.GetEnemyUnitsOnSegment(radius);
+                                if (collision.Any(x => x.NetworkID != Instance.NetworkID))
+                                {
+                                    return;
+                                }
+                                
                                 if (entry != null)
                                 {
                                     InDanger = entry.EmulationTypes.Contains(EmulationType.Danger);
                                     InCrowdControl = entry.EmulationTypes.Contains(EmulationType.CrowdControl);
                                     InExtremeDanger = entry.EmulationTypes.Contains(EmulationType.Ultimate);
                                 }
-                                
+
                                 HasAggro = true;
                                 AggroTick = gameTime;
                             }

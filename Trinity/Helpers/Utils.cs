@@ -6,6 +6,7 @@
     using System.Linq;
     using Base;
     using Items;
+    using Oasys.Common;
     using Oasys.Common.Enums.GameEnums;
     using Oasys.Common.Extensions;
     using Oasys.Common.GameObject.Clients;
@@ -67,6 +68,39 @@
             }
 
             return null;
+        }
+
+        public static List<AIBaseClient> GetEnemyUnitsOnSegment(this ProjectionInfo proj, float radius)
+        {
+            var objList = new List<AIBaseClient>();
+            
+            foreach (var u in ObjectManagerExport.HeroCollection)
+            {
+                var unit = u.Value;
+                if (unit.IsValidTarget())
+                {
+                    var nearit = unit.Position.Distance(proj.SegmentPoint) <= radius;
+                    if (nearit)
+                    {
+                        objList.Add(unit);
+                    }
+                }
+            }
+
+            foreach (var u in ObjectManagerExport.MinionCollection)
+            {
+                var minion = u.Value;
+                if (minion.IsValidTarget())
+                {
+                    var nearit = minion.Position.Distance(proj.SegmentPoint) <= radius;
+                    if (nearit)
+                    {
+                        objList.Add(minion);
+                    }
+                }
+            }
+            
+            return objList;
         }
 
         /// <summary>

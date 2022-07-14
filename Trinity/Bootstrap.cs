@@ -300,13 +300,13 @@
         /// </summary>
         private static readonly List<AutoSpell> SummonerTickSpells = new()
         {
-            new AutoSpell(35, "Heal", "SummonerHeal", TargetingType.ProximityAlly, 850,
+            new AutoSpell(25, "Heal", "SummonerHeal", TargetingType.ProximityAlly, 850,
                 new[] { ActivationType.CheckAllyLowHP }),
 
             new Smite(100, "Smite", "SummonerSmite", TargetingType.UnitEnemy, 500,
                 new ActivationType[] { }),
 
-            new AutoSpell(35, "Barrier", "SummonerBarrier", TargetingType.ProximityAlly, float.MaxValue,
+            new AutoSpell(25, "Barrier", "SummonerBarrier", TargetingType.ProximityAlly, float.MaxValue,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
 
             new AutoSpell(100, "Cleanse", "SummonerBoost", TargetingType.ProximityAlly, 1200,
@@ -360,28 +360,28 @@
 
             #region Low-HP Spells
 
-            new AutoSpell(35, "Zilean", CastSlot.R, TargetingType.UnitAlly, 900,
+            new AutoSpell(25, "Zilean", CastSlot.R, TargetingType.UnitAlly, 900,
                 new[] { ActivationType.CheckAllyLowHP }),
 
-            new AutoSpell(35, "Kindred", CastSlot.R, TargetingType.UnitAlly, 400,
+            new AutoSpell(25, "Kindred", CastSlot.R, TargetingType.UnitAlly, 400,
                 new[] { ActivationType.CheckAllyLowHP }),
 
-            new AutoSpell(35, "Aatrox", CastSlot.R, TargetingType.UnitAlly, float.MaxValue,
+            new AutoSpell(25, "Aatrox", CastSlot.R, TargetingType.UnitAlly, float.MaxValue,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
 
-            new AutoSpell(35, "Lulu", CastSlot.R, TargetingType.UnitAlly, 900,
+            new AutoSpell(25, "Lulu", CastSlot.R, TargetingType.UnitAlly, 900,
                 new[] { ActivationType.CheckAllyLowHP }),
 
-            new AutoSpell(35, "Tryndamere", CastSlot.R, TargetingType.UnitAlly, float.MaxValue,
+            new AutoSpell(25, "Tryndamere", CastSlot.R, TargetingType.UnitAlly, float.MaxValue,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
 
-            new AutoSpell(35, "Soraka", CastSlot.R, TargetingType.ProximityAlly, float.MaxValue,
+            new AutoSpell(25, "Soraka", CastSlot.R, TargetingType.ProximityAlly, float.MaxValue,
                 new[] { ActivationType.CheckAllyLowHP }),
 
-            new AutoSpell(35, "Kayle", CastSlot.R, TargetingType.UnitAlly, 900,
+            new AutoSpell(25, "Kayle", CastSlot.R, TargetingType.UnitAlly, 900,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous }),
 
-            new AutoSpell(35, "Mundo", CastSlot.R, TargetingType.ProximityAlly, float.MaxValue,
+            new AutoSpell(25, "Mundo", CastSlot.R, TargetingType.ProximityAlly, float.MaxValue,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
 
             #endregion
@@ -404,11 +404,18 @@
 
             #region Evader Spells
 
-            // new AutoSpell(55, "Sivir", CastSlot.E, TargetingType.ProximityAlly, float.MaxValue,
-            //     new[] { ActivationType.CheckDangerous, ActivationType.CheckPlayerMana, ActivationType.CheckOnlyOnMe }),
-            //
-            // new AutoSpell(55, "Morgana", CastSlot.E, TargetingType.UnitAlly, 750,
-            //     new[] { ActivationType.CheckDangerous, ActivationType.CheckPlayerMana }),
+            new AutoSpell(55, "Sivir", CastSlot.E, TargetingType.ProximityAlly, float.MaxValue,
+                new[] { ActivationType.CheckDangerous, ActivationType.CheckOnlyOnMe }),
+            
+            new AutoSpell(55, "Nocturne", CastSlot.W, TargetingType.ProximityAlly, float.MaxValue,
+                new[] { ActivationType.CheckDangerous, ActivationType.CheckOnlyOnMe }),
+            
+            new AutoSpell(55, "Morgana", CastSlot.E, TargetingType.UnitAlly, 750,
+                new[] { ActivationType.CheckDangerous, ActivationType.CheckPlayerMana }),
+            
+            new AutoSpell(55, "Lissandra", CastSlot.R, TargetingType.UnitAlly, float.MaxValue,
+                new[] { ActivationType.CheckDangerous, ActivationType.CheckOnlyOnMe }),
+            
             
             #endregion
 
