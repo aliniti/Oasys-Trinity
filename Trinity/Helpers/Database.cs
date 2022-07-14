@@ -567,6 +567,50 @@ namespace Trinity.Helpers
                     },
                 MissileSpeed = 4800
             });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "aphelioscalibrumq",
+                ChampionName = "aphelios",
+                Slot = SpellSlot.Q,
+                CastType = CastType.MissileLinear,
+                CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
+                FixedRange = true,
+                CastRange = 1500f,
+                Radius = 120f,
+                Delay = 250f,
+                EmulationTypes = new EmulationType[] { },
+                MissileSpeed = 1850
+            });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "apheliosinfernumq",
+                ChampionName = "aphelios",
+                Slot = SpellSlot.Q,
+                CastType = CastType.MissileLinear,
+                FixedRange = true,
+                CastRange = 650f,
+                Radius = 265f,
+                Delay = 250f,
+                EmulationTypes = new EmulationType[] { },
+                MissileSpeed = 1850
+            });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "apheliosrv5",
+                ChampionName = "aphelios",
+                Slot = SpellSlot.Q,
+                CastType = CastType.MissileLinear,
+                CollidesWith = new[] { CollisionObjectType.EnemyHeroes },
+                FixedRange = true,
+                CastRange = 1300f,
+                Radius = 300f,
+                Delay = 250f,
+                EmulationTypes = new[] { EmulationType.Ultimate },
+                MissileSpeed = 1450
+            });
 
             HeroSpells.Add(new SpellData
             {
@@ -3074,6 +3118,21 @@ namespace Trinity.Helpers
                 EmulationTypes = new[] { EmulationType.Danger, EmulationType.Ultimate },
                 MissileSpeed = 1700
             });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "kaisaw",
+                ChampionName = "kaisa",
+                Slot = SpellSlot.W,
+                CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
+                CastType = CastType.MissileLinear,
+                FixedRange = true,
+                CastRange = 3000f,
+                Delay = 500f,
+                EmulationTypes = new[] { EmulationType.Danger, EmulationType.CrowdControl },
+                MissileName = "kaisawmis",
+                MissileSpeed = 1750
+            });
 
             HeroSpells.Add(new SpellData
             {
@@ -5227,6 +5286,7 @@ namespace Trinity.Helpers
                 SpellName = "pykeq",
                 ChampionName = "pyke",
                 Slot = SpellSlot.Q,
+                CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 CastType = CastType.Linear,
                 FixedRange = true,
                 CastRange = 400f,
@@ -6451,54 +6511,55 @@ namespace Trinity.Helpers
                 EmulationTypes = new EmulationType[] { },
                 MissileSpeed = 4800
             });
-
+            
             HeroSpells.Add(new SpellData
             {
-                SpellName = "swaindecrepify",
+                SpellName = "swainq",
                 ChampionName = "swain",
                 Slot = SpellSlot.Q,
-                CastType = CastType.Circlular,
-                CastRange = 625f,
+                CastType = CastType.Sector,
+                CastRange = 725f,
+                Radius = 285f,
                 Delay = 250f,
-                EmulationTypes = new[] { EmulationType.CrowdControl },
+                EmulationTypes = new EmulationType[] { },
                 MissileSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
             {
-                SpellName = "swainshadowgrasp",
+                SpellName = "swainw",
                 ChampionName = "swain",
                 Slot = SpellSlot.W,
                 CastType = CastType.Circlular,
-                CastRange = 1040f,
-                Delay = 1100f,
-                EmulationTypes = new[] { EmulationType.CrowdControl },
-                MissileName = "swainshadowgrasp",
+                CastRange = 5500f,
+                Radius = 325f,
+                Delay = 500f,
+                EmulationTypes = new EmulationType[] { },
                 MissileSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
             {
-                SpellName = "swaintorment",
+                SpellName = "swaine",
                 ChampionName = "swain",
                 Slot = SpellSlot.E,
-                CastType = CastType.Targeted,
-                CastRange = 625f,
+                CastType = CastType.MissileLinear,
+                CastRange = 850f,
                 Delay = 250f,
-                EmulationTypes = new EmulationType[] { },
-                MissileSpeed = 1400
+                EmulationTypes = new EmulationType[] { EmulationType.CrowdControl },
+                MissileSpeed = 1950
             });
-
+            
             HeroSpells.Add(new SpellData
             {
-                SpellName = "swainmetamorphism",
+                SpellName = "swainrsoulflare",
                 ChampionName = "swain",
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
-                CastRange = 0f,
+                CastRange = 650f,
                 Delay = 250f,
-                EmulationTypes = new EmulationType[] { },
-                MissileSpeed = 1950
+                EmulationTypes = new EmulationType[] { EmulationType.Ultimate },
+                MissileSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData

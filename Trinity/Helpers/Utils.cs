@@ -70,14 +70,14 @@
             return null;
         }
 
-        public static List<AIBaseClient> GetEnemyUnitsOnSegment(this ProjectionInfo proj, float radius)
+        public static List<AIBaseClient> GetEnemyUnitsOnSegment(this ProjectionInfo proj, float radius, bool heroes, bool minions)
         {
             var objList = new List<AIBaseClient>();
             
             foreach (var u in ObjectManagerExport.HeroCollection)
             {
                 var unit = u.Value;
-                if (unit.IsValidTarget())
+                if (unit.IsValidTarget() && heroes)
                 {
                     var nearit = unit.Position.Distance(proj.SegmentPoint) <= radius;
                     if (nearit)
@@ -86,11 +86,11 @@
                     }
                 }
             }
-
+            
             foreach (var u in ObjectManagerExport.MinionCollection)
             {
                 var minion = u.Value;
-                if (minion.IsValidTarget())
+                if (minion.IsValidTarget() && minions)
                 {
                     var nearit = minion.Position.Distance(proj.SegmentPoint) <= radius;
                     if (nearit)

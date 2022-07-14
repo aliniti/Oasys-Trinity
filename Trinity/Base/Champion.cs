@@ -147,12 +147,18 @@
 
                             if (proj.IsOnSegment && nearit)
                             {
-                                var collision = proj.GetEnemyUnitsOnSegment(radius);
-                                if (collision.Any(x => x.NetworkID != Instance.NetworkID))
+                                if (entry != null)
                                 {
-                                    return;
+                                    var minions = entry.CollidesWith.Contains(CollisionObjectType.EnemyMinions);
+                                    var heroes  = entry.CollidesWith.Contains(CollisionObjectType.EnemyHeroes);
+                                    
+                                    var collision = proj.GetEnemyUnitsOnSegment(radius, heroes, minions);
+                                    if (collision.Any(x => x.NetworkID != Instance.NetworkID))
+                                    {
+                                        return;
+                                    }
                                 }
-                                
+
                                 if (entry != null)
                                 {
                                     InDanger = entry.EmulationTypes.Contains(EmulationType.Danger);
