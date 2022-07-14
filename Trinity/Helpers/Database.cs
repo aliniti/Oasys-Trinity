@@ -4591,7 +4591,7 @@ namespace Trinity.Helpers
 
             HeroSpells.Add(new SpellData
             {
-                SpellName = "darkbindingmissile",
+                SpellName = "morganaq",
                 ChampionName = "morgana",
                 Slot = SpellSlot.Q,
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
@@ -4606,7 +4606,7 @@ namespace Trinity.Helpers
 
             HeroSpells.Add(new SpellData
             {
-                SpellName = "tormentedsoil",
+                SpellName = "morganaw",
                 ChampionName = "morgana",
                 Slot = SpellSlot.W,
                 CastType = CastType.Circlular,
@@ -4618,7 +4618,7 @@ namespace Trinity.Helpers
 
             HeroSpells.Add(new SpellData
             {
-                SpellName = "blackshield",
+                SpellName = "morganae",
                 ChampionName = "morgana",
                 Slot = SpellSlot.E,
                 CastType = CastType.Targeted,
@@ -4630,7 +4630,7 @@ namespace Trinity.Helpers
 
             HeroSpells.Add(new SpellData
             {
-                SpellName = "soulshackles",
+                SpellName = "morganar",
                 ChampionName = "morgana",
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
@@ -5220,6 +5220,61 @@ namespace Trinity.Helpers
                 Delay = 300f,
                 EmulationTypes = new[] { EmulationType.Danger, EmulationType.Ultimate },
                 MissileSpeed = 4800
+            });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "pykeq",
+                ChampionName = "pyke",
+                Slot = SpellSlot.Q,
+                CastType = CastType.Linear,
+                FixedRange = true,
+                CastRange = 400f,
+                Radius = 140f,
+                Delay = 250f,
+                EmulationTypes = new[] { EmulationType.Danger },
+                MissileSpeed = 500
+            });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "pykeqrange",
+                ChampionName = "pyke",
+                Slot = SpellSlot.Q,
+                CastType = CastType.MissileLinear,
+                CastRange = 1100f,
+                Radius = 140f,
+                Delay = 250f,
+                EmulationTypes = new[] { EmulationType.Danger, EmulationType.CrowdControl },
+                MissileSpeed = 2000
+            });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "pykee",
+                ChampionName = "pyke",
+                Slot = SpellSlot.E,
+                CastType = CastType.Linear,
+                FixedRange = true,
+                CastRange = 550f,
+                Radius = 110f,
+                Delay = 750f,
+                EmulationTypes = new[] { EmulationType.Danger, EmulationType.CrowdControl },
+                MissileSpeed = 1650
+            });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "pyker",
+                ChampionName = "pyke",
+                Slot = SpellSlot.Q,
+                CastType = CastType.Circlular,
+                FixedRange = true,
+                CastRange = 750f,
+                Radius = - 282f,
+                Delay = 750f,
+                EmulationTypes = new[] { EmulationType.Danger, EmulationType.CrowdControl, EmulationType.Ultimate },
+                MissileSpeed = 1200
             });
             
             HeroSpells.Add(new SpellData

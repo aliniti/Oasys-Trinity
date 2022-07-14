@@ -142,7 +142,7 @@
                         else
                         {
                             // skillshot projection 
-                            var radius = (int) currentSpell.SpellData.SpellWidth + Instance.UnitComponentInfo.UnitBoundingRadius;
+                            var radius = (int) Math.Max(50, currentSpell.SpellData.SpellWidth) + Instance.UnitComponentInfo.UnitBoundingRadius;
                             var proj = Instance.Position.ProjectOn(currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
                             var nearit = Instance.Position.Distance(proj.SegmentPoint) <= radius;
 
