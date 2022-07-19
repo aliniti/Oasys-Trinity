@@ -171,16 +171,12 @@ namespace Trinity.Helpers
         public static List<SpellData> HeroSpells = new List<SpellData>();
 
         #endregion
-
-        #region Constructors and Destructors
-        
         static SpellData()
         {
-            
             #region Aatrox
             HeroSpells.Add(new SpellData
             {
-                SpellName = "aatroxq",
+                SpellName = "aatroxqwrappercast",
                 ChampionName = "aatrox",
                 Slot = SpellSlot.Q,
                 CastType = CastType.Circlular,
@@ -247,6 +243,7 @@ namespace Trinity.Helpers
             
             #endregion
 
+            #region Ahri
             HeroSpells.Add(new SpellData
             {
                 SpellName = "ahriorbofdeception",
@@ -305,6 +302,10 @@ namespace Trinity.Helpers
                 EmulationTypes = new[] { EmulationType.Initiator, EmulationType.Gapcloser },
                 MissileSpeed = 2200
             });
+            
+            #endregion
+
+            #region Akali
 
             HeroSpells.Add(new SpellData
             {
@@ -357,6 +358,10 @@ namespace Trinity.Helpers
                 MissileSpeed = 2200
             });
 
+            #endregion
+
+            #region Alistar
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "pulverize",
@@ -406,6 +411,10 @@ namespace Trinity.Helpers
                 EmulationTypes = new EmulationType[] { },
                 MissileSpeed = 4800
             });
+
+            #endregion
+
+            #region Amumu
 
             HeroSpells.Add(new SpellData
             {
@@ -466,6 +475,10 @@ namespace Trinity.Helpers
                 MissileSpeed = 4800
             });
 
+            #endregion
+
+            #region Anivia
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "flashfrost",
@@ -516,6 +529,10 @@ namespace Trinity.Helpers
                 EmulationTypes = new EmulationType[] { },
                 MissileSpeed = 4800
             });
+
+            #endregion
+
+            #region Annie
 
             HeroSpells.Add(new SpellData
             {
@@ -571,7 +588,10 @@ namespace Trinity.Helpers
                     },
                 MissileSpeed = 4800
             });
+
+            #endregion
             
+            #region Aphelios
             HeroSpells.Add(new SpellData
             {
                 SpellName = "aphelioscalibrumq",
@@ -615,7 +635,10 @@ namespace Trinity.Helpers
                 EmulationTypes = new[] { EmulationType.Ultimate },
                 MissileSpeed = 1450
             });
+            
+            #endregion
 
+            #region Ashe
             HeroSpells.Add(new SpellData
             {
                 SpellName = "frostshot",
@@ -689,7 +712,10 @@ namespace Trinity.Helpers
                 MissileName = "enchantedcrystalarrow",
                 MissileSpeed = 1600
             });
+            
+            #endregion
 
+            #region AurelionSol
             HeroSpells.Add(new SpellData
             {
                 SpellName = "aurelionsolq",
@@ -746,20 +772,24 @@ namespace Trinity.Helpers
                 MissileName = "aurelionsolrbeammissile",
                 MissileSpeed = 4600
             });
+            
+            #endregion
 
-            //HeroSpells.Add(new Spelldata
-            //{
-            //    SpellName = "azirq",
-            //    ChampionName = "azir",
-            //    Slot = SpellSlot.Q,
-            //    CastType = CastType.LinearAoE,
-            //    CastRange = 875f,
-            //    Delay = 250f,
-            //    EventTypes = new[] { EmulationType.CrowdControl },
-            //    MissileName = "azirqmissile",
-            //    FromObject = new[] { "AzirSoldier" },
-            //    MissileSpeed = 1750
-            //});
+            #region Azir
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "azirq",
+                ChampionName = "azir",
+                Slot = SpellSlot.Q,
+                CastType = CastType.LinearAoE,
+                CastRange = 875f,
+                Delay = 250f,
+                EmulationTypes = new[] { EmulationType.CrowdControl },
+                MissileName = "azirqmissile",
+                FromObject = new[] { "AzirSoldier" },
+                MissileSpeed = 1750
+            });
 
             HeroSpells.Add(new SpellData
             {
@@ -807,6 +837,9 @@ namespace Trinity.Helpers
                 MissileSpeed = 4800
             });
 
+            #endregion
+
+            #region Bard
             HeroSpells.Add(new SpellData
             {
                 SpellName = "bardq",
@@ -858,7 +891,10 @@ namespace Trinity.Helpers
                 MissileName = "bardr",
                 MissileSpeed = 2100
             });
+            
+            #endregion
 
+            #region Blitzcrank
             HeroSpells.Add(new SpellData
             {
                 SpellName = "rocketgrab",
@@ -916,6 +952,9 @@ namespace Trinity.Helpers
                 MissileSpeed = 4800
             });
 
+            #endregion
+            
+            #region Brand
             HeroSpells.Add(new SpellData
             {
                 SpellName = "brandq",
@@ -968,6 +1007,9 @@ namespace Trinity.Helpers
                 MissileSpeed = 1000
             });
 
+            #endregion
+            
+            #region Braum
             HeroSpells.Add(new SpellData
             {
                 SpellName = "braumq",
@@ -1039,7 +1081,10 @@ namespace Trinity.Helpers
                 MissileName = "braumrmissile",
                 MissileSpeed = 1200
             });
+            
+            #endregion
 
+            #region Camille
             HeroSpells.Add(new SpellData
             {
                 SpellName = "camilleq",
@@ -1106,6 +1151,9 @@ namespace Trinity.Helpers
                 MissileSpeed = 11200
             });
 
+            #endregion
+
+            #region Caitlyn
             HeroSpells.Add(new SpellData
             {
                 SpellName = "caitlynpiltoverpeacemaker",
@@ -1164,7 +1212,10 @@ namespace Trinity.Helpers
                 EmulationTypes = new EmulationType[] { },
                 MissileSpeed = 1500
             });
+            
+            #endregion
 
+            #region Cassiopeia
             HeroSpells.Add(new SpellData
             {
                 SpellName = "cassiopeiaq",
@@ -1221,7 +1272,7 @@ namespace Trinity.Helpers
                 MissileName = "cassiopeiar",
                 MissileSpeed = 4800
             });
-
+            
             HeroSpells.Add(new SpellData
             {
                 SpellName = "cassiopeiarstun",
@@ -1240,7 +1291,10 @@ namespace Trinity.Helpers
                 MissileName = "cassiopeiarstun",
                 MissileSpeed = 4800
             });
-
+            
+            #endregion
+            
+            #region Chogath
             HeroSpells.Add(new SpellData
             {
                 SpellName = "rupture",
@@ -1292,7 +1346,11 @@ namespace Trinity.Helpers
                 EmulationTypes = new[] { EmulationType.Danger, EmulationType.Ultimate },
                 MissileSpeed = 4800
             });
+            
+            #endregion
 
+            
+            #region Corki
             HeroSpells.Add(new SpellData
             {
                 SpellName = "phosphorusbomb",
@@ -1346,6 +1404,9 @@ namespace Trinity.Helpers
                 MissileSpeed = 2000
             });
 
+            #endregion
+            
+            #region Darius
             HeroSpells.Add(new SpellData
             {
                 SpellName = "dariuscleave",
@@ -1399,7 +1460,10 @@ namespace Trinity.Helpers
                 EmulationTypes = new[] { EmulationType.Danger, EmulationType.Ultimate },
                 MissileSpeed = 4800
             });
-
+            
+            #endregion
+            
+            #region Diana
             HeroSpells.Add(new SpellData
             {
                 SpellName = "dianaarc",
@@ -1451,7 +1515,10 @@ namespace Trinity.Helpers
                 EmulationTypes = new[] { EmulationType.Danger, EmulationType.Initiator, EmulationType.Gapcloser },
                 MissileSpeed = 2200
             });
+            
+            #endregion
 
+            #region Draven
             HeroSpells.Add(new SpellData
             {
                 SpellName = "dravenspinning",
@@ -1505,7 +1572,10 @@ namespace Trinity.Helpers
                 MissileName = "dravenr",
                 MissileSpeed = 2000
             });
+            
+            #endregion
 
+            #region Dr. Mundo
             HeroSpells.Add(new SpellData
             {
                 SpellName = "infectedcleavermissilecast",
@@ -1557,7 +1627,10 @@ namespace Trinity.Helpers
                 EmulationTypes = new[] { EmulationType.Initiator },
                 MissileSpeed = 4800
             });
+            
+            #endregion
 
+            #region Ekko
             HeroSpells.Add(new SpellData
             {
                 SpellName = "ekkoq",
@@ -1599,7 +1672,10 @@ namespace Trinity.Helpers
                 FromObject = new[] { "Ekko_Base_R_TrailEnd" },
                 MissileSpeed = 4800
             });
+            
+            #endregion 
 
+            #region Elise
             HeroSpells.Add(new SpellData
             {
                 SpellName = "elisehumanq",
@@ -1710,7 +1786,10 @@ namespace Trinity.Helpers
                 EmulationTypes = new EmulationType[] { },
                 MissileSpeed = 4800
             });
+            
+            #endregion
 
+            #region Evelynn
             HeroSpells.Add(new SpellData
             {
                 SpellName = "evelynnq",
@@ -1791,7 +1870,10 @@ namespace Trinity.Helpers
                 MissileName = "evelynnrtrail",
                 MissileSpeed = 4400
             });
+            
+            #endregion
 
+            #region Ezreal
             HeroSpells.Add(new SpellData
             {
                 SpellName = "ezrealmysticshot",
@@ -1861,10 +1943,13 @@ namespace Trinity.Helpers
                 MissileName = "ezrealtrueshotbarrage",
                 MissileSpeed = 2000
             });
+            
+            #endregion
 
+            #region FiddleSticks
             HeroSpells.Add(new SpellData
             {
-                SpellName = "terrify",
+                SpellName = "fiddlesticksq",
                 ChampionName = "fiddlesticks",
                 Slot = SpellSlot.Q,
                 CastType = CastType.Targeted,
@@ -1876,7 +1961,7 @@ namespace Trinity.Helpers
 
             HeroSpells.Add(new SpellData
             {
-                SpellName = "drain",
+                SpellName = "fiddlesticksw",
                 ChampionName = "fiddlesticks",
                 Slot = SpellSlot.W,
                 CastType = CastType.Targeted,
@@ -1888,7 +1973,7 @@ namespace Trinity.Helpers
 
             HeroSpells.Add(new SpellData
             {
-                SpellName = "fiddlesticksdarkwind",
+                SpellName = "fiddlestickse",
                 ChampionName = "fiddlesticks",
                 Slot = SpellSlot.E,
                 CastType = CastType.Targeted,
@@ -1900,7 +1985,7 @@ namespace Trinity.Helpers
 
             HeroSpells.Add(new SpellData
             {
-                SpellName = "crowstorm",
+                SpellName = "fiddlesticksr",
                 ChampionName = "fiddlesticks",
                 Slot = SpellSlot.R,
                 CastType = CastType.LinearAoE,
@@ -1909,7 +1994,9 @@ namespace Trinity.Helpers
                 EmulationTypes = new[] { EmulationType.ForceExhaust, EmulationType.Initiator },
                 MissileSpeed = 4800
             });
-
+            
+            #endregion
+            
             HeroSpells.Add(new SpellData
             {
                 SpellName = "fioraq",
@@ -6040,7 +6127,7 @@ namespace Trinity.Helpers
                 CastRange = 1300f,
                 Radius = 280f,
                 Delay = 250f,
-                EmulationTypes = new[] { EmulationType.CrowdControl, EmulationType.HardCrowdControl },
+                EmulationTypes = new[] { EmulationType.CrowdControl },
                 MissileSpeed = 1200
             });
             
@@ -8564,7 +8651,5 @@ namespace Trinity.Helpers
                 MissileSpeed = 4800
             });
         }
-
-        #endregion
     }
 }

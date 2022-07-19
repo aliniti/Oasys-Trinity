@@ -92,7 +92,7 @@
         {
             if (Instance.IsEnemy) return;
             var tabname = Instance.ModelName + (Instance.IsEnemy ? "e" : "a");
-
+            
             foreach (var u in ObjectManagerExport.HeroCollection)
             {
                 var unit = u.Value;

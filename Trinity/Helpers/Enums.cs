@@ -201,11 +201,6 @@
         ///     The crowd control
         /// </summary>
         CrowdControl,
-        
-        /// <summary>
-        ///     For root, stun, and other hardcc
-        /// </summary>
-        HardCrowdControl,
 
         /// <summary>
         ///     The stealth
