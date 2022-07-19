@@ -2,16 +2,11 @@
 {
     #region
 
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Oasys.Common;
-    using Oasys.Common.Extensions;
-    using Oasys.Common.GameObject.Clients;
-    using Oasys.SDK;
-    using Oasys.SDK.Events;
     using Helpers;
+    using Oasys.Common;
+    using Oasys.Common.GameObject.Clients;
+    using Oasys.Common.Menu.ItemComponents;
 
     #endregion
 
@@ -26,7 +21,7 @@
         ///     The instance.
         /// </value>
         public AIHeroClient Instance { get; set; }
-        
+
         /// <summary>
         ///     Gets or sets a value indicating whether [has aggro].
         /// </summary>
@@ -34,15 +29,7 @@
         ///     <c>true</c> if [has aggro]; otherwise, <c>false</c>.
         /// </value>
         public bool HasAggro { get; set; }
-        
-        /// <summary>
-        ///     Gets or sets the [aggro] tick.
-        /// </summary>
-        /// <value>
-        ///     The [aggro] tick.
-        /// </value>
-        public int AggroTick { get; set; }
-        
+
         /// <summary>
         ///     Gets or sets a value indicating whether [in crowd control].
         /// </summary>
@@ -58,7 +45,7 @@
         ///     <c>true</c> if [in extreme danger]; otherwise, <c>false</c>.
         /// </value>
         public bool InExtremeDanger { get; set; }
-        
+
         /// <summary>
         ///     Gets or sets a value indicating whether [in danger].
         /// </summary>
@@ -66,14 +53,6 @@
         ///     <c>true</c> if [in danger]; otherwise, <c>false</c>.
         /// </value>
         public bool InDanger { get; set; }
-        
-        /// <summary>
-        ///     Gets or sets the emulation type.
-        /// </summary>
-        /// <value>
-        ///     The emulation type.
-        /// </value>
-        public EmulationType EmuType { get; set; }
 
         /// <summary>
         ///     Gets or sets the aura information.
@@ -82,6 +61,14 @@
         ///     The aura information.
         /// </value>
         public Dictionary<string, int> AuraInfo { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the [aggro] tick.
+        /// </summary>
+        /// <value>
+        ///     The [aggro] tick.
+        /// </value>
+        public int AggroTick { get; set; }
 
         #endregion
 
@@ -95,143 +82,80 @@
         {
             Instance = instance;
             AuraInfo = new Dictionary<string, int>();
-
-            // todo: split into abstract class
-            CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
-        }
-        
-        #endregion
-
-        #region Public Methods and Operators
-
-        /// <summary>
-        ///     Checks the projection segment.
-        /// </summary>
-        /// <param name="unit">The unit.</param>
-        public void CheckProjectionSegment(AIBaseClient unit)
-        {
-            // todo: failsafe: need a better way to implement this
-            if ((int)(GameEngine.GameTime * 1000) - AggroTick > 500)
-            {
-                this.ResetAggro();
-            }
-            
-            if (unit.IsAlive)
-                if (unit.IsCastingSpell)
-                {
-                    var currentSpell = unit.GetCurrentCastingSpell();
-                    if (currentSpell.SpellData.SpellName is not null)
-                    {
-                        var gameTime = (int) (GameEngine.GameTime * 1000);
-                        var entry = SpellData.HeroSpells
-                            .Find(x =>  x.ChampionName.ToLower() == unit.ModelName.ToLower() && 
-                                       (x.Slot == currentSpell.SpellSlot ||
-                                        x.SpellName.ToLower() == currentSpell.SpellData.SpellName.ToLower()));
-                        
-                        var heroTargetAggro = currentSpell.Targets.Find(x => x.NetworkID == Instance.NetworkID) != null;
-                        if (heroTargetAggro)
-                        {
-                            if (entry != null)
-                            {
-                                InDanger = entry.EmulationTypes.Contains(EmulationType.Danger);
-                                InCrowdControl = entry.EmulationTypes.Contains(EmulationType.CrowdControl);
-                                InExtremeDanger = entry.EmulationTypes.Contains(EmulationType.Ultimate);
-                            }
-                            
-                            HasAggro = true;
-                            AggroTick = gameTime;
-                        }
-                        else
-                        {
-                            // skillshot projection 
-                            var radius = (int) Math.Max(50, currentSpell.SpellData.SpellWidth) + Instance.UnitComponentInfo.UnitBoundingRadius;
-                            var proj = Instance.Position.ProjectOn(currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
-                            var nearit = Instance.Position.Distance(proj.SegmentPoint) <= radius;
-
-                            if (proj.IsOnSegment && nearit)
-                            {
-                                if (entry != null)
-                                {
-                                    var minions = entry.CollidesWith.Contains(CollisionObjectType.EnemyMinions);
-                                    var heroes  = entry.CollidesWith.Contains(CollisionObjectType.EnemyHeroes);
-                                    
-                                    var collision = proj.GetEnemyUnitsOnSegment(radius, heroes, minions);
-                                    if (collision.Any(x => x.NetworkID != Instance.NetworkID))
-                                    {
-                                        return;
-                                    }
-                                }
-
-                                if (entry != null)
-                                {
-                                    InDanger = entry.EmulationTypes.Contains(EmulationType.Danger);
-                                    InCrowdControl = entry.EmulationTypes.Contains(EmulationType.CrowdControl);
-                                    InExtremeDanger = entry.EmulationTypes.Contains(EmulationType.Ultimate);
-                                }
-
-                                HasAggro = true;
-                                AggroTick = gameTime;
-                            }
-                        }
-                    }
-                }
         }
 
         #endregion
 
-        #region Private Methods and Operators
+        #region Override Methods
 
-        /// <summary>
-        ///     Cores events [on core main tick].
-        /// </summary>
-        private async Task CoreEvents_OnCoreMainTick()
+        public override void OnTick()
         {
             if (Instance.IsEnemy) return;
+            var tabname = Instance.ModelName + (Instance.IsEnemy ? "e" : "a");
 
             foreach (var u in ObjectManagerExport.HeroCollection)
             {
                 var unit = u.Value;
-                switch (unit.IsEnemy)
-                {
-                    case true:
-                        CheckProjectionSegment(unit);
-                        break;
-                }
+                if (unit.IsEnemy && ChampionSwitch[tabname + "hro"].IsOn)
+                    this.CheckProjectionSegment(unit);
             }
 
             foreach (var t in ObjectManagerExport.TurretCollection)
             {
                 var turret = t.Value;
-                switch (turret.IsEnemy)
-                {
-                    case true:
-                        CheckProjectionSegment(turret);
-                        break;
-                }
+                if (turret.IsEnemy && ChampionSwitch[tabname + "twr"].IsOn)
+                    this.CheckProjectionSegment(turret);
             }
-            
+
             foreach (var t in ObjectManagerExport.JungleObjectCollection)
             {
                 var minion = t.Value;
-                switch (minion.IsNeutral)
-                {
-                    case true:
-                        CheckProjectionSegment(minion);
-                        break;
-                }
+                if (minion.IsNeutral && ChampionSwitch[tabname + "jgl"].IsOn)
+                    this.CheckProjectionSegment(minion);
             }
-        }
-        
-        #endregion
-
-        public override void OnTick()
-        {
-            throw new NotImplementedException();
+            
+            foreach (var t in ObjectManagerExport.MinionCollection)
+            {
+                var minion = t.Value;
+                if (minion.IsEnemy && ChampionSwitch[tabname + "min"].IsOn)
+                    this.CheckProjectionSegment(minion);
+            }
         }
 
         public override void CreateTab()
         {
-            throw new NotImplementedException();
+            var tabname = Instance.ModelName + (Instance.IsEnemy ? "e" : "a");
+            ChampionSwitch[tabname + "hro"] = new Switch
+            {
+                IsOn = true,
+                Title = "Enable Spell/Autoattack Prediction on " + Instance.ModelName
+            };
+
+            ChampionTab.AddItem(ChampionSwitch[tabname + "hro"]);
+            ChampionSwitch[tabname + "min"] = new Switch
+            {
+                IsOn = false,
+                Title = "Enable Minion Prediction on " + Instance.ModelName
+            };
+
+            ChampionTab.AddItem(ChampionSwitch[tabname + "min"]);
+            
+            ChampionSwitch[tabname + "jgl"] = new Switch
+            {
+                IsOn = true,
+                Title = "Enable Neutral Monster Prediction on " + Instance.ModelName
+            };
+
+            ChampionTab.AddItem(ChampionSwitch[tabname + "jgl"]);
+            ChampionSwitch[tabname + "twr"] = new Switch
+            {
+                IsOn = true,
+                Title = "Enable Tower Prediction on " + Instance.ModelName
+            };
+
+            ChampionTab.AddItem(ChampionSwitch[tabname + "twr"]);
         }
+
+        #endregion
     }
 }

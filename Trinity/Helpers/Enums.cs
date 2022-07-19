@@ -188,26 +188,6 @@
         None,
 
         /// <summary>
-        ///     The automatic attack
-        /// </summary>
-        AutoAttack,
-
-        /// <summary>
-        ///     The minion attack
-        /// </summary>
-        MinionAttack,
-
-        /// <summary>
-        ///     The turret attack
-        /// </summary>
-        TurretAttack,
-
-        /// <summary>
-        ///     The spell
-        /// </summary>
-        Spell,
-
-        /// <summary>
         ///     The danger
         /// </summary>
         Danger,
@@ -221,6 +201,11 @@
         ///     The crowd control
         /// </summary>
         CrowdControl,
+        
+        /// <summary>
+        ///     For root, stun, and other hardcc
+        /// </summary>
+        HardCrowdControl,
 
         /// <summary>
         ///     The stealth
@@ -241,20 +226,6 @@
         ///     The gapcloser
         /// </summary>
         Gapcloser,
-
-        /// <summary>
-        ///     The emitter
-        /// </summary>
-        Emitter,
-
-        /// <summary>
-        ///     The item
-        /// </summary>
-        Item,
-
-        /// <summary>
-        ///     The buff
-        /// </summary>
-        Buff
+        
     }
 }

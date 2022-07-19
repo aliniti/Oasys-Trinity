@@ -434,22 +434,19 @@ namespace Trinity
             AllItems.AddRange(CleanseItems);
             AllItems.AddRange(OffensiveItems);
 
-            InitializeChampions();
-            InitializeTrinity();
-        }
-
-        private static void InitializeChampions()
-        {
+            // initialize champion objects
             foreach (var h in ObjectManagerExport.HeroCollection)
             {
                 var hero = h.Value;
-                if (hero != null && hero.IsAlly)
+                if (hero != null)
                 {
                     AllChampions.Add(new Champion(hero));
                 }
             }
+            
+            InitializeTrinity();
         }
-
+        
         /// <summary>
         ///     Games events [on game match complete].
         /// </summary>
@@ -581,11 +578,12 @@ namespace Trinity
                 troy.Initialize(config);
             }
 
-            foreach (var hero in AllChampions)
+            foreach (var championBase in AllChampions)
             {
+                var hero = (Champion) championBase;
                 hero.OnChampionInitialize += () => InitializedChampions.Add(hero);
                 hero.OnChampionDispose += () => InitializedChampions.Remove(hero);
-                hero.Initialize(config);
+                hero.Initialize(config, hero);
             }
 
             MenuManager.AddTab(config);

@@ -2,6 +2,7 @@
 {
     #region
 
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Base;
@@ -608,6 +609,79 @@
                         champObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
                     }
             }
+        }
+        
+        /// <summary>
+        ///     Checks the projection segment.
+        /// </summary>
+        /// <param name="unit">The unit.</param>
+        public static void CheckProjectionSegment(this Champion Champion, AIBaseClient unit)
+        {
+            // todo: failsafe: need a better way to implement this
+            if ((int)(GameEngine.GameTime * 1000) - Champion.AggroTick > 500)
+            {
+                Champion.ResetAggro();
+            }
+            
+            if (unit.IsAlive)
+                if (unit.IsCastingSpell)
+                {
+                    var currentSpell = unit.GetCurrentCastingSpell();
+                    if (currentSpell.SpellData.SpellName is not null)
+                    {
+                        var gameTime = (int) (GameEngine.GameTime * 1000);
+                        var entry = SpellData.HeroSpells
+                            .Find(x =>  x.ChampionName.ToLower() == unit.ModelName.ToLower() && 
+                                       (x.Slot == currentSpell.SpellSlot ||
+                                        x.SpellName.ToLower() == currentSpell.SpellData.SpellName.ToLower()));
+                        
+                        var heroTargetAggro = currentSpell.Targets.Find(x => x.NetworkID == Champion.Instance.NetworkID) != null;
+                        if (heroTargetAggro)
+                        {
+                            if (entry != null)
+                            {
+                                Champion.InDanger = entry.EmulationTypes.Contains(EmulationType.Danger);
+                                Champion.InCrowdControl = entry.EmulationTypes.Contains(EmulationType.CrowdControl);
+                                Champion.InExtremeDanger = entry.EmulationTypes.Contains(EmulationType.Ultimate);
+                            }
+                            
+                            Champion.HasAggro = true;
+                            Champion.AggroTick = gameTime;
+                        }
+                        else
+                        {
+                            // skillshot projection 
+                            var radius = (int) Math.Max(50, currentSpell.SpellData.SpellWidth) + Champion.Instance.UnitComponentInfo.UnitBoundingRadius;
+                            var proj = Champion.Instance.Position.ProjectOn(currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
+                            var nearit = Champion.Instance.Position.Distance(proj.SegmentPoint) <= radius;
+
+                            if (proj.IsOnSegment && nearit)
+                            {
+                                if (entry != null)
+                                {
+                                    var minions = entry.CollidesWith.Contains(CollisionObjectType.EnemyMinions);
+                                    var heroes  = entry.CollidesWith.Contains(CollisionObjectType.EnemyHeroes);
+                                    
+                                    var collision = proj.GetEnemyUnitsOnSegment(radius, heroes, minions);
+                                    if (collision.Any(x => x.NetworkID != Champion.Instance.NetworkID))
+                                    {
+                                        return;
+                                    }
+                                }
+
+                                if (entry != null)
+                                {
+                                    Champion.InDanger = entry.EmulationTypes.Contains(EmulationType.Danger);
+                                    Champion.InCrowdControl = entry.EmulationTypes.Contains(EmulationType.CrowdControl);
+                                    Champion.InExtremeDanger = entry.EmulationTypes.Contains(EmulationType.Ultimate);
+                                }
+
+                                Champion.HasAggro = true;
+                                Champion.AggroTick = gameTime;
+                            }
+                        }
+                    }
+                }
         }
 
         #endregion

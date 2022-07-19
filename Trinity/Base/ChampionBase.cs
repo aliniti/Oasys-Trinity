@@ -28,37 +28,32 @@ namespace Trinity.Base
         
         public Tab ChampionTab { get; set; }
         
-        public void Initialize(Tab parentTab)
+        public void Initialize(Tab parentTab, Champion champion)
         {
             ChampionTab = parentTab;
-
-            foreach (var u in ObjectManagerExport.HeroCollection)
-            {
-                var unit = u.Value;
-                InitializeChampion(unit);
-            }
+            InitializeChampion(champion);
         }
 
-        public void InitializeChampion(AIHeroClient unit)
+        public void InitializeChampion(Champion champion)
         {
             if (_initialized) return;
                     
             _disposed = false;
             _initialized = true;
 
-            if (unit.IsAlly)
+            if (champion.Instance.IsAlly)
             {
                 CreateTab();
                 OnChampionInitialize?.Invoke();
-                Bootstrap.Allies[unit.NetworkID] = new Champion(unit);
+                Bootstrap.Allies[champion.Instance.NetworkID] = champion;
             }
             else
             {
-                DisposeChampion(unit);
+                DisposeChampion(champion);
             }
         }
 
-        public void DisposeChampion(AIHeroClient unit)
+        public void DisposeChampion(Champion champion)
         {
             if (_disposed) return;
 
@@ -66,13 +61,12 @@ namespace Trinity.Base
             _initialized = false;
             
             OnChampionDispose?.Invoke();
-            Bootstrap.Enemies[unit.NetworkID] = new Champion(unit);
+            Bootstrap.Enemies[champion.Instance.NetworkID] = champion;
         }
 
         public abstract void OnTick();
         public abstract void CreateTab();
-
-
+        
         public event OnChampionInitialize OnChampionInitialize;
         public event OnChampionDispose OnChampionDispose;
     }

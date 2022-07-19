@@ -176,6 +176,8 @@ namespace Trinity.Helpers
         
         static SpellData()
         {
+            
+            #region Aatrox
             HeroSpells.Add(new SpellData
             {
                 SpellName = "aatroxq",
@@ -230,7 +232,7 @@ namespace Trinity.Helpers
                 MissileName = "aatroxeconemissile",
                 MissileSpeed = 1250
             });
-
+            
             HeroSpells.Add(new SpellData
             {
                 SpellName = "aatroxr",
@@ -242,6 +244,8 @@ namespace Trinity.Helpers
                 EmulationTypes = new[] { EmulationType.Initiator },
                 MissileSpeed = 4800
             });
+            
+            #endregion
 
             HeroSpells.Add(new SpellData
             {
@@ -6036,7 +6040,7 @@ namespace Trinity.Helpers
                 CastRange = 1300f,
                 Radius = 280f,
                 Delay = 250f,
-                EmulationTypes = new[] { EmulationType.CrowdControl },
+                EmulationTypes = new[] { EmulationType.CrowdControl, EmulationType.HardCrowdControl },
                 MissileSpeed = 1200
             });
             
