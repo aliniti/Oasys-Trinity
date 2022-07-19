@@ -6012,7 +6012,48 @@ namespace Trinity.Helpers
                 MissileName = "sejuaniglacialprison",
                 MissileSpeed = 1600
             });
-
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "sennaqcast",
+                ChampionName = "senna",
+                Slot = SpellSlot.Q,
+                CastType = CastType.Targeted,
+                CastRange = 1100f,
+                Radius = 130f,
+                Delay = 250f,
+                EmulationTypes = new EmulationType[] { },
+                MissileSpeed = 2800
+            });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "sennaw",
+                ChampionName = "senna",
+                Slot = SpellSlot.W,
+                CastType = CastType.LinearAoE,
+                CollidesWith = new[] { CollisionObjectType.EnemyHeroes, CollisionObjectType.EnemyMinions },
+                CastRange = 1300f,
+                Radius = 280f,
+                Delay = 250f,
+                EmulationTypes = new[] { EmulationType.CrowdControl },
+                MissileSpeed = 1200
+            });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "sennar",
+                ChampionName = "senna",
+                Slot = SpellSlot.R,
+                CastType = CastType.Linear,
+                CastRange = float.MaxValue,
+                Radius = 320f,
+                Delay = 500f,
+                Global = true,
+                EmulationTypes = new[] { EmulationType.Danger },
+                MissileSpeed = 2000
+            });
+            
             HeroSpells.Add(new SpellData
             {
                 SpellName = "deceive",

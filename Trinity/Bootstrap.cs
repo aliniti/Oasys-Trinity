@@ -456,7 +456,7 @@
             
             Oasys.SDK.Events.GameEvents.OnCreateObject += GameEventsOnOnCreateObject;
             Oasys.SDK.Events.GameEvents.OnDeleteObject += GameEventsOnOnDeleteObject;
-            
+
             AllParticleEmitters.AddRange(ParticleEmitters);
             AllSpells.AddRange(AutoSpells);
             AllSpells.AddRange(SummonerInputSpells);

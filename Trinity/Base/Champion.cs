@@ -123,7 +123,10 @@
                     if (currentSpell.SpellData.SpellName is not null)
                     {
                         var gameTime = (int) (GameEngine.GameTime * 1000);
-                        var entry = SpellData.HeroSpells.Find(x => x.SpellName.ToLower() == currentSpell.SpellData.SpellName.ToLower());
+                        var entry = SpellData.HeroSpells
+                            .Find(x =>  x.ChampionName.ToLower() == unit.ModelName.ToLower() && 
+                                       (x.Slot == currentSpell.SpellSlot ||
+                                        x.SpellName.ToLower() == currentSpell.SpellData.SpellName.ToLower()));
                         
                         var heroTargetAggro = currentSpell.Targets.Find(x => x.NetworkID == Instance.NetworkID) != null;
                         if (heroTargetAggro)
