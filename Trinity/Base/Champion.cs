@@ -15,7 +15,7 @@
 
     #endregion
 
-    public class Champion
+    public class Champion : ChampionBase
     {
         #region Properties and Encapsulation
 
@@ -223,5 +223,15 @@
         }
         
         #endregion
+
+        public override void OnTick()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void CreateTab()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Trinity
+﻿using System;
+
+namespace Trinity
 {
     #region
 
@@ -23,56 +25,22 @@
     public class Bootstrap
     {
         #region Static Fields and Constants
-
-        /// <summary>
-        ///     The allies
-        /// </summary>
         public static Dictionary<uint, Champion> Allies = new();
-
-        /// <summary>
-        ///     The enemies
-        /// </summary>
-        public static Dictionary<uint, Champion> Enemies = new();
-
-        /// <summary>
-        ///     All items
-        /// </summary>
+        public static Dictionary<uint, Champion> Enemies = new(); 
         public static readonly List<ActiveItemBase> AllItems = new();
-
-        /// <summary>
-        ///     All spells
-        /// </summary>
         public static readonly List<AutoSpellBase> AllSpells = new();
         
-        /// <summary>
-        ///     All particle emitters (troys)
-        /// </summary>
         private static readonly List<ParticleEmitterBase> AllParticleEmitters = new();
+        private static readonly List<ParticleEmitterBase> InitializedParticleEmitters = new();
 
-        /// <summary>
-        ///     The initialized tick items
-        /// </summary>
+        private static readonly List<ChampionBase> AllChampions = new();
+        private static readonly List<ChampionBase> InitializedChampions = new();
+        
         private static readonly List<ActiveItemBase> InitializedTickItems = new();
-
-        /// <summary>
-        ///     The initialized input items
-        /// </summary>
         private static readonly List<ActiveItemBase> InitializedInputItems = new();
-
-        /// <summary>
-        ///     The initialized tick spells
-        /// </summary>
         private static readonly List<AutoSpellBase> InitializedTickSpells = new();
-
-        /// <summary>
-        ///     The initialized input spells
-        /// </summary>
         private static readonly List<AutoSpellBase> InitializedInputSpells = new();
         
-        /// <summary>
-        ///     The initialized particle emitters (troys)
-        /// </summary>
-        private static readonly List<ParticleEmitterBase> InitializedParticleEmitters = new();
 
         /// <summary>
         ///     The particle emitters (troys)
@@ -465,10 +433,23 @@
             AllItems.AddRange(DefensiveItems);
             AllItems.AddRange(CleanseItems);
             AllItems.AddRange(OffensiveItems);
-            
+
+            InitializeChampions();
             InitializeTrinity();
         }
-        
+
+        private static void InitializeChampions()
+        {
+            foreach (var h in ObjectManagerExport.HeroCollection)
+            {
+                var hero = h.Value;
+                if (hero != null && hero.IsAlly)
+                {
+                    AllChampions.Add(new Champion(hero));
+                }
+            }
+        }
+
         /// <summary>
         ///     Games events [on game match complete].
         /// </summary>
@@ -590,42 +571,26 @@
             #endregion
 
             #region Tidy : Prediction Menu
-            
-            var predictionMenu = new Tab("Trinity: Prediction");
+
+            var config = new Tab("Trinity: Config");
 
             foreach (var troy in ParticleEmitters)
             {
                 troy.OnEmitterInitialize += () => InitializedParticleEmitters.Add(troy);
                 troy.OnEmitterDispose += () => InitializedParticleEmitters.Remove(troy);
-                troy.Initialize(predictionMenu);
+                troy.Initialize(config);
             }
 
-            MenuManager.AddTab(predictionMenu);
+            foreach (var hero in AllChampions)
+            {
+                hero.OnChampionInitialize += () => InitializedChampions.Add(hero);
+                hero.OnChampionDispose += () => InitializedChampions.Remove(hero);
+                hero.Initialize(config);
+            }
+
+            MenuManager.AddTab(config);
 
             #endregion
-        }
-
-        /// <summary>
-        ///     Gets the heroes.
-        /// </summary>
-        /// <param name="unit">The unit.</param>
-        private static void LoadHeroes(AIBaseClient unit)
-        {
-            if (unit is not AIHeroClient hero)
-            {
-                return;
-            }
-            
-            if (hero.Team == UnitManager.MyChampion.Team)
-            {
-                if (Allies.ContainsKey(hero.NetworkID) == false)
-                    Allies[hero.NetworkID] = new Champion(hero);
-            }
-            else
-            {
-                if (Enemies.ContainsKey(hero.NetworkID) == false)
-                    Enemies[hero.NetworkID] = new Champion(hero);
-            }
         }
 
         /// <summary>
@@ -642,8 +607,8 @@
             foreach (var initializedTickSpell in InitializedTickSpells)
                 initializedTickSpell.OnTick();
 
-            foreach (var unit in ObjectManagerExport.HeroCollection)
-                LoadHeroes(unit.Value);
+            foreach (var initializedChampion in InitializedChampions)
+                initializedChampion.OnTick();
         }
 
         /// <summary>

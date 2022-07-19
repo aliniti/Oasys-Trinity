@@ -24,19 +24,19 @@
 
     <ItemGroup>
       <Reference Include="Oasys.Common">
-        <HintPath>B:\Users\aliniti\Desktop\Oasys.SDK.References\Oasys.Common.dll</HintPath>
+        <HintPath>..\..\..\..\Desktop\Oasys.SDK.References\Oasys.Common.dll</HintPath>
       </Reference>
       <Reference Include="Oasys.SDK">
-        <HintPath>B:\Users\aliniti\Desktop\Oasys.SDK.References\Oasys.SDK.dll</HintPath>
+        <HintPath>..\..\..\..\Desktop\Oasys.SDK.References\Oasys.SDK.dll</HintPath>
       </Reference>
       <Reference Include="SharpDX">
-        <HintPath>B:\Users\aliniti\Desktop\Oasys.SDK.References\SharpDX.dll</HintPath>
+        <HintPath>..\..\..\..\Desktop\Oasys.SDK.References\SharpDX.dll</HintPath>
       </Reference>
       <Reference Include="SharpDX.Direct3D9">
-        <HintPath>B:\Users\aliniti\Desktop\Oasys.SDK.References\SharpDX.Direct3D9.dll</HintPath>
+        <HintPath>..\..\..\..\Desktop\Oasys.SDK.References\SharpDX.Direct3D9.dll</HintPath>
       </Reference>
       <Reference Include="SharpDX.Mathematics">
-        <HintPath>B:\Users\aliniti\Desktop\Oasys.SDK.References\SharpDX.Mathematics.dll</HintPath>
+        <HintPath>..\..\..\..\Desktop\Oasys.SDK.References\SharpDX.Mathematics.dll</HintPath>
       </Reference>
     </ItemGroup>
 </Project>
