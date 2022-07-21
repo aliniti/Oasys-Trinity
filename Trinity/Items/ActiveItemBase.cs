@@ -9,8 +9,8 @@
     using Oasys.Common.GameObject.Clients.ExtendedInstances;
     using Oasys.Common.GameObject.Clients.ExtendedInstances.Spells;
     using Oasys.Common.GameObject.ObjectClass;
-    using Oasys.Common.Menu;
     using Oasys.Common.Menu.ItemComponents;
+    using Oasys.Common.Menu;
     using Oasys.SDK;
     using Oasys.SDK.Tools;
 

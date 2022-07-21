@@ -142,15 +142,18 @@
                 if (this.CheckSpellMinimumMana(UnitManager.MyChampion))
                     return;
 
+            var myChampionOnly = Bootstrap.Allies.Select(x => x.Value)
+                .FirstOrDefault(x => x.Instance.NetworkID == UnitManager.MyChampion.NetworkID);
+            
             if (TargetingType.ToString().Contains("Enemy"))
                 if (TargetSelector.GetBestChampionTarget() is AIHeroClient target && target.IsValidTarget())
+                {
                     this.CheckSpellEnemyLowHealth(target);
+                    this.CheckSpellDangerousSpells(myChampionOnly, target);
+                }
 
             if (ActivationTypes.Contains(ActivationType.CheckOnlyOnMe))
             {
-                var myChampionOnly = Bootstrap.Allies.Select(x => x.Value)
-                    .FirstOrDefault(x => x.Instance.NetworkID == UnitManager.MyChampion.NetworkID);
-
                 if (myChampionOnly != null)
                     if (myChampionOnly.HasAggro)
                     {

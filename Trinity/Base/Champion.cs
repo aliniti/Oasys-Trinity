@@ -1,12 +1,13 @@
 ﻿namespace Trinity.Base
 {
     #region
-
-    using System.Collections.Generic;
+    
     using Helpers;
     using Oasys.Common;
     using Oasys.Common.GameObject.Clients;
+    using Oasys.Common.Menu;
     using Oasys.Common.Menu.ItemComponents;
+    using System.Collections.Generic;
 
     #endregion
 
@@ -125,35 +126,36 @@
         public override void CreateTab()
         {
             var tabname = Instance.ModelName + (Instance.IsEnemy ? "e" : "a");
-            ChampionSwitch[tabname + "hro"] = new Switch
+            this.ChampionGroup[tabname + "grp"] = new Group
+            {
+                Title = "[Ally] " + Instance.ModelName
+            };
+            
+            this.ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "hro"] = new Switch
             {
                 IsOn = true,
-                Title = "Enable Spell/Autoattack Prediction on " + Instance.ModelName
-            };
-
-            ChampionTab.AddItem(ChampionSwitch[tabname + "hro"]);
-            ChampionSwitch[tabname + "min"] = new Switch
+                Title = "Enable spell/autoattack prediction on " + Instance.ModelName
+            });
+            
+            this.ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "min"] = new Switch
             {
                 IsOn = false,
-                Title = "Enable Minion Prediction on " + Instance.ModelName
-            };
-
-            ChampionTab.AddItem(ChampionSwitch[tabname + "min"]);
+                Title = "Enable minion prediction on " + Instance.ModelName
+            });
             
-            ChampionSwitch[tabname + "jgl"] = new Switch
+            this.ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "jgl"] = new Switch
             {
                 IsOn = true,
-                Title = "Enable Neutral Monster Prediction on " + Instance.ModelName
-            };
-
-            ChampionTab.AddItem(ChampionSwitch[tabname + "jgl"]);
-            ChampionSwitch[tabname + "twr"] = new Switch
+                Title = "Enable neutral monster prediction on " + Instance.ModelName
+            });
+            
+            this.ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "twr"] = new Switch
             {
                 IsOn = true,
-                Title = "Enable Tower Prediction on " + Instance.ModelName
-            };
+                Title = "Enable tower prediction on " + Instance.ModelName
+            });
 
-            ChampionTab.AddItem(ChampionSwitch[tabname + "twr"]);
+            this.ChampionTab.AddGroup(this.ChampionGroup[tabname + "grp"]);
         }
 
         #endregion

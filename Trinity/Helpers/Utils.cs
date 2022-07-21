@@ -172,7 +172,7 @@
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="unit">The unit.</param>
-        public static void CheckItemDangerousSpells(this ActiveItem item, Champion champion)
+        public static void CheckItemDangerousSpells(this ActiveItem item, Champion champion, AIBaseClient enemy = null)
         {
             if (item.ActivationTypes.Contains(ActivationType.CheckDangerous))
             {
@@ -180,7 +180,7 @@
                 {
                     if (champion.HasAggro && champion.InExtremeDanger)
                     {
-                        UseItem(item, champion.Instance);
+                        UseItem(item, enemy ?? champion.Instance);
                     }
                 }
                 
@@ -188,7 +188,7 @@
                 {
                     if (champion.HasAggro && champion.InCrowdControl)
                     {
-                        UseItem(item, champion.Instance);
+                        UseItem(item, enemy ?? champion.Instance);
                     }
                 }
                 
@@ -196,7 +196,7 @@
                 {
                     if (champion.HasAggro && champion.InDanger)
                     {
-                        UseItem(item, champion.Instance);
+                        UseItem(item, enemy ?? champion.Instance);
                     }
                 }
             }
@@ -296,7 +296,7 @@
         /// </summary>
         /// <param name="spell">The item.</param>
         /// <param name="unit">The unit.</param>
-        public static void CheckSpellDangerousSpells(this AutoSpell spell, Champion champion)
+        public static void CheckSpellDangerousSpells(this AutoSpell spell, Champion champion, AIBaseClient enemy = null)
         {
             var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
 
@@ -306,7 +306,7 @@
                 {
                     if (champion.HasAggro && champion.InExtremeDanger)
                     {
-                        UseSpell(spell, champion.Instance);
+                        UseSpell(spell, enemy ?? champion.Instance);
                     }
                 }
 
@@ -314,7 +314,7 @@
                 {
                     if (champion.HasAggro && champion.InCrowdControl)
                     {
-                        UseSpell(spell, champion.Instance);
+                        UseSpell(spell, enemy ?? champion.Instance);
                     }
                 }
                 
@@ -322,7 +322,7 @@
                 {
                     if (champion.HasAggro && champion.InDanger)
                     {
-                        UseSpell(spell, champion.Instance);
+                        UseSpell(spell, enemy ?? champion.Instance);
                     }
                 }
             }
@@ -392,6 +392,9 @@
             if (!IsSafeCast(unit)) return;
             if (GameEngine.GameTime * 1000 - spell.LastUsedTimeStamp < 250) return;
 
+            if (spell.TargetingType.ToString().Contains("Dodge"))
+                UseSpellOnBestTarget(spell, unit);
+            
             if (spell.TargetingType.ToString().Contains("Proximity"))
                 if (spell.SpellClass.IsSpellReady)
                 {
@@ -412,6 +415,45 @@
                     SpellCastProvider.CastSpell(spell.Slot, unit.Position);
                     spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
                 }
+        }
+
+        /// <summary>
+        ///     Use the spell on the best given target
+        /// </summary>
+        /// <param name="spell">The autospell.</param>
+        /// <param name="hero">The hero.</param>
+        public static void UseSpellOnBestTarget(this AutoSpell spell, AIBaseClient hero)
+        {
+            if (!spell.SpellClass.IsSpellReady) return;
+            
+            var units = new List<AIBaseClient>();
+            var myHero = ObjectManagerExport.LocalPlayer;
+                
+            units.Clear();
+            
+            switch (spell.TargetingType)
+            {
+                case TargetingType.DodgeEnemyUnit:
+                    units.AddRange(UnitManager.EnemyChampions.Where(x => x.Distance(hero) <= spell.Range));
+                    break;
+                case TargetingType.DodgeEnemyUnitOrMinion:
+                    units.AddRange(UnitManager.EnemyChampions.Where(x => x.Distance(hero) <= spell.Range));
+                    units.AddRange(UnitManager.EnemyMinions.Where(x => x.Distance(hero) <= spell.Range));
+                    break;
+            }
+
+            var sortedList =
+                units.Where(x => x.IsValidTarget(spell.Range))
+                    .OrderBy(x => x is AIMinionClient)
+                    .ThenBy(x => x.Health / x.MaxHealth * 100)
+                    .ThenBy(x => x.Distance(myHero));
+
+            var tar = sortedList.FirstOrDefault();
+            if (tar != null && IsSafeCast(tar))
+            {
+                SpellCastProvider.CastSpell(spell.Slot, tar.Position);
+                spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+            }
         }
 
         /// <summary>

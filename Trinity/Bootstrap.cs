@@ -3,9 +3,7 @@
 namespace Trinity
 {
     #region
-
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    
     using Base;
     using Helpers;
     using Items;
@@ -14,19 +12,22 @@ namespace Trinity
     using Oasys.Common.EventsProvider;
     using Oasys.Common.GameObject.Clients;
     using Oasys.Common.Menu;
-    using Oasys.SDK;
     using Oasys.SDK.Menu;
     using Oasys.SDK.SpellCasting;
     using Spells;
     using Spells.UniqueSpells;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     #endregion
 
     public class Bootstrap
     {
         #region Static Fields and Constants
+        
         public static Dictionary<uint, Champion> Allies = new();
         public static Dictionary<uint, Champion> Enemies = new(); 
+        
         public static readonly List<ActiveItemBase> AllItems = new();
         public static readonly List<AutoSpellBase> AllSpells = new();
         
@@ -38,16 +39,18 @@ namespace Trinity
         
         private static readonly List<ActiveItemBase> InitializedTickItems = new();
         private static readonly List<ActiveItemBase> InitializedInputItems = new();
+        
         private static readonly List<AutoSpellBase> InitializedTickSpells = new();
         private static readonly List<AutoSpellBase> InitializedInputSpells = new();
         
-
         /// <summary>
         ///     The particle emitters (troys)
         /// </summary>
         private static readonly List<ParticleEmitter> ParticleEmitters = new()
-        {
+        {  
+            new ParticleEmitter("Akshan", "R_mis", 100, 1, 0, EmulationType.Ultimate),
             new ParticleEmitter("Lux", "e_tar_aoe", 175, 0.65),
+            new ParticleEmitter("Qiyana", "R_Indicator_Ring", 175, 1, 0f, EmulationType.Ultimate),
             new ParticleEmitter("Renekton", "R_buf", 266, 0.65),
             new ParticleEmitter("Nasus", "SpiritFire", 385, 0.65),
             new ParticleEmitter("Nasus", "R_Avatar", 266, 0.65),
@@ -60,23 +63,26 @@ namespace Trinity
             new ParticleEmitter("Hecarim", "W_AoE", 400, 0.75),
             new ParticleEmitter("Diana", "W_Shield", 225, 1),
             new ParticleEmitter("Sion", "W_Shield", 225, 1),
-            new ParticleEmitter("Karthus", "E_Defile", 400, 1),
+            new ParticleEmitter("Karthus", "P_Defile", 400, 0.35),
+            new ParticleEmitter("Karthus", "E_Defile", 400, 0.35),
+            new ParticleEmitter("Karthus", "R_Target", 100, 1, 750f, EmulationType.Ultimate),
             new ParticleEmitter("Elise", "W_volatile", 250, 0.3),
             new ParticleEmitter("FiddleSticks", "Crowstorm", 400, 0.5, 0f, EmulationType.Ultimate),
             new ParticleEmitter("Fizz", "R_Ring", 300, 1, 800, EmulationType.Ultimate),
             new ParticleEmitter("Fizz", "E1_Indicator_Ring", 300, 1, 800, EmulationType.Danger),
-            new ParticleEmitter("Katarina", "deathLotus_tar", 500, 0.4, 0f, EmulationType.Ultimate),
-            new ParticleEmitter("Nautilus", "R_sequence_impact", 250, 0.65, 0f, EmulationType.Ultimate),
+            new ParticleEmitter("Katarina", "deathLotus_tar", 500, 0.6, 0f, EmulationType.Ultimate),
+            new ParticleEmitter("Nautilus", "R_sequence_impact", 250, 1, 0f, EmulationType.Ultimate),
             new ParticleEmitter("Kennen", "lr_buf", 250, 0.8),
             new ParticleEmitter("Kennen", "ss_aoe", 450, 0.5, 0f, EmulationType.Ultimate),
             new ParticleEmitter("Caitlyn", "yordleTrap", 265),
+            new ParticleEmitter("Caitlyn", "R_mis", 100, 1, 0, EmulationType.Ultimate),
             new ParticleEmitter("Viktor", "_ChaosStorm", 425, 0.5, 0f, EmulationType.Ultimate),
-            new ParticleEmitter("Viktor", "_Catalyst", 375),
-            new ParticleEmitter("Viktor", "W_AUG", 375),
+            new ParticleEmitter("Viktor", "_Catalyst", 375, 0.5, 0f, EmulationType.CrowdControl),
+            new ParticleEmitter("Viktor", "W_AUG", 375, 0.5, 0f, EmulationType.CrowdControl),
             new ParticleEmitter("Anivia", "cryo_storm", 400),
             new ParticleEmitter("Ziggs", "ZiggsE", 325),
-            new ParticleEmitter("Ziggs", "ZiggsWRing", 325),
-            new ParticleEmitter("Soraka", "E_rune", 375),
+            new ParticleEmitter("Ziggs", "ZiggsWRing", 325, 0.5, 0f, EmulationType.CrowdControl),
+            new ParticleEmitter("Soraka", "E_rune", 375, 0.5, 500f, EmulationType.CrowdControl),
             new ParticleEmitter("Cassiopeia", "Miasma_tar", 150)
         };
         
@@ -152,7 +158,7 @@ namespace Trinity
                 }),
 
             // item: Prowlers_Claw
-            new ActiveItem(90, ItemID.Prowlers_Claw, TargetingType.UnitEnemy, 500,
+            new ActiveItem(90, ItemID.Prowlers_Claw, TargetingType.EnemyUnit, 500,
                 new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckOnlyOnMe }),
 
             // item: Everfrost
@@ -164,7 +170,7 @@ namespace Trinity
                 new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckOnlyOnMe }),
 
             // item: Blade_of_the_Ruined_King
-            new ActiveItem(90, ItemID.Blade_of_The_Ruined_King, TargetingType.UnitEnemy, 575,
+            new ActiveItem(90, ItemID.Blade_of_The_Ruined_King, TargetingType.EnemyUnit, 575,
                 new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckOnlyOnMe }),
 
             // item: Hextech_Protobelt_RocketBelt
@@ -190,7 +196,7 @@ namespace Trinity
                 new[] { ActivationType.CheckAuras, ActivationType.CheckOnlyOnMe }),
 
             // item: Mikaels_Crucible
-            new ActiveItem(20, ItemID.Mikaels_Blessing, TargetingType.UnitAlly, 600,
+            new ActiveItem(20, ItemID.Mikaels_Blessing, TargetingType.AllyUnit, 600,
                 new[] { ActivationType.CheckAuras, ActivationType.CheckAllyLowHP }),
 
             // item: Silvermere_Dawn
@@ -256,10 +262,10 @@ namespace Trinity
         /// </summary>
         private static readonly List<AutoSpell> SummonerInputSpells = new()
         {
-            new Ignite(55, "Ignite", "SummonerDot", TargetingType.UnitEnemy, 600,
+            new Ignite(55, "Ignite", "SummonerDot", TargetingType.EnemyUnit, 600,
                 new[] { ActivationType.CheckEnemyLowHP }),
 
-            new AutoSpell(55, "Exhaust", "SummonerExhaust", TargetingType.UnitEnemy, 650,
+            new AutoSpell(55, "Exhaust", "SummonerExhaust", TargetingType.EnemyUnit, 650,
                 new[] { ActivationType.CheckEnemyLowHP })
         };
 
@@ -271,7 +277,7 @@ namespace Trinity
             new AutoSpell(25, "Heal", "SummonerHeal", TargetingType.ProximityAlly, 850,
                 new[] { ActivationType.CheckAllyLowHP }),
 
-            new Smite(100, "Smite", "SummonerSmite", TargetingType.UnitEnemy, 500,
+            new Smite(100, "Smite", "SummonerSmite", TargetingType.EnemyUnit, 500,
                 new ActivationType[] { }),
 
             new AutoSpell(25, "Barrier", "SummonerBarrier", TargetingType.ProximityAlly, float.MaxValue,
@@ -288,7 +294,7 @@ namespace Trinity
         {
             #region Shield Spells
 
-            new AutoSpell(90, "Orianna", CastSlot.E, TargetingType.UnitAlly, 1100,
+            new AutoSpell(90, "Orianna", CastSlot.E, TargetingType.AllyUnit, 1100,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, ActivationType.CheckPlayerMana }),
 
             new AutoSpell(90, "Diana", CastSlot.W, TargetingType.ProximityAlly, float.MaxValue,
@@ -298,7 +304,7 @@ namespace Trinity
                     ActivationType.CheckPlayerMana, ActivationType.CheckOnlyOnMe
                 }),
 
-            new AutoSpell(90, "Janna", CastSlot.E, TargetingType.UnitAlly, 800,
+            new AutoSpell(90, "Janna", CastSlot.E, TargetingType.AllyUnit, 800,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, ActivationType.CheckPlayerMana }),
 
             new AutoSpell(90, "Garen", CastSlot.W, TargetingType.ProximityAlly, float.MaxValue,
@@ -308,7 +314,7 @@ namespace Trinity
                     ActivationType.CheckPlayerMana, ActivationType.CheckOnlyOnMe
                 }),
 
-            new AutoSpell(90, "Lulu", CastSlot.E, TargetingType.UnitAlly, 650,
+            new AutoSpell(90, "Lulu", CastSlot.E, TargetingType.AllyUnit, 650,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, ActivationType.CheckPlayerMana }),
 
             new AutoSpell(90, "Lux", CastSlot.W, TargetingType.SkillshotAlly, 1075,
@@ -328,25 +334,25 @@ namespace Trinity
 
             #region Low-HP Spells
 
-            new AutoSpell(25, "Zilean", CastSlot.R, TargetingType.UnitAlly, 900,
+            new AutoSpell(25, "Zilean", CastSlot.R, TargetingType.AllyUnit, 900,
                 new[] { ActivationType.CheckAllyLowHP }),
 
-            new AutoSpell(25, "Kindred", CastSlot.R, TargetingType.UnitAlly, 400,
+            new AutoSpell(25, "Kindred", CastSlot.R, TargetingType.AllyUnit, 400,
                 new[] { ActivationType.CheckAllyLowHP }),
 
-            new AutoSpell(25, "Aatrox", CastSlot.R, TargetingType.UnitAlly, float.MaxValue,
+            new AutoSpell(25, "Aatrox", CastSlot.R, TargetingType.AllyUnit, float.MaxValue,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
 
-            new AutoSpell(25, "Lulu", CastSlot.R, TargetingType.UnitAlly, 900,
+            new AutoSpell(25, "Lulu", CastSlot.R, TargetingType.AllyUnit, 900,
                 new[] { ActivationType.CheckAllyLowHP }),
 
-            new AutoSpell(25, "Tryndamere", CastSlot.R, TargetingType.UnitAlly, float.MaxValue,
+            new AutoSpell(25, "Tryndamere", CastSlot.R, TargetingType.AllyUnit, float.MaxValue,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
 
             new AutoSpell(25, "Soraka", CastSlot.R, TargetingType.ProximityAlly, float.MaxValue,
                 new[] { ActivationType.CheckAllyLowHP }),
 
-            new AutoSpell(25, "Kayle", CastSlot.R, TargetingType.UnitAlly, 900,
+            new AutoSpell(25, "Kayle", CastSlot.R, TargetingType.AllyUnit, 900,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous }),
 
             new AutoSpell(25, "Mundo", CastSlot.R, TargetingType.ProximityAlly, float.MaxValue,
@@ -356,10 +362,10 @@ namespace Trinity
 
             #region Healing Spells
 
-            new AutoSpell(90, "Kayle", CastSlot.W, TargetingType.UnitAlly, 900,
+            new AutoSpell(90, "Kayle", CastSlot.W, TargetingType.AllyUnit, 900,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana }),
 
-            new AutoSpell(90, "Nami", CastSlot.W, TargetingType.UnitAlly, 725,
+            new AutoSpell(90, "Nami", CastSlot.W, TargetingType.AllyUnit, 725,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckPlayerMana }),
 
             new AutoSpell(90, "Seraphine", CastSlot.W, TargetingType.ProximityAlly, 800,
@@ -372,16 +378,25 @@ namespace Trinity
 
             #region Evader Spells
 
+            new AutoSpell(55, "MasterYi", CastSlot.Q, TargetingType.DodgeEnemyUnitOrMinion, 600,
+                new[] { ActivationType.CheckDangerous, ActivationType.CheckOnlyOnMe }),
+            
+            new AutoSpell(55, "Maokai", CastSlot.W, TargetingType.DodgeEnemyUnitOrMinion, 525,
+                new[] { ActivationType.CheckDangerous, ActivationType.CheckOnlyOnMe }),
+            
             new AutoSpell(55, "Sivir", CastSlot.E, TargetingType.ProximityAlly, float.MaxValue,
                 new[] { ActivationType.CheckDangerous, ActivationType.CheckOnlyOnMe }),
             
             new AutoSpell(55, "Nocturne", CastSlot.W, TargetingType.ProximityAlly, float.MaxValue,
                 new[] { ActivationType.CheckDangerous, ActivationType.CheckOnlyOnMe }),
             
-            new AutoSpell(55, "Morgana", CastSlot.E, TargetingType.UnitAlly, 750,
+            new AutoSpell(55, "Morgana", CastSlot.E, TargetingType.AllyUnit, 750,
                 new[] { ActivationType.CheckDangerous, ActivationType.CheckPlayerMana }),
             
-            new AutoSpell(55, "Lissandra", CastSlot.R, TargetingType.UnitAlly, float.MaxValue,
+            new AutoSpell(35, "Lissandra", CastSlot.R, TargetingType.AllyUnit, float.MaxValue,
+                new[] { ActivationType.CheckDangerous, ActivationType.CheckOnlyOnMe }),
+            
+            new AutoSpell(35, "Zed", CastSlot.R, TargetingType.DodgeEnemyUnit, 625,
                 new[] { ActivationType.CheckDangerous, ActivationType.CheckOnlyOnMe }),
             
             
@@ -569,7 +584,7 @@ namespace Trinity
 
             #region Tidy : Prediction Menu
 
-            var config = new Tab("Trinity: Config");
+            var config = new Tab("Trinity: Advanced");
 
             foreach (var troy in ParticleEmitters)
             {

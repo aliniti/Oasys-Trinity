@@ -7,6 +7,7 @@ namespace Trinity.Base
     using Oasys.Common.Extensions;
     using Oasys.Common.GameObject;
     using Oasys.Common.GameObject.Clients;
+    using Oasys.Common.Menu.ItemComponents;
     using Oasys.SDK;
 
     #endregion
@@ -127,8 +128,9 @@ namespace Trinity.Base
                             unit.InDanger = EmulationType.Equals(EmulationType.Danger);
                             unit.InCrowdControl = EmulationType.Equals(EmulationType.CrowdControl);
                             unit.InExtremeDanger = EmulationType.Equals(EmulationType.Ultimate);
+                            unit.AggroTick = (int) (GameEngine.GameTime * 1000);
                             unit.HasAggro = true;
-                            
+
                             Limiter = (int) (GameEngine.GameTime * 1000);
                         }
             }
@@ -136,7 +138,13 @@ namespace Trinity.Base
 
         public override void CreateTab()
         {
-            // todo:
+            this.PredictionSwitch[Name + "ene"] = new Switch
+            {
+                IsOn = true,
+                Title = "Enable " + ChampionString.ToLower() + " " + Name.ToLower() + "-> vfx/troy prediction"
+            };
+            
+            this.PredictionTab.AddItem(PredictionSwitch[Name + "ene"]);
         }
 
         /// <summary>

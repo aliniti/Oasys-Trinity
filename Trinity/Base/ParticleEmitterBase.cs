@@ -7,7 +7,6 @@
     using Oasys.Common.GameObject.Clients;
     using Oasys.Common.Menu;
     using Oasys.Common.Menu.ItemComponents;
-    using Oasys.SDK.Tools;
 
     #endregion
 
@@ -87,7 +86,7 @@
 
                 CreateTab();
                 OnEmitterInitialize?.Invoke();
-                Logger.Log("Initialized " + ChampionString + " vfx/troy prediction!");
+                //Logger.Log("Initialized " + ChampionString.ToLower() + " vfx/troy prediction!");
             }
             else
             {

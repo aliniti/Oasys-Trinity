@@ -71,13 +71,13 @@
         /// <summary>
         ///     The unit is ally
         /// </summary>
-        UnitAlly,
+        AllyUnit,
 
         /// <summary>
         ///     The unit is enemy
         /// </summary>
-        UnitEnemy,
-
+        EnemyUnit,
+        
         /// <summary>
         ///     The proximity of ally
         /// </summary>
@@ -101,7 +101,17 @@
         /// <summary>
         ///     The binding of a unit
         /// </summary>
-        BindingUnit
+        BindingUnit,
+        
+        /// <summary>
+        ///     The dodge enemy unit 
+        /// </summary>
+        DodgeEnemyUnit,
+        
+        /// <summary>
+        ///     The dodge enemy unit or minion
+        /// </summary>
+        DodgeEnemyUnitOrMinion
     }
     
     public enum CollisionObjectType
