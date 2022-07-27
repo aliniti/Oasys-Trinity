@@ -118,6 +118,8 @@ namespace Trinity.Base
                     Included = false;
                     break;
                 }
+                
+                if (!PredictionSwitch[Name + "ene"].IsOn) continue;
 
                 if (unit.Instance.Position.Distance(Obj.Position) <= Radius + unit.Instance.UnitComponentInfo.UnitBoundingRadius + 35)
                     // check delay (e.g fizz bait)
@@ -141,7 +143,7 @@ namespace Trinity.Base
             this.PredictionSwitch[Name + "ene"] = new Switch
             {
                 IsOn = true,
-                Title = "Enable " + ChampionString.ToLower() + " " + Name.ToLower() + "-> vfx/troy prediction"
+                Title = "[vfx] Predict " + Name.ToLower()
             };
             
             this.PredictionTab.AddItem(PredictionSwitch[Name + "ene"]);

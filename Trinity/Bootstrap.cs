@@ -7,21 +7,27 @@ namespace Trinity
     using Base;
     using Helpers;
     using Items;
+    using Spells;
+    using Spells.UniqueSpells;
+    
     using Oasys.Common;
     using Oasys.Common.Enums.GameEnums;
     using Oasys.Common.EventsProvider;
     using Oasys.Common.GameObject.Clients;
     using Oasys.Common.Menu;
+    
+    using Oasys.SDK;
     using Oasys.SDK.Menu;
     using Oasys.SDK.SpellCasting;
-    using Spells;
-    using Spells.UniqueSpells;
+    
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
+    using Oasys.SDK.Tools;
 
     #endregion
 
-    public class Bootstrap
+    public static class Bootstrap
     {
         #region Static Fields and Constants
         
@@ -30,6 +36,9 @@ namespace Trinity
         
         public static readonly List<ActiveItemBase> AllItems = new();
         public static readonly List<AutoSpellBase> AllSpells = new();
+        
+        private static readonly List<BuffBase> AllAuras = new();
+        private static readonly List<BuffBase> InitializedAuras = new();
         
         private static readonly List<ParticleEmitterBase> AllParticleEmitters = new();
         private static readonly List<ParticleEmitterBase> InitializedParticleEmitters = new();
@@ -43,8 +52,61 @@ namespace Trinity
         private static readonly List<AutoSpellBase> InitializedTickSpells = new();
         private static readonly List<AutoSpellBase> InitializedInputSpells = new();
         
+        #region AurasList
+        
         /// <summary>
-        ///     The particle emitters (troys)
+        ///     The auras for income damage prediction
+        /// </summary>
+        private static readonly List<Buff> Auras = new ()
+        {
+            new Buff("All", "summonerdot"),
+            new Buff("All", "itemsmitechallenge"),
+            new Buff("Ahri", "ahrifoxfire", 550f),
+            new Buff("Alistar", "alistare", 300f),
+            new Buff("Amumu", "auraofdespair", 175f),
+            new Buff("Brand", "brandablaze"),
+            new Buff("Cassiopeia", "cassiopeiaqdebuff"),
+            new Buff("Darius", "dariushemo"),
+            new Buff("Diana", "dianashield", 200f),
+            new Buff("DrMundo", "burningagony", 175f),
+            new Buff("FiddleSticks", "fiddlestickswdrain"),
+            new Buff("Fizz", "fizzwdot"),
+            new Buff("Gangplank", "gangplankpassiveattackdot"),
+            new Buff("Garen", "garene", 300f),
+            new Buff("Hecarim", "hecarimdefilelifeleech"),
+            new Buff("Jayce", "jaycestaticfield", 285f),
+            new Buff("Jax", "jaxcounterstrike", 200f),
+            new Buff("Kennen", "kennenlightningrush", 165f),
+            new Buff("Kennen", "kennenshurikenstorm", 275f),
+            new Buff("Leona", "leonasolarbarrier", 425f),
+            new Buff("Leblanc", "leblance", 1, 1250, EmulationType.CrowdControl),
+            new Buff("Leblanc", "leblancre", 1, 1250, EmulationType.CrowdControl),
+            new Buff("Lissandra", "lissandrarself", 600f),
+            new Buff("Malzahar", "malzahare"),
+            new Buff("Morgana", "morganardebuff", 1, 2750, EmulationType.Ultimate),
+            new Buff("Nidalee", "nidaleepassivehunted"),
+            new Buff("Shyvana", "shyvanaimmolationaura", 175f),
+            new Buff("Shyvana", "shyvanaimmolatedragon", 250f),
+            new Buff("Shyvana", "shyvanafireballmissile"),
+            new Buff("Talon", "talonbleeddebuf"),
+            new Buff("Teemo", "bantamtraptarget"),
+            new Buff("Teemo", "toxicshotparticle"),
+            new Buff("Tristana", "tristanaechargesound"),
+            new Buff("Twitch", "twitchdeadlyvenon"),
+            new Buff("Velkoz", "velkozresearchstack"),
+            new Buff("Vladimir", "vladimirhemoplaguedebuff", 1, 2750, EmulationType.Ultimate),
+            new Buff("Yasuo", "yasuorknockupcombo"),
+            new Buff("Yasuo", "yasuorknockupcombotar"),
+            new Buff("Zed", "zedrdeathmark", 1, 2750, EmulationType.Ultimate),
+            new Buff("Zac", "zacemove", 300f, 0.69, 0f, EmulationType.CrowdControl)
+        };
+        
+        #endregion
+        
+        #region ParticleEmittersList
+        
+        /// <summary>
+        ///     The particle emitters for income damage prediction
         /// </summary>
         private static readonly List<ParticleEmitter> ParticleEmitters = new()
         {  
@@ -85,6 +147,10 @@ namespace Trinity
             new ParticleEmitter("Soraka", "E_rune", 375, 0.5, 500f, EmulationType.CrowdControl),
             new ParticleEmitter("Cassiopeia", "Miasma_tar", 150)
         };
+        
+        #endregion
+
+        #region DefensiveItemsList
         
         /// <summary>
         ///     The defensive items
@@ -127,7 +193,11 @@ namespace Trinity
             //new BindingItem(100, ItemID.Knights_Vow, "itemknightsvowliege", TargetingType.BindingUnit, 1200,
             //    new[] { ActivationType.CheckAllyLowHP })
         };
+        
+        #endregion
 
+        #region OffensiveItemsList
+        
         /// <summary>
         ///     The offensive items
         /// </summary>
@@ -181,7 +251,11 @@ namespace Trinity
             new ActiveItem(2, ItemID.Randuins_Omen, TargetingType.ProximityEnemy, 450,
                 new[] { ActivationType.CheckProximityCount, ActivationType.CheckOnlyOnMe })
         };
+        
+        #endregion
 
+        #region CleanseItemsList
+        
         /// <summary>
         ///     The cleanse items
         /// </summary>
@@ -204,6 +278,10 @@ namespace Trinity
                 new[] { ActivationType.CheckAuras, ActivationType.CheckOnlyOnMe })
         };
 
+        #endregion
+        
+        #region ConsumableItemsList
+        
         /// <summary>
         ///     The consumable items
         /// </summary>
@@ -256,7 +334,11 @@ namespace Trinity
             new ActiveItem(100, ItemID.Your_Cut, TargetingType.ProximityAlly, float.MaxValue,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe })
         };
+        
+        #endregion
 
+        #region SummonerInputSpellsList
+        
         /// <summary>
         ///     The summoner input spells
         /// </summary>
@@ -269,6 +351,10 @@ namespace Trinity
                 new[] { ActivationType.CheckEnemyLowHP })
         };
 
+        #endregion
+        
+        #region SummonerTickSpellsList
+        
         /// <summary>
         ///     The summoner tick spells
         /// </summary>
@@ -287,6 +373,10 @@ namespace Trinity
                 new[] { ActivationType.CheckAuras, ActivationType.CheckOnlyOnMe })
         };
 
+        #endregion
+
+        #region AutomaticSpellsList
+        
         /// <summary>
         ///     The automatic spells
         /// </summary>
@@ -409,6 +499,8 @@ namespace Trinity
 
             #endregion
         };
+        
+        #endregion
 
         #endregion
 
@@ -432,14 +524,15 @@ namespace Trinity
         ///     Games events [on game load complete].
         /// </summary>
         private static async Task GameEvents_OnGameLoadComplete()
-        {           
+        {
             CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
             CoreEvents.OnCoreMainInputAsync += CoreEvents_OnCoreMainInputAsync;
             CoreEvents.OnCoreRender += CoreEvents_OnCoreRender;
             
-            Oasys.SDK.Events.GameEvents.OnCreateObject += GameEventsOnOnCreateObject;
-            Oasys.SDK.Events.GameEvents.OnDeleteObject += GameEventsOnOnDeleteObject;
+            Oasys.SDK.Events.GameEvents.OnCreateObject += GameEvents_OnCreateObject;
+            Oasys.SDK.Events.GameEvents.OnDeleteObject += GameEvents_OnDeleteObject;
 
+            AllAuras.AddRange(Auras);
             AllParticleEmitters.AddRange(ParticleEmitters);
             AllSpells.AddRange(AutoSpells);
             AllSpells.AddRange(SummonerInputSpells);
@@ -471,15 +564,14 @@ namespace Trinity
             CoreEvents.OnCoreMainInputAsync -= CoreEvents_OnCoreMainInputAsync;
             CoreEvents.OnCoreRender -= CoreEvents_OnCoreRender;
             
-            Oasys.SDK.Events.GameEvents.OnCreateObject -= GameEventsOnOnCreateObject;
-            Oasys.SDK.Events.GameEvents.OnDeleteObject -= GameEventsOnOnDeleteObject;
-            
+            Oasys.SDK.Events.GameEvents.OnCreateObject -= GameEvents_OnCreateObject;
+            Oasys.SDK.Events.GameEvents.OnDeleteObject -= GameEvents_OnDeleteObject;
+
             AllItems.Clear();
             AllSpells.Clear();
             AllParticleEmitters.Clear();
         }
-
-
+        
         /// <summary>
         ///     Initializes the trinity add-on.
         /// </summary>
@@ -584,7 +676,7 @@ namespace Trinity
 
             #region Tidy : Prediction Menu
 
-            var config = new Tab("Trinity: Advanced");
+            var config = new Tab("Trinity: Prediction");
 
             foreach (var troy in ParticleEmitters)
             {
@@ -592,13 +684,20 @@ namespace Trinity
                 troy.OnEmitterDispose += () => InitializedParticleEmitters.Remove(troy);
                 troy.Initialize(config);
             }
-
+            
             foreach (var championBase in AllChampions)
             {
                 var hero = (Champion) championBase;
                 hero.OnChampionInitialize += () => InitializedChampions.Add(hero);
                 hero.OnChampionDispose += () => InitializedChampions.Remove(hero);
                 hero.Initialize(config, hero);
+            }
+            
+            foreach (var aura in Auras)
+            {
+                aura.OnAuraInitialize += () => InitializedAuras.Add(aura);
+                aura.OnAuraDispose += () => InitializedAuras.Remove(aura);
+                aura.Initialize(config);
             }
 
             MenuManager.AddTab(config);
@@ -611,8 +710,31 @@ namespace Trinity
         /// </summary>
         private static async Task CoreEvents_OnCoreMainTick()
         {
+            //if (!GameEngine.IsGameWindowFocused) return;
+
+            foreach (var u in ObjectManagerExport.HeroCollection.Select(x => x.Value))
+            {
+                foreach (var v in u.BuffManager.ActiveBuffs)
+                {
+                    Logger.Log(u.Name + " : " + v.Name + " - " + v.Stacks);
+                }
+            }
+            
+            Logger.Log("");
+            Logger.Log("==============");
+            Logger.Log("==============");
+                
+            foreach (var b in ObjectManagerExport.LocalPlayer.BuffManager.ActiveBuffs)
+            {
+                Logger.Log(b.Name + " : " + b.Stacks);
+            }
+            
+            
             foreach (var initializedEmitter in InitializedParticleEmitters)
                 initializedEmitter.OnTick();
+            
+            foreach (var initializedAura in InitializedAuras)
+                initializedAura.OnTick();
             
             foreach (var initializedTickItem in InitializedTickItems)
                 initializedTickItem.OnTick();
@@ -629,6 +751,8 @@ namespace Trinity
         /// </summary>
         private static async Task CoreEvents_OnCoreMainInputAsync()
         {
+            if (!GameEngine.IsGameWindowFocused) return;
+            
             foreach (var initializedInputItem in InitializedInputItems)
                 initializedInputItem.OnTick();
 
@@ -641,17 +765,19 @@ namespace Trinity
         /// </summary>
         private static void CoreEvents_OnCoreRender()
         {
+            if (!GameEngine.IsGameWindowFocused) return;
+            
             foreach (var initializedTickItem in InitializedTickItems)
                 initializedTickItem.OnRender();
 
             foreach (var initializedTickSpell in InitializedTickSpells)
                 initializedTickSpell.OnRender();
         }
-        
+
         /// <summary>
         ///     Game events [on create object].
         /// </summary>
-        private static async Task GameEventsOnOnCreateObject(List<AIBaseClient> callbackobjectlist, AIBaseClient callbackobject, float callbackgametime)
+        private static async Task GameEvents_OnCreateObject(List<AIBaseClient> callbackobjectlist, AIBaseClient callbackobject, float callbackgametime)
         {
             foreach (var initializedEmitter in InitializedParticleEmitters)
                 initializedEmitter.OnCreate(callbackobjectlist, callbackobject, callbackgametime);
@@ -660,7 +786,7 @@ namespace Trinity
         /// <summary>
         ///     Game events [on delete object].
         /// </summary>
-        private static async Task GameEventsOnOnDeleteObject(List<AIBaseClient> callbackobjectlist, AIBaseClient callbackobject, float callbackgametime)
+        private static async Task GameEvents_OnDeleteObject(List<AIBaseClient> callbackobjectlist, AIBaseClient callbackobject, float callbackgametime)
         {
             foreach (var initializedEmitter in InitializedParticleEmitters)
                 initializedEmitter.OnDelete(callbackobjectlist, callbackobject, callbackgametime);

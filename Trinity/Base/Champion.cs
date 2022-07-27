@@ -128,31 +128,31 @@
             var tabname = Instance.ModelName + (Instance.IsEnemy ? "e" : "a");
             this.ChampionGroup[tabname + "grp"] = new Group
             {
-                Title = "[Ally] " + Instance.ModelName
+                Title = "[Pred] " + Instance.ModelName
             };
             
             this.ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "hro"] = new Switch
             {
                 IsOn = true,
-                Title = "Enable spell/autoattack prediction on " + Instance.ModelName
+                Title = "Predict spell/auto attacks"
             });
             
             this.ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "min"] = new Switch
             {
                 IsOn = false,
-                Title = "Enable minion prediction on " + Instance.ModelName
+                Title = "Predict minion attacks"
             });
             
             this.ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "jgl"] = new Switch
             {
                 IsOn = true,
-                Title = "Enable neutral monster prediction on " + Instance.ModelName
+                Title = "Predict neutral monsters attacks"
             });
             
             this.ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "twr"] = new Switch
             {
                 IsOn = true,
-                Title = "Enable tower prediction on " + Instance.ModelName
+                Title = "Predict tower attacks"
             });
 
             this.ChampionTab.AddGroup(this.ChampionGroup[tabname + "grp"]);

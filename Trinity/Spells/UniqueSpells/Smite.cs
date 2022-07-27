@@ -85,7 +85,8 @@
             { "Sru_Crab15.1.1", new Offset(new Vector2(-47, -23), 150, 12) },
             { "Sru_Crab16.1.1", new Offset(new Vector2(-47, -23), 150, 12) },
             { "SRU_RiftHerald17.1.1", new Offset(new Vector2(-41, -20), 155, 9) },
-            { "SRU_Baron12.1.1", new Offset(new Vector2(-24, -28), 165, 13) }
+            { "SRU_Baron12.1.1", new Offset(new Vector2(-24, -28), 165, 13) },
+            { "SRU_BaronSpawn12.1.2", new Offset(new Vector2(-24, -28), 165, 13) }
         };
 
         /// <summary>
@@ -219,22 +220,29 @@
 
                     if (!SmallMinions.Any(x => minion.Name.Contains(x)))
                     {
-                        var height = Offsets[minion.Name].Height;
-                        var width = Offsets[minion.Name].Width;
-                        var yoffset = Offsets[minion.Name].YValue;
-                        var xoffset = Offsets[minion.Name].XValue;
+                        try
+                        {
+                            var height = Offsets[minion.Name].Height;
+                            var width = Offsets[minion.Name].Width;
+                            var yoffset = Offsets[minion.Name].YValue;
+                            var xoffset = Offsets[minion.Name].XValue;
 
-                        var barpos = minion.HealthBarScreenPosition;
-                        var pctafter = Math.Max(0, minion.Health - damage) / minion.MaxHealth;
+                            var barpos = minion.HealthBarScreenPosition;
+                            var pctafter = Math.Max(0, minion.Health - damage) / minion.MaxHealth;
 
-                        var yaxis = barpos.Y + yoffset;
-                        var xaxisnow = barpos.X + xoffset + width * pctafter;
-                        var xaxisfull = barpos.X + xoffset + width * (minion.Health / minion.MaxHealth);
-                        var range = xaxisfull - xaxisnow;
-                        var pos = barpos.X + xoffset + 12 + 138 * pctafter;
+                            var yaxis = barpos.Y + yoffset;
+                            var xaxisnow = barpos.X + xoffset + width * pctafter;
+                            var xaxisfull = barpos.X + xoffset + width * (minion.Health / minion.MaxHealth);
+                            var range = xaxisfull - xaxisnow;
+                            var pos = barpos.X + xoffset + 12 + 138 * pctafter;
 
-                        for (var i = 0; i < range; i++)
-                            RenderFactory.DrawLine(pos + i, yaxis, pos + i, yaxis + height, 1, circ);
+                            for (var i = 0; i < range; i++)
+                                RenderFactory.DrawLine(pos + i, yaxis, pos + i, yaxis + height, 1, circ);
+                        }
+                        catch (Exception e)
+                        {
+                            // ignored
+                        }
                     }
                 }
         }
