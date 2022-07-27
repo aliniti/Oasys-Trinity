@@ -51,104 +51,6 @@ namespace Trinity
         
         private static readonly List<AutoSpellBase> InitializedTickSpells = new();
         private static readonly List<AutoSpellBase> InitializedInputSpells = new();
-        
-        #region AurasList
-        
-        /// <summary>
-        ///     The auras for income damage prediction
-        /// </summary>
-        private static readonly List<Buff> Auras = new ()
-        {
-            new Buff("All", "summonerdot"),
-            new Buff("All", "itemsmitechallenge"),
-            new Buff("Ahri", "ahrifoxfire", 550f),
-            new Buff("Alistar", "alistare", 300f),
-            new Buff("Amumu", "auraofdespair", 175f),
-            new Buff("Brand", "brandablaze"),
-            new Buff("Cassiopeia", "cassiopeiaqdebuff"),
-            new Buff("Darius", "dariushemo"),
-            new Buff("Diana", "dianashield", 200f),
-            new Buff("DrMundo", "burningagony", 175f),
-            new Buff("FiddleSticks", "fiddlestickswdrain"),
-            new Buff("Fizz", "fizzwdot"),
-            new Buff("Gangplank", "gangplankpassiveattackdot"),
-            new Buff("Garen", "garene", 300f),
-            new Buff("Hecarim", "hecarimdefilelifeleech"),
-            new Buff("Jayce", "jaycestaticfield", 285f),
-            new Buff("Jax", "jaxcounterstrike", 200f),
-            new Buff("Kennen", "kennenlightningrush", 165f),
-            new Buff("Kennen", "kennenshurikenstorm", 275f),
-            new Buff("Leona", "leonasolarbarrier", 425f),
-            new Buff("Leblanc", "leblance", 1, 1250, EmulationType.CrowdControl),
-            new Buff("Leblanc", "leblancre", 1, 1250, EmulationType.CrowdControl),
-            new Buff("Lissandra", "lissandrarself", 600f),
-            new Buff("Malzahar", "malzahare"),
-            new Buff("Morgana", "morganardebuff", 1, 2750, EmulationType.Ultimate),
-            new Buff("Nidalee", "nidaleepassivehunted"),
-            new Buff("Shyvana", "shyvanaimmolationaura", 175f),
-            new Buff("Shyvana", "shyvanaimmolatedragon", 250f),
-            new Buff("Shyvana", "shyvanafireballmissile"),
-            new Buff("Talon", "talonbleeddebuf"),
-            new Buff("Teemo", "bantamtraptarget"),
-            new Buff("Teemo", "toxicshotparticle"),
-            new Buff("Tristana", "tristanaechargesound"),
-            new Buff("Twitch", "twitchdeadlyvenon"),
-            new Buff("Velkoz", "velkozresearchstack"),
-            new Buff("Vladimir", "vladimirhemoplaguedebuff", 1, 2750, EmulationType.Ultimate),
-            new Buff("Yasuo", "yasuorknockupcombo"),
-            new Buff("Yasuo", "yasuorknockupcombotar"),
-            new Buff("Zed", "zedrdeathmark", 1, 2750, EmulationType.Ultimate),
-            new Buff("Zac", "zacemove", 300f, 0.69, 0f, EmulationType.CrowdControl)
-        };
-        
-        #endregion
-        
-        #region ParticleEmittersList
-        
-        /// <summary>
-        ///     The particle emitters for income damage prediction
-        /// </summary>
-        private static readonly List<ParticleEmitter> ParticleEmitters = new()
-        {  
-            new ParticleEmitter("Akshan", "R_mis", 100, 1, 0, EmulationType.Ultimate),
-            new ParticleEmitter("Lux", "e_tar_aoe", 175, 0.65),
-            new ParticleEmitter("Qiyana", "R_Indicator_Ring", 175, 1, 0f, EmulationType.Ultimate),
-            new ParticleEmitter("Renekton", "R_buf", 266, 0.65),
-            new ParticleEmitter("Nasus", "SpiritFire", 385, 0.65),
-            new ParticleEmitter("Nasus", "R_Avatar", 266, 0.65),
-            new ParticleEmitter("Annie", "AnnieTibbers", 266),
-            new ParticleEmitter("Alistar", "E_TrampleAOE", 266),
-            new ParticleEmitter("Ryze", "_E", 100),
-            new ParticleEmitter("Gangplank", "_R", 400, 1.3),
-            new ParticleEmitter("Morgana", "W_tar", 275, 0.75),
-            new ParticleEmitter("Hecarim", "Hecarim_Defile", 400, 0.75),
-            new ParticleEmitter("Hecarim", "W_AoE", 400, 0.75),
-            new ParticleEmitter("Diana", "W_Shield", 225, 1),
-            new ParticleEmitter("Sion", "W_Shield", 225, 1),
-            new ParticleEmitter("Karthus", "P_Defile", 400, 0.35),
-            new ParticleEmitter("Karthus", "E_Defile", 400, 0.35),
-            new ParticleEmitter("Karthus", "R_Target", 100, 1, 750f, EmulationType.Ultimate),
-            new ParticleEmitter("Elise", "W_volatile", 250, 0.3),
-            new ParticleEmitter("FiddleSticks", "Crowstorm", 400, 0.5, 0f, EmulationType.Ultimate),
-            new ParticleEmitter("Fizz", "R_Ring", 300, 1, 800, EmulationType.Ultimate),
-            new ParticleEmitter("Fizz", "E1_Indicator_Ring", 300, 1, 800, EmulationType.Danger),
-            new ParticleEmitter("Katarina", "deathLotus_tar", 500, 0.6, 0f, EmulationType.Ultimate),
-            new ParticleEmitter("Nautilus", "R_sequence_impact", 250, 1, 0f, EmulationType.Ultimate),
-            new ParticleEmitter("Kennen", "lr_buf", 250, 0.8),
-            new ParticleEmitter("Kennen", "ss_aoe", 450, 0.5, 0f, EmulationType.Ultimate),
-            new ParticleEmitter("Caitlyn", "yordleTrap", 265),
-            new ParticleEmitter("Caitlyn", "R_mis", 100, 1, 0, EmulationType.Ultimate),
-            new ParticleEmitter("Viktor", "_ChaosStorm", 425, 0.5, 0f, EmulationType.Ultimate),
-            new ParticleEmitter("Viktor", "_Catalyst", 375, 0.5, 0f, EmulationType.CrowdControl),
-            new ParticleEmitter("Viktor", "W_AUG", 375, 0.5, 0f, EmulationType.CrowdControl),
-            new ParticleEmitter("Anivia", "cryo_storm", 400),
-            new ParticleEmitter("Ziggs", "ZiggsE", 325),
-            new ParticleEmitter("Ziggs", "ZiggsWRing", 325, 0.5, 0f, EmulationType.CrowdControl),
-            new ParticleEmitter("Soraka", "E_rune", 375, 0.5, 500f, EmulationType.CrowdControl),
-            new ParticleEmitter("Cassiopeia", "Miasma_tar", 150)
-        };
-        
-        #endregion
 
         #region DefensiveItemsList
         
@@ -501,6 +403,104 @@ namespace Trinity
         };
         
         #endregion
+        
+        #region AurasList
+        
+        /// <summary>
+        ///     The auras for income damage prediction
+        /// </summary>
+        private static readonly List<Buff> Auras = new ()
+        {
+            new Buff("All", "summonerdot"),
+            new Buff("All", "itemsmitechallenge"),
+            new Buff("Ahri", "ahrifoxfire", 550f),
+            new Buff("Alistar", "alistare", 300f),
+            new Buff("Amumu", "auraofdespair", 175f),
+            new Buff("Brand", "brandablaze"),
+            new Buff("Cassiopeia", "cassiopeiaqdebuff"),
+            new Buff("Darius", "dariushemo"),
+            new Buff("Diana", "dianashield", 200f),
+            new Buff("DrMundo", "burningagony", 175f),
+            new Buff("FiddleSticks", "fiddlestickswdrain"),
+            new Buff("Fizz", "fizzwdot"),
+            new Buff("Gangplank", "gangplankpassiveattackdot"),
+            new Buff("Garen", "garene", 300f),
+            new Buff("Hecarim", "hecarimdefilelifeleech"),
+            new Buff("Jayce", "jaycestaticfield", 285f),
+            new Buff("Jax", "jaxcounterstrike", 200f),
+            new Buff("Kennen", "kennenlightningrush", 165f),
+            new Buff("Kennen", "kennenshurikenstorm", 275f),
+            new Buff("Leona", "leonasolarbarrier", 425f),
+            new Buff("Leblanc", "leblance", 1, 1250, EmulationType.CrowdControl),
+            new Buff("Leblanc", "leblancre", 1, 1250, EmulationType.CrowdControl),
+            new Buff("Lissandra", "lissandrarself", 600f),
+            new Buff("Malzahar", "malzahare"),
+            new Buff("Morgana", "morganardebuff", 1, 2750, EmulationType.Ultimate),
+            new Buff("Nidalee", "nidaleepassivehunted"),
+            new Buff("Shyvana", "shyvanaimmolationaura", 175f),
+            new Buff("Shyvana", "shyvanaimmolatedragon", 250f),
+            new Buff("Shyvana", "shyvanafireballmissile"),
+            new Buff("Talon", "talonbleeddebuf"),
+            new Buff("Teemo", "bantamtraptarget"),
+            new Buff("Teemo", "toxicshotparticle"),
+            new Buff("Tristana", "tristanaechargesound"),
+            new Buff("Twitch", "twitchdeadlyvenon"),
+            new Buff("Velkoz", "velkozresearchstack"),
+            new Buff("Vladimir", "vladimirhemoplaguedebuff", 1, 2750, EmulationType.Ultimate),
+            new Buff("Yasuo", "yasuorknockupcombo"),
+            new Buff("Yasuo", "yasuorknockupcombotar"),
+            new Buff("Zed", "zedrdeathmark", 1, 2750, EmulationType.Ultimate),
+            new Buff("Zac", "zacemove", 300f, 0.69, 0f, EmulationType.CrowdControl)
+        };
+        
+        #endregion
+        
+        #region ParticleEmittersList
+        
+        /// <summary>
+        ///     The particle emitters for income damage prediction
+        /// </summary>
+        private static readonly List<ParticleEmitter> ParticleEmitters = new()
+        {  
+            new ParticleEmitter("Akshan", "R_mis", 100, 1, 0, EmulationType.Ultimate),
+            new ParticleEmitter("Lux", "e_tar_aoe", 175, 0.65),
+            new ParticleEmitter("Qiyana", "R_Indicator_Ring", 175, 1, 0f, EmulationType.Ultimate),
+            new ParticleEmitter("Renekton", "R_buf", 266, 0.65),
+            new ParticleEmitter("Nasus", "SpiritFire", 385, 0.65),
+            new ParticleEmitter("Nasus", "R_Avatar", 266, 0.65),
+            new ParticleEmitter("Annie", "AnnieTibbers", 266),
+            new ParticleEmitter("Alistar", "E_TrampleAOE", 266),
+            new ParticleEmitter("Ryze", "_E", 100),
+            new ParticleEmitter("Gangplank", "_R", 400, 1.3),
+            new ParticleEmitter("Morgana", "W_tar", 275, 0.75),
+            new ParticleEmitter("Hecarim", "Hecarim_Defile", 400, 0.75),
+            new ParticleEmitter("Hecarim", "W_AoE", 400, 0.75),
+            new ParticleEmitter("Diana", "W_Shield", 225, 1),
+            new ParticleEmitter("Sion", "W_Shield", 225, 1),
+            new ParticleEmitter("Karthus", "P_Defile", 400, 0.35),
+            new ParticleEmitter("Karthus", "E_Defile", 400, 0.35),
+            new ParticleEmitter("Karthus", "R_Target", 100, 1, 750f, EmulationType.Ultimate),
+            new ParticleEmitter("Elise", "W_volatile", 250, 0.3),
+            new ParticleEmitter("FiddleSticks", "Crowstorm", 400, 0.5, 0f, EmulationType.Ultimate),
+            new ParticleEmitter("Fizz", "R_Ring", 300, 1, 800, EmulationType.Ultimate),
+            new ParticleEmitter("Fizz", "E1_Indicator_Ring", 300, 1, 800, EmulationType.Danger),
+            new ParticleEmitter("Katarina", "deathLotus_tar", 500, 0.6, 0f, EmulationType.Ultimate),
+            new ParticleEmitter("Nautilus", "R_sequence_impact", 250, 1, 0f, EmulationType.Ultimate),
+            new ParticleEmitter("Kennen", "lr_buf", 250, 0.8),
+            new ParticleEmitter("Kennen", "ss_aoe", 450, 0.5, 0f, EmulationType.Ultimate),
+            new ParticleEmitter("Caitlyn", "yordleTrap", 265),
+            new ParticleEmitter("Caitlyn", "R_mis", 100, 1, 0, EmulationType.Ultimate),
+            new ParticleEmitter("Viktor", "_ChaosStorm", 425, 0.5, 0f, EmulationType.Ultimate),
+            new ParticleEmitter("Viktor", "_Catalyst", 375, 0.5, 0f, EmulationType.CrowdControl),
+            new ParticleEmitter("Viktor", "W_AUG", 375, 0.5, 0f, EmulationType.CrowdControl),
+            new ParticleEmitter("Anivia", "cryo_storm", 400),
+            new ParticleEmitter("Ziggs", "ZiggsE", 325),
+            new ParticleEmitter("Ziggs", "ZiggsWRing", 325, 0.5, 0f, EmulationType.CrowdControl),
+            new ParticleEmitter("Soraka", "E_rune", 375, 0.5, 500f, EmulationType.CrowdControl),
+            new ParticleEmitter("Cassiopeia", "Miasma_tar", 150)
+        };
+        
+        #endregion
 
         #endregion
 
@@ -710,26 +710,8 @@ namespace Trinity
         /// </summary>
         private static async Task CoreEvents_OnCoreMainTick()
         {
-            //if (!GameEngine.IsGameWindowFocused) return;
+            if (!GameEngine.IsGameWindowFocused) return;
 
-            foreach (var u in ObjectManagerExport.HeroCollection.Select(x => x.Value))
-            {
-                foreach (var v in u.BuffManager.ActiveBuffs)
-                {
-                    Logger.Log(u.Name + " : " + v.Name + " - " + v.Stacks);
-                }
-            }
-            
-            Logger.Log("");
-            Logger.Log("==============");
-            Logger.Log("==============");
-                
-            foreach (var b in ObjectManagerExport.LocalPlayer.BuffManager.ActiveBuffs)
-            {
-                Logger.Log(b.Name + " : " + b.Stacks);
-            }
-            
-            
             foreach (var initializedEmitter in InitializedParticleEmitters)
                 initializedEmitter.OnTick();
             
