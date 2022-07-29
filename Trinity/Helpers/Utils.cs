@@ -338,7 +338,8 @@
         public static bool IsSafeCast(AIBaseClient unit)
         {
             if (unit is AIHeroClient hero)
-                if (hero.IsRecalling || hero.IsCastingSpell || hero.IsEmpoweredRecalling)
+                if (hero.IsRecalling || hero.IsCastingSpell || hero.IsEmpoweredRecalling 
+                    || hero.IsChanneling)
                     return false;
 
             var nexus = UnitManager.AllyNexus;
