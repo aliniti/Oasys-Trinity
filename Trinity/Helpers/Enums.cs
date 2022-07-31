@@ -145,29 +145,14 @@
     public enum CastType
     {
         /// <summary>
-        ///     The none
+        ///     The passive
         /// </summary>
-        None,
-
+        Passive,
+        
         /// <summary>
-        ///     The linear
+        ///     The auto attack
         /// </summary>
-        Linear,
-
-        /// <summary>
-        ///     The missile linear
-        /// </summary>
-        MissileLinear,
-
-        /// <summary>
-        ///     The linear ao e
-        /// </summary>
-        LinearAoE,
-
-        /// <summary>
-        ///     The missile linear ao e
-        /// </summary>
-        MissileLinearAoE,
+        AutoAttack,
 
         /// <summary>
         ///     The proximity
@@ -175,22 +160,37 @@
         Proximity,
 
         /// <summary>
-        ///     The targeted
+        ///     The unit
         /// </summary>
-        Targeted,
+        Unit,
+        
+        /// <summary>
+        ///     The unit and location
+        /// </summary>
+        UnitLocation,
+        
+        /// <summary>
+        ///     The location
+        /// </summary>
+        Location,
 
         /// <summary>
-        ///     The circlular
+        ///     The direction
         /// </summary>
-        Circlular,
-
+        Direction,
+        
         /// <summary>
-        ///     The sector
+        ///     The direction and auto
         /// </summary>
-        Sector
+        DirectionAuto,
+        
+        /// <summary>
+        ///     The unknown :^)
+        /// </summary>
+        Unknown
     }
     
-    public enum EmulationType
+    public enum EmulationFlags
     {
         /// <summary>
         ///     The none

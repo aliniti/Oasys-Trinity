@@ -29,7 +29,7 @@ namespace Trinity.Base
         /// <value>
         ///     The emulation type.
         /// </value>
-        public EmulationType EmulationType { get; set; }
+        public EmulationFlags EmulationFlags { get; set; }
 
         /// <summary>
         ///     Gets or sets the start tick.
@@ -89,14 +89,14 @@ namespace Trinity.Base
         /// <param name="name">The name.</param>
         /// <param name="slot">The slot.</param>
         /// <param name="inculded">if set to <c>true</c> [inculded].</param>
-        public ParticleEmitter(string champ, string name, float radius, double interval = 0.5, float delay = 0, EmulationType etype = EmulationType.None)
+        public ParticleEmitter(string champ, string name, float radius, double interval = 0.5, float delay = 0, EmulationFlags etype = EmulationFlags.None)
         {
             Name = name;
             Radius = radius;
             ChampionString = champ;
             Interval = interval;
             DelayFromStart = delay;
-            EmulationType = etype;
+            EmulationFlags = etype;
         }
 
         #endregion
@@ -127,9 +127,9 @@ namespace Trinity.Base
                         // limit the damage using an interval
                         if ((int)(GameEngine.GameTime * 1000) - Limiter >= Interval * 1000)
                         {
-                            unit.InDanger = EmulationType.Equals(EmulationType.Danger);
-                            unit.InCrowdControl = EmulationType.Equals(EmulationType.CrowdControl);
-                            unit.InExtremeDanger = EmulationType.Equals(EmulationType.Ultimate);
+                            unit.InDanger = EmulationFlags.Equals(EmulationFlags.Danger);
+                            unit.InCrowdControl = EmulationFlags.Equals(EmulationFlags.CrowdControl);
+                            unit.InExtremeDanger = EmulationFlags.Equals(EmulationFlags.Ultimate);
                             unit.AggroTick = (int) (GameEngine.GameTime * 1000);
                             unit.HasAggro = true;
 

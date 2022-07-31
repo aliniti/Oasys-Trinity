@@ -683,9 +683,9 @@
                         {
                             if (entry != null)
                             {
-                                Champion.InDanger = entry.EmulationTypes.Contains(EmulationType.Danger);
-                                Champion.InCrowdControl = entry.EmulationTypes.Contains(EmulationType.CrowdControl);
-                                Champion.InExtremeDanger = entry.EmulationTypes.Contains(EmulationType.Ultimate);
+                                Champion.InDanger = entry.SpellFlags.Contains(EmulationFlags.Danger);
+                                Champion.InCrowdControl = entry.SpellFlags.Contains(EmulationFlags.CrowdControl);
+                                Champion.InExtremeDanger = entry.SpellFlags.Contains(EmulationFlags.Ultimate);
                             }
                             
                             Champion.HasAggro = true;
@@ -714,9 +714,9 @@
 
                                 if (entry != null)
                                 {
-                                    Champion.InDanger = entry.EmulationTypes.Contains(EmulationType.Danger);
-                                    Champion.InCrowdControl = entry.EmulationTypes.Contains(EmulationType.CrowdControl);
-                                    Champion.InExtremeDanger = entry.EmulationTypes.Contains(EmulationType.Ultimate);
+                                    Champion.InDanger = entry.SpellFlags.Contains(EmulationFlags.Danger);
+                                    Champion.InCrowdControl = entry.SpellFlags.Contains(EmulationFlags.CrowdControl);
+                                    Champion.InExtremeDanger = entry.SpellFlags.Contains(EmulationFlags.Ultimate);
                                 }
 
                                 Champion.HasAggro = true;

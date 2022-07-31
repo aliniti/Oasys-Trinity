@@ -21,9 +21,7 @@ namespace Trinity
     using Oasys.SDK.SpellCasting;
     
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
-    using Oasys.SDK.Tools;
 
     #endregion
 
@@ -429,13 +427,13 @@ namespace Trinity
             new Buff("Jayce", "jaycestaticfield", 285f),
             new Buff("Jax", "jaxcounterstrike", 200f),
             new Buff("Kennen", "kennenlightningrush", 165f),
-            new Buff("Kennen", "kennenshurikenstorm", 525f, 0.69, 0, EmulationType.Ultimate),
+            new Buff("Kennen", "kennenshurikenstorm", 525f, 0.69, 0, EmulationFlags.Ultimate),
             new Buff("Leona", "leonasolarbarrier", 425f),
-            new Buff("Leblanc", "leblance", 1, 1250, EmulationType.CrowdControl),
-            new Buff("Leblanc", "leblancre", 1, 1250, EmulationType.CrowdControl),
+            new Buff("Leblanc", "leblance", 1, 1250, EmulationFlags.CrowdControl),
+            new Buff("Leblanc", "leblancre", 1, 1250, EmulationFlags.CrowdControl),
             new Buff("Lissandra", "lissandrarself", 600f),
             new Buff("Malzahar", "malzahare"),
-            new Buff("Morgana", "morganardebuff", 1, 2750, EmulationType.Ultimate),
+            new Buff("Morgana", "morganardebuff", 1, 2750, EmulationFlags.Ultimate),
             new Buff("Nidalee", "nidaleepassivehunted"),
             new Buff("Shyvana", "shyvanaimmolationaura", 175f),
             new Buff("Shyvana", "shyvanaimmolatedragon", 250f),
@@ -446,11 +444,11 @@ namespace Trinity
             new Buff("Tristana", "tristanaechargesound"),
             new Buff("Twitch", "twitchdeadlyvenon"),
             new Buff("Velkoz", "velkozresearchstack"),
-            new Buff("Vladimir", "vladimirhemoplaguedebuff", 1, 2750, EmulationType.Ultimate),
+            new Buff("Vladimir", "vladimirhemoplaguedebuff", 1, 2750, EmulationFlags.Ultimate),
             new Buff("Yasuo", "yasuorknockupcombo"),
             new Buff("Yasuo", "yasuorknockupcombotar"),
-            new Buff("Zed", "zedrdeathmark", 1, 2750, EmulationType.Ultimate),
-            new Buff("Zac", "zacemove", 300f, 0.69, 0f, EmulationType.CrowdControl)
+            new Buff("Zed", "zedrdeathmark", 1, 2750, EmulationFlags.Ultimate),
+            new Buff("Zac", "zacemove", 300f, 0.69, 0f, EmulationFlags.CrowdControl)
         };
         
         #endregion
@@ -462,9 +460,9 @@ namespace Trinity
         /// </summary>
         private static readonly List<ParticleEmitter> ParticleEmitters = new()
         {  
-            new ParticleEmitter("Akshan", "R_mis", 100, 1, 0, EmulationType.Ultimate),
+            new ParticleEmitter("Akshan", "R_mis", 100, 1, 0, EmulationFlags.Ultimate),
             new ParticleEmitter("Lux", "e_tar_aoe", 175, 0.65),
-            new ParticleEmitter("Qiyana", "R_Indicator_Ring", 175, 1, 0f, EmulationType.Ultimate),
+            new ParticleEmitter("Qiyana", "R_Indicator_Ring", 175, 1, 0f, EmulationFlags.Ultimate),
             new ParticleEmitter("Renekton", "R_buf", 266, 0.65),
             new ParticleEmitter("Nasus", "SpiritFire", 385, 0.65),
             new ParticleEmitter("Nasus", "R_Avatar", 266, 0.65),
@@ -479,24 +477,24 @@ namespace Trinity
             new ParticleEmitter("Sion", "W_Shield", 225, 1),
             new ParticleEmitter("Karthus", "P_Defile", 400, 0.35),
             new ParticleEmitter("Karthus", "E_Defile", 400, 0.35),
-            new ParticleEmitter("Karthus", "R_Target", 100, 1, 750f, EmulationType.Ultimate),
+            new ParticleEmitter("Karthus", "R_Target", 100, 1, 750f, EmulationFlags.Ultimate),
             new ParticleEmitter("Elise", "W_volatile", 250, 0.3),
-            new ParticleEmitter("FiddleSticks", "Crowstorm", 400, 0.5, 0f, EmulationType.Ultimate),
-            new ParticleEmitter("Fizz", "R_Ring", 300, 1, 800, EmulationType.Ultimate),
-            new ParticleEmitter("Fizz", "E1_Indicator_Ring", 300, 1, 800, EmulationType.Danger),
-            new ParticleEmitter("Katarina", "deathLotus_tar", 500, 0.6, 0f, EmulationType.Ultimate),
-            new ParticleEmitter("Nautilus", "R_sequence_impact", 250, 1, 0f, EmulationType.Ultimate),
+            new ParticleEmitter("FiddleSticks", "Crowstorm", 400, 0.5, 0f, EmulationFlags.Ultimate),
+            new ParticleEmitter("Fizz", "R_Ring", 300, 1, 800, EmulationFlags.Ultimate),
+            new ParticleEmitter("Fizz", "E1_Indicator_Ring", 300, 1, 800, EmulationFlags.Danger),
+            new ParticleEmitter("Katarina", "deathLotus_tar", 500, 0.6, 0f, EmulationFlags.Ultimate),
+            new ParticleEmitter("Nautilus", "R_sequence_impact", 250, 1, 0f, EmulationFlags.Ultimate),
             new ParticleEmitter("Kennen", "lr_buf", 250, 0.8),
-            new ParticleEmitter("Kennen", "ss_aoe", 450, 0.5, 0f, EmulationType.Ultimate),
+            new ParticleEmitter("Kennen", "ss_aoe", 450, 0.5, 0f, EmulationFlags.Ultimate),
             new ParticleEmitter("Caitlyn", "yordleTrap", 265),
-            new ParticleEmitter("Caitlyn", "R_mis", 100, 1, 0, EmulationType.Ultimate),
-            new ParticleEmitter("Viktor", "_ChaosStorm", 425, 0.5, 0f, EmulationType.Ultimate),
-            new ParticleEmitter("Viktor", "_Catalyst", 375, 0.5, 0f, EmulationType.CrowdControl),
-            new ParticleEmitter("Viktor", "W_AUG", 375, 0.5, 0f, EmulationType.CrowdControl),
+            new ParticleEmitter("Caitlyn", "R_mis", 100, 1, 0, EmulationFlags.Ultimate),
+            new ParticleEmitter("Viktor", "_ChaosStorm", 425, 0.5, 0f, EmulationFlags.Ultimate),
+            new ParticleEmitter("Viktor", "_Catalyst", 375, 0.5, 0f, EmulationFlags.CrowdControl),
+            new ParticleEmitter("Viktor", "W_AUG", 375, 0.5, 0f, EmulationFlags.CrowdControl),
             new ParticleEmitter("Anivia", "cryo_storm", 400),
             new ParticleEmitter("Ziggs", "ZiggsE", 325),
-            new ParticleEmitter("Ziggs", "ZiggsWRing", 325, 0.5, 0f, EmulationType.CrowdControl),
-            new ParticleEmitter("Soraka", "E_rune", 375, 0.5, 500f, EmulationType.CrowdControl),
+            new ParticleEmitter("Ziggs", "ZiggsWRing", 325, 0.5, 0f, EmulationFlags.CrowdControl),
+            new ParticleEmitter("Soraka", "E_rune", 375, 0.5, 500f, EmulationFlags.CrowdControl),
             new ParticleEmitter("Cassiopeia", "Miasma_tar", 150)
         };
         
@@ -512,8 +510,8 @@ namespace Trinity
         [Oasys.SDK.OasysModuleEntryPoint]
         public static void Execute()
         {
-            GameEvents.OnGameLoadComplete += GameEvents_OnGameLoadComplete;
-            GameEvents.OnGameMatchComplete += GameEvents_OnGameMatchComplete;
+            GameEvents.OnGameLoadComplete += OnGameLoadComplete;
+            GameEvents.OnGameMatchComplete += OnGameMatchComplete;
         }
 
         #endregion
@@ -523,14 +521,14 @@ namespace Trinity
         /// <summary>
         ///     Games events [on game load complete].
         /// </summary>
-        private static async Task GameEvents_OnGameLoadComplete()
+        private static async Task OnGameLoadComplete()
         {
-            CoreEvents.OnCoreMainTick += CoreEvents_OnCoreMainTick;
-            CoreEvents.OnCoreMainInputAsync += CoreEvents_OnCoreMainInputAsync;
-            CoreEvents.OnCoreRender += CoreEvents_OnCoreRender;
+            CoreEvents.OnCoreMainTick += OnCoreMainTick;
+            CoreEvents.OnCoreMainInputAsync += OnCoreMainInputAsync;
+            CoreEvents.OnCoreRender += OnCoreRender;
             
-            Oasys.SDK.Events.GameEvents.OnCreateObject += GameEvents_OnCreateObject;
-            Oasys.SDK.Events.GameEvents.OnDeleteObject += GameEvents_OnDeleteObject;
+            Oasys.SDK.Events.GameEvents.OnCreateObject += OnCreateObject;
+            Oasys.SDK.Events.GameEvents.OnDeleteObject += OnDeleteObject;
 
             AllAuras.AddRange(Auras);
             AllParticleEmitters.AddRange(ParticleEmitters);
@@ -554,18 +552,18 @@ namespace Trinity
             
             InitializeTrinity();
         }
-        
+
         /// <summary>
         ///     Games events [on game match complete].
         /// </summary>
-        private static async Task GameEvents_OnGameMatchComplete()
+        private static async Task OnGameMatchComplete()
         {
-            CoreEvents.OnCoreMainTick -= CoreEvents_OnCoreMainTick;
-            CoreEvents.OnCoreMainInputAsync -= CoreEvents_OnCoreMainInputAsync;
-            CoreEvents.OnCoreRender -= CoreEvents_OnCoreRender;
+            CoreEvents.OnCoreMainTick -= OnCoreMainTick;
+            CoreEvents.OnCoreMainInputAsync -= OnCoreMainInputAsync;
+            CoreEvents.OnCoreRender -= OnCoreRender;
             
-            Oasys.SDK.Events.GameEvents.OnCreateObject -= GameEvents_OnCreateObject;
-            Oasys.SDK.Events.GameEvents.OnDeleteObject -= GameEvents_OnDeleteObject;
+            Oasys.SDK.Events.GameEvents.OnCreateObject -= OnCreateObject;
+            Oasys.SDK.Events.GameEvents.OnDeleteObject -= OnDeleteObject;
 
             AllItems.Clear();
             AllSpells.Clear();
@@ -708,7 +706,7 @@ namespace Trinity
         /// <summary>
         ///     Cores events [on core main tick].
         /// </summary>
-        private static async Task CoreEvents_OnCoreMainTick()
+        private static async Task OnCoreMainTick()
         {
             if (!GameEngine.IsGameWindowFocused) return;
 
@@ -731,7 +729,7 @@ namespace Trinity
         /// <summary>
         ///     Cores events [on core main input asynchronous].
         /// </summary>
-        private static async Task CoreEvents_OnCoreMainInputAsync()
+        private static async Task OnCoreMainInputAsync()
         {
             if (!GameEngine.IsGameWindowFocused) return;
             
@@ -745,7 +743,7 @@ namespace Trinity
         /// <summary>
         ///     Cores events [on core render].
         /// </summary>
-        private static void CoreEvents_OnCoreRender()
+        private static void OnCoreRender()
         {
             if (!GameEngine.IsGameWindowFocused) return;
             
@@ -759,7 +757,7 @@ namespace Trinity
         /// <summary>
         ///     Game events [on create object].
         /// </summary>
-        private static async Task GameEvents_OnCreateObject(List<AIBaseClient> callbackobjectlist, AIBaseClient callbackobject, float callbackgametime)
+        private static async Task OnCreateObject(List<AIBaseClient> callbackobjectlist, AIBaseClient callbackobject, float callbackgametime)
         {
             foreach (var initializedEmitter in InitializedParticleEmitters)
                 initializedEmitter.OnCreate(callbackobjectlist, callbackobject, callbackgametime);
@@ -768,7 +766,7 @@ namespace Trinity
         /// <summary>
         ///     Game events [on delete object].
         /// </summary>
-        private static async Task GameEvents_OnDeleteObject(List<AIBaseClient> callbackobjectlist, AIBaseClient callbackobject, float callbackgametime)
+        private static async Task OnDeleteObject(List<AIBaseClient> callbackobjectlist, AIBaseClient callbackobject, float callbackgametime)
         {
             foreach (var initializedEmitter in InitializedParticleEmitters)
                 initializedEmitter.OnDelete(callbackobjectlist, callbackobject, callbackgametime);

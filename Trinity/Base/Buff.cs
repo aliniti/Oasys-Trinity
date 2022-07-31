@@ -33,7 +33,7 @@ namespace Trinity.Base
         /// <value>
         ///     The emulation type.
         /// </value>
-        public EmulationType EmulationType { get; set; }
+        public EmulationFlags EmulationFlags { get; set; }
         
         /// <summary>
         ///     Gets or sets the delay from start.
@@ -67,12 +67,12 @@ namespace Trinity.Base
         /// <param name="name"></param>
         /// <param name="interval"></param>
         /// <param name="delay"></param>
-        /// <param name="emulationType"></param>
-        public Buff(string champion, string name, double interval = 0.5, float delay = 0, EmulationType emulationType = EmulationType.None)
+        /// <param name="emulationFlags"></param>
+        public Buff(string champion, string name, double interval = 0.5, float delay = 0, EmulationFlags emulationFlags = EmulationFlags.None)
         {
             ChampionString = champion;
             Interval = interval;
-            EmulationType = emulationType;
+            EmulationFlags = emulationFlags;
             Delay = delay;
             Name = name;
         }
@@ -85,12 +85,12 @@ namespace Trinity.Base
         /// <param name="radius"></param>
         /// <param name="interval"></param>
         /// <param name="delay"></param>
-        /// <param name="emulationType"></param>
-        public Buff(string champion, string name, float radius, double interval = 0.69, float delay = 0, EmulationType emulationType = EmulationType.None)
+        /// <param name="emulationFlags"></param>
+        public Buff(string champion, string name, float radius, double interval = 0.69, float delay = 0, EmulationFlags emulationFlags = EmulationFlags.None)
         {
             ChampionString = champion;
             Interval = interval;
-            EmulationType = emulationType;
+            EmulationFlags = emulationFlags;
             Delay = delay;
             Radius = radius;
             Name = name;
@@ -125,9 +125,9 @@ namespace Trinity.Base
                         {
                             if ((int)(GameEngine.GameTime * 1000) - Limiter >= Interval * 1000)
                             {
-                                unit.InDanger = EmulationType.Equals(EmulationType.Danger);
-                                unit.InCrowdControl = EmulationType.Equals(EmulationType.CrowdControl);
-                                unit.InExtremeDanger = EmulationType.Equals(EmulationType.Ultimate);
+                                unit.InDanger = EmulationFlags.Equals(EmulationFlags.Danger);
+                                unit.InCrowdControl = EmulationFlags.Equals(EmulationFlags.CrowdControl);
+                                unit.InExtremeDanger = EmulationFlags.Equals(EmulationFlags.Ultimate);
                                 unit.AggroTick = (int) (GameEngine.GameTime * 1000);
                                 unit.HasAggro = true;
 
@@ -172,9 +172,9 @@ namespace Trinity.Base
                         {
                             if ((int) (GameEngine.GameTime * 1000) - Limiter >= Interval * 1000)
                             {
-                                champion.InDanger = EmulationType.Equals(EmulationType.Danger);
-                                champion.InCrowdControl = EmulationType.Equals(EmulationType.CrowdControl);
-                                champion.InExtremeDanger = EmulationType.Equals(EmulationType.Ultimate);
+                                champion.InDanger = EmulationFlags.Equals(EmulationFlags.Danger);
+                                champion.InCrowdControl = EmulationFlags.Equals(EmulationFlags.CrowdControl);
+                                champion.InExtremeDanger = EmulationFlags.Equals(EmulationFlags.Ultimate);
                                 champion.AggroTick = (int) (GameEngine.GameTime * 1000);
                                 champion.HasAggro = true;
 
