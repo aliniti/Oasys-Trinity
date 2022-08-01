@@ -41,7 +41,7 @@ namespace Trinity.Helpers
         /// <value>
         ///     The slot.
         /// </value>
-        public SpellSlot Slot { get; internal set; } = SpellSlot.NullSpell;
+        public SpellSlot Slot { get; internal set; }
 
         /// <summary>
         ///     Gets or sets the cast range.
@@ -49,7 +49,15 @@ namespace Trinity.Helpers
         /// <value>
         ///     The cast range.
         /// </value>
-        public float CastRange { get; internal set; } = 250;
+        public float CastRange { get; internal set; }
+        
+        /// <summary>
+        ///     Gets or sets the secondary cast range.
+        /// </summary>
+        /// <value>
+        ///     The secondary cast range.
+        /// </value>
+        public float SecondaryCastRange { get; internal set; }
 
         /// <summary>
         ///     Gets or sets the radius.
@@ -58,6 +66,14 @@ namespace Trinity.Helpers
         ///     The radius.
         /// </value>
         public float Radius { get; internal set; }
+        
+        /// <summary>
+        ///     Gets or sets the radius.
+        /// </summary>
+        /// <value>
+        ///     The radius.
+        /// </value>
+        public float SecondaryRadius { get; internal set; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether spell is global.
@@ -68,12 +84,21 @@ namespace Trinity.Helpers
         public bool Global { get; internal set; }
 
         /// <summary>
-        ///     Gets or sets the delay.
+        ///     Gets or sets the cast delay.
         /// </summary>
         /// <value>
-        ///     The delay.
+        ///     The cast delay.
         /// </value>
-        public float Delay { get; internal set; } = 250f;
+        public float CastDelay { get; internal set; } = 250f;
+        
+        
+        /// <summary>
+        ///     Gets or sets the secondary cast delay.
+        /// </summary>
+        /// <value>
+        ///     The secondary cast delay.
+        /// </value>
+        public float SecondaryCastDelay { get; internal  set; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether is fixed range.
@@ -105,7 +130,7 @@ namespace Trinity.Helpers
         /// <value>
         ///     The missile speed.
         /// </value>
-        public int Speed { get; internal set; } = 4800;
+        public int CastSpeed { get; internal set; } = 4800;
 
         /// <summary>
         ///     Gets or sets from object.
@@ -121,7 +146,7 @@ namespace Trinity.Helpers
         /// <value>
         ///     The event types.
         /// </value>
-        public EmulationFlags[] SpellFlags { get; internal set; } = { };
+        public EmulationFlags[] EmuFlags { get; internal set; } = { };
 
         /// <summary>
         ///     Gets the type of the cast.
@@ -182,10 +207,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 875f,
                 Radius = 200f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
                 MissileName = "",
-                Speed = 1750
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -193,25 +218,26 @@ namespace Trinity.Helpers
                 SpellName = "aatroxw",
                 ChampionName = "aatrox",
                 Slot = SpellSlot.W,
-                CastType = CastType.Proximity,
-                BasicAttackAmplifier = true,
+                DisplayName = "Infernal Chains",
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                Radius = 160f,
+                CastDelay = 250f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1800,
             });
 
             HeroSpells.Add(new SpellData
             {
-                SpellName = "aatroxw2",
                 ChampionName = "aatrox",
                 Slot = SpellSlot.W,
-                CastType = CastType.Proximity,
-                BasicAttackAmplifier = true,
+                DisplayName = "Infernal Chains",
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                Radius = 160f,
+                CastDelay = 250f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1800,
             });
 
             HeroSpells.Add(new SpellData
@@ -223,10 +249,10 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 1025f,
                 Radius = 150f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "aatroxeconemissile",
-                Speed = 1250
+                CastSpeed = 1250
             });
             
             HeroSpells.Add(new SpellData
@@ -236,9 +262,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
             
             #endregion
@@ -253,11 +279,11 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 900f,
                 Radius = 80f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "ahriorbmissile",
                 ExtraMissileNames = new[] { "ahriorbreturn" },
-                Speed = 1450
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -269,9 +295,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 600f,
                 Radius = 600f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1800
             });
 
             HeroSpells.Add(new SpellData
@@ -284,10 +310,10 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 975f,
                 Radius = 60f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
                 MissileName = "ahriseducemissile",
-                Speed = 1550
+                CastSpeed = 1550
             });
 
             HeroSpells.Add(new SpellData
@@ -298,9 +324,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 450f,
                 Radius = 600f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
-                Speed = 2200
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastSpeed = 2200
             });
             
             #endregion
@@ -315,9 +341,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Unit,
                 Radius = 171.9f,
                 CastRange = 600f,
-                Delay = 650f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1000
+                CastDelay = 650f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1000
             });
 
             HeroSpells.Add(new SpellData
@@ -327,9 +353,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 1000f, // Range: 700 + additional for stealth detection
-                Delay = 500f,
-                SpellFlags = new[] { EmulationFlags.Stealth },
-                Speed = 4800
+                CastDelay = 500f,
+                EmuFlags = new[] { EmulationFlags.Stealth },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -340,9 +366,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 Radius = 325f,
                 CastRange = 325f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -353,9 +379,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Unit,
                 Radius = 300f,
                 CastRange = 800f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
-                Speed = 2200
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastSpeed = 2200
             });
 
             #endregion
@@ -370,9 +396,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 330f,
                 Radius = 365f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -382,9 +408,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 660f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
-                Speed = 2200
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastSpeed = 2200
             });
 
             HeroSpells.Add(new SpellData
@@ -395,9 +421,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 300f,
                 Radius = 300f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -407,9 +433,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             #endregion
@@ -426,10 +452,10 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 1100f,
                 Radius = 80f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
                 MissileName = "sadmummybandagetoss",
-                Speed = 2000
+                CastSpeed = 2000
             });
 
             HeroSpells.Add(new SpellData
@@ -439,9 +465,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 300f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -451,9 +477,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 350f,
-                Delay = 150f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 150f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -464,15 +490,15 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 560f,
                 Radius = 560f,
-                Delay = 250f,
-                SpellFlags =
+                CastDelay = 250f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
                 MissileName = "",
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             #endregion
@@ -487,10 +513,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 1150f, // 1075 + Shatter Radius
                 Radius = 110f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "flashfrostspell",
-                Speed = 850
+                CastSpeed = 850
             });
 
             HeroSpells.Add(new SpellData
@@ -501,9 +527,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 IsPerpindicular = true,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1600
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -513,9 +539,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 650f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 1450
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -525,9 +551,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 625f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             #endregion
@@ -542,9 +568,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Unit,
                 CastRange = 625f,
                 Radius = 710f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 1400
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 1400
             });
 
             HeroSpells.Add(new SpellData
@@ -555,9 +581,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 CastRange = 625f,
                 Radius = 210f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -567,9 +593,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -579,14 +605,14 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 900f, // 600 + Cast Radius
-                Delay = 0f,
-                SpellFlags =
+                CastDelay = 0f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             #endregion
@@ -602,9 +628,9 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 1500f,
                 Radius = 120f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1850
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1850
             });
             
             HeroSpells.Add(new SpellData
@@ -616,9 +642,9 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 650f,
                 Radius = 265f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1850
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1850
             });
             
             HeroSpells.Add(new SpellData
@@ -631,9 +657,9 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 1300f,
                 Radius = 300f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Ultimate },
-                Speed = 1450
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Ultimate },
+                CastSpeed = 1450
             });
             
             #endregion
@@ -647,9 +673,9 @@ namespace Trinity.Helpers
                 BasicAttackAmplifier = true,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -659,9 +685,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -674,10 +700,10 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 1200f,
                 Radius = 250f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "volleyattack",
-                Speed = 1500
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -687,9 +713,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1400
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1400
             });
 
             HeroSpells.Add(new SpellData
@@ -702,15 +728,15 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 20000f,
                 Global = true,
-                Delay = 250f,
-                SpellFlags =
+                CastDelay = 250f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
                 MissileName = "enchantedcrystalarrow",
-                Speed = 1600
+                CastSpeed = 1600
             });
             
             #endregion
@@ -724,10 +750,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 CollidesWith = new[] { CollisionObjectType.EnemyHeroes },
                 CastRange = 1500f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "aurelionsolqmissile",
-                Speed = 850
+                CastSpeed = 850
             });
 
             HeroSpells.Add(new SpellData
@@ -737,10 +763,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.None },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.None },
                 MissileName = "aurelionsolwmis",
-                Speed = 450
+                CastSpeed = 450
             });
 
             HeroSpells.Add(new SpellData
@@ -750,10 +776,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.None },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.None },
                 MissileName = "aurelionsole",
-                Speed = 900
+                CastSpeed = 900
             });
 
             HeroSpells.Add(new SpellData
@@ -763,14 +789,14 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Direction,
                 CastRange = 1420f,
-                Delay = 300f,
-                SpellFlags = new[]
+                CastDelay = 300f,
+                EmuFlags = new[]
                 {
                     EmulationFlags.CrowdControl, EmulationFlags.Ultimate, EmulationFlags.Danger,
                     EmulationFlags.Initiator
                 },
                 MissileName = "aurelionsolrbeammissile",
-                Speed = 4600
+                CastSpeed = 4600
             });
             
             #endregion
@@ -784,11 +810,11 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Location,
                 CastRange = 875f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "azirqmissile",
                 FromObject = new[] { "AzirSoldier" },
-                Speed = 1750
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -798,11 +824,11 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Location,
                 CastRange = 875f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "azirqmissile",
                 FromObject = new[] { "AzirSoldier" },
-                Speed = 1750
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -812,11 +838,11 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 1200f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "azire",
                 FromObject = new[] { "AzirSoldier" },
-                Speed = 1750
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -827,14 +853,14 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 475f,
-                Delay = 250f,
-                SpellFlags =
+                CastDelay = 250f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl
                     },
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             #endregion
@@ -849,10 +875,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 950f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "bardqmissile",
-                Speed = 1600
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -862,9 +888,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1450
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -874,9 +900,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 350f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1600
+                CastDelay = 350f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -886,10 +912,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 3400f,
-                Delay = 450f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Initiator },
+                CastDelay = 450f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Initiator },
                 MissileName = "bardr",
-                Speed = 2100
+                CastSpeed = 2100
             });
             
             #endregion
@@ -905,10 +931,10 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 1050f,
                 Radius = 70f,
-                Delay = 250f,
+                CastDelay = 250f,
                 MissileName = "rocketgrabmissile",
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
-                Speed = 1800
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
+                CastSpeed = 1800
             });
 
             HeroSpells.Add(new SpellData
@@ -919,9 +945,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 0f,
                 Radius = 100f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -932,10 +958,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 300f,
                 Radius = 210f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -946,10 +972,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 FixedRange = true,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "",
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             #endregion
@@ -964,10 +990,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1150f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "brandqmissile",
-                Speed = 1200
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -977,10 +1003,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 240f,
-                Delay = 550f,
-                SpellFlags = new[] { EmulationFlags.Danger },
+                CastDelay = 550f,
+                EmuFlags = new[] { EmulationFlags.Danger },
                 MissileName = "",
-                Speed = 20
+                CastSpeed = 20
             });
 
             HeroSpells.Add(new SpellData
@@ -990,9 +1016,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 625f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1002,9 +1028,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 750f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
-                Speed = 1000
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
+                CastSpeed = 1000
             });
 
             #endregion
@@ -1019,10 +1045,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1100f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
                 MissileName = "braumqmissile",
-                Speed = 1200
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -1034,9 +1060,9 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1100f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
-                Speed = 1200
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -1046,9 +1072,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Gapcloser },
-                Speed = 1500
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Gapcloser },
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -1058,9 +1084,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1071,15 +1097,15 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1250f,
-                Delay = 250f,
-                SpellFlags =
+                CastDelay = 250f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
                 MissileName = "braumrmissile",
-                Speed = 1200
+                CastSpeed = 1200
             });
             
             #endregion
@@ -1093,10 +1119,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 325f,
                 Radius = 325f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1107,9 +1133,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 325f,
                 Radius = 325f,
-                Delay = 500f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 2696
+                CastDelay = 500f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2696
             });
 
             HeroSpells.Add(new SpellData
@@ -1120,10 +1146,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 1100f,
                 Radius = 35f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
                 MissileName = "camilleemissile",
-                Speed = 1350
+                CastSpeed = 1350
             });
 
             HeroSpells.Add(new SpellData
@@ -1134,9 +1160,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 800f,
                 Radius = 165f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
-                Speed = 1350
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastSpeed = 1350
             });
 
             HeroSpells.Add(new SpellData
@@ -1146,9 +1172,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 475f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 11200
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 11200
             });
 
             #endregion
@@ -1163,10 +1189,10 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 Radius = 60f,
                 CastRange = 1300f,
-                Delay = 450f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 450f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "caitlynpiltoverpeacemaker",
-                Speed = 2200
+                CastSpeed = 2200
             });
 
             HeroSpells.Add(new SpellData
@@ -1177,9 +1203,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 Radius = 75f,
                 CastRange = 800f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1450
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -1192,10 +1218,10 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 Radius = 70f,
                 CastRange = 1050f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "caitlynentrapmentmissile",
-                Speed = 1600
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -1206,11 +1232,11 @@ namespace Trinity.Helpers
                 CastType = CastType.Unit,
                 CastRange = 2000f,
                 Radius = 100f,
-                Delay = 900f,
+                CastDelay = 900f,
                 FixedRange = false,
                 MissileName = "",
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1500
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1500
             });
             
             #endregion
@@ -1223,10 +1249,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Location,
                 CastRange = 925f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "cassiopeianoxiousblast",
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1237,9 +1263,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 IsPerpindicular = true,
                 CastRange = 925f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 2500
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 2500
             });
 
             HeroSpells.Add(new SpellData
@@ -1249,9 +1275,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 700f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1900
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1900
             });
 
             HeroSpells.Add(new SpellData
@@ -1262,15 +1288,15 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 875f,
-                Delay = 350f,
-                SpellFlags =
+                CastDelay = 350f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
                 MissileName = "cassiopeiar",
-                Speed = 4800
+                CastSpeed = 4800
             });
             
             HeroSpells.Add(new SpellData
@@ -1281,15 +1307,15 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 875f,
-                Delay = 350f,
-                SpellFlags =
+                CastDelay = 350f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
                 MissileName = "cassiopeiarstun",
-                Speed = 4800
+                CastSpeed = 4800
             });
             
             #endregion
@@ -1303,10 +1329,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 950f,
                 Radius = 250f,
-                Delay = 900f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastDelay = 900f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
                 MissileName = "",
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1318,9 +1344,9 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 300f,
                 Radius = 210f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1330,9 +1356,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 347
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 347
             });
 
             HeroSpells.Add(new SpellData
@@ -1342,9 +1368,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 300f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
+                CastSpeed = 4800
             });
             
             #endregion
@@ -1357,10 +1383,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Location,
                 CastRange = 875f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "phosphorusbombmissile",
-                Speed = 1125
+                CastSpeed = 1125
             });
 
             HeroSpells.Add(new SpellData
@@ -1370,9 +1396,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.Gapcloser },
-                Speed = 700
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.Gapcloser },
+                CastSpeed = 700
             });
 
             HeroSpells.Add(new SpellData
@@ -1382,9 +1408,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Direction,
                 CastRange = 750f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1396,11 +1422,11 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 1225f,
-                Delay = 150f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 150f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "missilebarragemissile",
                 ExtraMissileNames = new[] { "missilebarragemissile2" },
-                Speed = 2000
+                CastSpeed = 2000
             });
 
             #endregion
@@ -1415,9 +1441,9 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 Radius = 425f,
                 CastRange = 425f,
-                Delay = 750f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 750f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1427,10 +1453,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 205f,
-                Delay = 150f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 150f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1441,10 +1467,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 555f,
-                Delay = 150f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger, EmulationFlags.Initiator },
+                CastDelay = 150f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger, EmulationFlags.Initiator },
                 MissileName = "dariusaxegrabcone",
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1455,9 +1481,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Unit,
                 Radius = 475f,
                 CastRange = 475f,
-                Delay = 450f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
-                Speed = 4800
+                CastDelay = 450f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
+                CastSpeed = 4800
             });
             
             #endregion
@@ -1471,10 +1497,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 830f,
                 Radius = 195f,
-                Delay = 300f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 300f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "dianaarc",
-                Speed = 1400
+                CastSpeed = 1400
             });
 
             HeroSpells.Add(new SpellData
@@ -1484,9 +1510,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 200f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1497,9 +1523,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 450f,
                 Radius = 450f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1510,9 +1536,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Unit,
                 CastRange = 825f,
                 Radius = 250f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator, EmulationFlags.Gapcloser },
-                Speed = 2200
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastSpeed = 2200
             });
             
             #endregion
@@ -1525,10 +1551,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1538,9 +1564,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1552,10 +1578,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1050f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "dravendoubleshotmissile",
-                Speed = 1600
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -1566,10 +1592,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 CastRange = 20000f,
                 Global = true,
-                Delay = 500f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
+                CastDelay = 500f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
                 MissileName = "dravenr",
-                Speed = 2000
+                CastSpeed = 2000
             });
 
             #endregion
@@ -1586,10 +1612,10 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 1050f,
                 Radius = 120f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "drmundoqmis",
-                Speed = 2000
+                CastSpeed = 2000
             });
 
             HeroSpells.Add(new SpellData
@@ -1600,9 +1626,9 @@ namespace Trinity.Helpers
                 DisplayName = "Heart Zapper",
                 CastRange = 0f,
                 Radius = 325f,
-                Delay = 250f,
+                CastDelay = 250f,
                 CastType = CastType.Proximity,
-                Speed = 4800,
+                CastSpeed = 4800,
             });
 
             HeroSpells.Add(new SpellData
@@ -1613,10 +1639,10 @@ namespace Trinity.Helpers
                 DisplayName = "Blunt Force Trauma",
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1627,9 +1653,9 @@ namespace Trinity.Helpers
                 DisplayName = "Maximum Dosage",
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
             
             #endregion
@@ -1644,11 +1670,11 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 1075f,
                 Radius = 60f,
-                Delay = 66f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 66f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "ekkoqmis",
                 ExtraMissileNames = new[] { "ekkoqreturn" },
-                Speed = 1400
+                CastSpeed = 1400
             });
 
             HeroSpells.Add(new SpellData
@@ -1658,10 +1684,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 300f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Gapcloser },
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Gapcloser },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1671,10 +1697,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 425f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
                 FromObject = new[] { "Ekko_Base_R_TrailEnd" },
-                Speed = 4800
+                CastSpeed = 4800
             });
             
             #endregion 
@@ -1687,9 +1713,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 625f,
-                Delay = 550f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 2200
+                CastDelay = 550f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2200
             });
 
             HeroSpells.Add(new SpellData
@@ -1699,9 +1725,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 475f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Gapcloser },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Gapcloser },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1711,9 +1737,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 750f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 5000
+                CastDelay = 750f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 5000
             });
 
             HeroSpells.Add(new SpellData
@@ -1723,9 +1749,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1737,10 +1763,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1075f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
                 MissileName = "elisehumane",
-                Speed = 1600
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -1750,9 +1776,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1762,9 +1788,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Gapcloser },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Gapcloser },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1774,9 +1800,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1786,9 +1812,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
             
             #endregion
@@ -1802,9 +1828,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 800f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 2400
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2400
             });
 
             HeroSpells.Add(new SpellData
@@ -1815,10 +1841,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 680f,
-                Delay = 33.33f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 33.33f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "evelynnqlinemissile",
-                Speed = 2446
+                CastSpeed = 2446
             });
 
             HeroSpells.Add(new SpellData
@@ -1828,9 +1854,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 1200f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator, EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1840,9 +1866,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 225f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1852,9 +1878,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 225f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1864,15 +1890,15 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 400f, // 650f + Radius
-                Delay = 316f,
-                SpellFlags =
+                CastDelay = 316f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
                 MissileName = "evelynnrtrail",
-                Speed = 4400
+                CastSpeed = 4400
             });
             
             #endregion
@@ -1887,11 +1913,11 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1150f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
                 MissileName = "ezrealmysticshotmissile",
                 ExtraMissileNames = new[] { "ezrealmysticshotpulsemissile" },
-                Speed = 2000
+                CastSpeed = 2000
             });
 
             HeroSpells.Add(new SpellData
@@ -1902,10 +1928,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1050f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "ezrealessencefluxmissile",
-                Speed = 1600
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -1916,9 +1942,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1050f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1600
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -1928,9 +1954,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 750f, // 475f + Bolt Range
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Gapcloser },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Gapcloser },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1942,10 +1968,10 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 20000f,
                 Global = true,
-                Delay = 1000f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
+                CastDelay = 1000f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
                 MissileName = "ezrealtrueshotbarrage",
-                Speed = 2000
+                CastSpeed = 2000
             });
             
             #endregion
@@ -1958,9 +1984,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 575f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1970,9 +1996,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 575f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1982,9 +2008,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 750f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1100
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1100
             });
 
             HeroSpells.Add(new SpellData
@@ -1994,9 +2020,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 800f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.ForceExhaust, EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.ForceExhaust, EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             #endregion
@@ -2009,9 +2035,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Location,
                 CastRange = 400f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Gapcloser },
-                Speed = 2200
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Gapcloser },
+                CastSpeed = 2200
             });
 
             HeroSpells.Add(new SpellData
@@ -2022,9 +2048,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 750f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2034,9 +2060,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2046,9 +2072,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 500f,
-                Delay = 150f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 150f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             #endregion
@@ -2062,9 +2088,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Unit,
                 FixedRange = true,
                 CastRange = 550f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
-                Speed = 1900
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastSpeed = 1900
             });
 
             HeroSpells.Add(new SpellData
@@ -2074,10 +2100,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 175f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2087,9 +2113,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 450f,
-                Delay = 700f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 700f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2099,9 +2125,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 330f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2111,9 +2137,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 270f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2123,10 +2149,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 1275f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Initiator },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Initiator },
                 MissileName = "fizzmarinerdoommissile",
-                Speed = 1350
+                CastSpeed = 1350
             });
 
             #endregion
@@ -2140,10 +2166,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 1200f,
                 Radius = 60,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "galioqmissile",
-                Speed = 1300
+                CastSpeed = 1300
             });
 
             HeroSpells.Add(new SpellData
@@ -2154,9 +2180,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 200f,
                 Radius = 200,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2167,9 +2193,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 275f,
                 Radius = 275f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2180,9 +2206,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 275f,
                 Radius = 275f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2192,9 +2218,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 950f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Gapcloser },
-                Speed = 750
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Gapcloser },
+                CastSpeed = 750
             });
 
             HeroSpells.Add(new SpellData
@@ -2204,9 +2230,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastSpeed = 4800
             });
 
             #endregion
@@ -2219,9 +2245,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 625f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 2000
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2000
             });
 
             HeroSpells.Add(new SpellData
@@ -2231,9 +2257,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 625f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 2000
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2000
             });
 
             HeroSpells.Add(new SpellData
@@ -2243,9 +2269,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2255,9 +2281,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800,
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800,
             });
 
             HeroSpells.Add(new SpellData
@@ -2268,9 +2294,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 20000f,
                 Global = true,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 2200
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2200
             });
 
             #endregion
@@ -2284,9 +2310,9 @@ namespace Trinity.Helpers
                 DisplayName = "Decisive Strike",
                 CastRange = 0f,
                 Radius = 0f,
-                Delay = 250f,
+                CastDelay = 250f,
                 CastType = CastType.Proximity,
-                Speed = 4800,
+                CastSpeed = 4800,
             });
             
             HeroSpells.Add(new SpellData
@@ -2297,9 +2323,9 @@ namespace Trinity.Helpers
                 DisplayName = "Decisive Strike",
                 CastType = CastType.Unit,
                 CastRange = 350f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2309,9 +2335,9 @@ namespace Trinity.Helpers
                 DisplayName = "Courage",
                 CastRange = 0f,
                 Radius = 0f,
-                Delay = 250f,
+                CastDelay = 250f,
                 CastType = CastType.Proximity,
-                Speed = 4800,
+                CastSpeed = 4800,
             });
 
             HeroSpells.Add(new SpellData
@@ -2321,9 +2347,9 @@ namespace Trinity.Helpers
                 DisplayName = "Judgment",
                 CastRange = 0f,
                 Radius = 325f,
-                Delay = 250f,
+                CastDelay = 250f,
                 CastType = CastType.Proximity,
-                Speed = 4800,
+                CastSpeed = 4800,
             });
 
             HeroSpells.Add(new SpellData
@@ -2333,9 +2359,9 @@ namespace Trinity.Helpers
                 DisplayName = "Demacian Justice",
                 CastRange = 400,
                 Radius = 0f,
-                Delay = 435f,
+                CastDelay = 435f,
                 CastType = CastType.Unit,
-                Speed = 4800,
+                CastSpeed = 4800,
             });
 
             #endregion
@@ -2348,10 +2374,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1185f,
-                Delay = 500f,
+                CastDelay = 500f,
                 Radius = 55,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1700,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1700,
                 MissileName = "gnarqmissile",
                 ExtraMissileNames = new[] { "gnarqmissilereturn" }
             });
@@ -2364,10 +2390,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1185f,
-                Delay = 250f,
+                CastDelay = 250f,
                 Radius = 75,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 700,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 700,
                 MissileName = "gnarqmissilereturn"
             });
 
@@ -2380,9 +2406,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1150f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 2000,
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 2000,
                 MissileName = "gnarbigqmissile"
             });
 
@@ -2393,10 +2419,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2407,9 +2433,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 600f,
-                Delay = 600f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 600f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2419,9 +2445,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 475f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Gapcloser, EmulationFlags.Initiator },
-                Speed = 880
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Gapcloser, EmulationFlags.Initiator },
+                CastSpeed = 880
             });
 
             HeroSpells.Add(new SpellData
@@ -2432,9 +2458,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 475f,
                 Radius = 350,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Gapcloser, EmulationFlags.Initiator },
-                Speed = 1200
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Gapcloser, EmulationFlags.Initiator },
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -2444,16 +2470,16 @@ namespace Trinity.Helpers
                 CastRange = 600f,
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
-                Delay = 250f,
+                CastDelay = 250f,
                 Radius = 500,
-                SpellFlags =
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
 
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2463,9 +2489,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2475,9 +2501,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 660f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2488,9 +2514,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Unit,
                 CastRange = 400f,
                 Radius = 100f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
+                CastSpeed = 4800
             });
 
             // todo: improve gragas
@@ -2501,10 +2527,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Location,
                 CastRange = 1000, // 850f + Radius
-                Delay = 500f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 500f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "gragasqmissile",
-                Speed = 1000
+                CastSpeed = 1000
             });
 
             HeroSpells.Add(new SpellData
@@ -2514,8 +2540,8 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 1000, // 850f + Radius
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "gragasq"
             });
 
@@ -2526,9 +2552,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 1100f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2538,10 +2564,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2553,10 +2579,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Initiator, EmulationFlags.Gapcloser },
                 MissileName = "gragase",
-                Speed = 550
+                CastSpeed = 550
             });
 
             HeroSpells.Add(new SpellData
@@ -2567,10 +2593,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 1300f,
                 Radius = 120f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Initiator },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Initiator },
                 MissileName = "gragasrboom",
-                Speed = 1750
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -2580,10 +2606,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Location,
                 CastRange = 1025,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "gravesclustershotattack",
-                Speed = 2000
+                CastSpeed = 2000
             });
 
             HeroSpells.Add(new SpellData
@@ -2593,9 +2619,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 1100f, // 950 + Radius
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1350
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1350
             });
 
             HeroSpells.Add(new SpellData
@@ -2605,9 +2631,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 278f,
-                Delay = 300f,
-                SpellFlags = new[] { EmulationFlags.Gapcloser },
-                Speed = 1000
+                CastDelay = 300f,
+                EmuFlags = new[] { EmulationFlags.Gapcloser },
+                CastSpeed = 1000
             });
 
             HeroSpells.Add(new SpellData
@@ -2618,10 +2644,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 1000f,
                 FixedRange = true,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
                 MissileName = "graveschargeshotshot",
-                Speed = 2100
+                CastSpeed = 2100
             });
 
             HeroSpells.Add(new SpellData
@@ -2631,9 +2657,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 350f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 2200
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2200
             });
 
             HeroSpells.Add(new SpellData
@@ -2643,9 +2669,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2655,10 +2681,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2669,8 +2695,8 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1525f,
-                Delay = 250f,
-                SpellFlags =
+                CastDelay = 250f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
@@ -2684,7 +2710,7 @@ namespace Trinity.Helpers
                         "hecarimultmissileskn4r1", "hecarimultmissileskn4r2", "hecarimultmissileskn4l1",
                         "hecarimultmissileskn4l2", "hecarimultmissileskn4rc"
                     },
-                Speed = 1100
+                CastSpeed = 1100
             });
 
             HeroSpells.Add(new SpellData
@@ -2695,10 +2721,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 1000f,
-                Delay = 435f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 435f,
+                EmuFlags = new EmulationFlags[] { },
                 FromObject = new[] { "heimerdinger_turret_idle" },
-                Speed = 1650
+                CastSpeed = 1650
             });
 
             HeroSpells.Add(new SpellData
@@ -2709,10 +2735,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 1000f,
-                Delay = 350f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 350f,
+                EmuFlags = new EmulationFlags[] { },
                 FromObject = new[] { "heimerdinger_base_r" },
-                Speed = 1650
+                CastSpeed = 1650
             });
 
             HeroSpells.Add(new SpellData
@@ -2724,9 +2750,9 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1100,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1750
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -2736,10 +2762,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 1025f, // 925 + Radius
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "heimerdingerespell",
-                Speed = 1450
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -2749,9 +2775,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 230f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 230f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2762,9 +2788,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 1450f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1450
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -2774,9 +2800,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 650f,
-                Delay = 150f,
-                SpellFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
-                Speed = 2200
+                CastDelay = 150f,
+                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastSpeed = 2200
             });
 
             HeroSpells.Add(new SpellData
@@ -2786,10 +2812,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 230f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 230f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2799,9 +2825,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 450f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2812,10 +2838,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 FixedRange = true,
                 CastRange = 1200f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "ireliatranscendentbladesspell",
-                Speed = 1600
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -2826,10 +2852,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 950f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
                 MissileName = "illaoiemis",
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2839,10 +2865,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 365f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2854,10 +2880,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 950f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "illaoiemis",
-                Speed = 1900
+                CastSpeed = 1900
             });
 
             HeroSpells.Add(new SpellData
@@ -2867,9 +2893,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 450f,
-                Delay = 500f,
-                SpellFlags = new[] { EmulationFlags.Ultimate, EmulationFlags.Danger, EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 500f,
+                EmuFlags = new[] { EmulationFlags.Ultimate, EmulationFlags.Danger, EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2881,10 +2907,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 Radius = 65f,
                 CastRange = 1100f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
                 MissileName = "ivernq",
-                Speed = 1300
+                CastSpeed = 1300
             });
 
             HeroSpells.Add(new SpellData
@@ -2894,10 +2920,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "ivernw",
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2907,10 +2933,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "iverne",
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2921,10 +2947,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 1550f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "howlinggalespell",
-                Speed = 2000
+                CastSpeed = 2000
             });
 
             HeroSpells.Add(new SpellData
@@ -2934,9 +2960,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1600
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -2946,9 +2972,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2958,9 +2984,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 725f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2971,10 +2997,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 700f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
                 MissileName = "",
-                Speed = 2000
+                CastSpeed = 2000
             });
 
             HeroSpells.Add(new SpellData
@@ -2984,9 +3010,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -2996,10 +3022,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 830f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "jarvanivdemacianstandard",
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3009,9 +3035,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 825f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate, EmulationFlags.Initiator, EmulationFlags.Gapcloser },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate, EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3021,9 +3047,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 700f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
-                Speed = 2200
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
+                CastSpeed = 2200
             });
 
             HeroSpells.Add(new SpellData
@@ -3033,10 +3059,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3046,10 +3072,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3059,9 +3085,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger, EmulationFlags.Gapcloser },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger, EmulationFlags.Gapcloser },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3073,10 +3099,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1570f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
                 MissileName = "jayceshockblastmis",
-                Speed = 2350
+                CastSpeed = 2350
             });
 
             HeroSpells.Add(new SpellData
@@ -3086,9 +3112,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 285f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1500
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -3098,9 +3124,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 750f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 750f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3110,9 +3136,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 325f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3123,9 +3149,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 IsPerpindicular = true,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1600
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -3135,10 +3161,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 750f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 750f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3148,9 +3174,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 750f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 750f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3160,9 +3186,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 575f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 2200
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2200
             });
 
             HeroSpells.Add(new SpellData
@@ -3173,11 +3199,11 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyHeroes },
                 CastType = CastType.Location,
                 CastRange = 2250f,
-                Delay = 750f,
+                CastDelay = 750f,
                 FixedRange = true,
-                SpellFlags = new EmulationFlags[] { },
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "jhinwmissile",
-                Speed = 5000
+                CastSpeed = 5000
             });
 
             HeroSpells.Add(new SpellData
@@ -3187,9 +3213,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 2250f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1600
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -3200,12 +3226,12 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 CollidesWith = new[] { CollisionObjectType.EnemyHeroes },
                 CastRange = 3500f,
-                Delay = 250f,
+                CastDelay = 250f,
                 FixedRange = true,
                 MissileName = "jhinrshotmis",
-                SpellFlags = new[] { EmulationFlags.Initiator },
+                EmuFlags = new[] { EmulationFlags.Initiator },
                 ExtraMissileNames = new[] { "jhinrmmissile", "jhinrshotmis4" },
-                Speed = 5000
+                CastSpeed = 5000
             });
 
             HeroSpells.Add(new SpellData
@@ -3215,10 +3241,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3231,10 +3257,10 @@ namespace Trinity.Helpers
                 Radius = 60f,
                 FixedRange = true,
                 CastRange = 1500f,
-                Delay = 450f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 450f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "jinxwmissile",
-                Speed = 3300
+                CastSpeed = 3300
             });
 
             HeroSpells.Add(new SpellData
@@ -3245,9 +3271,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 900f,
                 Radius = 315f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1750
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -3260,11 +3286,11 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 25000f,
                 Radius = 140f,
-                Delay = 450f,
+                CastDelay = 450f,
                 MissileName = "jinxr",
                 ExtraMissileNames = new[] { "jinxrwrapper" },
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
-                Speed = 1700
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
+                CastSpeed = 1700
             });
             
             HeroSpells.Add(new SpellData
@@ -3276,10 +3302,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 3000f,
-                Delay = 500f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastDelay = 500f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
                 MissileName = "kaisawmis",
-                Speed = 1750
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -3291,10 +3317,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 1050f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
                 MissileName = "karmaqmissile",
-                Speed = 1800
+                CastSpeed = 1800
             });
 
             HeroSpells.Add(new SpellData
@@ -3304,9 +3330,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 800f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3316,9 +3342,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 800f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3328,9 +3354,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1300
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1300
             });
 
             HeroSpells.Add(new SpellData
@@ -3340,14 +3366,14 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Location,
                 CastRange = 875f,
-                Delay = 900f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 900f,
+                EmuFlags = new EmulationFlags[] { },
                 ExtraMissileNames = new[]
                 {
                     "karthuslaywastea3", "karthuslaywastea1", "karthuslaywastedeada1", "karthuslaywastedeada2",
                     "karthuslaywastedeada3"
                 },
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3357,9 +3383,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1600
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -3369,9 +3395,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 550f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1000
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1000
             });
 
             HeroSpells.Add(new SpellData
@@ -3382,9 +3408,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 22000f,
                 Global = true,
-                Delay = 2800f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 2800f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3394,9 +3420,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 650f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
-                Speed = 1900
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
+                CastSpeed = 1900
             });
 
             HeroSpells.Add(new SpellData
@@ -3406,10 +3432,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3419,9 +3445,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Direction,
                 CastRange = 700f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3431,10 +3457,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 675f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
                 MissileName = "riftwalk",
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3444,9 +3470,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 675f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1800
             });
 
             HeroSpells.Add(new SpellData
@@ -3456,10 +3482,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
+                CastDelay = 250f,
                 Radius = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1800
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1800
             });
 
             HeroSpells.Add(new SpellData
@@ -3470,9 +3496,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 700f,
                 Radius = 200f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Gapcloser },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Gapcloser },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3482,9 +3508,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 550f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.ForceExhaust, EmulationFlags.Initiator },
-                Speed = 1450
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.ForceExhaust, EmulationFlags.Initiator },
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -3494,9 +3520,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 650f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1500
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -3506,9 +3532,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 900f,
-                Delay = 220f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 220f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3518,10 +3544,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3531,9 +3557,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 900f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             #region Kayn
@@ -3546,9 +3572,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 345f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Gapcloser, EmulationFlags.Danger },
-                Speed = 1000
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Gapcloser, EmulationFlags.Danger },
+                CastSpeed = 1000
             });
 
             HeroSpells.Add(new SpellData
@@ -3559,9 +3585,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 700f,
-                Delay = 500f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 500f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3571,9 +3597,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 550f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
-                Speed = 1450
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -3583,9 +3609,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 450f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             #endregion
@@ -3599,10 +3625,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1175f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "kennenshurikenhurlmissile1",
-                Speed = 1700
+                CastSpeed = 1700
             });
 
             HeroSpells.Add(new SpellData
@@ -3612,9 +3638,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 900f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3624,9 +3650,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3636,9 +3662,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 550f,
-                Delay = 500f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 500f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3648,9 +3674,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 325f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3660,9 +3686,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 375f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3674,10 +3700,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1000f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "khazixwmissile",
-                Speed = 81700
+                CastSpeed = 81700
             });
 
             HeroSpells.Add(new SpellData
@@ -3689,9 +3715,9 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1000f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1700
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1700
             });
 
             HeroSpells.Add(new SpellData
@@ -3701,11 +3727,11 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 600f,
-                Delay = 250f,
+                CastDelay = 250f,
                 Radius = 250f,
-                SpellFlags = new[] { EmulationFlags.Gapcloser },
+                EmuFlags = new[] { EmulationFlags.Gapcloser },
                 MissileName = "khazixe",
-                Speed = 800
+                CastSpeed = 800
             });
 
             HeroSpells.Add(new SpellData
@@ -3716,9 +3742,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 900f,
                 Radius = 250f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Gapcloser },
-                Speed = 900
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Gapcloser },
+                CastSpeed = 900
             });
 
             HeroSpells.Add(new SpellData
@@ -3728,9 +3754,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 1000f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.Stealth, EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.Stealth, EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3740,9 +3766,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 1000f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.Stealth },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.Stealth },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3752,9 +3778,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Location,
                 CastRange = 350f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3764,9 +3790,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 510f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 2200
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2200
             });
 
             HeroSpells.Add(new SpellData
@@ -3778,10 +3804,10 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 800f,
                 Radius = 45f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "kledqmissile",
-                Speed = 1600
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -3793,10 +3819,10 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 700f,
                 Radius = 40f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "kledriderqmissile",
-                Speed = 3000
+                CastSpeed = 3000
             });
 
             HeroSpells.Add(new SpellData
@@ -3806,10 +3832,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 2000
+                CastSpeed = 2000
             });
 
             HeroSpells.Add(new SpellData
@@ -3822,10 +3848,10 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 800f,
                 Radius = 124f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator, EmulationFlags.Gapcloser },
                 MissileName = "kledemissile",
-                Speed = 1000
+                CastSpeed = 1000
             });
 
             HeroSpells.Add(new SpellData
@@ -3835,9 +3861,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3849,10 +3875,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1300f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "kogmawqmissile",
-                Speed = 1200
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -3862,10 +3888,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 2000
+                CastSpeed = 2000
             });
 
             HeroSpells.Add(new SpellData
@@ -3876,10 +3902,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1150f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "kogmawvoidoozemissile",
-                Speed = 1250
+                CastSpeed = 1250
             });
 
             HeroSpells.Add(new SpellData
@@ -3889,9 +3915,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 2200f,
-                Delay = 1200f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 1200f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3901,9 +3927,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 700f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 2000
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2000
             });
 
             HeroSpells.Add(new SpellData
@@ -3914,10 +3940,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 650f,
                 Radius = 175f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator, EmulationFlags.Gapcloser },
                 MissileName = "leblancw",
-                Speed = 1600
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -3927,9 +3953,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3941,10 +3967,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 925f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "leblancemissile",
-                Speed = 1600
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -3954,9 +3980,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 700f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 2000
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 2000
             });
 
             HeroSpells.Add(new SpellData
@@ -3967,10 +3993,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 650f,
                 Radius = 175f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate, EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate, EmulationFlags.Initiator, EmulationFlags.Gapcloser },
                 MissileName = "leblancrw",
-                Speed = 1600
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -3980,9 +4006,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -3994,10 +4020,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 925f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "leblancremissile",
-                Speed = 1600
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -4009,10 +4035,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1000f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
                 MissileName = "blindmonkqone",
-                Speed = 1800
+                CastSpeed = 1800
             });
 
             HeroSpells.Add(new SpellData
@@ -4022,9 +4048,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 1100f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
-                Speed = 1100
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastSpeed = 1100
             });
 
             HeroSpells.Add(new SpellData
@@ -4034,9 +4060,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 700f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Gapcloser, EmulationFlags.Initiator },
-                Speed = 1500
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Gapcloser, EmulationFlags.Initiator },
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -4046,9 +4072,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 700f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4058,9 +4084,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 425f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4070,9 +4096,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 350f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4082,14 +4108,14 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 375f,
-                Delay = 500f,
-                SpellFlags =
+                CastDelay = 500f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4099,10 +4125,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 215f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4112,9 +4138,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 250f,
-                Delay = 3000f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 3000f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4125,10 +4151,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 900f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
                 MissileName = "leonazenithblademissile",
-                Speed = 2000
+                CastSpeed = 2000
             });
 
             HeroSpells.Add(new SpellData
@@ -4138,10 +4164,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 1200f,
-                Delay = 1200f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastDelay = 1200f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
                 MissileName = "leonasolarflare",
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4152,10 +4178,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 725f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "lissandraqmissile",
-                Speed = 2250
+                CastSpeed = 2250
             });
 
             HeroSpells.Add(new SpellData
@@ -4165,9 +4191,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 450f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4178,10 +4204,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1050f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "lissandraemissile",
-                Speed = 850
+                CastSpeed = 850
             });
 
             HeroSpells.Add(new SpellData
@@ -4191,13 +4217,13 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 550f,
-                Delay = 250f,
-                SpellFlags = new[]
+                CastDelay = 250f,
+                EmuFlags = new[]
                 {
                     EmulationFlags.CrowdControl, EmulationFlags.Initiator,
                     EmulationFlags.Danger, EmulationFlags.Ultimate
                 },
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4208,10 +4234,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Unit,
                 FixedRange = true,
                 CastRange = 1150f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
                 MissileName = "lucianq",
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4223,10 +4249,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1050f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "lucianwmissile",
-                Speed = 1600
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -4236,9 +4262,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 650f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Gapcloser },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Gapcloser },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4251,11 +4277,11 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 1400f,
                 Radius = 110,
-                Delay = 500f,
-                SpellFlags = new[] { EmulationFlags.Danger },
+                CastDelay = 500f,
+                EmuFlags = new[] { EmulationFlags.Danger },
                 MissileName = "lucianrmissileoffhand",
                 ExtraMissileNames = new[] { "lucianrmissile" },
-                Speed = 2800
+                CastSpeed = 2800
             });
 
             HeroSpells.Add(new SpellData
@@ -4267,10 +4293,10 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 925f,
                 Radius = 60,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "luluqmissile",
-                Speed = 1450
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -4280,9 +4306,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 650f,
-                Delay = 640f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 2000
+                CastDelay = 640f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 2000
             });
 
             HeroSpells.Add(new SpellData
@@ -4292,9 +4318,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 650f,
-                Delay = 640f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 640f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4304,9 +4330,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 900f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4317,10 +4343,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1300f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
                 MissileName = "luxlightbindingmis",
-                Speed = 1200
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -4330,9 +4356,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Direction,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1200
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -4343,10 +4369,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 1100f,
                 Radius = 330f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "luxlightstrikekugel",
-                Speed = 1300
+                CastSpeed = 1300
             });
 
             HeroSpells.Add(new SpellData
@@ -4356,9 +4382,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 1200f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1400
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1400
             });
 
             HeroSpells.Add(new SpellData
@@ -4370,10 +4396,10 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 3500f,
                 Radius = 299.3f,
-                Delay = 1000f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
+                CastDelay = 1000f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
                 MissileName = "luxmalicecannonmis",
-                Speed = 3000
+                CastSpeed = 3000
             });
 
             HeroSpells.Add(new SpellData
@@ -4385,11 +4411,11 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastType = CastType.Direction,
                 CastRange = 1200f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "kalistamysticshotmis",
                 ExtraMissileNames = new[] { "kalistamysticshotmistrue" },
-                Speed = 1200
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -4399,9 +4425,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 5000f,
-                Delay = 800f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 200
+                CastDelay = 800f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 200
             });
 
             HeroSpells.Add(new SpellData
@@ -4411,9 +4437,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 1200f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4423,9 +4449,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 625f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1200
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -4435,9 +4461,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4447,9 +4473,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 400f,
-                Delay = 500f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 500f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4459,15 +4485,15 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 1000f,
-                Delay = 250f,
-                SpellFlags =
+                CastDelay = 250f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
                 MissileName = "ufslash",
-                Speed = 2200
+                CastSpeed = 2200
             });
 
             HeroSpells.Add(new SpellData
@@ -4478,10 +4504,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 IsPerpindicular = true,
                 CastRange = 900f,
-                Delay = 600f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 600f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "alzaharcallofthevoid",
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4491,9 +4517,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 800f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4503,9 +4529,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 650f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4515,14 +4541,14 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 700f,
-                Delay = 250f,
-                SpellFlags =
+                CastDelay = 250f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4534,10 +4560,10 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 650f,
                 Radius = 110f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "maokaiqmissile",
-                Speed = 1600
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -4547,9 +4573,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 525f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Initiator },
-                Speed = 1500
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Initiator },
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -4560,10 +4586,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 1100f,
                 Radius = 120f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "maokaiemissile",
-                Speed = 1750
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -4574,10 +4600,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 Radius = 120f,
                 CastRange = 3000f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
                 MissileName = "maokairmis",
-                Speed = 400
+                CastSpeed = 400
             });
 
             HeroSpells.Add(new SpellData
@@ -4587,9 +4613,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 600f,
-                Delay = 600f,
-                SpellFlags = new[] { EmulationFlags.Gapcloser, EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 600f,
+                EmuFlags = new[] { EmulationFlags.Gapcloser, EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4599,9 +4625,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4611,10 +4637,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 230f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 230f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4624,9 +4650,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 370f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 370f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4636,9 +4662,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 650f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1400
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1400
             });
 
             HeroSpells.Add(new SpellData
@@ -4648,10 +4674,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4661,9 +4687,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 1000f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4674,9 +4700,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1400f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4686,10 +4712,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 300f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 20
+                CastSpeed = 20
             });
 
             HeroSpells.Add(new SpellData
@@ -4699,9 +4725,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 1000f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Stealth },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Stealth },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4711,10 +4737,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 300f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
                 FromObject = new[] { "Base_W_Copy" },
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4724,9 +4750,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 625f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Gapcloser },
-                Speed = 2200
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Gapcloser },
+                CastSpeed = 2200
             });
 
             HeroSpells.Add(new SpellData
@@ -4736,14 +4762,14 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 450f,
-                Delay = 250f,
-                SpellFlags =
+                CastDelay = 250f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4753,10 +4779,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 1500
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -4766,9 +4792,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 750f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4779,9 +4805,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 700f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 1500
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -4791,9 +4817,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 850f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             #region Morgana
@@ -4807,10 +4833,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1175f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
                 MissileName = "darkbindingmissile",
-                Speed = 1200
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -4820,9 +4846,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 850f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4832,9 +4858,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4844,9 +4870,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             #endregion
@@ -4859,10 +4885,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Location,
                 CastRange = 875f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
                 MissileName = "namiqmissile",
-                Speed = 1750
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -4872,9 +4898,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 725f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1100
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1100
             });
 
             HeroSpells.Add(new SpellData
@@ -4884,9 +4910,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4897,10 +4923,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 2550f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Initiator },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Initiator },
                 MissileName = "namirmissile",
-                Speed = 1200
+                CastSpeed = 1200
             });
 
             #endregion
@@ -4914,10 +4940,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 450f,
-                Delay = 500f,
-                SpellFlags = new[] { EmulationFlags.Danger },
+                CastDelay = 500f,
+                EmuFlags = new[] { EmulationFlags.Danger },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4927,9 +4953,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4939,9 +4965,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 850f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4951,9 +4977,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 200f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             #endregion
@@ -4968,10 +4994,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 1080f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger, EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger, EmulationFlags.Initiator, EmulationFlags.Gapcloser },
                 MissileName = "nautilusanchordragmissile",
-                Speed = 2000
+                CastSpeed = 2000
             });
 
             HeroSpells.Add(new SpellData
@@ -4981,9 +5007,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -4993,9 +5019,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1300
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1300
             });
 
             HeroSpells.Add(new SpellData
@@ -5005,9 +5031,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 1250f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 1400
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 1400
             });
 
             #endregion
@@ -5024,10 +5050,10 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 1500f,
                 Radius = 299.3f,
-                Delay = 125f,
-                SpellFlags = new[] { EmulationFlags.Danger },
+                CastDelay = 125f,
+                EmuFlags = new[] { EmulationFlags.Danger },
                 MissileName = "javelintoss",
-                Speed = 1300
+                CastSpeed = 1300
             });
 
             HeroSpells.Add(new SpellData
@@ -5037,9 +5063,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 500f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5049,9 +5075,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 900f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1450
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -5062,9 +5088,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 375f,
                 Radius = 210f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
-                Speed = 1750
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -5074,9 +5100,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 600f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5087,9 +5113,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Direction,
                 CastRange = 350f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5099,9 +5125,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             #endregion
@@ -5116,9 +5142,9 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1125f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1600
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -5128,9 +5154,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 500
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 500
             });
 
             HeroSpells.Add(new SpellData
@@ -5140,9 +5166,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 350f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5153,9 +5179,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 20000f,
                 Global = true,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 500
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 500
             });
             #endregion
 
@@ -5167,9 +5193,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1400
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1400
             });
 
             HeroSpells.Add(new SpellData
@@ -5179,9 +5205,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5191,9 +5217,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 550f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1000
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1000
             });
 
             HeroSpells.Add(new SpellData
@@ -5203,9 +5229,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 650f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
             #endregion
 
@@ -5218,10 +5244,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Direction,
                 CastRange = 1000f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "olafaxethrow",
-                Speed = 1600
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -5231,9 +5257,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5243,9 +5269,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 325f,
-                Delay = 500f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 500f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5255,9 +5281,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             #endregion
@@ -5271,11 +5297,11 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Location,
                 CastRange = 900f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "orianaizuna",
                 FromObject = new[] { "yomu_ring" },
-                Speed = 1200
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -5285,11 +5311,11 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 400f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "orianadissonancecommand",
                 FromObject = new[] { "yomu_ring" },
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5299,11 +5325,11 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 1095f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "orianaredact",
                 FromObject = new[] { "yomu_ring" },
-                Speed = 1200
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -5313,8 +5339,8 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 425f,
-                Delay = 500f,
-                SpellFlags =
+                CastDelay = 500f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
@@ -5322,7 +5348,7 @@ namespace Trinity.Helpers
                     },
                 MissileName = "orianadetonatecommand",
                 FromObject = new[] { "yomu_ring" },
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             #endregion
@@ -5336,9 +5362,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1900
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1900
             });
 
             HeroSpells.Add(new SpellData
@@ -5348,9 +5374,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5360,9 +5386,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Direction,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5372,9 +5398,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 1000f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 3000
+                CastDelay = 1000f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 3000
             });
 
             HeroSpells.Add(new SpellData
@@ -5384,9 +5410,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 1000f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 3000
+                CastDelay = 1000f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 3000
             });
 
             #endregion
@@ -5401,9 +5427,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 450f,
-                Delay = 500f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 500f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
 
@@ -5414,9 +5440,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5426,9 +5452,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 525f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1450
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -5439,10 +5465,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Direction,
                 CastRange = 1150f,
-                Delay = 300f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 300f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "poppyrspellmissile",
-                Speed = 1750
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -5453,9 +5479,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 450f,
-                Delay = 300f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
-                Speed = 4800
+                CastDelay = 300f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
+                CastSpeed = 4800
             });
 
             #endregion
@@ -5471,9 +5497,9 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 400f,
                 Radius = 140f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 500
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 500
             });
             
             HeroSpells.Add(new SpellData
@@ -5485,9 +5511,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 CastRange = 1100f,
                 Radius = 140f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
-                Speed = 2000
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastSpeed = 2000
             });
             
             HeroSpells.Add(new SpellData
@@ -5499,9 +5525,9 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 550f,
                 Radius = 110f,
-                Delay = 750f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
-                Speed = 1650
+                CastDelay = 750f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastSpeed = 1650
             });
             
             HeroSpells.Add(new SpellData
@@ -5513,9 +5539,9 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 750f,
                 Radius = - 282f,
-                Delay = 750f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Ultimate },
-                Speed = 1200
+                CastDelay = 750f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Ultimate },
+                CastSpeed = 1200
             });
 
             #endregion
@@ -5530,9 +5556,9 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 865f,
                 Radius = 200f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1600
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1600
             });
             
             HeroSpells.Add(new SpellData
@@ -5544,9 +5570,9 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 865f,
                 Radius = 200f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1600
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1600
             });
             
             HeroSpells.Add(new SpellData
@@ -5558,9 +5584,9 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 650f,
                 Radius = 250f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1600
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1600
             });
             
             HeroSpells.Add(new SpellData
@@ -5572,9 +5598,9 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 865f,
                 Radius = 280f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Ultimate },
-                Speed = 2000
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Ultimate },
+                CastSpeed = 2000
             });
 
             #endregion
@@ -5589,11 +5615,11 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1050f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "quinnqmissile",
                 ExtraMissileNames = new[] { "quinnq" },
-                Speed = 1550
+                CastSpeed = 1550
             });
 
             HeroSpells.Add(new SpellData
@@ -5603,9 +5629,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5615,9 +5641,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 700f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Initiator },
-                Speed = 775
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Initiator },
+                CastSpeed = 775
             });
 
             HeroSpells.Add(new SpellData
@@ -5627,9 +5653,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5639,9 +5665,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 700f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             #endregion
@@ -5655,10 +5681,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 900f,
                 Radius = 65f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "rakanqmis",
-                Speed = 1800
+                CastSpeed = 1800
             });
 
             HeroSpells.Add(new SpellData
@@ -5669,9 +5695,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 650f,
                 Radius = 285f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1425
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1425
             });
 
             HeroSpells.Add(new SpellData
@@ -5682,9 +5708,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 285f,
                 Radius = 285f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5695,9 +5721,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 210f,
                 Radius = 210f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 3430
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 3430
             });
 
             HeroSpells.Add(new SpellData
@@ -5708,9 +5734,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 210f,
                 Radius = 210f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 3430
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 3430
             });
 
             HeroSpells.Add(new SpellData
@@ -5721,9 +5747,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 210f,
                 Radius = 210f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             #endregion
@@ -5736,9 +5762,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 775
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 775
             });
 
             HeroSpells.Add(new SpellData
@@ -5748,9 +5774,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5760,9 +5786,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 325f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5772,9 +5798,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 300f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             #endregion
@@ -5786,9 +5812,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 225f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5799,9 +5825,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 BasicAttackAmplifier = true,
                 CastRange = 275f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5811,9 +5837,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 450f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1400
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1400
             });
 
             HeroSpells.Add(new SpellData
@@ -5823,9 +5849,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5836,9 +5862,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 275f,
                 Radius = 150f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5849,9 +5875,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 275f,
                 Radius = 150f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5861,9 +5887,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 500f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5875,11 +5901,11 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1000f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "rengaremis",
                 ExtraMissileNames = new[] { "rengareempmis" },
-                Speed = 1500
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -5889,9 +5915,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5902,10 +5928,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 FixedRange = true,
                 CastRange = 275f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5916,10 +5942,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 CastRange = 1650f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "reksaiqburrowedmis",
-                Speed = 1950
+                CastSpeed = 1950
             });
 
             HeroSpells.Add(new SpellData
@@ -5929,9 +5955,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 350f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 350f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5941,9 +5967,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 200f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5953,9 +5979,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 250f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5965,9 +5991,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 350f,
-                Delay = 900f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1450
+                CastDelay = 900f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -5978,9 +6004,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CollidesWith = new[] { CollisionObjectType.EnemyHeroes },
                 CastRange = 850,
-                Delay = 1000f,
-                SpellFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Ultimate },
-                Speed = 4800
+                CastDelay = 1000f,
+                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Ultimate },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -5991,9 +6017,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 270f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6003,9 +6029,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 260f,
-                Delay = 100f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 100f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6015,9 +6041,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1450
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -6027,9 +6053,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6040,11 +6066,11 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1075f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
                 MissileName = "rivenlightsabermissile",
                 ExtraMissileNames = new[] { "rivenlightsabermissileside" },
-                Speed = 1600
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -6054,9 +6080,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Direction,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6066,9 +6092,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6080,9 +6106,9 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 850f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1200
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -6092,10 +6118,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Direction,
                 CastRange = 1700f,
-                Delay = 400f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
+                CastDelay = 400f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
                 MissileName = "rumblecarpetbombmissile",
-                Speed = 1600
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -6107,11 +6133,11 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 925f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "ryzeqmissile",
                 ExtraMissileNames = new[] { "ryzeq" },
-                Speed = 1700
+                CastSpeed = 1700
             });
 
             HeroSpells.Add(new SpellData
@@ -6121,9 +6147,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6133,9 +6159,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1000
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1000
             });
 
             HeroSpells.Add(new SpellData
@@ -6145,9 +6171,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 1400
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 1400
             });
 
             HeroSpells.Add(new SpellData
@@ -6159,10 +6185,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 650f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Initiator },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Initiator },
                 MissileName = "",
-                Speed = 1450
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -6172,9 +6198,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 1000f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1500
+                CastDelay = 1000f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -6184,9 +6210,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 550f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1450
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -6197,15 +6223,15 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 CollidesWith = new[] { CollisionObjectType.EnemyHeroes },
                 CastRange = 1200f,
-                Delay = 250f,
-                SpellFlags =
+                CastDelay = 250f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
                 MissileName = "sejuaniglacialprison",
-                Speed = 1600
+                CastSpeed = 1600
             });
             
             HeroSpells.Add(new SpellData
@@ -6216,9 +6242,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Unit,
                 CastRange = 1100f,
                 Radius = 130f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 2800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2800
             });
             
             HeroSpells.Add(new SpellData
@@ -6230,9 +6256,9 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyHeroes, CollisionObjectType.EnemyMinions },
                 CastRange = 1300f,
                 Radius = 280f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1200
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1200
             });
             
             HeroSpells.Add(new SpellData
@@ -6243,10 +6269,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = float.MaxValue,
                 Radius = 320f,
-                Delay = 500f,
+                CastDelay = 500f,
                 Global = true,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 2000
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 2000
             });
             
             HeroSpells.Add(new SpellData
@@ -6256,9 +6282,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Location,
                 CastRange = 1000f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Stealth },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Stealth },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6268,9 +6294,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1450
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -6280,9 +6306,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 625f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1500
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -6292,9 +6318,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 1125f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 395
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 395
             });
 
             HeroSpells.Add(new SpellData
@@ -6304,10 +6330,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 1650f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
                 FromObject = new[] { "ShenArrowVfxHostMinion" },
-                Speed = 1350
+                CastSpeed = 1350
             });
 
             HeroSpells.Add(new SpellData
@@ -6317,9 +6343,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6329,10 +6355,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 675f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Initiator },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Initiator },
                 MissileName = "shene",
-                Speed = 1600
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -6342,9 +6368,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6355,9 +6381,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Unit,
                 BasicAttackAmplifier = true,
                 CastRange = 275f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6367,10 +6393,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 325f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6380,9 +6406,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 275f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6392,9 +6418,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 250f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6405,10 +6431,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 925f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "shyvanafireballmissile",
-                Speed = 1200
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -6418,9 +6444,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Direction,
                 CastRange = 925f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1200
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -6431,15 +6457,15 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 1000f,
-                Delay = 100f,
-                SpellFlags =
+                CastDelay = 100f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.CrowdControl,
                         EmulationFlags.Ultimate, EmulationFlags.Initiator
                     },
                 MissileName = "shyvanatransformcast",
-                Speed = 1100
+                CastSpeed = 1100
             });
 
             HeroSpells.Add(new SpellData
@@ -6449,9 +6475,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 250f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6461,9 +6487,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 1175f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 700
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 700
             });
 
             HeroSpells.Add(new SpellData
@@ -6473,9 +6499,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 125f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6485,9 +6511,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6498,9 +6524,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6510,9 +6536,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 350f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6523,10 +6549,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 CollidesWith = new[] { CollisionObjectType.EnemyHeroes },
                 CastRange = 725f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "sionemissile",
-                Speed = 1800
+                CastSpeed = 1800
             });
 
             HeroSpells.Add(new SpellData
@@ -6536,10 +6562,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
                 MissileName = "",
-                Speed = 500
+                CastSpeed = 500
             });
 
             HeroSpells.Add(new SpellData
@@ -6550,11 +6576,11 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1165f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "sivirqmissile",
                 ExtraMissileNames = new[] { "sivirqmissilereturn" },
-                Speed = 1350
+                CastSpeed = 1350
             });
 
             HeroSpells.Add(new SpellData
@@ -6564,10 +6590,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6577,9 +6603,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6589,9 +6615,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6601,9 +6627,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 350f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6613,9 +6639,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6626,10 +6652,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1100f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "skarnerfracturemissile",
-                Speed = 1500
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -6639,9 +6665,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 350f,
-                Delay = 350f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 350f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6651,9 +6677,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 700f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1500
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -6663,9 +6689,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 1000f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1500
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -6675,9 +6701,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 1000f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1500
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -6688,15 +6714,15 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 1000f,
-                Delay = 250f,
-                SpellFlags =
+                CastDelay = 250f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
                 MissileName = "sonar",
-                Speed = 2400
+                CastSpeed = 2400
             });
 
             HeroSpells.Add(new SpellData
@@ -6706,10 +6732,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Location,
                 CastRange = 970f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "",
-                Speed = 1100
+                CastSpeed = 1100
             });
 
             HeroSpells.Add(new SpellData
@@ -6719,9 +6745,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6731,9 +6757,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 925f,
-                Delay = 1750f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 1750f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6743,9 +6769,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
             
             HeroSpells.Add(new SpellData
@@ -6756,9 +6782,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 CastRange = 725f,
                 Radius = 285f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6769,9 +6795,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 5500f,
                 Radius = 325f,
-                Delay = 500f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 500f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6781,9 +6807,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Direction,
                 CastRange = 850f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { EmulationFlags.CrowdControl },
-                Speed = 1950
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1950
             });
             
             HeroSpells.Add(new SpellData
@@ -6793,9 +6819,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 650f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { EmulationFlags.Ultimate },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { EmulationFlags.Ultimate },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6805,10 +6831,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Location,
                 CastRange = 800f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "syndraq",
-                Speed = 1750
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -6818,10 +6844,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 950f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "syndrawcast",
-                Speed = 1450
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -6833,10 +6859,10 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 750 + 1000,
                 Radius = 250f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "syndrae",
-                Speed = 1750
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -6846,9 +6872,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 675f,
-                Delay = 450f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
-                Speed = 1250
+                CastDelay = 450f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
+                CastSpeed = 1250
             });
 
             HeroSpells.Add(new SpellData
@@ -6860,9 +6886,9 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 950f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 2800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 2800
             });
 
             HeroSpells.Add(new SpellData
@@ -6874,10 +6900,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 CastRange = 1000f,
                 Radius = 80f,
-                Delay = 250f,
+                CastDelay = 250f,
                 FixedRange = true,
                 MissileName = "taliyahqmis",
-                Speed = 1750
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -6888,9 +6914,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 900f,
                 Radius = 150f,
-                Delay = 900f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 900f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6901,10 +6927,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 CastRange = 500f,
                 Radius = 165f,
-                Delay = 250f,
+                CastDelay = 250f,
                 FixedRange = true,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1650
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1650
             });
 
             HeroSpells.Add(new SpellData
@@ -6914,9 +6940,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 275f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6927,11 +6953,11 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 900f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "talonwmissileone",
                 ExtraMissileNames = new[] { "talonwmissiletwo" },
-                Speed = 2300
+                CastSpeed = 2300
             });
 
             HeroSpells.Add(new SpellData
@@ -6941,9 +6967,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6953,11 +6979,11 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Direction,
                 CastRange = 750f,
-                Delay = 260f,
+                CastDelay = 260f,
                 MissileName = "talonrmisone",
-                SpellFlags = new[] { EmulationFlags.Stealth, EmulationFlags.Initiator },
+                EmuFlags = new[] { EmulationFlags.Stealth, EmulationFlags.Initiator },
                 ExtraMissileNames = new[] { "talonrmistwo" },
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6967,9 +6993,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1200
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -6979,9 +7005,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -6991,9 +7017,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 625f,
-                Delay = 1000f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 1000f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7003,9 +7029,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7015,9 +7041,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 580f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1500
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -7027,9 +7053,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 943
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 943
             });
 
             HeroSpells.Add(new SpellData
@@ -7039,9 +7065,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7051,9 +7077,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1500
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -7065,10 +7091,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1175f,
-                Delay = 500f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
+                CastDelay = 500f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
                 MissileName = "threshqmissile",
-                Speed = 1900
+                CastSpeed = 1900
             });
 
             HeroSpells.Add(new SpellData
@@ -7078,9 +7104,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7090,10 +7116,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 400f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "threshemissile1",
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7103,9 +7129,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 420f,
-                Delay = 300f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 1550
+                CastDelay = 300f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 1550
             });
 
             HeroSpells.Add(new SpellData
@@ -7115,9 +7141,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7128,9 +7154,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 Radius = 270f,
                 CastRange = 900f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
-                Speed = 1450
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -7141,9 +7167,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Unit,
                 Radius = 210f,
                 CastRange = 700f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 2400
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 2400
             });
 
             HeroSpells.Add(new SpellData
@@ -7154,9 +7180,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Unit,
                 Radius = 200f,
                 CastRange = 700f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 2000
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 2000
             });
 
             HeroSpells.Add(new SpellData
@@ -7167,10 +7193,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 800f,
                 Radius = 210f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7181,10 +7207,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 Radius = 210f,
                 CastRange = 300f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7194,9 +7220,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7207,9 +7233,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 1000f,
                 Radius = 340f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 1600
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -7220,9 +7246,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Unit,
                 CastRange = 650f,
                 Radius = 300f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7232,9 +7258,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7244,9 +7270,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 400f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7256,10 +7282,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 660f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "slashcast",
-                Speed = 1200
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -7269,9 +7295,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7281,9 +7307,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 1000f,
-                Delay = 450f,
-                SpellFlags = new[] { EmulationFlags.Stealth },
-                Speed = 4800
+                CastDelay = 450f,
+                EmuFlags = new[] { EmulationFlags.Stealth },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7293,10 +7319,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 800f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "twitchvenomcaskmissile",
-                Speed = 1750
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -7306,9 +7332,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 800f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1750
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -7318,9 +7344,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 1200f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7330,9 +7356,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 1200f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7342,9 +7368,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
-                Speed = 500
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
+                CastSpeed = 500
             });
 
             HeroSpells.Add(new SpellData
@@ -7355,10 +7381,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 CastRange = 1450f,
                 FixedRange = true,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "sealfatemissile",
-                Speed = 1450
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -7368,9 +7394,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7380,10 +7406,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7393,10 +7419,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7406,10 +7432,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7419,10 +7445,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 1200
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -7432,9 +7458,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7444,10 +7470,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7457,10 +7483,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7470,10 +7496,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 250f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7483,10 +7509,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7497,9 +7523,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1000f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 1600
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -7510,9 +7536,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1000f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1600
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -7522,9 +7548,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7534,10 +7560,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 950f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "urgotplasmagrenadeboom",
-                Speed = 1750
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -7547,9 +7573,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 950f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1750
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -7559,9 +7585,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 850f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1800
             });
 
             HeroSpells.Add(new SpellData
@@ -7572,10 +7598,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1250f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.Danger },
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.Danger },
                 MissileName = "varusqmissile",
-                Speed = 1900
+                CastSpeed = 1900
             });
 
             HeroSpells.Add(new SpellData
@@ -7585,10 +7611,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7598,10 +7624,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 925f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "varuse",
-                Speed = 1500
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -7613,15 +7639,15 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1300f,
-                Delay = 250f,
-                SpellFlags =
+                CastDelay = 250f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
                 MissileName = "varusrmissile",
-                Speed = 1950
+                CastSpeed = 1950
             });
 
             HeroSpells.Add(new SpellData
@@ -7631,10 +7657,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7644,10 +7670,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7657,9 +7683,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 550f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7669,9 +7695,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 1200f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Stealth, EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Stealth, EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7682,10 +7708,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 950f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
                 MissileName = "veigarbalefulstrikemis",
-                Speed = 1750
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -7695,10 +7721,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 900f,
-                Delay = 1200f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 1200f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "",
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7708,10 +7734,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 650f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "",
-                Speed = 1500
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -7721,9 +7747,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 850f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
-                Speed = 1400
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
+                CastSpeed = 1400
             });
 
             HeroSpells.Add(new SpellData
@@ -7735,10 +7761,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1250f,
-                Delay = 100f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 100f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "velkozqmissile",
-                Speed = 1300
+                CastSpeed = 1300
             });
 
             HeroSpells.Add(new SpellData
@@ -7750,10 +7776,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 IsPerpindicular = true,
                 CastRange = 1050f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
                 MissileName = "velkozqmissilesplit",
-                Speed = 2100
+                CastSpeed = 2100
             });
 
             HeroSpells.Add(new SpellData
@@ -7764,10 +7790,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1050f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "velkozwmissile",
-                Speed = 1700
+                CastSpeed = 1700
             });
 
             HeroSpells.Add(new SpellData
@@ -7777,10 +7803,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 950f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "velkozemissile",
-                Speed = 1500
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -7790,9 +7816,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 1575f,
-                Delay = 0f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
-                Speed = 1500
+                CastDelay = 0f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -7802,9 +7828,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Location,
                 CastRange = 800f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Initiator },
-                Speed = 1500
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Initiator },
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -7814,10 +7840,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7827,9 +7853,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7839,9 +7865,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 800f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Initiator },
-                Speed = 1400
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Initiator },
+                CastSpeed = 1400
             });
 
             HeroSpells.Add(new SpellData
@@ -7851,9 +7877,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1050
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1050
             });
 
             HeroSpells.Add(new SpellData
@@ -7863,9 +7889,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 815f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1750
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -7876,11 +7902,11 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 700f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
                 MissileName = "viktordeathraymis",
                 ExtraMissileNames = new[] { "viktoreaugmissile" },
-                Speed = 1210
+                CastSpeed = 1210
             });
 
             HeroSpells.Add(new SpellData
@@ -7890,14 +7916,14 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 710f,
-                Delay = 250f,
-                SpellFlags =
+                CastDelay = 250f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.CrowdControl, EmulationFlags.Ultimate,
                         EmulationFlags.Danger, EmulationFlags.Initiator
                     },
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7907,9 +7933,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Unit,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 1400
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 1400
             });
 
             HeroSpells.Add(new SpellData
@@ -7919,9 +7945,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1600
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -7931,9 +7957,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 610f,
-                Delay = 800f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 2200
+                CastDelay = 800f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2200
             });
 
             HeroSpells.Add(new SpellData
@@ -7943,9 +7969,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 875f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7955,10 +7981,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Initiator, EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.CrowdControl },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -7968,9 +7994,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Unit,
                 CastRange = 400f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 1450
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 1450
             });
 
             HeroSpells.Add(new SpellData
@@ -7980,9 +8006,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 Slot = SpellSlot.E,
                 CastRange = 425f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 825
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 825
             });
 
             HeroSpells.Add(new SpellData
@@ -7992,10 +8018,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 825
+                CastSpeed = 825
             });
 
             HeroSpells.Add(new SpellData
@@ -8006,9 +8032,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Unit,
                 CastRange = 400f,
                 Radius = 210f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8018,9 +8044,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8030,9 +8056,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 0f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 0f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8042,14 +8068,14 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 700f,
-                Delay = 250f,
-                SpellFlags =
+                CastDelay = 250f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8059,14 +8085,14 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 700f,
-                Delay = 250f,
-                SpellFlags =
+                CastDelay = 250f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8077,10 +8103,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1100f,
-                Delay = 500f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 500f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "xayahqmissile1",
-                Speed = 2060
+                CastSpeed = 2060
             });
 
             HeroSpells.Add(new SpellData
@@ -8090,9 +8116,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 1000f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8103,10 +8129,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 CastRange = 2000f,
                 Radius = 80,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "xayahemissilesfx",
-                Speed = 4800,
+                CastSpeed = 4800,
                 NoProcess = true
             });
 
@@ -8118,10 +8144,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 CastRange = 1100f,
                 Radius = 25,
-                Delay = 500f,
-                SpellFlags = new[] { EmulationFlags.Initiator },
+                CastDelay = 500f,
+                EmuFlags = new[] { EmulationFlags.Initiator },
                 MissileName = "xayahrmissile",
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8132,9 +8158,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 750f,
-                Delay = 750f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 500
+                CastDelay = 750f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 500
             });
 
             HeroSpells.Add(new SpellData
@@ -8144,10 +8170,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 1100f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "xeratharcanebarrage2",
-                Speed = 20
+                CastSpeed = 20
             });
 
             HeroSpells.Add(new SpellData
@@ -8159,10 +8185,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1050f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger },
                 MissileName = "xerathmagespearmissile",
-                Speed = 1600
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -8172,9 +8198,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 5600f,
-                Delay = 750f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 500
+                CastDelay = 750f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 500
             });
 
             HeroSpells.Add(new SpellData
@@ -8185,10 +8211,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 375,
                 Radius = 210f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8199,10 +8225,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 625f,
                 Radius = 225f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8213,9 +8239,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 625f,
                 Radius = 225f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8226,9 +8252,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 625f,
                 Radius = 225f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1500
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -8239,10 +8265,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 0f,
                 Radius = 210f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8252,9 +8278,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 600f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger, EmulationFlags.Initiator },
-                Speed = 2400
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl, EmulationFlags.Danger, EmulationFlags.Initiator },
+                CastSpeed = 2400
             });
 
             HeroSpells.Add(new SpellData
@@ -8265,14 +8291,14 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 500f,
                 Radius = 210f,
-                Delay = 250f,
-                SpellFlags =
+                CastDelay = 250f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl
                     },
-                Speed = 1750
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -8283,9 +8309,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 475f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8296,9 +8322,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 FixedRange = true,
                 CastRange = 475f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8309,10 +8335,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1000f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "yasuoq3mis",
-                Speed = 1500
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -8323,9 +8349,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 IsPerpindicular = true,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 500
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 500
             });
 
             HeroSpells.Add(new SpellData
@@ -8335,9 +8361,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Unit,
                 CastRange = 475f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 20
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 20
             });
 
             HeroSpells.Add(new SpellData
@@ -8347,9 +8373,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 1200f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8359,10 +8385,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 BasicAttackAmplifier = true,
-                Speed = 4800
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8372,9 +8398,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8385,10 +8411,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 700f,
                 Radius = 125f,
-                Delay = 250f,
+                CastDelay = 250f,
                 MissileName = "yorickemissile",
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 750
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 750
             });
 
             HeroSpells.Add(new SpellData
@@ -8398,9 +8424,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Proximity,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1500
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -8412,10 +8438,10 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 800f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "zaqmissile",
-                Speed = 2600
+                CastSpeed = 2600
             });
 
             HeroSpells.Add(new SpellData
@@ -8425,9 +8451,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Proximity,
                 CastRange = 350f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8437,9 +8463,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 300f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
-                Speed = 1500
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
+                CastSpeed = 1500
             });
 
             HeroSpells.Add(new SpellData
@@ -8450,9 +8476,9 @@ namespace Trinity.Helpers
                 CastType = CastType.Proximity,
                 CastRange = 600f,
                 Radius = 300f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Ultimate },
-                Speed = 1800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Ultimate },
+                CastSpeed = 1800
             });
 
             HeroSpells.Add(new SpellData
@@ -8463,12 +8489,12 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 900f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "zedqmissile",
                 FromObject = new[] { "Zed_Base_W_tar.troy", "Zed_Base_W_cloneswap_buf.troy" },
                 ExtraMissileNames = new[] { "zedqmissiletwo", "zedqmissilethree" },
-                Speed = 1700
+                CastSpeed = 1700
             });
 
             HeroSpells.Add(new SpellData
@@ -8476,11 +8502,13 @@ namespace Trinity.Helpers
                 SpellName = "zedw",
                 ChampionName = "zed",
                 Slot = SpellSlot.W,
-                CastType = CastType.Location,
-                CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1600
+                DisplayName = "Living Shadow",
+                CastRange = 650f,
+                Radius = 1950f,
+                CastDelay = 250f,
+                CastType = CastType.LocationProximity,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2500,
             });
 
             HeroSpells.Add(new SpellData
@@ -8490,9 +8518,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Proximity,
                 CastRange = 300f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8502,9 +8530,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Unit,
                 CastRange = 850f,
-                Delay = 450f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
-                Speed = 4800
+                CastDelay = 450f,
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8516,11 +8544,11 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyHeroes },
                 CastRange = 850f,
                 Radius = 100f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "ziggsqspell",
                 ExtraMissileNames = new[] { "ziggsqspell2", "ziggsqspell3" },
-                Speed = 1750
+                CastSpeed = 1750
             });
 
             HeroSpells.Add(new SpellData
@@ -8529,11 +8557,12 @@ namespace Trinity.Helpers
                 ChampionName = "ziggs",
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
-                CastRange = 850f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                MissileName = "ziggsw",
-                Speed = 1750
+                DisplayName = "Satchel Charge",
+                CastRange = 1000f,
+                Radius = 325f,
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1750,
             });
 
             HeroSpells.Add(new SpellData
@@ -8541,11 +8570,13 @@ namespace Trinity.Helpers
                 SpellName = "ziggswtoggle",
                 ChampionName = "ziggs",
                 Slot = SpellSlot.W,
-                CastType = CastType.Proximity,
-                CastRange = 850f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1750
+                CastType = CastType.Location,
+                DisplayName = "Satchel Charge",
+                CastRange = 1000f,
+                Radius = 325f,
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1750,
             });
 
             HeroSpells.Add(new SpellData
@@ -8553,12 +8584,13 @@ namespace Trinity.Helpers
                 SpellName = "ziggse",
                 ChampionName = "ziggs",
                 Slot = SpellSlot.E,
+                DisplayName = "Hexplosive Minefield",
+                CastRange = 900f,
+                Radius = 325f,
+                CastDelay = 250f,
                 CastType = CastType.Location,
-                CastRange = 850f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                MissileName = "ziggse",
-                Speed = 1750
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1550,
             });
 
             HeroSpells.Add(new SpellData
@@ -8566,11 +8598,13 @@ namespace Trinity.Helpers
                 SpellName = "ziggse2",
                 ChampionName = "ziggs",
                 Slot = SpellSlot.E,
+                DisplayName = "Hexplosive Minefield",
+                CastRange = 900f,
+                Radius = 325f,
+                CastDelay = 250f,
                 CastType = CastType.Location,
-                CastRange = 850f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 1750
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 1550,
             });
 
             HeroSpells.Add(new SpellData
@@ -8578,12 +8612,13 @@ namespace Trinity.Helpers
                 SpellName = "ziggsr",
                 ChampionName = "ziggs",
                 Slot = SpellSlot.R,
+                DisplayName = "Mega Inferno Bomb",
+                CastRange = 5000f,
+                Radius = 525f,
+                CastDelay = 375f,
                 CastType = CastType.Location,
-                CastRange = 2250f,
-                Delay = 1800f,
-                SpellFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
-                MissileName = "ziggsr",
-                Speed = 1750
+                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
+                CastSpeed = 2250
             });
 
             HeroSpells.Add(new SpellData
@@ -8593,10 +8628,10 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Location,
                 CastRange = 900f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "zileanqmissile",
-                Speed = 2000
+                CastSpeed = 2000
             });
 
             HeroSpells.Add(new SpellData
@@ -8604,11 +8639,13 @@ namespace Trinity.Helpers
                 SpellName = "zileanw",
                 ChampionName = "zilean",
                 Slot = SpellSlot.W,
-                CastType = CastType.Proximity,
+                DisplayName = "Rewind",
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                Radius = 0f,
+                CastDelay = 250f,
+                CastType = CastType.Proximity,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
             });
 
             HeroSpells.Add(new SpellData
@@ -8616,11 +8653,13 @@ namespace Trinity.Helpers
                 SpellName = "zileane",
                 ChampionName = "zilean",
                 Slot = SpellSlot.E,
+                DisplayName = "Time Warp",
+                CastRange = 550f,
+                Radius = 0f,
+                CastDelay = 250f,
                 CastType = CastType.Unit,
-                CastRange = 700f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
-                Speed = 4800
+                EmuFlags = new EmulationFlags[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -8628,11 +8667,13 @@ namespace Trinity.Helpers
                 SpellName = "zileanr",
                 ChampionName = "zilean",
                 Slot = SpellSlot.R,
+                DisplayName = "Chronoshift",
+                CastRange = 900f,
+                Radius = 0f,
+                CastDelay = 250f,
                 CastType = CastType.Unit,
-                CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 4800
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
             });
 
             HeroSpells.Add(new SpellData
@@ -8642,11 +8683,11 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Direction,
                 CastRange = 825f,
-                Delay = 250f,
+                CastDelay = 250f,
                 Radius = 50,
                 MissileName = "zoeqmissile",
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 1200
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1200
             });
 
 
@@ -8657,12 +8698,12 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.Q,
                 CastType = CastType.Direction,
                 CastRange = 2000f,
-                Delay = 250f,
+                CastDelay = 250f,
                 FixedRange = false,
                 Radius = 60,
                 MissileName = "zoeqmis2warning",
-                SpellFlags = new EmulationFlags[] { EmulationFlags.Danger, },
-                Speed = 2400
+                EmuFlags = new EmulationFlags[] { EmulationFlags.Danger, },
+                CastSpeed = 2400
             });
 
             HeroSpells.Add(new SpellData
@@ -8672,13 +8713,13 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.E,
                 CastType = CastType.Location,
                 CastRange = 830f,
-                Delay = 250f,
+                CastDelay = 250f,
                 FixedRange = true,
                 Radius = 60,
                 MissileName = "zoee",
                 ExtraMissileNames = new [] {"zoeemisaudio"},
-                SpellFlags = new EmulationFlags[] { EmulationFlags.Danger, EmulationFlags.CrowdControl,  },
-                Speed = 1800
+                EmuFlags = new EmulationFlags[] { EmulationFlags.Danger, EmulationFlags.CrowdControl,  },
+                CastSpeed = 1800
             });
 
             HeroSpells.Add(new SpellData
@@ -8689,10 +8730,10 @@ namespace Trinity.Helpers
                 CastType = CastType.Direction,
                 CastRange = 800f,
                 Radius = 430f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "zyraqmissile",
-                Speed = 1400
+                CastSpeed = 1400
             });
 
             HeroSpells.Add(new SpellData
@@ -8704,10 +8745,10 @@ namespace Trinity.Helpers
                 IsPerpindicular = true,
                 CastRange = 675f,
                 Radius = 710f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
                 MissileName = "zyraqplantmissile",
-                Speed = 1200
+                CastSpeed = 1200
             });
 
             HeroSpells.Add(new SpellData
@@ -8717,9 +8758,9 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.W,
                 CastType = CastType.Location,
                 CastRange = 0f,
-                Delay = 250f,
-                SpellFlags = new EmulationFlags[] { },
-                Speed = 2200
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2200
             });
 
             HeroSpells.Add(new SpellData
@@ -8731,10 +8772,10 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 1150f,
                 Radius = 70f,
-                Delay = 250f,
-                SpellFlags = new[] { EmulationFlags.CrowdControl },
+                CastDelay = 250f,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "zyraemissile",
-                Speed = 1150
+                CastSpeed = 1150
             });
 
             HeroSpells.Add(new SpellData
@@ -8745,14 +8786,14 @@ namespace Trinity.Helpers
                 CastType = CastType.Location,
                 CastRange = 700f,
                 Radius = 500f,
-                Delay = 500f,
-                SpellFlags =
+                CastDelay = 500f,
+                EmuFlags =
                     new[]
                     {
                         EmulationFlags.Danger, EmulationFlags.Ultimate,
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
-                Speed = 4800
+                CastSpeed = 4800
             });
         }
     }

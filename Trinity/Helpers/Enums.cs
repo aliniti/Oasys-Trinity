@@ -170,9 +170,19 @@
         UnitLocation,
         
         /// <summary>
+        ///     The unit and direction
+        /// </summary>
+        UnitDirection,
+        
+        /// <summary>
         ///     The location
         /// </summary>
         Location,
+        
+        /// <summary>
+        ///     The location and proximity
+        /// </summary>
+        LocationProximity,
 
         /// <summary>
         ///     The direction
