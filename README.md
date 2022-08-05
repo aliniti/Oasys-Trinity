@@ -24,6 +24,13 @@ Trinity will try to predict incoming (and can be enabled/disabled):
 
 ![](https://kurisumaki.se/push/70eX8.png)
 
+## Auto Shields 
+Trinity will automatically attempt to shield self and allies on predicted income damage.
 
+![](https://kurisumaki.se/push/86b7ae2c32.gif)
 
-
+Supported Spells:
+- Shields: Orianna, Diana, Janna, Garen, Lulu, Lux, Annie, Nautilus, and more.
+- Low HP/Might Die: Zilean, Kindred, Lulu, Tryndamere, Soraka and more.
+- Heals: Kayle, Nami, Seraphine, Sona, and more.
+- Evadelike: MasterYi, Zed, Sivir, Morg, etc. 
