@@ -491,6 +491,7 @@ namespace Trinity
             new ParticleEmitter("Viktor", "_ChaosStorm", 425, 0.5, 0f, EmulationFlags.Ultimate),
             new ParticleEmitter("Viktor", "_Catalyst", 375, 0.5, 0f, EmulationFlags.CrowdControl),
             new ParticleEmitter("Viktor", "W_AUG", 375, 0.5, 0f, EmulationFlags.CrowdControl),
+            new ParticleEmitter("Riven", "Q_tar",150),
             new ParticleEmitter("Anivia", "cryo_storm", 400),
             new ParticleEmitter("Ziggs", "ZiggsE", 325),
             new ParticleEmitter("Ziggs", "ZiggsWRing", 325, 0.5, 0f, EmulationFlags.CrowdControl),

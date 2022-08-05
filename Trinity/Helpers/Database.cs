@@ -4447,11 +4447,13 @@ namespace Trinity.Helpers
                 SpellName = "seismicshard",
                 ChampionName = "malphite",
                 Slot = SpellSlot.Q,
-                CastType = CastType.Unit,
+                DisplayName = "Seismic Shard",
                 CastRange = 625f,
+                Radius = 0f,
                 CastDelay = 250f,
-                EmuFlags = new[] { EmulationFlags.CrowdControl },
-                CastSpeed = 1200
+                CastType = CastType.Unit,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1200,
             });
 
             HeroSpells.Add(new SpellData
@@ -4459,11 +4461,13 @@ namespace Trinity.Helpers
                 SpellName = "obduracy",
                 ChampionName = "malphite",
                 Slot = SpellSlot.W,
-                CastType = CastType.Proximity,
+                DisplayName = "Thunderclap",
                 CastRange = 0f,
+                Radius = 0f,
                 CastDelay = 250f,
+                CastType = CastType.Proximity,
                 EmuFlags = new EmulationFlags[] { },
-                CastSpeed = 4800
+                CastSpeed = 4800,
             });
 
             HeroSpells.Add(new SpellData
@@ -4471,11 +4475,13 @@ namespace Trinity.Helpers
                 SpellName = "landslide",
                 ChampionName = "malphite",
                 Slot = SpellSlot.E,
+                DisplayName = "Ground Slam",
+                CastRange = 0f,
+                Radius = 400f,
+                CastDelay = 241.9f,
                 CastType = CastType.Proximity,
-                CastRange = 400f,
-                CastDelay = 500f,
-                EmuFlags = new[] { EmulationFlags.CrowdControl },
-                CastSpeed = 4800
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
             });
 
             HeroSpells.Add(new SpellData
@@ -4485,6 +4491,7 @@ namespace Trinity.Helpers
                 Slot = SpellSlot.R,
                 CastType = CastType.Location,
                 CastRange = 1000f,
+                Radius = 325f,
                 CastDelay = 250f,
                 EmuFlags =
                     new[]

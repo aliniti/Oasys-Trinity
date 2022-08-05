@@ -42,7 +42,17 @@
         /// <returns></returns>
         public static bool EnemyExists(this string champion)
         {
-            return UnitManager.Enemies.Any(x => x.ModelName == champion);
+            return EnemyExistsExport(champion) || UnitManager.Enemies.Any(x => x.ModelName.ToLower() == champion.ToLower());
+        }
+        
+        /// <summary>
+        ///     Checks if the enemy exists by string
+        /// </summary>
+        /// <param name="champion"></param>
+        /// <returns></returns>
+        public static bool EnemyExistsExport(this string champion)
+        {
+            return ObjectManagerExport.HeroCollection.Values.Any(x => x.IsEnemy && x.ModelName.ToLower() == champion.ToLower());
         }
         
         /// <summary>
