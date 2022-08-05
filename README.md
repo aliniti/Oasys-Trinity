@@ -1,5 +1,5 @@
 
-# Trinity - Utility
+# Trinity - Activator
 
 Trinity is a plugin for the [Oasys](https://github.com/Oasys-Zone/Oasys.SDK) platform for allowing automatic item and spell usage without user input.
 
@@ -27,7 +27,9 @@ Trinity will try to predict incoming (and can be enabled/disabled):
 ## Auto Shields 
 Trinity will automatically attempt to shield self and allies on predicted income damage.
 
-![](https://kurisumaki.se/push/86b7ae2c32.gif)
+<p align="center">
+  <img src="https://kurisumaki.se/push/86b7ae2c32.gif">
+</p>
 
 Supported Spells:
 - Shields: Orianna, Diana, Janna, Garen, Lulu, Lux, Annie, Nautilus, and more.
