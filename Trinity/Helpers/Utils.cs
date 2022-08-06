@@ -14,6 +14,7 @@
     using Oasys.Common.GameObject.Clients.ExtendedInstances;
     using Oasys.SDK;
     using Oasys.SDK.SpellCasting;
+    using Oasys.SDK.Tools;
     using Spells;
 
     #endregion
@@ -34,7 +35,7 @@
             champion.InCrowdControl = false;
             champion.InExtremeDanger = false;
         }
-        
+
         /// <summary>
         ///     Checks if the enemy exists by string
         /// </summary>
@@ -44,7 +45,7 @@
         {
             return EnemyExistsExport(champion) || UnitManager.Enemies.Any(x => x.ModelName.ToLower() == champion.ToLower());
         }
-        
+
         /// <summary>
         ///     Checks if the enemy exists by string
         /// </summary>
@@ -54,7 +55,18 @@
         {
             return ObjectManagerExport.HeroCollection.Values.Any(x => x.IsEnemy && x.ModelName.ToLower() == champion.ToLower());
         }
-        
+
+        /// <summary>
+        ///     Checks if the hero has the buff of type
+        /// </summary>
+        /// <param name="hero"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool HasBuffOfType(this AIHeroClient hero, BuffType type)
+        {
+            return hero.BuffManager.GetBuffList().FirstOrDefault(x =>  x.IsActive && x.EntryType == type) != null;
+        }
+
         /// <summary>
         ///     Gets the best unit for cluster.
         /// </summary>
@@ -84,7 +96,7 @@
         public static List<AIBaseClient> GetEnemyUnitsOnSegment(this ProjectionInfo proj, float radius, bool heroes, bool minions)
         {
             var objList = new List<AIBaseClient>();
-            
+
             foreach (var u in ObjectManagerExport.HeroCollection)
             {
                 var unit = u.Value;
@@ -92,12 +104,10 @@
                 {
                     var nearit = unit.Position.Distance(proj.SegmentPoint) <= radius;
                     if (nearit)
-                    {
                         objList.Add(unit);
-                    }
                 }
             }
-            
+
             foreach (var u in ObjectManagerExport.MinionCollection)
             {
                 var minion = u.Value;
@@ -105,12 +115,10 @@
                 {
                     var nearit = minion.Position.Distance(proj.SegmentPoint) <= radius;
                     if (nearit)
-                    {
                         objList.Add(minion);
-                    }
                 }
             }
-            
+
             return objList;
         }
 
@@ -176,7 +184,7 @@
                     UseItem(item, unit);
             }
         }
-        
+
         /// <summary>
         ///     Checks the item for dangerous spells.
         /// </summary>
@@ -187,28 +195,16 @@
             if (item.ActivationTypes.Contains(ActivationType.CheckDangerous))
             {
                 if (item.ItemSwitch[item.ItemId + "dangerextr"].IsOn)
-                {
                     if (champion.HasAggro && champion.InExtremeDanger)
-                    {
                         UseItem(item, enemy ?? champion.Instance);
-                    }
-                }
-                
+
                 if (item.ItemSwitch[item.ItemId + "dangercc"].IsOn)
-                {
                     if (champion.HasAggro && champion.InCrowdControl)
-                    {
                         UseItem(item, enemy ?? champion.Instance);
-                    }
-                }
-                
+
                 if (item.ItemSwitch[item.ItemId + "dangernorm"].IsOn)
-                {
                     if (champion.HasAggro && champion.InDanger)
-                    {
                         UseItem(item, enemy ?? champion.Instance);
-                    }
-                }
             }
         }
 
@@ -300,7 +296,7 @@
             return pctMana <= spell.SpellCounter[tabName + "amm"].Value &&
                    spell.SpellSwitch[tabName].IsOn;
         }
-        
+
         /// <summary>
         ///     Checks the spell for dangerous spells.
         /// </summary>
@@ -313,28 +309,16 @@
             if (spell.ActivationTypes.Contains(ActivationType.CheckDangerous))
             {
                 if (spell.SpellSwitch[tabName + "dangerextr"].IsOn)
-                {
                     if (champion.HasAggro && champion.InExtremeDanger)
-                    {
                         UseSpell(spell, enemy ?? champion.Instance);
-                    }
-                }
 
                 if (spell.SpellSwitch[tabName + "dangercc"].IsOn)
-                {
                     if (champion.HasAggro && champion.InCrowdControl)
-                    {
                         UseSpell(spell, enemy ?? champion.Instance);
-                    }
-                }
-                
+
                 if (spell.SpellSwitch[tabName + "dangernorm"].IsOn)
-                {
                     if (champion.HasAggro && champion.InDanger)
-                    {
                         UseSpell(spell, enemy ?? champion.Instance);
-                    }
-                }
             }
         }
 
@@ -348,9 +332,15 @@
         public static bool IsSafeCast(AIBaseClient unit)
         {
             if (unit is AIHeroClient hero)
-                if (hero.IsRecalling || hero.IsCastingSpell || hero.IsEmpoweredRecalling 
+            {
+                if (hero.IsRecalling || hero.IsCastingSpell || hero.IsEmpoweredRecalling
                     || hero.IsChanneling)
                     return false;
+
+                if (hero.HasBuffOfType(BuffType.Invisibility)
+                    || hero.HasBuffOfType(BuffType.Invulnerability))
+                    return false;
+            }
 
             var nexus = UnitManager.AllyNexus;
             if (nexus != null && nexus.Distance(unit.Position) <= 1000)
@@ -368,7 +358,7 @@
         public static void UseItem(this ActiveItem item, AIBaseClient unit)
         {
             if (!IsSafeCast(unit)) return;
-            if (GameEngine.GameTime * 1000 - item.LastUsedTimeStamp < 250) return;
+            if ((int) (GameEngine.GameTime * 1000) - item.LastUsedTimeStamp < 100) return;
 
             if (item.TargetingType.ToString().Contains("Proximity"))
                 if (item.SpellClass.IsSpellReady)
@@ -401,11 +391,11 @@
         public static void UseSpell(this AutoSpell spell, AIBaseClient unit)
         {
             if (!IsSafeCast(unit)) return;
-            if (GameEngine.GameTime * 1000 - spell.LastUsedTimeStamp < 250) return;
+            if ((int) (GameEngine.GameTime * 1000) - spell.LastUsedTimeStamp < 100) return;
 
             if (spell.TargetingType.ToString().Contains("Dodge"))
                 UseSpellOnBestTarget(spell, unit);
-            
+
             if (spell.TargetingType.ToString().Contains("Proximity"))
                 if (spell.SpellClass.IsSpellReady)
                 {
@@ -423,7 +413,10 @@
             if (spell.TargetingType.ToString().Contains("Skillshot"))
                 if (unit != null && spell.SpellClass.IsSpellReady)
                 {
-                    SpellCastProvider.CastSpell(spell.Slot, unit.Position);
+                    SpellCastProvider.CastSpell(spell.Slot, unit.IsMe
+                        ? GameEngine.WorldMousePosition
+                        : unit.Position);
+
                     spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
                 }
         }
@@ -436,15 +429,16 @@
         public static void UseSpellOnBestTarget(this AutoSpell spell, AIBaseClient hero)
         {
             if (!spell.SpellClass.IsSpellReady) return;
-            
+
             var units = new List<AIBaseClient>();
             var myHero = ObjectManagerExport.LocalPlayer;
-                
+
             units.Clear();
-            
+
             switch (spell.TargetingType)
             {
                 case TargetingType.DodgeEnemyUnit:
+                case TargetingType.DodgeEnemySkillshot:
                     units.AddRange(UnitManager.EnemyChampions.Where(x => x.Distance(hero) <= spell.Range));
                     break;
                 case TargetingType.DodgeEnemyUnitOrMinion:
@@ -452,7 +446,7 @@
                     units.AddRange(UnitManager.EnemyMinions.Where(x => x.Distance(hero) <= spell.Range));
                     break;
             }
-
+            
             var sortedList =
                 units.Where(x => x.IsValidTarget(spell.Range))
                     .OrderBy(x => x is AIMinionClient)
@@ -663,7 +657,7 @@
                     }
             }
         }
-        
+
         /// <summary>
         ///     Checks the projection segment.
         /// </summary>
@@ -672,10 +666,8 @@
         {
             // todo: failsafe: need a better way to implement this
             if ((int)(GameEngine.GameTime * 1000) - Champion.AggroTick > 500)
-            {
                 Champion.ResetAggro();
-            }
-            
+
             if (unit.IsAlive)
                 if (unit.IsCastingSpell)
                 {
@@ -687,7 +679,7 @@
                             .Find(x =>  x.ChampionName.ToLower() == unit.ModelName.ToLower() && 
                                        (x.Slot == currentSpell.SpellSlot ||
                                         x.SpellName.ToLower() == currentSpell.SpellData.SpellName.ToLower()));
-                        
+
                         var heroTargetAggro = currentSpell.Targets.Find(x => x.NetworkID == Champion.Instance.NetworkID) != null;
                         if (heroTargetAggro)
                         {
@@ -697,29 +689,29 @@
                                 Champion.InCrowdControl = entry.EmuFlags.Contains(EmulationFlags.CrowdControl);
                                 Champion.InExtremeDanger = entry.EmuFlags.Contains(EmulationFlags.Ultimate);
                             }
-                            
+
                             Champion.HasAggro = true;
                             Champion.AggroTick = gameTime;
                         }
                         else
                         {
-                            // skillshot projection 
+                            var startPos = currentSpell.SpellStartPosition;
+                            var endPos = currentSpell.SpellEndPosition;
                             var radius = (int) Math.Max(50, currentSpell.SpellData.SpellWidth) + Champion.Instance.UnitComponentInfo.UnitBoundingRadius;
-                            var proj = Champion.Instance.Position.ProjectOn(currentSpell.SpellStartPosition, currentSpell.SpellEndPosition);
-                            var nearit = Champion.Instance.Position.Distance(proj.SegmentPoint) <= radius;
-
-                            if (proj.IsOnSegment && nearit)
+                            
+                            var proj = Champion.Instance.Position.ProjectOn(startPos, endPos);
+                            var nearSegment = Champion.Instance.Position.Distance(proj.SegmentPoint) <= radius;
+                            
+                            if (proj.IsOnSegment && nearSegment)
                             {
                                 if (entry != null)
                                 {
                                     var minions = entry.CollidesWith.Contains(CollisionObjectType.EnemyMinions);
                                     var heroes  = entry.CollidesWith.Contains(CollisionObjectType.EnemyHeroes);
-                                    
+
                                     var collision = proj.GetEnemyUnitsOnSegment(radius, heroes, minions);
                                     if (collision.Any(x => x.NetworkID != Champion.Instance.NetworkID))
-                                    {
                                         return;
-                                    }
                                 }
 
                                 if (entry != null)
@@ -728,7 +720,7 @@
                                     Champion.InCrowdControl = entry.EmuFlags.Contains(EmulationFlags.CrowdControl);
                                     Champion.InExtremeDanger = entry.EmuFlags.Contains(EmulationFlags.Ultimate);
                                 }
-
+                                
                                 Champion.HasAggro = true;
                                 Champion.AggroTick = gameTime;
                             }

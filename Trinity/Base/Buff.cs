@@ -117,8 +117,6 @@ namespace Trinity.Base
                     {
                         var gameTime = (int) (GameEngine.GameTime * 1000);
                         var buffTime = (int) (buff.StartTime * 1000);
-                        
-                        Logger.Log(Name + " : " + (gameTime - buffTime));
 
                         // check delay (e.g zed ult)
                         if (gameTime - buffTime >= Delay)

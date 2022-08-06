@@ -30,7 +30,7 @@
         ///     The use PCT.
         /// </value>
         public int UsePct { get; set; }
-
+        
         /// <summary>
         ///     Gets or sets the last used time stamp.
         /// </summary>
@@ -38,7 +38,7 @@
         ///     The last used time stamp.
         /// </value>
         public int LastUsedTimeStamp { get; set; }
-
+        
         /// <summary>
         ///     Gets or sets the type of the targeting.
         /// </summary>
@@ -146,11 +146,14 @@
                 .FirstOrDefault(x => x.Instance.NetworkID == UnitManager.MyChampion.NetworkID);
             
             if (TargetingType.ToString().Contains("Enemy"))
-                if (TargetSelector.GetBestChampionTarget() is AIHeroClient target && target.IsValidTarget())
+            {
+                var target = UnitManager.EnemyChampions.MinBy(TargetSelector.AttacksLeftToKill) as AIHeroClient;
+                if (target != null && target.IsValidTarget())
                 {
                     this.CheckSpellEnemyLowHealth(target);
                     this.CheckSpellDangerousSpells(myChampionOnly, target);
                 }
+            }
 
             if (ActivationTypes.Contains(ActivationType.CheckOnlyOnMe))
             {

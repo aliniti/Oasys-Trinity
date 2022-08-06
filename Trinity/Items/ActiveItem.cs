@@ -38,7 +38,7 @@
         ///     The use PCT.
         /// </value>
         public int UsePct { get; set; }
-
+        
         /// <summary>
         ///     Gets or sets the last used time stamp.
         /// </summary>
@@ -46,7 +46,7 @@
         ///     The last used time stamp.
         /// </value>
         public int LastUsedTimeStamp { get; set; }
-
+        
         /// <summary>
         ///     Gets or sets the name of the item buff.
         /// </summary>

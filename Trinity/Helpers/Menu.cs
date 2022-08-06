@@ -289,13 +289,13 @@
         {
             item.ItemGroup[item.ItemId + "grp"] = new Group
             {
-                Title = Translations.ItemNames[item.ItemId]
+                Title = Lists.TranslationEng[item.ItemId]
             };
 
             item.ItemGroup[item.ItemId + "grp"].AddItem(item.ItemSwitch[item.ItemId.ToString()] = new Switch
             {
                 IsOn = true,
-                Title = "Use " + Translations.ItemNames[item.ItemId]
+                Title = "Use " + Lists.TranslationEng[item.ItemId]
             });
 
             item.ItemTab.AddGroup(item.ItemGroup[item.ItemId + "grp"]);
@@ -309,7 +309,7 @@
         {
             item.ItemGroup[item.ItemId + "grp"].AddItem(item.ItemModeDisplay[item.ItemId + "mode"] = new ModeDisplay
             {
-                Title = "Use " + Translations.ItemNames[item.ItemId] + " priority unit: ",
+                Title = "Use " + Lists.TranslationEng[item.ItemId] + " priority unit: ",
                 ModeNames = { "MostAD", "MaxHP" },
                 SelectedModeName = "MostAD"
             });
@@ -324,7 +324,7 @@
         {
             item.ItemGroup[item.ItemId + "grp"].AddItem(item.ItemCounter[item.ItemId + "ehp"] = new Counter
             {
-                Title = "Use " + Translations.ItemNames[item.ItemId] + " at Enemy Percent HP < (%)",
+                Title = "Use " + Lists.TranslationEng[item.ItemId] + " at Enemy Percent HP < (%)",
                 MaxValue = 100,
                 MinValue = 10,
                 Value = pctUse,
@@ -341,7 +341,7 @@
         {
             item.ItemGroup[item.ItemId + "grp"].AddItem(item.ItemCounter[item.ItemId + "ahp"] = new Counter
             {
-                Title = "Use " + Translations.ItemNames[item.ItemId] + " at Ally Percent HP < (%)",
+                Title = "Use " + Lists.TranslationEng[item.ItemId] + " at Ally Percent HP < (%)",
                 MaxValue = 100,
                 MinValue = 10,
                 Value = pctUse,
@@ -358,7 +358,7 @@
         {
             item.ItemGroup[item.ItemId + "grp"].AddItem(item.ItemCounter[item.ItemId + "amp"] = new Counter
             {
-                Title = "Use " + Translations.ItemNames[item.ItemId] + " at Ally Percent MP < (%)",
+                Title = "Use " + Lists.TranslationEng[item.ItemId] + " at Ally Percent MP < (%)",
                 MaxValue = 100,
                 MinValue = 10,
                 Value = pctUse,
@@ -375,7 +375,7 @@
         {
             item.ItemGroup[item.ItemId + "grp"].AddItem(item.ItemCounter[item.ItemId + "aoe"] = new Counter
             {
-                Title = "Use " + Translations.ItemNames[item.ItemId] + " when Enemies Near >=",
+                Title = "Use " + Lists.TranslationEng[item.ItemId] + " when Enemies Near >=",
                 MaxValue = 5,
                 MinValue = 1,
                 Value = pctUse,

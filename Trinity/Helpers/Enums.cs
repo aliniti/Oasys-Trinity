@@ -1,28 +1,5 @@
 ﻿namespace Trinity.Helpers
 {
-    public enum DangerLevel
-    {
-        /// <summary>
-        ///     The low
-        /// </summary>
-        Low,
-
-        /// <summary>
-        ///     The medium
-        /// </summary>
-        Medium,
-
-        /// <summary>
-        ///     The high
-        /// </summary>
-        High,
-
-        /// <summary>
-        ///     The very high
-        /// </summary>
-        VeryHigh
-    }
-
     public enum ActivationType
     {
         /// <summary>
@@ -102,6 +79,11 @@
         ///     The binding of a unit
         /// </summary>
         BindingUnit,
+        
+        /// <summary>
+        ///     The dodge enemy skillshot
+        /// </summary>
+        DodgeEnemySkillshot,
         
         /// <summary>
         ///     The dodge enemy unit 
