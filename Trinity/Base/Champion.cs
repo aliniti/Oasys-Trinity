@@ -126,36 +126,14 @@
         public override void CreateTab()
         {
             var tabname = Instance.ModelName + (Instance.IsEnemy ? "e" : "a");
-            this.ChampionGroup[tabname + "grp"] = new Group
-            {
-                Title = "[Pred] " + Instance.ModelName
-            };
             
-            this.ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "hro"] = new Switch
-            {
-                IsOn = true,
-                Title = "Predict spell/auto attacks"
-            });
-            
-            this.ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "min"] = new Switch
-            {
-                IsOn = false,
-                Title = "Predict minion attacks"
-            });
-            
-            this.ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "jgl"] = new Switch
-            {
-                IsOn = true,
-                Title = "Predict neutral monsters attacks"
-            });
-            
-            this.ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "twr"] = new Switch
-            {
-                IsOn = true,
-                Title = "Predict tower attacks"
-            });
+            ChampionGroup[tabname + "grp"] = new Group  { Title = "[Pred] " + Instance.ModelName };
+            ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "hro"] = new Switch { IsOn = true, Title = "Predict spell/auto attacks" });
+            ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "min"] = new Switch { IsOn = false, Title = "Predict minion attacks" });
+            ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "jgl"] = new Switch { IsOn = true, Title = "Predict neutral monsters attacks" });
+            ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "twr"] = new Switch { IsOn = true, Title = "Predict tower attacks" });
 
-            this.ChampionTab.AddGroup(this.ChampionGroup[tabname + "grp"]);
+            ChampionTab.AddGroup(ChampionGroup[tabname + "grp"]);
         }
 
         #endregion

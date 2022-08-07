@@ -125,13 +125,21 @@ namespace Trinity.Helpers
         public string[] ExtraMissileNames { get; internal set; } = { "" };
 
         /// <summary>
-        ///     Gets or sets the missile speed.
+        ///     Gets or sets the cast speed.
         /// </summary>
         /// <value>
         ///     The missile speed.
         /// </value>
         public int CastSpeed { get; internal set; } = 4800;
-
+        
+        /// <summary>
+        ///     Gets or sets the extra cast speed.
+        /// </summary>
+        /// <value>
+        ///     The cast speeds.
+        /// </value>
+        public int[] ExtraCastSpeeds { get; set; }
+    
         /// <summary>
         ///     Gets or sets from object.
         /// </summary>
@@ -384,6 +392,67 @@ namespace Trinity.Helpers
                 CastSpeed = 2200
             });
 
+            #endregion
+            
+            #region Akshan
+ 
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "akshanq",
+                ChampionName = "akshan",
+                Slot = SpellSlot.Q,
+                DisplayName = "Avengerang",
+                CastRange = 850f,
+                Radius = 120f,
+                CastDelay = 250f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                ExtraCastSpeeds = new[] { 1500, 2400 },
+                CastSpeed = 1500,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "akshanw",
+                ChampionName = "akshan",
+                Slot = SpellSlot.W,
+                DisplayName = "Going Rogue",
+                CastRange = 0f,
+                Radius = 0f,
+                CastDelay = 500f,
+                CastType = CastType.Proximity,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "akshane",
+                ChampionName = "akshan",
+                Slot = SpellSlot.E,
+                DisplayName = "Heroic Swing",
+                CastRange = 0f,
+                Radius = 0f,
+                CastDelay = 250f,
+                EmuFlags = new EmulationFlags[] { },
+                ExtraCastSpeeds = new[] { 2500, 1200, 3000 },
+                CastSpeed = 2500,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "akshanr",
+                ChampionName = "akshan",
+                Slot = SpellSlot.R,
+                DisplayName = "Comeuppance",
+                CastRange = 2500f,
+                Radius = 120f,
+                CastDelay = 250f,
+                CastType = CastType.Unit,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 3200,
+            });
+            
             #endregion
 
             #region Alistar
@@ -918,6 +987,68 @@ namespace Trinity.Helpers
                 CastSpeed = 2100
             });
             
+            #endregion
+            
+            #region Bel'veth
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "belvethq",
+                ChampionName = "belveth",
+                Slot = SpellSlot.Q,
+                DisplayName = "Void Surge",
+                CastRange = 400f,
+                Radius = 100f,
+                CastDelay = 0f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                ExtraCastSpeeds = new[] { 800, 850, 900, 950, 1000 },
+                CastSpeed = 800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "belvethw",
+                ChampionName = "belveth",
+                Slot = SpellSlot.W,
+                DisplayName = "Above and Below",
+                CastRange = 660f,
+                Radius = 200f,
+                CastDelay = 500f,
+                CastType = CastType.Direction,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "belvethe",
+                ChampionName = "belveth",
+                Slot = SpellSlot.E,
+                DisplayName = "Royal Maelstrom",
+                CastRange = 0f,
+                Radius = 500f,
+                CastDelay = 250f,
+                CastType = CastType.Proximity,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "belvethr",
+                ChampionName = "bel'veth",
+                Slot = SpellSlot.R,
+                DisplayName = "Endless Banquet",
+                CastRange = 0f,
+                Radius = 500f,
+                CastDelay = 1000f,
+                CastType = CastType.Unit,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+           
             #endregion
 
             #region Blitzcrank
@@ -2652,6 +2783,64 @@ namespace Trinity.Helpers
 
             HeroSpells.Add(new SpellData
             {
+                SpellName = "gwenq",
+                ChampionName = "gwen",
+                Slot = SpellSlot.Q,
+                DisplayName = "Snip Snip!",
+                CastRange = 0f,
+                Radius = 0f,
+                CastDelay = 500f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "gwenw",
+                ChampionName = "gwen",
+                Slot = SpellSlot.W,
+                DisplayName = "Hallowed Mist",
+                CastRange = 0f,
+                Radius = 480f,
+                CastDelay = 250f,
+                CastType = CastType.Proximity,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2000,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "gwene",
+                ChampionName = "gwen",
+                Slot = SpellSlot.E,
+                DisplayName = "Skip n Slash",
+                CastRange = 350f,
+                SecondaryCastRange = 450f,
+                Radius = 0f,
+                CastDelay = 250f,
+                CastType = CastType.Location,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "gwenr",
+                ChampionName = "gwen",
+                Slot = SpellSlot.R,
+                DisplayName = "Needlework",
+                CastRange = 0f,
+                Radius = 240f,
+                CastDelay = 250f,
+                SecondaryCastDelay = 500f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1800,
+            });
+            
+            HeroSpells.Add(new SpellData
+            {
                 SpellName = "hecarimrapidslash",
                 ChampionName = "hecarim",
                 Slot = SpellSlot.Q,
@@ -4169,6 +4358,68 @@ namespace Trinity.Helpers
                 MissileName = "leonasolarflare",
                 CastSpeed = 4800
             });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "lilliaq",
+                ChampionName = "lillia",
+                Slot = SpellSlot.Q,
+                DisplayName = "Blooming Blows",
+                CastRange = 0f,
+                Radius = 225f,
+                SecondaryRadius = 485f,
+                CastDelay = 250f,
+                CastType = CastType.Proximity,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "lilliaw",
+                ChampionName = "lillia",
+                Slot = SpellSlot.W,
+                DisplayName = "Watch Out! Eep!",
+                CastRange = 500f,
+                SecondaryCastRange = 350f,
+                Radius = 65f,
+                SecondaryRadius = 250f,
+                CastDelay = 250f,
+                CastType = CastType.Location,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "lilliae",
+                ChampionName = "lillia",
+                Slot = SpellSlot.E,
+                DisplayName = "Swirlseed",
+                CastRange = float.MaxValue,
+                Global = true,
+                Radius = 150f,
+                CastDelay = 400f,
+                CastType = CastType.Location,
+                CollidesWith = new[] { CollisionObjectType.EnemyHeroes },
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                ExtraCastSpeeds = new[] { 5000, 1400 },
+                CastSpeed = 5000,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "lilliar",
+                ChampionName = "lillia",
+                Slot = SpellSlot.R,
+                DisplayName = "Lilting Lullaby",
+                CastRange = 0f,
+                Radius = float.MaxValue,
+                CastDelay = 400f,
+                CastType = CastType.Proximity,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
 
             HeroSpells.Add(new SpellData
             {
@@ -5138,6 +5389,68 @@ namespace Trinity.Helpers
             });
 
             #endregion
+            
+            #region Nilah
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "nilahq",
+                ChampionName = "nilah",
+                Slot = SpellSlot.Q,
+                DisplayName = "Formless Blade",
+                CastRange = 600f,
+                Radius = 150f,
+                CastDelay = 250f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "nilahw",
+                ChampionName = "nilah",
+                Slot = SpellSlot.W,
+                DisplayName = "Jubilant Veil",
+                CastRange = 0f,
+                Radius = 150f,
+                CastDelay = 250f,
+                CastType = CastType.Proximity,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "nilahe",
+                ChampionName = "nilah",
+                Slot = SpellSlot.E,
+                DisplayName = "Slipstream",
+                CastRange = 550f,
+                Radius = 150f,
+                CastDelay = 250f,
+                CastType = CastType.Unit,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2200,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "nilahr",
+                ChampionName = "nilah",
+                Slot = SpellSlot.R,
+                DisplayName = "Apotheosis",
+                CastRange = 0f,
+                Radius = 450f,
+                SecondaryRadius = 1500f,
+                CastDelay = 250f,
+                CastType = CastType.Proximity,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            
+            #endregion
 
             #region Nocturne
             HeroSpells.Add(new SpellData
@@ -6018,6 +6331,78 @@ namespace Trinity.Helpers
 
             HeroSpells.Add(new SpellData
             {
+                SpellName = "rellq",
+                ChampionName = "rell",
+                Slot = SpellSlot.Q,
+                DisplayName = "Shattering Strike",
+                CastRange = 685f,
+                Radius = 150f,
+                CastDelay = 350f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "rellw",
+                ChampionName = "rell",
+                Slot = SpellSlot.W,
+                DisplayName = "Ferromancy: Crash Down",
+                CastRange = 500f,
+                SecondaryCastRange = 100f,
+                Radius = 0f,
+                CastDelay = 625f,
+                CastType = CastType.Location,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "rellw",
+                ChampionName = "rell",
+                Slot = SpellSlot.W,
+                DisplayName = "Ferromancy: Mount Up",
+                CastRange = 0f,
+                Radius = 0f,
+                CastDelay = 250f,
+                CastType = CastType.Proximity,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "relle",
+                ChampionName = "rell",
+                Slot = SpellSlot.E,
+                DisplayName = "Attract and Repel",
+                CastRange = 1500f,
+                Radius = 250f,
+                CastDelay = 250f,
+                CastType = CastType.Unit,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "rellr",
+                ChampionName = "rell",
+                Slot = SpellSlot.R,
+                DisplayName = "Magnet Storm",
+                CastRange = 0f,
+                Radius = 450f,
+                SecondaryRadius = 375f,
+                CastDelay = 250f,
+                CastType = CastType.Proximity,
+                EmuFlags = new[] { EmulationFlags.Ultimate },
+                CastSpeed = 300,
+            });
+            
+            HeroSpells.Add(new SpellData
+            {
                 SpellName = "riventricleave",
                 ChampionName = "riven",
                 Slot = SpellSlot.Q,
@@ -6182,6 +6567,64 @@ namespace Trinity.Helpers
                 EmuFlags = new[] { EmulationFlags.Initiator },
                 CastSpeed = 1400
             });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "samiraq",
+                ChampionName = "samira",
+                Slot = SpellSlot.Q,
+                DisplayName = "Flair",
+                CastRange = 340f,
+                SecondaryCastRange = 950f,
+                Radius = 120f,
+                CastDelay = 250f,
+                CastType = CastType.Direction,
+                CollidesWith = new[] { CollisionObjectType.EnemyHeroes, CollisionObjectType.EnemyMinions },
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2600,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "samiraw",
+                ChampionName = "samira",
+                Slot = SpellSlot.W,
+                DisplayName = "Blade Whirl",
+                CastRange = 0f,
+                Radius = 325f,
+                CastDelay = 100f,
+                CastType = CastType.Proximity,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "samirae",
+                ChampionName = "samira",
+                Slot = SpellSlot.E,
+                DisplayName = "Wild Rush",
+                CastRange = 600f,
+                Radius = 265f,
+                CastDelay = 250f,
+                CastType = CastType.Unit,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1600,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "samirar",
+                ChampionName = "samira",
+                Slot = SpellSlot.R,
+                DisplayName = "Inferno Trigger",
+                CastRange = 0f,
+                Radius = 600f,
+                CastDelay = 250f,
+                CastType = CastType.Proximity,
+                EmuFlags = new[] { EmulationFlags.Ultimate },
+                CastSpeed = 4800,
+            });
 
             HeroSpells.Add(new SpellData
             {
@@ -6280,6 +6723,62 @@ namespace Trinity.Helpers
                 Global = true,
                 EmuFlags = new[] { EmulationFlags.Danger },
                 CastSpeed = 2000
+            });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "seraphineq",
+                ChampionName = "seraphine",
+                Slot = SpellSlot.Q,
+                DisplayName = "High Note",
+                CastRange = 900f,
+                Radius = 350f,
+                CastDelay = 250f,
+                CastType = CastType.Location,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1200,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "seraphinew",
+                ChampionName = "seraphine",
+                Slot = SpellSlot.W,
+                DisplayName = "Surround Sound",
+                CastRange = 0f,
+                Radius = 800f,
+                CastDelay = 250f,
+                CastType = CastType.Proximity,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "seraphinee",
+                ChampionName = "seraphine",
+                Slot = SpellSlot.E,
+                DisplayName = "Beat Drop",
+                CastRange = 1300f,
+                Radius = 140f,
+                CastDelay = 250f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1200,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "seraphiner",
+                ChampionName = "seraphine",
+                Slot = SpellSlot.R,
+                DisplayName = "Encore",
+                CastRange = 1200f,
+                Radius = 320f,
+                CastDelay = 500f,
+                CastType = CastType.Direction,
+                EmuFlags = new[] {  EmulationFlags.Ultimate },
+                CastSpeed = 1600,
             });
             
             HeroSpells.Add(new SpellData
@@ -6829,6 +7328,79 @@ namespace Trinity.Helpers
                 CastDelay = 250f,
                 EmuFlags = new EmulationFlags[] { EmulationFlags.Ultimate },
                 CastSpeed = 4800
+            });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "sylasq",
+                ChampionName = "sylas",
+                Slot = SpellSlot.Q,
+                DisplayName = "Chain Lash",
+                CastRange = 50f,
+                SecondaryCastRange = 775f,
+                Radius = 180f,
+                SecondaryRadius = 200f,
+                CastDelay = 400f,
+                CastType = CastType.Location,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "sylasw",
+                ChampionName = "sylas",
+                Slot = SpellSlot.W,
+                DisplayName = "Kingslayer",
+                CastRange = 0f,
+                Radius = 0f,
+                CastDelay = 250f,
+                CastType = CastType.Unit,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "sylase",
+                ChampionName = "sylas",
+                Slot = SpellSlot.E,
+                DisplayName = "Abscond",
+                CastRange = 400f,
+                Radius = 0f,
+                CastDelay = 250f,
+                CastType = CastType.Location,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1450,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "sylase2",
+                ChampionName = "sylas",
+                Slot = SpellSlot.E,
+                DisplayName = "Abduct",
+                CollidesWith = new[] { CollisionObjectType.EnemyHeroes },
+                CastRange = 800f,
+                Radius = 0f,
+                CastDelay = 250f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "sylastumble",
+                ChampionName = "sylas",
+                Slot = SpellSlot.R,
+                DisplayName = "Hijack",
+                CastRange = 950f,
+                Radius = 0f,
+                CastDelay = 250f,
+                CastType = CastType.Unit,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2200,
             });
 
             HeroSpells.Add(new SpellData
@@ -7827,7 +8399,70 @@ namespace Trinity.Helpers
                 EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Initiator },
                 CastSpeed = 1500
             });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "vexq",
+                ChampionName = "vex",
+                Slot = SpellSlot.Q,
+                DisplayName = "Mistral Bolt",
+                CastRange = 1200f,
+                Radius = 360f,
+                SecondaryRadius = 160f,
+                CastDelay = 150f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                ExtraCastSpeeds = new[] { 600, 3200 },
+                CastSpeed = 600,
+            });
 
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "vexw",
+                ChampionName = "vex",
+                Slot = SpellSlot.W,
+                DisplayName = "Personal Space",
+                CastRange = 0f,
+                Radius = 475f,
+                SecondaryRadius = 550f,
+                CastDelay = 250f,
+                CastType = CastType.Proximity,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "vexe",
+                ChampionName = "vex",
+                Slot = SpellSlot.E,
+                DisplayName = "Looming Darkness",
+                CastRange = 800f,
+                Radius = 200f,
+                SecondaryRadius = 300f,
+                CastDelay = 250f,
+                CastType = CastType.Location,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1300,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "vexr",
+                ChampionName = "vex",
+                Slot = SpellSlot.R,
+                DisplayName = "Shadow Surge",
+                CastRange = 2000f,
+                SecondaryCastRange = 3000f,
+                Radius = 260f,
+                SecondaryRadius = 650, // missile sight radius
+                CastDelay = 250f,
+                CastType = CastType.DirectionAuto,
+                EmuFlags = new EmulationFlags[] { },
+                ExtraCastSpeeds = new[] { 1600, 2200 },
+                CastSpeed = 1600,
+            });
+            
             HeroSpells.Add(new SpellData
             {
                 SpellName = "viqmissile",
@@ -7876,7 +8511,65 @@ namespace Trinity.Helpers
                 EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Initiator },
                 CastSpeed = 1400
             });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "viegoq",
+                ChampionName = "viego",
+                Slot = SpellSlot.Q,
+                DisplayName = "Blade of the Ruined King",
+                CastRange = 600f,
+                Radius = 125f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
 
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "viegow",
+                ChampionName = "viego",
+                Slot = SpellSlot.W,
+                DisplayName = "Spectral Maw",
+                CastRange = 300f,
+                SecondaryCastRange = 900f,
+                Radius = 120f,
+                CastDelay = 250f,
+                CastType = CastType.DirectionAuto,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                ExtraCastSpeeds = new[] { 1000, 1300 },
+                CastSpeed = 1000,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "viegoe",
+                ChampionName = "viego",
+                Slot = SpellSlot.E,
+                DisplayName = "Harrowed Path",
+                CastRange = 775f,
+                Radius = 500f,
+                CastDelay = 250f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                ExtraCastSpeeds = new[] { 1600, 1200 },
+                CastSpeed = 1600,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "viegor",
+                ChampionName = "viego",
+                Slot = SpellSlot.R,
+                DisplayName = "Heartbreaker",
+                CastRange = 500f,
+                Radius = 300f,
+                CastDelay = 500f,
+                CastType = CastType.Location,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+            
             HeroSpells.Add(new SpellData
             {
                 SpellName = "viktorpowertransfer",
@@ -8435,7 +9128,126 @@ namespace Trinity.Helpers
                 EmuFlags = new EmulationFlags[] { },
                 CastSpeed = 1500
             });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "yummiq",
+                ChampionName = "yuumi",
+                Slot = SpellSlot.Q,
+                DisplayName = "Prowling Projectile",
+                CastRange = 1150f,
+                Radius = 0f,
+                CastDelay = 250f,
+                CastType = CastType.Direction,
+                CollidesWith = new[] { CollisionObjectType.EnemyHeroes },
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1000,
+            });
 
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "yummiw",
+                ChampionName = "yuumi",
+                Slot = SpellSlot.W,
+                DisplayName = "You and Me!",
+                CastRange = 700f,
+                Radius = 0f,
+                CastDelay = 250f,
+                CastType = CastType.UnitDirection,
+                EmuFlags = new EmulationFlags[] { },
+                ExtraCastSpeeds = new[] { 1200, 1300, 1400, 1500, 1600 },
+                CastSpeed = 1200,
+            });
+
+            HeroSpells.Add(new SpellData
+            {               
+                SpellName = "yummie",
+                ChampionName = "yuumi",
+                Slot = SpellSlot.E,
+                DisplayName = "Zoomies",
+                CastRange = 0f,
+                Radius = 0f,
+                CastDelay = 250f,
+                CastType = CastType.Proximity,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {                
+                SpellName = "yummir",
+                ChampionName = "yuumi",
+                Slot = SpellSlot.R,
+                DisplayName = "Final Chapter",
+                CastRange = 1100f,
+                Radius = 450f,
+                CastDelay = 250f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 3000,
+            });
+            
+            #region Yone
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "yoneq",
+                ChampionName = "yone",
+                Slot = SpellSlot.Q,
+                DisplayName = "Mortal Steel",
+                CastRange = 450f,
+                Radius = 160f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1500,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "yonew",
+                ChampionName = "yone",
+                Slot = SpellSlot.W,
+                DisplayName = "Spirit Cleave",
+                CastRange = 0f,
+                Radius = 600f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "yonee",
+                ChampionName = "yone",
+                Slot = SpellSlot.E,
+                DisplayName = "Soul Unbound",
+                CastRange = 0f,
+                Radius = float.MaxValue,
+                Global = true,
+                CastDelay = 250f,
+                CastType = CastType.DirectionAuto,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1200,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "yoner",
+                ChampionName = "yone",
+                Slot = SpellSlot.R,
+                DisplayName = "Fate Sealed",
+                CastRange = 1000f,
+                Radius = 225f,
+                CastDelay = 750f,
+                CastType = CastType.Direction,
+                EmuFlags = new[] { EmulationFlags.Ultimate },
+                CastSpeed = 4800,
+            });
+            
+            #endregion
+            
+            #region Zac
+            
             HeroSpells.Add(new SpellData
             {
                 SpellName = "zacq",
@@ -8487,7 +9299,11 @@ namespace Trinity.Helpers
                 EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Ultimate },
                 CastSpeed = 1800
             });
+            
+            #endregion
 
+            #region Zed
+            
             HeroSpells.Add(new SpellData
             {
                 SpellName = "zedq",
@@ -8542,6 +9358,71 @@ namespace Trinity.Helpers
                 CastSpeed = 4800
             });
 
+            #endregion
+            
+            #region Zerri
+ 
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "zeriq",
+                ChampionName = "zeri",
+                Slot = SpellSlot.Q,
+                DisplayName = "Burst Fire",
+                CastRange = 825f,
+                Radius = 80f,
+                CastDelay = 250f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                ExtraCastSpeeds = new[] { 2600, 3400 },
+                CastSpeed = 2600,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "zeriw",
+                ChampionName = "zeri",
+                Slot = SpellSlot.W,
+                DisplayName = "Ultrashock Laser",
+                CastRange = 1200f,
+                Radius = 80f,
+                SecondaryRadius = 200f,
+                CastDelay = 250f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 2200,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "zerie",
+                ChampionName = "zeri",
+                Slot = SpellSlot.E,
+                DisplayName = "Spark Surge",
+                CastRange = 300f,
+                Radius = 0f,
+                CastDelay = 250f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 600,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "zerir",
+                ChampionName = "zeri",
+                Slot = SpellSlot.R,
+                DisplayName = "Lightning Crash",
+                CastRange = 0f,
+                Radius = 825f,
+                CastDelay = 250f,
+                CastType = CastType.Proximity,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+            
+            #endregion
+
+            #region Ziggs
             HeroSpells.Add(new SpellData
             {
                 SpellName = "ziggsq",
@@ -8628,6 +9509,9 @@ namespace Trinity.Helpers
                 CastSpeed = 2250
             });
 
+            #endregion
+            
+            #region Zilean
             HeroSpells.Add(new SpellData
             {
                 SpellName = "zileanq",
@@ -8683,6 +9567,9 @@ namespace Trinity.Helpers
                 CastSpeed = 4800,
             });
 
+            #endregion
+            
+            #region Zoe
             HeroSpells.Add(new SpellData
             {
                 SpellName = "zoeq",
@@ -8729,6 +9616,9 @@ namespace Trinity.Helpers
                 CastSpeed = 1800
             });
 
+            #endregion 
+            
+            #region Zyra
             HeroSpells.Add(new SpellData
             {
                 SpellName = "zyraq",
@@ -8802,6 +9692,8 @@ namespace Trinity.Helpers
                     },
                 CastSpeed = 4800
             });
+            
+            #endregion 
         }
     }
 }

@@ -104,7 +104,7 @@ namespace Trinity.Base
                 var unit = b.Value;
                 
                 // todo: failsafe: need a better way to implement this
-                if ((int)(GameEngine.GameTime * 1000) - unit.AggroTick > 500)
+                if ((int) (GameEngine.GameTime * 1000) - unit.AggroTick > 500)
                 {
                     unit.ResetAggro();
                 }
@@ -121,7 +121,7 @@ namespace Trinity.Base
                         // check delay (e.g zed ult)
                         if (gameTime - buffTime >= Delay)
                         {
-                            if ((int)(GameEngine.GameTime * 1000) - Limiter >= Interval * 1000)
+                            if ((int) (GameEngine.GameTime * 1000) - Limiter >= Interval * 1000)
                             {
                                 unit.InDanger = EmulationFlags.Equals(EmulationFlags.Danger);
                                 unit.InCrowdControl = EmulationFlags.Equals(EmulationFlags.CrowdControl);

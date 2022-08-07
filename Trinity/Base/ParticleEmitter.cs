@@ -123,9 +123,9 @@ namespace Trinity.Base
 
                 if (unit.Instance.Position.Distance(Obj.Position) <= Radius + unit.Instance.UnitComponentInfo.UnitBoundingRadius + 35)
                     // check delay (e.g fizz bait)
-                    if ((int)(GameEngine.GameTime * 1000) - CreatedTickTime >= DelayFromStart)
+                    if ((int) (GameEngine.GameTime * 1000) - CreatedTickTime >= DelayFromStart)
                         // limit the damage using an interval
-                        if ((int)(GameEngine.GameTime * 1000) - Limiter >= Interval * 1000)
+                        if ((int) (GameEngine.GameTime * 1000) - Limiter >= Interval * 1000)
                         {
                             unit.InDanger = EmulationFlags.Equals(EmulationFlags.Danger);
                             unit.InCrowdControl = EmulationFlags.Equals(EmulationFlags.CrowdControl);

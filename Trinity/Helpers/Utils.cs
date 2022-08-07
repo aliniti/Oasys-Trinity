@@ -393,8 +393,6 @@
             if (!IsSafeCast(unit)) return;
             if ((int) (GameEngine.GameTime * 1000) - spell.LastUsedTimeStamp < 100) return;
 
-            Logger.Log(unit.Name);
-            
             if (spell.TargetingType.ToString().Contains("Dodge"))
                 UseSpellOnBestTarget(spell, unit);
 
@@ -565,11 +563,8 @@
         {
             if (item.ActivationTypes.Contains(ActivationType.CheckAuras))
             {
-                var champObj = Bootstrap.Allies
-                    .FirstOrDefault(x => x.Value.Instance.NetworkID == hero.NetworkID).Value;
-
-                if (champObj?.Instance == null)
-                    return;
+                var champObj = Bootstrap.Allies.FirstOrDefault(x => x.Value.Instance.NetworkID == hero.NetworkID).Value;
+                if (champObj?.Instance == null) return;
 
                 var healthPct = champObj.Instance.Health / champObj.Instance.MaxHealth * 100;
                 if (healthPct > item.ItemCounter[item.ItemId + "MinimumBuffsHP"].Value &&
@@ -591,19 +586,24 @@
                 }
                 else
                 {
-                    if (champObj.AuraInfo[item.ItemId + "BuffHighestTime"] > 0)
-                        champObj.AuraInfo[item.ItemId + "BuffHighestTime"] -= champObj.AuraInfo[item.ItemId + "BuffHighestTime"];
-                    else
-                        champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
+                    switch (champObj.AuraInfo[item.ItemId + "BuffHighestTime"])
+                    {
+                        case > 0:
+                            champObj.AuraInfo[item.ItemId + "BuffHighestTime"] -= champObj.AuraInfo[item.ItemId + "BuffHighestTime"];
+                            break;
+                        default:
+                            champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
+                            break;
+                    }
                 }
 
-                if (champObj.AuraInfo[item.ItemId + "BuffCount"] >= item.ItemCounter[item.ItemId + "MinimumBuffs"].Value)
-                    if (champObj.AuraInfo[item.ItemId + "BuffHighestTime"] >= item.ItemCounter[item.ItemId + "MinimumBuffsDuration"].Value)
-                    {
-                        UseItem(item, champObj.Instance);
-                        champObj.AuraInfo[item.ItemId + "BuffCount"] = 0;
-                        champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
-                    }
+                if (champObj.AuraInfo[item.ItemId + "BuffCount"] < item.ItemCounter[item.ItemId + "MinimumBuffs"].Value) return;
+                if (champObj.AuraInfo[item.ItemId + "BuffHighestTime"] >= item.ItemCounter[item.ItemId + "MinimumBuffsDuration"].Value)
+                {
+                    UseItem(item, champObj.Instance);
+                    champObj.AuraInfo[item.ItemId + "BuffCount"] = 0;
+                    champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
+                }
             }
         }
 
@@ -618,121 +618,122 @@
             if (spell.ActivationTypes.Contains(ActivationType.CheckAuras))
             {
                 var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
-                var champObj = Bootstrap.Allies
-                    .FirstOrDefault(x => x.Value.Instance.NetworkID == hero.NetworkID).Value;
+                var championObj = Bootstrap.Allies.FirstOrDefault(x => x.Value.Instance.NetworkID == hero.NetworkID).Value;
+                if (championObj?.Instance == null) return;
 
-                if (champObj?.Instance == null)
-                    return;
-
-                var healthPct = champObj.Instance.Health / champObj.Instance.MaxHealth * 100;
+                var healthPct = championObj.Instance.Health / championObj.Instance.MaxHealth * 100;
                 if (healthPct > spell.SpellCounter[tabName + "MinimumBuffsHP"].Value &&
                     spell.SpellSwitch[tabName + "SwitchMinimumBuffHP"].IsOn)
                     return;
 
-                champObj.AuraInfo[tabName + "BuffCount"] = GetAuras(spell, champObj).Count();
-                champObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
+                championObj.AuraInfo[tabName + "BuffCount"] = GetAuras(spell, championObj).Count();
+                championObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
 
-                if (champObj.AuraInfo[tabName + "BuffCount"] > 0)
+                if (championObj.AuraInfo[tabName + "BuffCount"] > 0)
                 {
-                    foreach (var buff in GetAuras(spell, champObj))
+                    foreach (var buff in GetAuras(spell, championObj))
                     {
                         var length = (int) (buff.EndTime - buff.StartTime);
-                        if (length >= champObj.AuraInfo[tabName + "BuffHighestTime"]) champObj.AuraInfo[tabName + "BuffHighestTime"] = length * 1000;
+                        if (length >= championObj.AuraInfo[tabName + "BuffHighestTime"]) championObj.AuraInfo[tabName + "BuffHighestTime"] = length * 1000;
                     }
 
-                    champObj.AuraInfo[tabName + "BuffTimestamp"] = (int) (GameEngine.GameTime * 1000);
+                    championObj.AuraInfo[tabName + "BuffTimestamp"] = (int) (GameEngine.GameTime * 1000);
                 }
                 else
                 {
-                    if (champObj.AuraInfo[tabName + "BuffHighestTime"] > 0)
-                        champObj.AuraInfo[tabName + "BuffHighestTime"] -= champObj.AuraInfo[tabName + "BuffHighestTime"];
-                    else
-                        champObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
+                    switch (championObj.AuraInfo[tabName + "BuffHighestTime"])
+                    {
+                        case > 0:
+                            championObj.AuraInfo[tabName + "BuffHighestTime"] -= championObj.AuraInfo[tabName + "BuffHighestTime"];
+                            break;
+                        default:
+                            championObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
+                            break;
+                    }
                 }
 
-                if (champObj.AuraInfo[tabName + "BuffCount"] >= spell.SpellCounter[tabName + "MinimumBuffs"].Value)
-                    if (champObj.AuraInfo[tabName + "BuffHighestTime"] >= spell.SpellCounter[tabName + "MinimumBuffsDuration"].Value)
-                    {
-                        UseSpell(spell, champObj.Instance);
-                        champObj.AuraInfo[tabName + "BuffCount"] = 0;
-                        champObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
-                    }
+                if (championObj.AuraInfo[tabName + "BuffCount"] < spell.SpellCounter[tabName + "MinimumBuffs"].Value) return;
+                if (championObj.AuraInfo[tabName + "BuffHighestTime"] >= spell.SpellCounter[tabName + "MinimumBuffsDuration"].Value)
+                {
+                    UseSpell(spell, championObj.Instance);
+                    championObj.AuraInfo[tabName + "BuffCount"] = 0;
+                    championObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
+                }
             }
         }
 
         /// <summary>
         ///     Checks the projection segment.
         /// </summary>
+        /// <param name="hero">The champion</param>
         /// <param name="unit">The unit.</param>
-        public static void CheckProjectionSegment(this Champion Champion, AIBaseClient unit)
+        public static void CheckProjectionSegment(this Champion hero, AIBaseClient unit)
         {
             // todo: failsafe: need a better way to implement this
-            if ((int)(GameEngine.GameTime * 1000) - Champion.AggroTick > 500)
-                Champion.ResetAggro();
+            if ((int) (GameEngine.GameTime * 1000) - hero.AggroTick > 500)
+                hero.ResetAggro();
 
-            if (unit.IsAlive)
-                if (unit.IsCastingSpell)
+            if (!unit.IsAlive) return;
+            if (!unit.IsCastingSpell) return;
+            
+            var uRadius = unit.UnitComponentInfo.UnitBoundingRadius;
+            var cRadius = hero.Instance.UnitComponentInfo.UnitBoundingRadius;
+
+            var currentSpell = unit.GetCurrentCastingSpell();
+            var name = currentSpell.SpellData.SpellName;
+            if (name is null) return;
+            
+            var gameTime = (int) (GameEngine.GameTime * 1000);
+            var entry = SpellData.HeroSpells
+                .Find(x => x.ChampionName.ToLower() == unit.ModelName.ToLower() &&
+                            (x.Slot == currentSpell.SpellSlot || x.SpellName.ToLower() == name.ToLower()));
+            
+            var heroTargetAggro = currentSpell.Targets.Find(x => x.NetworkID == hero.Instance.NetworkID) != null;
+            if (heroTargetAggro)
+            {
+                if (entry != null)
                 {
-                    var uRadius = unit.UnitComponentInfo.UnitBoundingRadius;
-                    var cRadius = Champion.Instance.UnitComponentInfo.UnitBoundingRadius;
-                    
-                    var currentSpell = unit.GetCurrentCastingSpell();
-                    if (currentSpell.SpellData.SpellName is not null)
-                    {
-                        var gameTime = (int) (GameEngine.GameTime * 1000);
-                        var entry = SpellData.HeroSpells
-                            .Find(x =>  x.ChampionName.ToLower() == unit.ModelName.ToLower() && 
-                                       (x.Slot == currentSpell.SpellSlot ||
-                                        x.SpellName.ToLower() == currentSpell.SpellData.SpellName.ToLower()));
-
-                        var heroTargetAggro = currentSpell.Targets.Find(x => x.NetworkID == Champion.Instance.NetworkID) != null;
-                        if (heroTargetAggro)
-                        {
-                            if (entry != null)
-                            {
-                                Champion.InDanger = entry.EmuFlags.Contains(EmulationFlags.Danger);
-                                Champion.InCrowdControl = entry.EmuFlags.Contains(EmulationFlags.CrowdControl);
-                                Champion.InExtremeDanger = entry.EmuFlags.Contains(EmulationFlags.Ultimate);
-                            }
-
-                            Champion.HasAggro = true;
-                            Champion.AggroTick = gameTime;
-                        }
-                        else
-                        {
-                            var startPos = currentSpell.SpellStartPosition;
-                            var endPos = currentSpell.SpellEndPosition;
-                            var direction = (endPos - startPos).Normalized();
-                            var radius = (int) Math.Max(50, currentSpell.SpellData.SpellWidth) + cRadius;
-
-                            if (startPos.Distance(endPos) > currentSpell.SpellData.CastRange)
-                                endPos = startPos + direction * currentSpell.SpellData.CastRange;
-                            
-                            var pInfo = Champion.Instance.Position.ProjectOn(startPos, endPos);
-                            var nearSegment = Champion.Instance.Position.Distance(pInfo.SegmentPoint) <= radius;
-                            
-                            if (pInfo.IsOnSegment && nearSegment)
-                            {
-                                if (entry != null)
-                                {
-                                    var minions = entry.CollidesWith.Contains(CollisionObjectType.EnemyMinions);
-                                    var heroes  = entry.CollidesWith.Contains(CollisionObjectType.EnemyHeroes);
-
-                                    var collision = pInfo.GetAllyUnitsOnSegment(radius, heroes, minions);
-                                    if (collision.Any(x => x.NetworkID != Champion.Instance.NetworkID))
-                                        return;
-
-                                    Champion.InDanger = entry.EmuFlags.Contains(EmulationFlags.Danger);
-                                    Champion.InCrowdControl = entry.EmuFlags.Contains(EmulationFlags.CrowdControl);
-                                    Champion.InExtremeDanger = entry.EmuFlags.Contains(EmulationFlags.Ultimate);
-                                }
-                                
-                                Champion.HasAggro = true;
-                                Champion.AggroTick = gameTime;
-                            }
-                        }
-                    }
+                    hero.InDanger = entry.EmuFlags.Contains(EmulationFlags.Danger);
+                    hero.InCrowdControl = entry.EmuFlags.Contains(EmulationFlags.CrowdControl);
+                    hero.InExtremeDanger = entry.EmuFlags.Contains(EmulationFlags.Ultimate);
                 }
+
+                hero.HasAggro = true;
+                hero.AggroTick = gameTime;
+            }
+            else
+            {
+                var startPos = currentSpell.SpellStartPosition;
+                var endPos = currentSpell.SpellEndPosition;
+                var direction = (endPos - startPos).Normalized();
+                var radius = (int) Math.Max(50, currentSpell.SpellData.SpellWidth) + cRadius;
+                var speed = entry?.CastSpeed ?? currentSpell.SpellData.MissileSpeed;
+                var delay = entry?.CastDelay ?? GameEngine.GamePing;
+
+                if (startPos.Distance(endPos) > currentSpell.SpellData.CastRange)
+                    endPos = startPos + direction * currentSpell.SpellData.CastRange;
+
+                var pInfo = hero.Instance.Position.ProjectOn(startPos, endPos);
+                var nearSegment = hero.Instance.Position.Distance(pInfo.SegmentPoint) <= radius;
+                
+                if (!pInfo.IsOnSegment || !nearSegment) return;
+                if (entry != null)
+                {
+                    var minions = entry.CollidesWith.Contains(CollisionObjectType.EnemyMinions);
+                    var heroes  = entry.CollidesWith.Contains(CollisionObjectType.EnemyHeroes);
+
+                    var collision = pInfo.GetAllyUnitsOnSegment(radius, heroes, minions);
+                    if (collision.Any(x => x.NetworkID != hero.Instance.NetworkID))
+                        return;
+
+                    hero.InDanger = entry.EmuFlags.Contains(EmulationFlags.Danger);
+                    hero.InCrowdControl = entry.EmuFlags.Contains(EmulationFlags.CrowdControl);
+                    hero.InExtremeDanger = entry.EmuFlags.Contains(EmulationFlags.Ultimate);
+                }
+
+                hero.HasAggro = true;
+                hero.AggroTick = gameTime;
+            }
         }
 
         #endregion
