@@ -92,7 +92,7 @@ namespace Trinity
 
             #endregion
 
-            #region Tidy: Defensive Item Menu
+            #region Tidy : Defensive Item Menu
 
             var defensiveItemMenu = new Tab("Trinity: Defensive");
 

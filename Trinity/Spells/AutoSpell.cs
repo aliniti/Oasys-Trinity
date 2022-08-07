@@ -152,6 +152,7 @@
                 {
                     this.CheckSpellEnemyLowHealth(target);
                     this.CheckSpellDangerousSpells(myChampionOnly, target);
+                    return;
                 }
             }
 

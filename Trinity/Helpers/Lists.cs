@@ -469,6 +469,9 @@ namespace Trinity.Helpers
 
             new AutoSpell(55, "Fiora", CastSlot.W, TargetingType.DodgeEnemySkillshot, 900,
                 new[] { ActivationType.CheckDangerous, ActivationType.CheckOnlyOnMe }),
+            
+            new AutoSpell(55, "Yasuo", CastSlot.W, TargetingType.DodgeEnemySkillshot, 900,
+                new[] { ActivationType.CheckDangerous, ActivationType.CheckOnlyOnMe }),
 
             new AutoSpell(55, "Maokai", CastSlot.W, TargetingType.DodgeEnemyUnitOrMinion, 525,
                 new[] { ActivationType.CheckDangerous, ActivationType.CheckOnlyOnMe }),

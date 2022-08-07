@@ -93,17 +93,17 @@
             return null;
         }
 
-        public static List<AIBaseClient> GetEnemyUnitsOnSegment(this ProjectionInfo proj, float radius, bool heroes, bool minions)
+        public static List<AIBaseClient> GetAllyUnitsOnSegment(this ProjectionInfo proj, float radius, bool heroes, bool minions)
         {
             var objList = new List<AIBaseClient>();
 
             foreach (var u in ObjectManagerExport.HeroCollection)
             {
                 var unit = u.Value;
-                if (unit.IsValidTarget() && heroes)
+                if (unit.IsValidTarget(float.MaxValue, false) && heroes)
                 {
                     var nearit = unit.Position.Distance(proj.SegmentPoint) <= radius;
-                    if (nearit)
+                    if (nearit && unit.IsAlly)
                         objList.Add(unit);
                 }
             }
@@ -111,10 +111,10 @@
             foreach (var u in ObjectManagerExport.MinionCollection)
             {
                 var minion = u.Value;
-                if (minion.IsValidTarget() && minions)
+                if (minion.IsValidTarget(float.MaxValue, false) && minions)
                 {
                     var nearit = minion.Position.Distance(proj.SegmentPoint) <= radius;
-                    if (nearit)
+                    if (nearit && minion.IsAlly)
                         objList.Add(minion);
                 }
             }
@@ -393,6 +393,8 @@
             if (!IsSafeCast(unit)) return;
             if ((int) (GameEngine.GameTime * 1000) - spell.LastUsedTimeStamp < 100) return;
 
+            Logger.Log(unit.Name);
+            
             if (spell.TargetingType.ToString().Contains("Dodge"))
                 UseSpellOnBestTarget(spell, unit);
 
@@ -671,6 +673,9 @@
             if (unit.IsAlive)
                 if (unit.IsCastingSpell)
                 {
+                    var uRadius = unit.UnitComponentInfo.UnitBoundingRadius;
+                    var cRadius = Champion.Instance.UnitComponentInfo.UnitBoundingRadius;
+                    
                     var currentSpell = unit.GetCurrentCastingSpell();
                     if (currentSpell.SpellData.SpellName is not null)
                     {
@@ -697,25 +702,26 @@
                         {
                             var startPos = currentSpell.SpellStartPosition;
                             var endPos = currentSpell.SpellEndPosition;
-                            var radius = (int) Math.Max(50, currentSpell.SpellData.SpellWidth) + Champion.Instance.UnitComponentInfo.UnitBoundingRadius;
+                            var direction = (endPos - startPos).Normalized();
+                            var radius = (int) Math.Max(50, currentSpell.SpellData.SpellWidth) + cRadius;
+
+                            if (startPos.Distance(endPos) > currentSpell.SpellData.CastRange)
+                                endPos = startPos + direction * currentSpell.SpellData.CastRange;
                             
-                            var proj = Champion.Instance.Position.ProjectOn(startPos, endPos);
-                            var nearSegment = Champion.Instance.Position.Distance(proj.SegmentPoint) <= radius;
+                            var pInfo = Champion.Instance.Position.ProjectOn(startPos, endPos);
+                            var nearSegment = Champion.Instance.Position.Distance(pInfo.SegmentPoint) <= radius;
                             
-                            if (proj.IsOnSegment && nearSegment)
+                            if (pInfo.IsOnSegment && nearSegment)
                             {
                                 if (entry != null)
                                 {
                                     var minions = entry.CollidesWith.Contains(CollisionObjectType.EnemyMinions);
                                     var heroes  = entry.CollidesWith.Contains(CollisionObjectType.EnemyHeroes);
 
-                                    var collision = proj.GetEnemyUnitsOnSegment(radius, heroes, minions);
+                                    var collision = pInfo.GetAllyUnitsOnSegment(radius, heroes, minions);
                                     if (collision.Any(x => x.NetworkID != Champion.Instance.NetworkID))
                                         return;
-                                }
 
-                                if (entry != null)
-                                {
                                     Champion.InDanger = entry.EmuFlags.Contains(EmulationFlags.Danger);
                                     Champion.InCrowdControl = entry.EmuFlags.Contains(EmulationFlags.CrowdControl);
                                     Champion.InExtremeDanger = entry.EmuFlags.Contains(EmulationFlags.Ultimate);
