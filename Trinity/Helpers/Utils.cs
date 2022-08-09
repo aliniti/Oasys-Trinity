@@ -716,8 +716,6 @@
                 var endPos = currentSpell.SpellEndPosition;
                 var direction = (endPos - startPos).Normalized();
                 var radius = (int) Math.Max(50, currentSpell.SpellData.SpellWidth) + cRadius;
-                var speed = entry?.CastSpeed ?? currentSpell.SpellData.MissileSpeed;
-                var delay = entry?.CastDelay ?? GameEngine.GamePing;
 
                 if (startPos.Distance(endPos) > currentSpell.SpellData.CastRange)
                     endPos = startPos + direction * currentSpell.SpellData.CastRange;
