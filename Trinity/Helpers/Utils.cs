@@ -14,7 +14,6 @@
     using Oasys.Common.GameObject.Clients.ExtendedInstances;
     using Oasys.SDK;
     using Oasys.SDK.SpellCasting;
-    using Oasys.SDK.Tools;
     using Spells;
 
     #endregion
@@ -669,6 +668,8 @@
         /// <param name="unit">The unit.</param>
         public static void CheckProjectionSegment(this Champion hero, AIBaseClient unit)
         {
+            if (unit == null) return;
+            
             // todo: failsafe: need a better way to implement this
             if ((int) (GameEngine.GameTime * 1000) - hero.AggroTick > 500)
                 hero.ResetAggro();
@@ -684,10 +685,18 @@
             if (name is null) return;
             
             var gameTime = (int) (GameEngine.GameTime * 1000);
-            var entry = SpellData.HeroSpells
-                .Find(x => x.ChampionName.ToLower() == unit.ModelName.ToLower() &&
-                            (x.Slot == currentSpell.SpellSlot || x.SpellName.ToLower() == name.ToLower()));
+            SpellData entry = null;
             
+            foreach (var x in SpellData.HeroSpells)
+            {
+                if (x.ChampionName.ToLower() != unit.ModelName.ToLower()) continue;
+                if (x.Slot == currentSpell.SpellSlot || x.SpellName.ToLower() == name.ToLower())
+                {
+                    entry = x;
+                    break;
+                }
+            }
+
             var heroTargetAggro = currentSpell.Targets.Find(x => x.NetworkID == hero.Instance.NetworkID) != null;
             if (heroTargetAggro)
             {
