@@ -73,7 +73,7 @@
                             this.CheckSpellAllyLowHealth(ally.Instance);
 
                     if (TargetingType == TargetingType.ProximityAlly)
-                        if (ally.Instance.BuffManager.HasBuff(BoundBuffName) && ally.HasAggro)
+                        if (ally.Instance.BuffManager.HasBuff(BoundBuffName) && ally.HasAggro())
                             this.CheckSpellAllyLowHealth(ally.Instance);
                 }
         }

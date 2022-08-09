@@ -57,6 +57,7 @@ namespace Trinity
             InitializeTrinity();
         }
 
+        
         /// <summary>
         ///     Games events [on game match complete].
         /// </summary>
@@ -178,10 +179,10 @@ namespace Trinity
 
             var config = new Tab("Trinity: Prediction");
 
-            foreach (var troy in Lists.ParticleEmitters)
+            foreach (var troy in Lists.Particles)
             {
-                troy.OnEmitterInitialize += () => Lists.InitializedParticleEmitters.Add(troy);
-                troy.OnEmitterDispose += () => Lists.InitializedParticleEmitters.Remove(troy);
+                troy.OnEmitterInitialize += () => Lists.InitializedParticles.Add(troy);
+                troy.OnEmitterDispose += () => Lists.InitializedParticles.Remove(troy);
                 troy.Initialize(config);
             }
             
@@ -212,7 +213,7 @@ namespace Trinity
         {
             if (!GameEngine.IsGameWindowFocused) return;
 
-            foreach (var initializedEmitter in Lists.InitializedParticleEmitters)
+            foreach (var initializedEmitter in Lists.InitializedParticles)
                 initializedEmitter.OnTick();
             
             foreach (var initializedAura in Lists.InitializedAuras)
@@ -261,7 +262,7 @@ namespace Trinity
         /// </summary>
         private static async Task OnCreateObject(List<AIBaseClient> callbackobjectlist, AIBaseClient callbackobject, float callbackgametime)
         {
-            foreach (var initializedEmitter in Lists.InitializedParticleEmitters)
+            foreach (var initializedEmitter in Lists.InitializedParticles)
                 initializedEmitter.OnCreate(callbackobjectlist, callbackobject, callbackgametime);
         }
         
@@ -270,7 +271,7 @@ namespace Trinity
         /// </summary>
         private static async Task OnDeleteObject(List<AIBaseClient> callbackobjectlist, AIBaseClient callbackobject, float callbackgametime)
         {
-            foreach (var initializedEmitter in Lists.InitializedParticleEmitters)
+            foreach (var initializedEmitter in Lists.InitializedParticles)
                 initializedEmitter.OnDelete(callbackobjectlist, callbackobject, callbackgametime);
         }
 

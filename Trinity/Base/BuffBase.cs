@@ -2,14 +2,10 @@ namespace Trinity.Base
 {
     using System.Collections.Generic;
     using Helpers;
-    using Oasys.Common.GameObject.Clients;
-    using Oasys.Common.GameObject.Clients.ExtendedInstances;
     using Oasys.Common.Menu;
     using Oasys.Common.Menu.ItemComponents;
-    using Oasys.SDK.Tools;
 
     public delegate void OnAuraInitialize();
-
     public delegate void OnAuraDispose();
     
     /// <summary>

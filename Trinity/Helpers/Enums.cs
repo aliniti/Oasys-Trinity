@@ -181,6 +181,39 @@
         /// </summary>
         Unknown
     }
+
+    public enum PredictionFlag
+    {
+        /// <summary>
+        ///     The hero
+        /// </summary>
+        Hero,
+        
+        /// <summary>
+        ///     The minion
+        /// </summary>
+        Minion,
+        
+        /// <summary>
+        ///     The monster
+        /// </summary>
+        Monster,
+
+        /// <summary>
+        ///     The tower
+        /// </summary>
+        Tower,
+        
+        /// <summary>
+        ///     The particle
+        /// </summary>
+        Particle,
+        
+        /// <summary>
+        ///     The buff
+        /// </summary>
+        Buff
+    }
     
     public enum EmulationFlags
     {

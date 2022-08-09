@@ -11,13 +11,12 @@
     #endregion
 
     public delegate void OnEmitterInitialize();
-
     public delegate void OnEmitterDispose();
 
     /// <summary>
     ///     The particle emitter class responsible for in-game troys
     /// </summary>
-    public abstract class ParticleEmitterBase
+    public abstract class ParticleBase
     {
         #region Fields
 
@@ -39,7 +38,7 @@
         #region Properties and Encapsulation
 
         /// <summary>
-        ///     Gets or sets a value indicating whether this <see cref="ParticleEmitterBase" /> is included.
+        ///     Gets or sets a value indicating whether this <see cref="ParticleBase" /> is included.
         /// </summary>
         /// <value>
         ///     <c>true</c> if included; otherwise, <c>false</c>.

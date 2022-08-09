@@ -159,7 +159,7 @@
             if (ActivationTypes.Contains(ActivationType.CheckOnlyOnMe))
             {
                 if (myChampionOnly != null)
-                    if (myChampionOnly.HasAggro)
+                    if (myChampionOnly.HasAggro(UsePct > 55))
                     {
                         this.CheckSpellAuras(myChampionOnly.Instance);
                         this.CheckSpellDangerousSpells(myChampionOnly);
@@ -174,7 +174,7 @@
                     var hero = u.Value;
                     if (hero.Instance.Team == UnitManager.MyChampion.Team)
                         if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range)
-                            if (hero.HasAggro)
+                            if (hero.HasAggro(UsePct > 55))
                             {
                                 this.CheckSpellAuras(hero.Instance);
                                 this.CheckSpellDangerousSpells(hero);

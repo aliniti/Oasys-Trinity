@@ -61,7 +61,7 @@
                             this.CheckItemAllyLowHealth(ally.Instance);
 
                     if (TargetingType == TargetingType.ProximityAlly)
-                        if (ally.Instance.BuffManager.HasBuff(ItemBuffName) && ally.HasAggro)
+                        if (ally.Instance.BuffManager.HasBuff(ItemBuffName) && ally.HasAggro())
                             this.CheckItemAllyLowHealth(ally.Instance);
                 }
         }

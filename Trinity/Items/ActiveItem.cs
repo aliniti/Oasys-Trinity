@@ -143,8 +143,8 @@
                     this.CheckItemAuras(myHero.Instance);
                     this.CheckItemProximityCount(myHero.Instance);
                     this.CheckItemDangerousSpells(myHero);
-
-                    if (myHero.HasAggro || UsePct == 100)
+                    
+                    if (myHero.HasAggro(UsePct > 55) || UsePct == 100)
                     {
                         this.CheckItemAllyLowHealth(myHero.Instance);
                         this.CheckItemAllyLowMana(myHero.Instance);
@@ -166,7 +166,7 @@
                             this.CheckItemProximityCount(hero.Instance);
                             this.CheckItemDangerousSpells(hero);
 
-                            if (hero.HasAggro || UsePct == 100)
+                            if (hero.HasAggro(UsePct > 55) || UsePct == 100)
                             {
                                 this.CheckItemAllyLowHealth(hero.Instance);
                                 this.CheckItemAllyLowMana(hero.Instance);

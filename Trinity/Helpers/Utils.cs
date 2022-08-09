@@ -2,11 +2,14 @@
 {
     #region
 
+    using Base;
+    using Items;
+    using Spells;
+    
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Base;
-    using Items;
+
     using Oasys.Common;
     using Oasys.Common.Enums.GameEnums;
     using Oasys.Common.Extensions;
@@ -14,7 +17,7 @@
     using Oasys.Common.GameObject.Clients.ExtendedInstances;
     using Oasys.SDK;
     using Oasys.SDK.SpellCasting;
-    using Spells;
+
 
     #endregion
 
@@ -25,14 +28,14 @@
         /// <summary>
         ///     Resets the champion aggro values
         /// </summary>
-        /// <param name="champion"></param>
-        public static void ResetAggro(this Champion champion)
+        /// <param name="hero"></param>
+        public static void ResetAggro(this Champion hero)
         {
-            champion.AggroTick = 0;
-            champion.HasAggro = false;
-            champion.InDanger = false;
-            champion.InCrowdControl = false;
-            champion.InExtremeDanger = false;
+            hero.AggroTick = 0;
+            hero.InDanger = false;
+            hero.InCrowdControl = false;
+            hero.InExtremeDanger = false;
+            hero.PredictionFlags.Clear();
         }
 
         /// <summary>
@@ -194,15 +197,15 @@
             if (item.ActivationTypes.Contains(ActivationType.CheckDangerous))
             {
                 if (item.ItemSwitch[item.ItemId + "dangerextr"].IsOn)
-                    if (champion.HasAggro && champion.InExtremeDanger)
+                    if (champion.HasAggro() && champion.InExtremeDanger)
                         UseItem(item, enemy ?? champion.Instance);
 
                 if (item.ItemSwitch[item.ItemId + "dangercc"].IsOn)
-                    if (champion.HasAggro && champion.InCrowdControl)
+                    if (champion.HasAggro() && champion.InCrowdControl)
                         UseItem(item, enemy ?? champion.Instance);
 
                 if (item.ItemSwitch[item.ItemId + "dangernorm"].IsOn)
-                    if (champion.HasAggro && champion.InDanger)
+                    if (champion.HasAggro() && champion.InDanger)
                         UseItem(item, enemy ?? champion.Instance);
             }
         }
@@ -308,15 +311,15 @@
             if (spell.ActivationTypes.Contains(ActivationType.CheckDangerous))
             {
                 if (spell.SpellSwitch[tabName + "dangerextr"].IsOn)
-                    if (champion.HasAggro && champion.InExtremeDanger)
+                    if (champion.HasAggro() && champion.InExtremeDanger)
                         UseSpell(spell, enemy ?? champion.Instance);
 
                 if (spell.SpellSwitch[tabName + "dangercc"].IsOn)
-                    if (champion.HasAggro && champion.InCrowdControl)
+                    if (champion.HasAggro() && champion.InCrowdControl)
                         UseSpell(spell, enemy ?? champion.Instance);
 
                 if (spell.SpellSwitch[tabName + "dangernorm"].IsOn)
-                    if (champion.HasAggro && champion.InDanger)
+                    if (champion.HasAggro() && champion.InDanger)
                         UseSpell(spell, enemy ?? champion.Instance);
             }
         }
@@ -666,23 +669,23 @@
         /// </summary>
         /// <param name="hero">The champion</param>
         /// <param name="unit">The unit.</param>
-        public static void CheckProjectionSegment(this Champion hero, AIBaseClient unit)
+        public static bool CheckProjectionSegment(this Champion hero, AIBaseClient unit)
         {
-            if (unit == null) return;
+            if (unit == null) return false;
             
             // todo: failsafe: need a better way to implement this
             if ((int) (GameEngine.GameTime * 1000) - hero.AggroTick > 500)
                 hero.ResetAggro();
 
-            if (!unit.IsAlive) return;
-            if (!unit.IsCastingSpell) return;
+            if (!unit.IsAlive) return false;
+            if (!unit.IsCastingSpell) return false;
             
             var uRadius = unit.UnitComponentInfo.UnitBoundingRadius;
             var cRadius = hero.Instance.UnitComponentInfo.UnitBoundingRadius;
 
             var currentSpell = unit.GetCurrentCastingSpell();
             var name = currentSpell.SpellData.SpellName;
-            if (name is null) return;
+            if (name is null) return false;
             
             var gameTime = (int) (GameEngine.GameTime * 1000);
             SpellData entry = null;
@@ -706,8 +709,7 @@
                     hero.InCrowdControl = entry.EmuFlags.Contains(EmulationFlags.CrowdControl);
                     hero.InExtremeDanger = entry.EmuFlags.Contains(EmulationFlags.Ultimate);
                 }
-
-                hero.HasAggro = true;
+                
                 hero.AggroTick = gameTime;
             }
             else
@@ -723,7 +725,7 @@
                 var pInfo = hero.Instance.Position.ProjectOn(startPos, endPos);
                 var nearSegment = hero.Instance.Position.Distance(pInfo.SegmentPoint) <= radius;
                 
-                if (!pInfo.IsOnSegment || !nearSegment) return;
+                if (!pInfo.IsOnSegment || !nearSegment) return false;
                 if (entry != null)
                 {
                     var minions = entry.CollidesWith.Contains(CollisionObjectType.EnemyMinions);
@@ -731,16 +733,17 @@
 
                     var collision = pInfo.GetAllyUnitsOnSegment(radius, heroes, minions);
                     if (collision.Any(x => x.NetworkID != hero.Instance.NetworkID))
-                        return;
+                        return false;
 
                     hero.InDanger = entry.EmuFlags.Contains(EmulationFlags.Danger);
                     hero.InCrowdControl = entry.EmuFlags.Contains(EmulationFlags.CrowdControl);
                     hero.InExtremeDanger = entry.EmuFlags.Contains(EmulationFlags.Ultimate);
                 }
-
-                hero.HasAggro = true;
+                
                 hero.AggroTick = gameTime;
             }
+
+            return true;
         }
 
         #endregion

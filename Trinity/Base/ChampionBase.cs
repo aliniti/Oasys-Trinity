@@ -1,13 +1,10 @@
-using System.Collections.Generic;
-using Oasys.Common;
-using Oasys.Common.GameObject.Clients;
-using Oasys.Common.Menu;
-using Oasys.Common.Menu.ItemComponents;
-
 namespace Trinity.Base
 {
-    public delegate void OnChampionInitialize();
+    using System.Collections.Generic;
+    using Oasys.Common.Menu;
+    using Oasys.Common.Menu.ItemComponents;
 
+    public delegate void OnChampionInitialize();
     public delegate void OnChampionDispose();
 
 

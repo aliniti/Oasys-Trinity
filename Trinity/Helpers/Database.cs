@@ -204,6 +204,7 @@ namespace Trinity.Helpers
         public static List<SpellData> HeroSpells = new ();
 
         #endregion
+        
         static SpellData()
         {
             #region Aatrox

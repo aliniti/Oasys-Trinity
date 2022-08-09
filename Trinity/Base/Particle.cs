@@ -2,8 +2,8 @@ namespace Trinity.Base
 {
     #region
     
-    using System.Collections.Generic;
     using Helpers;
+    using System.Collections.Generic;
     using Oasys.Common.Extensions;
     using Oasys.Common.GameObject;
     using Oasys.Common.GameObject.Clients;
@@ -12,7 +12,7 @@ namespace Trinity.Base
 
     #endregion
 
-    public class ParticleEmitter : ParticleEmitterBase
+    public class Particle : ParticleBase
     {
         
         /// <summary>
@@ -83,13 +83,13 @@ namespace Trinity.Base
         #region Constructors and Destructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ParticleEmitter" /> class.
+        ///     Initializes a new instance of the <see cref="Particle" /> class.
         /// </summary>
         /// <param name="champ">The champion</param>
         /// <param name="name">The name.</param>
         /// <param name="slot">The slot.</param>
         /// <param name="inculded">if set to <c>true</c> [inculded].</param>
-        public ParticleEmitter(string champ, string name, float radius, double interval = 0.5, float delay = 0, EmulationFlags etype = EmulationFlags.None)
+        public Particle(string champ, string name, float radius, double interval = 0.5, float delay = 0, EmulationFlags etype = EmulationFlags.None)
         {
             Name = name;
             Radius = radius;
@@ -130,9 +130,10 @@ namespace Trinity.Base
                             unit.InDanger = EmulationFlags.Equals(EmulationFlags.Danger);
                             unit.InCrowdControl = EmulationFlags.Equals(EmulationFlags.CrowdControl);
                             unit.InExtremeDanger = EmulationFlags.Equals(EmulationFlags.Ultimate);
+                            
+                            unit.PredictionFlags.Add(PredictionFlag.Particle);
                             unit.AggroTick = (int) (GameEngine.GameTime * 1000);
-                            unit.HasAggro = true;
-
+                            
                             Limiter = (int) (GameEngine.GameTime * 1000);
                         }
             }

@@ -2,12 +2,9 @@ namespace Trinity.Base
 {
     using System.Linq;
     using Helpers;
-    using Oasys.Common;
-    using Oasys.Common.Enums.GameEnums;
     using Oasys.Common.Extensions;
     using Oasys.Common.Menu.ItemComponents;
     using Oasys.SDK;
-    using Oasys.SDK.Tools;
 
     public class Buff : BuffBase
     {
@@ -101,18 +98,18 @@ namespace Trinity.Base
             foreach (var b in Bootstrap.Allies)
             {
                 // gets the value in the key/value pair
-                var unit = b.Value;
+                var hero = b.Value;
                 
                 // todo: failsafe: need a better way to implement this
-                if ((int) (GameEngine.GameTime * 1000) - unit.AggroTick > 500)
+                if ((int) (GameEngine.GameTime * 1000) - hero.AggroTick > 500)
                 {
-                    unit.ResetAggro();
+                    hero.ResetAggro();
                 }
                 
                 if (!BuffSwitch[Name + "ene"].IsOn) continue;
                 if (!Interval.Equals(0.69))
                 {
-                    var buff = unit.Instance.BuffManager.GetActiveBuff(Name);
+                    var buff = hero.Instance.BuffManager.GetActiveBuff(Name);
                     if (buff != null && buff.IsActive)
                     {
                         var gameTime = (int) (GameEngine.GameTime * 1000);
@@ -123,11 +120,12 @@ namespace Trinity.Base
                         {
                             if ((int) (GameEngine.GameTime * 1000) - Limiter >= Interval * 1000)
                             {
-                                unit.InDanger = EmulationFlags.Equals(EmulationFlags.Danger);
-                                unit.InCrowdControl = EmulationFlags.Equals(EmulationFlags.CrowdControl);
-                                unit.InExtremeDanger = EmulationFlags.Equals(EmulationFlags.Ultimate);
-                                unit.AggroTick = (int) (GameEngine.GameTime * 1000);
-                                unit.HasAggro = true;
+                                hero.InDanger = EmulationFlags.Equals(EmulationFlags.Danger);
+                                hero.InCrowdControl = EmulationFlags.Equals(EmulationFlags.CrowdControl);
+                                hero.InExtremeDanger = EmulationFlags.Equals(EmulationFlags.Ultimate);
+                                
+                                hero.PredictionFlags.Add(PredictionFlag.Buff);
+                                hero.AggroTick = (int) (GameEngine.GameTime * 1000);
 
                                 Limiter = (int) (GameEngine.GameTime * 1000);
                             }
@@ -136,7 +134,7 @@ namespace Trinity.Base
                 }
                 else
                 {
-                    CheckReverseBuff(unit);
+                    CheckReverseBuff(hero);
                 }
             }
         }
@@ -152,33 +150,32 @@ namespace Trinity.Base
             this.BuffTab.AddItem(BuffSwitch[Name + "ene"]);
         }
 
-        public void CheckReverseBuff(Champion champion)
+        public void CheckReverseBuff(Champion hero)
         {
             var ene = Bootstrap.Enemies.Select(x => x.Value).FirstOrDefault();
-            if (ene != null && ene.Instance.BuffManager.HasActiveBuff(Name))
+            if (ene == null || !ene.Instance.BuffManager.HasActiveBuff(Name)) return;
+            
+            var buff = ene.Instance.BuffManager.GetActiveBuff(Name);
+            if (buff == null || !buff.IsActive)  return;
+                
+            var gameTime = (int) (GameEngine.GameTime * 1000);
+            var buffTime = (int) (buff.StartTime * 1000);
+
+            if (hero.Instance.Distance(ene.Instance) <= Radius + hero.Instance.UnitComponentInfo.UnitBoundingRadius)
             {
-                var buff = ene.Instance.BuffManager.GetActiveBuff(Name);
-                if (buff != null && buff.IsActive)
+                // check delay (e.g zed ult)
+                if (gameTime - buffTime >= Delay)
                 {
-                    var gameTime = (int) (GameEngine.GameTime * 1000);
-                    var buffTime = (int) (buff.StartTime * 1000);
-
-                    if (champion.Instance.Distance(ene.Instance) <= Radius + champion.Instance.UnitComponentInfo.UnitBoundingRadius)
+                    if ((int) (GameEngine.GameTime * 1000) - Limiter >= Interval * 1000)
                     {
-                        // check delay (e.g zed ult)
-                        if (gameTime - buffTime >= Delay)
-                        {
-                            if ((int) (GameEngine.GameTime * 1000) - Limiter >= Interval * 1000)
-                            {
-                                champion.InDanger = EmulationFlags.Equals(EmulationFlags.Danger);
-                                champion.InCrowdControl = EmulationFlags.Equals(EmulationFlags.CrowdControl);
-                                champion.InExtremeDanger = EmulationFlags.Equals(EmulationFlags.Ultimate);
-                                champion.AggroTick = (int) (GameEngine.GameTime * 1000);
-                                champion.HasAggro = true;
-
-                                Limiter = (int) (GameEngine.GameTime * 1000);
-                            }
-                        }
+                        hero.InDanger = EmulationFlags.Equals(EmulationFlags.Danger);
+                        hero.InCrowdControl = EmulationFlags.Equals(EmulationFlags.CrowdControl);
+                        hero.InExtremeDanger = EmulationFlags.Equals(EmulationFlags.Ultimate);
+                        
+                        hero.PredictionFlags.Add(PredictionFlag.Buff);
+                        hero.AggroTick = (int) (GameEngine.GameTime * 1000);
+                        
+                        Limiter = (int) (GameEngine.GameTime * 1000);
                     }
                 }
             }

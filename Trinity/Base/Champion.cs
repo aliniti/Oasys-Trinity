@@ -29,7 +29,17 @@
         /// <value>
         ///     <c>true</c> if [has aggro]; otherwise, <c>false</c>.
         /// </value>
-        public bool HasAggro { get; set; }
+        public bool HasAggro(bool minion = false)
+        {
+            var tabname = Instance.ModelName + (Instance.IsEnemy ? "e" : "a");
+
+            return PredictionFlags.Contains(PredictionFlag.Hero) && ChampionSwitch[tabname + "hro"].IsOn
+                   || PredictionFlags.Contains(PredictionFlag.Tower) && ChampionSwitch[tabname + "twr"].IsOn
+                   || PredictionFlags.Contains(PredictionFlag.Particle) && ChampionSwitch[tabname + "vfx"].IsOn
+                   || PredictionFlags.Contains(PredictionFlag.Buff) && ChampionSwitch[tabname + "buf"].IsOn
+                   || PredictionFlags.Contains(PredictionFlag.Monster) && ChampionSwitch[tabname + "jgl"].IsOn && minion
+                   || PredictionFlags.Contains(PredictionFlag.Minion) && ChampionSwitch[tabname + "min"].IsOn && minion;
+        }
 
         /// <summary>
         ///     Gets or sets a value indicating whether [in crowd control].
@@ -71,6 +81,14 @@
         /// </value>
         public int AggroTick { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the prediction flags.
+        /// </summary>
+        /// <value>
+        ///     The prediction flag.
+        /// </value>
+        public List<PredictionFlag> PredictionFlags { get; set; }
+        
         #endregion
 
         #region Constructors and Destructors
@@ -83,6 +101,7 @@
         {
             Instance = instance;
             AuraInfo = new Dictionary<string, int>();
+            PredictionFlags = new List<PredictionFlag>();
         }
 
         #endregion
@@ -92,46 +111,51 @@
         public override void OnTick()
         {
             if (Instance.IsEnemy) return;
-            var tabname = Instance.ModelName + (Instance.IsEnemy ? "e" : "a");
             
             foreach (var u in ObjectManagerExport.HeroCollection)
             {
                 var unit = u.Value;
-                if (unit.IsEnemy && ChampionSwitch[tabname + "hro"].IsOn)
-                    this.CheckProjectionSegment(unit);
+                if (unit.IsEnemy)
+                    if (this.CheckProjectionSegment(unit))
+                        PredictionFlags.Add(PredictionFlag.Hero);
             }
 
             foreach (var t in ObjectManagerExport.TurretCollection)
             {
                 var turret = t.Value;
-                if (turret.IsEnemy && ChampionSwitch[tabname + "twr"].IsOn)
-                    this.CheckProjectionSegment(turret);
+                if (turret.IsEnemy)
+                    if (this.CheckProjectionSegment(turret))
+                        PredictionFlags.Add(PredictionFlag.Tower);
             }
 
             foreach (var t in ObjectManagerExport.JungleObjectCollection)
             {
                 var minion = t.Value;
-                if (minion.IsNeutral && ChampionSwitch[tabname + "jgl"].IsOn)
-                    this.CheckProjectionSegment(minion);
+                if (minion.IsNeutral)
+                    if (this.CheckProjectionSegment(minion))
+                        PredictionFlags.Add(PredictionFlag.Monster);
             }
             
             foreach (var t in ObjectManagerExport.MinionCollection)
             {
                 var minion = t.Value;
-                if (minion.IsEnemy && ChampionSwitch[tabname + "min"].IsOn)
-                    this.CheckProjectionSegment(minion);
+                if (minion.IsEnemy)
+                    if (this.CheckProjectionSegment(minion))
+                        PredictionFlags.Add(PredictionFlag.Minion);
             }
         }
-
+        
         public override void CreateTab()
         {
             var tabname = Instance.ModelName + (Instance.IsEnemy ? "e" : "a");
             
             ChampionGroup[tabname + "grp"] = new Group  { Title = "[Pred] " + Instance.ModelName };
             ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "hro"] = new Switch { IsOn = true, Title = "Predict spell/auto attacks" });
-            ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "min"] = new Switch { IsOn = false, Title = "Predict minion attacks" });
+            ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "min"] = new Switch { IsOn = true, Title = "Predict minion attacks" });
             ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "jgl"] = new Switch { IsOn = true, Title = "Predict neutral monsters attacks" });
             ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "twr"] = new Switch { IsOn = true, Title = "Predict tower attacks" });
+            ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "vfx"] = new Switch { IsOn = true, Title = "Predict particle/vfx" });
+            ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "buf"] = new Switch { IsOn = true, Title = "Predict buffs" });
 
             ChampionTab.AddGroup(ChampionGroup[tabname + "grp"]);
         }

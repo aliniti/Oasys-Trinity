@@ -24,8 +24,8 @@ namespace Trinity.Helpers
         public static readonly List<BuffBase> AllAuras = new();
         public static readonly List<BuffBase> InitializedAuras = new();
 
-        public static readonly List<ParticleEmitterBase> AllParticleEmitters = new();
-        public static readonly List<ParticleEmitterBase> InitializedParticleEmitters = new();
+        public static readonly List<ParticleBase> AllParticles = new();
+        public static readonly List<ParticleBase> InitializedParticles = new();
 
         public static readonly List<ChampionBase> AllChampions = new();
         public static readonly List<ChampionBase> InitializedChampions = new();
@@ -128,47 +128,47 @@ namespace Trinity.Helpers
         };
 
         /// <summary>
-        ///     The particle emitters for income damage prediction
+        ///     The particles for income damage prediction
         /// </summary>
-        public static readonly List<ParticleEmitter> ParticleEmitters = new()
+        public static readonly List<Particle> Particles = new()
         {
-            new ParticleEmitter("Akshan", "R_mis", 100, 1, 0, EmulationFlags.Ultimate),
-            new ParticleEmitter("Lux", "e_tar_aoe", 175, 0.65),
-            new ParticleEmitter("Qiyana", "R_Indicator_Ring", 175, 1, 0f, EmulationFlags.Ultimate),
-            new ParticleEmitter("Renekton", "R_buf", 266, 0.65),
-            new ParticleEmitter("Nasus", "SpiritFire", 385, 0.65),
-            new ParticleEmitter("Nasus", "R_Avatar", 266, 0.65),
-            new ParticleEmitter("Annie", "AnnieTibbers", 266),
-            new ParticleEmitter("Alistar", "E_TrampleAOE", 266),
-            new ParticleEmitter("Ryze", "_E", 100),
-            new ParticleEmitter("Gangplank", "_R", 400, 1.3),
-            new ParticleEmitter("Morgana", "W_tar", 275, 0.75),
-            new ParticleEmitter("Hecarim", "Hecarim_Defile", 400, 0.75),
-            new ParticleEmitter("Hecarim", "W_AoE", 400, 0.75),
-            new ParticleEmitter("Diana", "W_Shield", 225, 1),
-            new ParticleEmitter("Sion", "W_Shield", 225, 1),
-            new ParticleEmitter("Karthus", "P_Defile", 400, 0.35),
-            new ParticleEmitter("Karthus", "E_Defile", 400, 0.35),
-            new ParticleEmitter("Karthus", "R_Target", 100, 1, 750f, EmulationFlags.Ultimate),
-            new ParticleEmitter("Elise", "W_volatile", 250, 0.3),
-            new ParticleEmitter("FiddleSticks", "Crowstorm", 400, 0.5, 0f, EmulationFlags.Ultimate),
-            new ParticleEmitter("Fizz", "R_Ring", 300, 1, 800, EmulationFlags.Ultimate),
-            new ParticleEmitter("Fizz", "E1_Indicator_Ring", 300, 1, 800, EmulationFlags.Danger),
-            new ParticleEmitter("Katarina", "deathLotus_tar", 500, 0.6, 0f, EmulationFlags.Ultimate),
-            new ParticleEmitter("Nautilus", "R_sequence_impact", 250, 1, 0f, EmulationFlags.Ultimate),
-            new ParticleEmitter("Kennen", "lr_buf", 250, 0.8),
-            new ParticleEmitter("Kennen", "ss_aoe", 450, 0.5, 0f, EmulationFlags.Ultimate),
-            new ParticleEmitter("Caitlyn", "yordleTrap", 265),
-            new ParticleEmitter("Caitlyn", "R_mis", 100, 1, 0, EmulationFlags.Ultimate),
-            new ParticleEmitter("Viktor", "_ChaosStorm", 425, 0.5, 0f, EmulationFlags.Ultimate),
-            new ParticleEmitter("Viktor", "_Catalyst", 375, 0.5, 0f, EmulationFlags.CrowdControl),
-            new ParticleEmitter("Viktor", "W_AUG", 375, 0.5, 0f, EmulationFlags.CrowdControl),
-            new ParticleEmitter("Riven", "Q_tar", 150),
-            new ParticleEmitter("Anivia", "cryo_storm", 400),
-            new ParticleEmitter("Ziggs", "ZiggsE", 325),
-            new ParticleEmitter("Ziggs", "ZiggsWRing", 325, 0.5, 0f, EmulationFlags.CrowdControl),
-            new ParticleEmitter("Soraka", "E_rune", 375, 0.5, 500f, EmulationFlags.CrowdControl),
-            new ParticleEmitter("Cassiopeia", "Miasma_tar", 150)
+            new Particle("Akshan", "R_mis", 100, 1, 0, EmulationFlags.Ultimate),
+            new Particle("Lux", "e_tar_aoe", 175, 0.65),
+            new Particle("Qiyana", "R_Indicator_Ring", 175, 1, 0f, EmulationFlags.Ultimate),
+            new Particle("Renekton", "R_buf", 266, 0.65),
+            new Particle("Nasus", "SpiritFire", 385, 0.65),
+            new Particle("Nasus", "R_Avatar", 266, 0.65),
+            new Particle("Annie", "AnnieTibbers", 266),
+            new Particle("Alistar", "E_TrampleAOE", 266),
+            new Particle("Ryze", "_E", 100),
+            new Particle("Gangplank", "_R", 400, 1.3),
+            new Particle("Morgana", "W_tar", 275, 0.75),
+            new Particle("Hecarim", "Hecarim_Defile", 400, 0.75),
+            new Particle("Hecarim", "W_AoE", 400, 0.75),
+            new Particle("Diana", "W_Shield", 225, 1),
+            new Particle("Sion", "W_Shield", 225, 1),
+            new Particle("Karthus", "P_Defile", 400, 0.35),
+            new Particle("Karthus", "E_Defile", 400, 0.35),
+            new Particle("Karthus", "R_Target", 100, 1, 750f, EmulationFlags.Ultimate),
+            new Particle("Elise", "W_volatile", 250, 0.3),
+            new Particle("FiddleSticks", "Crowstorm", 400, 0.5, 0f, EmulationFlags.Ultimate),
+            new Particle("Fizz", "R_Ring", 300, 1, 800, EmulationFlags.Ultimate),
+            new Particle("Fizz", "E1_Indicator_Ring", 300, 1, 800, EmulationFlags.Danger),
+            new Particle("Katarina", "deathLotus_tar", 500, 0.6, 0f, EmulationFlags.Ultimate),
+            new Particle("Nautilus", "R_sequence_impact", 250, 1, 0f, EmulationFlags.Ultimate),
+            new Particle("Kennen", "lr_buf", 250, 0.8),
+            new Particle("Kennen", "ss_aoe", 450, 0.5, 0f, EmulationFlags.Ultimate),
+            new Particle("Caitlyn", "yordleTrap", 265),
+            new Particle("Caitlyn", "R_mis", 100, 1, 0, EmulationFlags.Ultimate),
+            new Particle("Viktor", "_ChaosStorm", 425, 0.5, 0f, EmulationFlags.Ultimate),
+            new Particle("Viktor", "_Catalyst", 375, 0.5, 0f, EmulationFlags.CrowdControl),
+            new Particle("Viktor", "W_AUG", 375, 0.5, 0f, EmulationFlags.CrowdControl),
+            new Particle("Riven", "Q_tar", 150),
+            new Particle("Anivia", "cryo_storm", 400),
+            new Particle("Ziggs", "ZiggsE", 325),
+            new Particle("Ziggs", "ZiggsWRing", 325, 0.5, 0f, EmulationFlags.CrowdControl),
+            new Particle("Soraka", "E_rune", 375, 0.5, 500f, EmulationFlags.CrowdControl),
+            new Particle("Cassiopeia", "Miasma_tar", 150)
         };
 
         /// <summary>
@@ -508,7 +508,7 @@ namespace Trinity.Helpers
         public static void Populate()
         {
             AllAuras.AddRange(Auras);
-            AllParticleEmitters.AddRange(ParticleEmitters);
+            AllParticles.AddRange(Particles);
             AllSpells.AddRange(AutoSpells);
             AllSpells.AddRange(SummonerInputSpells);
             AllSpells.AddRange(SummonerTickSpells);
@@ -533,7 +533,7 @@ namespace Trinity.Helpers
             AllItems.Clear();
             AllSpells.Clear();
             AllChampions.Clear();
-            AllParticleEmitters.Clear();
+            AllParticles.Clear();
         }
 
         #endregion
