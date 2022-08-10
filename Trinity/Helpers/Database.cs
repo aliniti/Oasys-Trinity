@@ -2498,6 +2498,8 @@ namespace Trinity.Helpers
 
             #endregion
 
+            #region Gnar
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "gnarq",
@@ -2614,6 +2616,10 @@ namespace Trinity.Helpers
                 CastSpeed = 4800
             });
 
+            #endregion
+
+            #region Garen
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "garenw",
@@ -2651,7 +2657,9 @@ namespace Trinity.Helpers
                 CastSpeed = 4800
             });
 
-            // todo: improve gragas
+            #endregion
+
+            #region Gragas
             HeroSpells.Add(new SpellData
             {
                 SpellName = "gragasq",
@@ -2712,11 +2720,18 @@ namespace Trinity.Helpers
                 FixedRange = true,
                 CastRange = 600f,
                 CastDelay = 250f,
-                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                EmuFlags = new[] 
+                { 
+                    EmulationFlags.Danger, EmulationFlags.CrowdControl, 
+                    EmulationFlags.Initiator, EmulationFlags.Gapcloser 
+                },
                 MissileName = "gragase",
                 CastSpeed = 550
             });
 
+            #endregion
+
+            #region Graves
             HeroSpells.Add(new SpellData
             {
                 SpellName = "gragasr",
@@ -2781,7 +2796,9 @@ namespace Trinity.Helpers
                 MissileName = "graveschargeshotshot",
                 CastSpeed = 2100
             });
+            #endregion
 
+            #region Gwen
             HeroSpells.Add(new SpellData
             {
                 SpellName = "gwenq",
@@ -2839,7 +2856,10 @@ namespace Trinity.Helpers
                 EmuFlags = new EmulationFlags[] { },
                 CastSpeed = 1800,
             });
-            
+
+            #endregion
+
+            #region Hecarim
             HeroSpells.Add(new SpellData
             {
                 SpellName = "hecarimrapidslash",
@@ -2903,6 +2923,9 @@ namespace Trinity.Helpers
                 CastSpeed = 1100
             });
 
+            #endregion
+
+            #region Heimerdinger
             HeroSpells.Add(new SpellData
             {
                 SpellName = "heimerdingerturretenergyblast",
@@ -2982,7 +3005,10 @@ namespace Trinity.Helpers
                 EmuFlags = new[] { EmulationFlags.CrowdControl },
                 CastSpeed = 1450
             });
+             
+            #endregion
 
+            #region Irelia
             HeroSpells.Add(new SpellData
             {
                 SpellName = "ireliagatotsu",
@@ -3034,6 +3060,9 @@ namespace Trinity.Helpers
                 CastSpeed = 1600
             });
 
+            #endregion
+
+            #region Illaoi
             HeroSpells.Add(new SpellData
             {
                 SpellName = "illaoiq",
@@ -3088,6 +3117,9 @@ namespace Trinity.Helpers
                 CastSpeed = 4800
             });
 
+            #endregion
+
+            #region Ivern
             HeroSpells.Add(new SpellData
             {
                 SpellName = "ivernq",
@@ -3129,6 +3161,9 @@ namespace Trinity.Helpers
                 CastSpeed = 4800
             });
 
+            #endregion
+
+            #region Janna
             HeroSpells.Add(new SpellData
             {
                 SpellName = "howlinggale",
@@ -3179,6 +3214,9 @@ namespace Trinity.Helpers
                 CastSpeed = 4800
             });
 
+            #endregion
+
+            #region JarvanIV
             HeroSpells.Add(new SpellData
             {
                 SpellName = "jarvanivdragonstrike",
@@ -3230,6 +3268,9 @@ namespace Trinity.Helpers
                 CastSpeed = 4800
             });
 
+            #endregion
+
+            #region Jax
             HeroSpells.Add(new SpellData
             {
                 SpellName = "jaxleapstrike",
@@ -3268,6 +3309,9 @@ namespace Trinity.Helpers
                 CastSpeed = 4800
             });
 
+            #endregion
+
+            #region Jayce
             HeroSpells.Add(new SpellData
             {
                 SpellName = "jaycetotheskies",
@@ -3369,6 +3413,9 @@ namespace Trinity.Helpers
                 CastSpeed = 4800
             });
 
+            #endregion
+
+            #region Jhin
             HeroSpells.Add(new SpellData
             {
                 SpellName = "jhinq",
@@ -3424,6 +3471,9 @@ namespace Trinity.Helpers
                 CastSpeed = 5000
             });
 
+            #endregion
+
+            #region Jinx
             HeroSpells.Add(new SpellData
             {
                 SpellName = "jinxq",
@@ -3482,7 +3532,11 @@ namespace Trinity.Helpers
                 EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
                 CastSpeed = 1700
             });
-            
+
+            #endregion
+
+            #region Kaisa
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "kaisaw",
@@ -3497,6 +3551,8 @@ namespace Trinity.Helpers
                 MissileName = "kaisawmis",
                 CastSpeed = 1750
             });
+
+            #endregion
 
             HeroSpells.Add(new SpellData
             {

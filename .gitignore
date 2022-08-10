@@ -224,3 +224,6 @@ pip-log.txt
 *.v1
 Trinity/.editorconfig
 Trinity/.idea/
+*.v5
+*.vsidx
+*.lock
