@@ -3,6 +3,7 @@ namespace Trinity.Base
     using System.Collections.Generic;
     using Oasys.Common.Menu;
     using Oasys.Common.Menu.ItemComponents;
+    using Oasys.Common.GameObject.Clients;
 
     public delegate void OnChampionInitialize();
     public delegate void OnChampionDispose();
@@ -63,6 +64,7 @@ namespace Trinity.Base
 
         public abstract void OnTick();
         public abstract void CreateTab();
+        public abstract void OnCreate(List<AIBaseClient> callbackobjectlist, AIBaseClient callbackobject, float callbackgametime);
         
         public event OnChampionInitialize OnChampionInitialize;
         public event OnChampionDispose OnChampionDispose;

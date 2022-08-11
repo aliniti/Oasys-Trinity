@@ -18,7 +18,6 @@
     using Oasys.SDK;
     using Oasys.SDK.SpellCasting;
 
-
     #endregion
 
     public static class Utils
@@ -67,6 +66,11 @@
         public static bool HasBuffOfType(this AIHeroClient hero, BuffType type)
         {
             return hero.BuffManager.GetBuffList().FirstOrDefault(x =>  x.IsActive && x.EntryType == type) != null;
+        }
+
+        public static AIBaseClient GetHeroByIndex(short index)
+        {
+            return ObjectManagerExport.HeroCollection.Values.FirstOrDefault(v => v.Index == index);
         }
 
         /// <summary>
@@ -620,50 +624,114 @@
             if (spell.ActivationTypes.Contains(ActivationType.CheckAuras))
             {
                 var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
-                var championObj = Bootstrap.Allies.FirstOrDefault(x => x.Value.Instance.NetworkID == hero.NetworkID).Value;
-                if (championObj?.Instance == null) return;
+                var champObj = Bootstrap.Allies.FirstOrDefault(x => x.Value.Instance.NetworkID == hero.NetworkID).Value;
+                if (champObj?.Instance == null) return;
 
-                var healthPct = championObj.Instance.Health / championObj.Instance.MaxHealth * 100;
+                var healthPct = champObj.Instance.Health / champObj.Instance.MaxHealth * 100;
                 if (healthPct > spell.SpellCounter[tabName + "MinimumBuffsHP"].Value &&
                     spell.SpellSwitch[tabName + "SwitchMinimumBuffHP"].IsOn)
                     return;
 
-                championObj.AuraInfo[tabName + "BuffCount"] = GetAuras(spell, championObj).Count();
-                championObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
+                champObj.AuraInfo[tabName + "BuffCount"] = GetAuras(spell, champObj).Count();
+                champObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
 
-                if (championObj.AuraInfo[tabName + "BuffCount"] > 0)
+                if (champObj.AuraInfo[tabName + "BuffCount"] > 0)
                 {
-                    foreach (var buff in GetAuras(spell, championObj))
+                    foreach (var buff in GetAuras(spell, champObj))
                     {
                         var length = (int) (buff.EndTime - buff.StartTime);
-                        if (length >= championObj.AuraInfo[tabName + "BuffHighestTime"]) championObj.AuraInfo[tabName + "BuffHighestTime"] = length * 1000;
+                        if (length >= champObj.AuraInfo[tabName + "BuffHighestTime"]) champObj.AuraInfo[tabName + "BuffHighestTime"] = length * 1000;
                     }
 
-                    championObj.AuraInfo[tabName + "BuffTimestamp"] = (int) (GameEngine.GameTime * 1000);
+                    champObj.AuraInfo[tabName + "BuffTimestamp"] = (int) (GameEngine.GameTime * 1000);
                 }
                 else
                 {
-                    switch (championObj.AuraInfo[tabName + "BuffHighestTime"])
+                    switch (champObj.AuraInfo[tabName + "BuffHighestTime"])
                     {
                         case > 0:
-                            championObj.AuraInfo[tabName + "BuffHighestTime"] -= championObj.AuraInfo[tabName + "BuffHighestTime"];
+                            champObj.AuraInfo[tabName + "BuffHighestTime"] -= champObj.AuraInfo[tabName + "BuffHighestTime"];
                             break;
                         default:
-                            championObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
+                            champObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
                             break;
                     }
                 }
 
-                if (championObj.AuraInfo[tabName + "BuffCount"] < spell.SpellCounter[tabName + "MinimumBuffs"].Value) return;
-                if (championObj.AuraInfo[tabName + "BuffHighestTime"] >= spell.SpellCounter[tabName + "MinimumBuffsDuration"].Value)
+                if (champObj.AuraInfo[tabName + "BuffCount"] < spell.SpellCounter[tabName + "MinimumBuffs"].Value) return;
+                if (champObj.AuraInfo[tabName + "BuffHighestTime"] >= spell.SpellCounter[tabName + "MinimumBuffsDuration"].Value)
                 {
-                    UseSpell(spell, championObj.Instance);
-                    championObj.AuraInfo[tabName + "BuffCount"] = 0;
-                    championObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
+                    UseSpell(spell, champObj.Instance);
+                    champObj.AuraInfo[tabName + "BuffCount"] = 0;
+                    champObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
                 }
             }
         }
 
+        public static bool CheckMissileSegment(this Champion hero, AIBaseClient unit)
+        {
+            if (unit == null) return false;
+            if (!unit.IsObject(ObjectTypeFlag.AIMissileClient)) return false;
+
+            var missile = unit.As<AIMissileClient>();
+            if (missile is null) return false;
+
+            var uRadius = unit.UnitComponentInfo.UnitBoundingRadius;
+            var cRadius = hero.Instance.UnitComponentInfo.UnitBoundingRadius;
+
+            var source = GetHeroByIndex(missile.SourceIndex);
+            if (source == null) return false;
+            
+            var gameTime = (int) (GameEngine.GameTime * 1000);
+            if (missile.SpellData.SpellWidth < 1) return  false;
+            
+            SpellData entry = null;
+            foreach (var x in SpellData.HeroSpells)
+            {
+                if (x.ChampionName.ToLower() != unit.ModelName.ToLower()) continue;
+                if (x.MissileName.ToLower() == missile.Name.ToLower() || x.Slot == (SpellSlot) missile.Slot)
+                {
+                    entry = x;
+                    break;
+                }
+
+                if (x.ExtraMissileNames.Any(y => missile.Name.ToLower() == y.ToLower()))
+                {
+                    entry = x;
+                    break;
+                }
+            }
+            
+            var startPos = missile.StartPosition;
+            var endPos = missile.EndPosition;
+            var direction = (endPos - startPos).Normalized();
+            var radius = (int) Math.Max(50, missile.SpellData.SpellWidth) + cRadius;
+
+            if (startPos.Distance(endPos) > missile.SpellData.CastRange)
+                endPos = startPos + direction * missile.SpellData.CastRange;
+
+            var pInfo = hero.Instance.Position.ProjectOn(startPos, endPos);
+            var nearSegment = hero.Instance.Position.Distance(pInfo.SegmentPoint) <= radius;
+                
+            if (!pInfo.IsOnSegment || !nearSegment) return false;
+            if (entry != null)
+            {
+                var minions = entry.CollidesWith.Contains(CollisionObjectType.EnemyMinions);
+                var heroes  = entry.CollidesWith.Contains(CollisionObjectType.EnemyHeroes);
+
+                var collision = pInfo.GetAllyUnitsOnSegment(radius, heroes, minions);
+                if (collision.Any(x => x.NetworkID != hero.Instance.NetworkID))
+                    return false;
+
+                hero.InDanger = entry.EmuFlags.Contains(EmulationFlags.Danger);
+                hero.InCrowdControl = entry.EmuFlags.Contains(EmulationFlags.CrowdControl);
+                hero.InExtremeDanger = entry.EmuFlags.Contains(EmulationFlags.Ultimate);
+            }
+                
+            hero.AggroTick = gameTime;
+            return true;
+        }
+        
         /// <summary>
         ///     Checks the projection segment.
         /// </summary>

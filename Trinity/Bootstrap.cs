@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Trinity
+﻿namespace Trinity
 {
     #region
     
@@ -264,6 +262,9 @@ namespace Trinity
         {
             foreach (var initializedEmitter in Lists.InitializedParticles)
                 initializedEmitter.OnCreate(callbackobjectlist, callbackobject, callbackgametime);
+            
+            foreach (var initializedChampion in Lists.InitializedChampions)
+                initializedChampion.OnCreate(callbackobjectlist, callbackobject, callbackgametime);
         }
         
         /// <summary>

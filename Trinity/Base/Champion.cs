@@ -36,6 +36,7 @@
             return PredictionFlags.Contains(PredictionFlag.Hero) && ChampionSwitch[tabname + "hro"].IsOn
                    || PredictionFlags.Contains(PredictionFlag.Tower) && ChampionSwitch[tabname + "twr"].IsOn
                    || PredictionFlags.Contains(PredictionFlag.Particle) && ChampionSwitch[tabname + "vfx"].IsOn
+                   || PredictionFlags.Contains(PredictionFlag.Missile) && ChampionSwitch[tabname + "mis"].IsOn
                    || PredictionFlags.Contains(PredictionFlag.Buff) && ChampionSwitch[tabname + "buf"].IsOn
                    || PredictionFlags.Contains(PredictionFlag.Monster) && ChampionSwitch[tabname + "jgl"].IsOn && minion
                    || PredictionFlags.Contains(PredictionFlag.Minion) && ChampionSwitch[tabname + "min"].IsOn && minion;
@@ -151,6 +152,7 @@
             
             ChampionGroup[tabname + "grp"] = new Group  { Title = "[Pred] " + Instance.ModelName };
             ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "hro"] = new Switch { IsOn = true, Title = "Predict spell/auto attacks" });
+            ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "mis"] = new Switch { IsOn = true, Title = "Predict missiles from fow (beta)" });
             ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "min"] = new Switch { IsOn = true, Title = "Predict minion attacks" });
             ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "jgl"] = new Switch { IsOn = true, Title = "Predict neutral monsters attacks" });
             ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "twr"] = new Switch { IsOn = true, Title = "Predict tower attacks" });
@@ -158,6 +160,13 @@
             ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "buf"] = new Switch { IsOn = true, Title = "Predict buffs" });
 
             ChampionTab.AddGroup(ChampionGroup[tabname + "grp"]);
+        }
+
+        public override void OnCreate(List<AIBaseClient> callbackobjectlist, AIBaseClient callbackobject, float callbackgametime)
+        {
+            if (callbackobject.IsEnemy)
+                if (this.CheckMissileSegment(callbackobject))
+                    PredictionFlags.Add(PredictionFlag.Missile);
         }
 
         #endregion

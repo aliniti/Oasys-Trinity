@@ -212,7 +212,12 @@
         /// <summary>
         ///     The buff
         /// </summary>
-        Buff
+        Buff,
+        
+        /// <summary>
+        ///     The missile
+        /// </summary>
+        Missile
     }
     
     public enum EmulationFlags

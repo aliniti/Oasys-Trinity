@@ -4041,6 +4041,8 @@ namespace Trinity.Helpers
                 CastSpeed = 2200
             });
 
+            #region Kled
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "kledq",
@@ -4111,6 +4113,8 @@ namespace Trinity.Helpers
                 EmuFlags = new[] { EmulationFlags.Initiator },
                 CastSpeed = 4800
             });
+
+            #endregion
 
             HeroSpells.Add(new SpellData
             {
@@ -6182,6 +6186,8 @@ namespace Trinity.Helpers
 
             #endregion
 
+            #region Renekton
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "renektoncleave",
@@ -6231,30 +6237,22 @@ namespace Trinity.Helpers
                 CastSpeed = 4800
             });
 
-            HeroSpells.Add(new SpellData
-            {
-                SpellName = "rengarq2",
-                ChampionName = "rengar",
-                Slot = SpellSlot.Q,
-                CastType = CastType.Location,
-                CastRange = 275f,
-                Radius = 150f,
-                CastDelay = 250f,
-                EmuFlags = new EmulationFlags[] { },
-                CastSpeed = 4800
-            });
+            #endregion
+            
+            #region Rengar
 
             HeroSpells.Add(new SpellData
             {
-                SpellName = "rengarq2emp",
+                SpellName = "rengarq",
                 ChampionName = "rengar",
                 Slot = SpellSlot.Q,
-                CastType = CastType.Location,
-                CastRange = 275f,
-                Radius = 150f,
+                DisplayName = "Savagery",
+                CastRange = 0f,
+                Radius = 0f,
                 CastDelay = 250f,
-                EmuFlags = new[] { EmulationFlags.Danger },
-                CastSpeed = 4800
+                CastType = CastType.Proximity,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
             });
 
             HeroSpells.Add(new SpellData
@@ -6262,11 +6260,13 @@ namespace Trinity.Helpers
                 SpellName = "rengarw",
                 ChampionName = "rengar",
                 Slot = SpellSlot.W,
-                CastType = CastType.Proximity,
-                CastRange = 500f,
+                DisplayName = "Battle Roar",
+                CastRange = 0f,
+                Radius = 450f,
                 CastDelay = 250f,
+                CastType = CastType.Proximity,
                 EmuFlags = new EmulationFlags[] { },
-                CastSpeed = 4800
+                CastSpeed = 4800,
             });
 
             HeroSpells.Add(new SpellData
@@ -6274,15 +6274,14 @@ namespace Trinity.Helpers
                 SpellName = "rengare",
                 ChampionName = "rengar",
                 Slot = SpellSlot.E,
-                CastType = CastType.Direction,
-                CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
-                FixedRange = true,
+                CollidesWith = new [] { CollisionObjectType.EnemyHeroes, CollisionObjectType.EnemyMinions },
+                DisplayName = "Bola Strike",
                 CastRange = 1000f,
+                Radius = 140f,
                 CastDelay = 250f,
-                EmuFlags = new[] { EmulationFlags.CrowdControl },
-                MissileName = "rengaremis",
-                ExtraMissileNames = new[] { "rengareempmis" },
-                CastSpeed = 1500
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 1500,
             });
 
             HeroSpells.Add(new SpellData
@@ -6290,13 +6289,19 @@ namespace Trinity.Helpers
                 SpellName = "rengarr",
                 ChampionName = "rengar",
                 Slot = SpellSlot.R,
-                CastType = CastType.Proximity,
+                DisplayName = "Thrill of the Hunt",
                 CastRange = 0f,
+                Radius = 2500f,
+                SecondaryRadius = 3500f,
                 CastDelay = 250f,
-                EmuFlags = new[] { EmulationFlags.Initiator },
-                CastSpeed = 4800
+                CastType = CastType.Proximity,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
             });
 
+            #endregion
+
+            #region Rek'sai
             HeroSpells.Add(new SpellData
             {
                 SpellName = "reksaiq",
@@ -6386,6 +6391,9 @@ namespace Trinity.Helpers
                 CastSpeed = 4800
             });
 
+            #endregion
+            
+            #region Rell
             HeroSpells.Add(new SpellData
             {
                 SpellName = "rellq",
@@ -6458,6 +6466,9 @@ namespace Trinity.Helpers
                 CastSpeed = 300,
             });
             
+            #endregion
+            
+            #region Riven
             HeroSpells.Add(new SpellData
             {
                 SpellName = "riventricleave",
@@ -6522,6 +6533,9 @@ namespace Trinity.Helpers
                 CastSpeed = 1600
             });
 
+            #endregion
+            
+            #region Rumble
             HeroSpells.Add(new SpellData
             {
                 SpellName = "rumbleflamethrower",
@@ -6572,6 +6586,10 @@ namespace Trinity.Helpers
                 MissileName = "rumblecarpetbombmissile",
                 CastSpeed = 1600
             });
+
+            #endregion
+
+            #region Ryze
 
             HeroSpells.Add(new SpellData
             {
@@ -6624,7 +6642,11 @@ namespace Trinity.Helpers
                 EmuFlags = new[] { EmulationFlags.Initiator },
                 CastSpeed = 1400
             });
-            
+
+            #endregion
+
+            #region Samira
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "samiraq",
@@ -6683,6 +6705,10 @@ namespace Trinity.Helpers
                 CastSpeed = 4800,
             });
 
+            #endregion
+
+            #region Sejuani
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "sejuaniarcticassault",
@@ -6740,7 +6766,11 @@ namespace Trinity.Helpers
                 MissileName = "sejuaniglacialprison",
                 CastSpeed = 1600
             });
-            
+
+            #endregion
+
+            #region Senna
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "sennaqcast",
@@ -6781,7 +6811,11 @@ namespace Trinity.Helpers
                 EmuFlags = new[] { EmulationFlags.Danger },
                 CastSpeed = 2000
             });
-            
+
+            #endregion
+
+            #region Seraphine
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "seraphineq",
@@ -6837,7 +6871,11 @@ namespace Trinity.Helpers
                 EmuFlags = new[] {  EmulationFlags.Ultimate },
                 CastSpeed = 1600,
             });
-            
+
+            #endregion
+
+            #region Shaco
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "deceive",
@@ -6885,6 +6923,10 @@ namespace Trinity.Helpers
                 EmuFlags = new EmulationFlags[] { },
                 CastSpeed = 395
             });
+
+            #endregion
+
+            #region Shen
 
             HeroSpells.Add(new SpellData
             {
@@ -6935,6 +6977,10 @@ namespace Trinity.Helpers
                 EmuFlags = new EmulationFlags[] { },
                 CastSpeed = 4800
             });
+
+            #endregion
+
+            #region Shyvana
 
             HeroSpells.Add(new SpellData
             {
@@ -7031,6 +7077,10 @@ namespace Trinity.Helpers
                 CastSpeed = 1100
             });
 
+            #endregion
+
+            #region Singed
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "poisentrail",
@@ -7078,6 +7128,10 @@ namespace Trinity.Helpers
                 EmuFlags = new[] { EmulationFlags.Initiator },
                 CastSpeed = 4800
             });
+
+            #endregion
+
+            #region Sion
 
             HeroSpells.Add(new SpellData
             {
@@ -7131,6 +7185,10 @@ namespace Trinity.Helpers
                 CastSpeed = 500
             });
 
+            #endregion
+
+            #region Sivir
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "sivirq",
@@ -7183,6 +7241,10 @@ namespace Trinity.Helpers
                 CastSpeed = 4800
             });
 
+            #endregion
+
+            #region Skarner
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "skarnervirulentslash",
@@ -7232,6 +7294,10 @@ namespace Trinity.Helpers
                 EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl, EmulationFlags.Initiator },
                 CastSpeed = 4800
             });
+
+            #endregion
+
+            #region Sona
 
             HeroSpells.Add(new SpellData
             {
@@ -7288,6 +7354,10 @@ namespace Trinity.Helpers
                 CastSpeed = 2400
             });
 
+            #endregion
+
+            #region Soraka
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "sorakaq",
@@ -7336,7 +7406,11 @@ namespace Trinity.Helpers
                 EmuFlags = new EmulationFlags[] { },
                 CastSpeed = 4800
             });
-            
+
+            #endregion
+
+            #region Swain
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "swainq",
@@ -7386,7 +7460,11 @@ namespace Trinity.Helpers
                 EmuFlags = new EmulationFlags[] { EmulationFlags.Ultimate },
                 CastSpeed = 4800
             });
-            
+
+            #endregion
+
+            #region Sylas
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "sylasq",
@@ -7460,6 +7538,10 @@ namespace Trinity.Helpers
                 CastSpeed = 2200,
             });
 
+            #endregion
+
+            #region Syndra
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "syndraq",
@@ -7512,20 +7594,89 @@ namespace Trinity.Helpers
                 EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
                 CastSpeed = 1250
             });
+            
+
+            #endregion
+
+            #region TahmKench
 
             HeroSpells.Add(new SpellData
             {
                 SpellName = "tahmkenchq",
                 ChampionName = "tahmkench",
                 Slot = SpellSlot.Q,
+                DisplayName = "Tongue Lash",
                 CastType = CastType.Location,
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
+                Radius = 140f,
                 CastRange = 950f,
                 CastDelay = 250f,
                 EmuFlags = new[] { EmulationFlags.CrowdControl },
                 CastSpeed = 2800
             });
+            
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "tahmkenchw",
+                ChampionName = "tahmkench",
+                Slot = SpellSlot.W,
+                DisplayName = "Abyssal Dive",
+                CastRange = 1000f,
+                SecondaryCastRange = 1200f,
+                Radius = 275f,
+                SecondaryRadius = 200f,
+                CastDelay = 250f,
+                CastType = CastType.Location,
+                EmuFlags = new[] { EmulationFlags.CrowdControl },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "tahmkenche",
+                ChampionName = "tahmkench",
+                Slot = SpellSlot.E,
+                DisplayName = "Thick Skin",
+                CastRange = 0f,
+                Radius = 0f,
+                CastDelay = 250f,
+                CastType = CastType.Proximity,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "tahmkenchr",
+                ChampionName = "tahmkench",
+                Slot = SpellSlot.R,
+                DisplayName = "Devour",
+                CastRange = 250f,
+                Radius = 0f,
+                CastDelay = 250f,
+                CastType = CastType.Unit,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            HeroSpells.Add(new SpellData
+            {
+                SpellName = "tahmkenchr",
+                ChampionName = "tahmkench",
+                Slot = SpellSlot.R,
+                DisplayName = "Regurgitate",
+                CastRange = 0f,
+                Radius = 0f,
+                CastDelay = 250f,
+                CastType = CastType.Direction,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
+            });
+
+            #endregion
+
+            #region Taliyah
 
             HeroSpells.Add(new SpellData
             {
@@ -7568,6 +7719,10 @@ namespace Trinity.Helpers
                 EmuFlags = new EmulationFlags[] { },
                 CastSpeed = 1650
             });
+
+            #endregion
+
+            #region Talon
 
             HeroSpells.Add(new SpellData
             {
@@ -7622,6 +7777,10 @@ namespace Trinity.Helpers
                 CastSpeed = 4800
             });
 
+            #endregion
+
+            #region Taric
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "taricq",
@@ -7670,6 +7829,10 @@ namespace Trinity.Helpers
                 CastSpeed = 4800
             });
 
+            #endregion
+
+            #region Teemo
+
             HeroSpells.Add(new SpellData
             {
                 SpellName = "blindingdart",
@@ -7717,6 +7880,10 @@ namespace Trinity.Helpers
                 EmuFlags = new EmulationFlags[] { },
                 CastSpeed = 1500
             });
+
+            #endregion
+
+            #region Thresh
 
             HeroSpells.Add(new SpellData
             {
@@ -7769,6 +7936,8 @@ namespace Trinity.Helpers
                 EmuFlags = new[] { EmulationFlags.Initiator },
                 CastSpeed = 1550
             });
+
+            #endregion
 
             #region Tristana
             HeroSpells.Add(new SpellData
