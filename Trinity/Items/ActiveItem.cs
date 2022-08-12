@@ -111,7 +111,7 @@
             if (ActivationTypes.Contains(ActivationType.CheckProximityCount))
                 this.CreateItemCheckProximityCount();
 
-            if (TargetingType == TargetingType.BindingUnit)
+            if (TargetingType.ToString().Contains("Binding"))
                 this.CreateItemTabBindingUnit();
             
             if (ActivationTypes.Contains(ActivationType.CheckDangerous))
@@ -156,11 +156,12 @@
                 foreach (var u in Bootstrap.Allies)
                 {
                     var hero = u.Value;
-                    if (hero.Instance.Team == UnitManager.MyChampion.Team)
-                    {
-                        if (ItemBuffName != null && hero.Instance.BuffManager.HasBuff(ItemBuffName)) return;
+                    if (hero.Instance.Team != UnitManager.MyChampion.Team) continue;
+                    if (ItemBuffName != null && hero.Instance.BuffManager.HasBuff(ItemBuffName)) return;
 
-                        if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range)
+                    if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range)
+                    {
+                        if (hero.Instance.Position.IsOnScreen())
                         {
                             this.CheckItemAuras(hero.Instance);
                             this.CheckItemProximityCount(hero.Instance);

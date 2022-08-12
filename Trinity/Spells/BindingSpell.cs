@@ -51,30 +51,34 @@
             if (!SpellSwitch[tabName].IsOn) return;
             if (!SpellClass.IsSpellReady) return;
 
-            var max_hp = from t in Bootstrap.Allies
+            var units = TargetingType.ToString().Contains("Ally") 
+                ? Bootstrap.Allies
+                : Bootstrap.Enemies;
+            
+            var maxHp = from t in units
                 where t.Value.Instance.IsValidTarget(Range, false)
                 orderby t.Value.Instance.HealthPercent descending
                 select t.Value;
 
-            var most_ad = from t in Bootstrap.Allies
+            var mostDmg = from t in units
                 where t.Value.Instance.IsValidTarget(Range, false)
                 orderby t.Value.Instance.UnitStats.BaseAttackDamage + t.Value.Instance.UnitStats.TotalAttackDamage descending
                 select t.Value;
 
-            var units = SpellModeDisplay[tabName + "mode"].SelectedModeName == "MostAD"
-                ? most_ad
-                : max_hp;
+            var heroes = SpellModeDisplay[tabName + "mode"].SelectedModeName == "MostAD"
+                ? mostDmg
+                : maxHp;
 
-            foreach (var ally in units)
-                if (!ally.Instance.IsMe && ally.Instance.IsValidTarget(Range, false))
+            foreach (var h in heroes)
+                if (!h.Instance.IsMe && h.Instance.Position.IsOnScreen())
                 {
-                    if (TargetingType == TargetingType.BindingUnit && UsePct == 100)
-                        if (!ally.Instance.BuffManager.HasBuff(BoundBuffName))
-                            this.CheckSpellAllyLowHealth(ally.Instance);
+                    if (TargetingType.ToString().Contains("Binding") && UsePct == 100)
+                        if (!h.Instance.BuffManager.HasBuff(BoundBuffName))
+                            this.CheckSpellAllyLowHealth(h.Instance);
 
                     if (TargetingType == TargetingType.ProximityAlly)
-                        if (ally.Instance.BuffManager.HasBuff(BoundBuffName) && ally.HasAggro())
-                            this.CheckSpellAllyLowHealth(ally.Instance);
+                        if (h.Instance.BuffManager.HasBuff(BoundBuffName) && h.HasAggro())
+                            this.CheckSpellAllyLowHealth(h.Instance);
                 }
         }
 

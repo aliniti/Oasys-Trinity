@@ -76,9 +76,14 @@
         SkillshotEnemy,
 
         /// <summary>
+        ///     The binding of a ally unit
+        /// </summary>
+        BindingUnitAlly,
+        
+        /// <summary>
         ///     The binding of a unit
         /// </summary>
-        BindingUnit,
+        BindingUnitEnemy,
         
         /// <summary>
         ///     The dodge enemy skillshot

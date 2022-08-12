@@ -115,7 +115,7 @@
             if (ActivationTypes.Contains(ActivationType.CheckAuras))
                 this.CreateSpellTabAuraCleanse();
 
-            if (TargetingType == TargetingType.BindingUnit)
+            if (TargetingType.ToString().Contains("Binding"))
                 this.CreateSpellTabBindingUnit();
             
             if (ActivationTypes.Contains(ActivationType.CheckDangerous))
@@ -174,7 +174,7 @@
                     var hero = u.Value;
                     if (hero.Instance.Team == UnitManager.MyChampion.Team)
                         if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range)
-                            if (hero.HasAggro(UsePct > 55))
+                            if (hero.HasAggro(UsePct > 55) && hero.Instance.Position.IsOnScreen())
                             {
                                 this.CheckSpellAuras(hero.Instance);
                                 this.CheckSpellDangerousSpells(hero);

@@ -77,7 +77,8 @@ namespace Trinity.Helpers
             [ItemID.Hextech_Rocketbelt] = "Hextech Protobelt",
             [ItemID.Tiamat] = "Tiamat",
             [ItemID.Titanic_Hydra] = "Titanic Hydra",
-            [ItemID.Ravenous_Hydra] = "Ravenous Hydra"
+            [ItemID.Ravenous_Hydra] = "Ravenous Hydra",
+            [ItemID.Anathemas_Chains] = "Anathema's Chains"
         };
 
         /// <summary>
@@ -189,7 +190,7 @@ namespace Trinity.Helpers
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, ActivationType.CheckDangerous }),
 
             // item: Redemption
-            new ActiveItem(55, ItemID.Redemption, TargetingType.ProximityAlly, 5500,
+            new ActiveItem(55, ItemID.Redemption, TargetingType.SkillshotAlly, 5500,
                 new[] { ActivationType.CheckAllyLowHP }),
 
             // item: Seraphs_Embrace
@@ -205,8 +206,12 @@ namespace Trinity.Helpers
                 new[] { ActivationType.CheckProximityCount, ActivationType.CheckOnlyOnMe }),
 
             // item: Zekes Convergence
-            new BindingItem(100, ItemID.Zekes_Convergence, "3050ally", TargetingType.BindingUnit, 1200,
-                new[] { ActivationType.CheckAllyLowHP })
+            new BindingItem(100, ItemID.Zekes_Convergence, "3050ally", TargetingType.BindingUnitAlly, 1200,
+                new[] { ActivationType.CheckAllyLowHP }),
+            
+            // item: Anathemas_Chains
+            new BindingItem(100, ItemID.Anathemas_Chains, "8001EnemyDebuff", TargetingType.BindingUnitEnemy, float.MaxValue,
+            new[] { ActivationType.CheckAllyLowHP })
 
             //// item: Knights Vow
             //new BindingItem(100, ItemID.Knights_Vow, "itemknightsvowliege", TargetingType.BindingUnit, 1200,

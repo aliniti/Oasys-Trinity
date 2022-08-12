@@ -55,7 +55,6 @@
             InitializeTrinity();
         }
 
-        
         /// <summary>
         ///     Games events [on game match complete].
         /// </summary>
@@ -76,6 +75,21 @@
         /// </summary>
         private static void InitializeTrinity()
         {
+            #region Tidy : Cleanse Item Menu
+
+            var cleanseItemMenu = new Tab("Trinity: Cleanse");
+
+            foreach (var item in Lists.CleanseItems)
+            {
+                item.OnItemInitialize += () => Lists.InitializedTickItems.Add(item);
+                item.OnItemDispose += () => Lists.InitializedTickItems.Remove(item);
+                item.Initialize(cleanseItemMenu);
+            }
+
+            MenuManager.AddTab(cleanseItemMenu);
+
+            #endregion
+            
             #region Tidy : Offensive Item Menu
 
             var offensiveItemMenu = new Tab("Trinity: Offensive");
@@ -108,7 +122,7 @@
 
             #region Tidy : Cosumable Item Menu
 
-            var consumablesItemMenu = new Tab("Trinity: Regen");
+            var consumablesItemMenu = new Tab("Trinity: Consumables");
 
             foreach (var item in Lists.ConsumableItems)
             {
@@ -118,21 +132,6 @@
             }
 
             MenuManager.AddTab(consumablesItemMenu);
-
-            #endregion
-
-            #region Tidy : Cleanse Item Menu
-
-            var cleanseItemMenu = new Tab("Trinity: Cleanse");
-
-            foreach (var item in Lists.CleanseItems)
-            {
-                item.OnItemInitialize += () => Lists.InitializedTickItems.Add(item);
-                item.OnItemDispose += () => Lists.InitializedTickItems.Remove(item);
-                item.Initialize(cleanseItemMenu);
-            }
-
-            MenuManager.AddTab(cleanseItemMenu);
 
             #endregion
 
@@ -210,7 +209,7 @@
         private static async Task OnCoreMainTick()
         {
             if (!GameEngine.IsGameWindowFocused) return;
-
+            
             foreach (var initializedEmitter in Lists.InitializedParticles)
                 initializedEmitter.OnTick();
             

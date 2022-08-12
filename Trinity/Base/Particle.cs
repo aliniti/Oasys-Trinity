@@ -2,19 +2,40 @@ namespace Trinity.Base
 {
     #region
     
-    using Helpers;
     using System.Collections.Generic;
     using Oasys.Common.Extensions;
     using Oasys.Common.GameObject;
     using Oasys.Common.GameObject.Clients;
     using Oasys.Common.Menu.ItemComponents;
     using Oasys.SDK;
-
+    using Helpers;
+    
     #endregion
 
     public class Particle : ParticleBase
     {
-        
+        #region Constructors and Destructors
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Particle" /> class.
+        /// </summary>
+        /// <param name="champ">The champion</param>
+        /// <param name="name">The name.</param>
+        /// <param name="slot">The slot.</param>
+        /// <param name="inculded">if set to <c>true</c> [inculded].</param>
+        public Particle(string champ, string name, float radius, double interval = 0.5, float delay = 0,
+            EmulationFlags etype = EmulationFlags.None)
+        {
+            Name = name;
+            Radius = radius;
+            ChampionString = champ;
+            Interval = interval;
+            DelayFromStart = delay;
+            EmulationFlags = etype;
+        }
+
+        #endregion
+
         /// <summary>
         ///     Gets or sets the interval.
         /// </summary>
@@ -79,28 +100,6 @@ namespace Trinity.Base
         /// </value>
         public string Name { get; set; }
 
-        
-        #region Constructors and Destructors
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Particle" /> class.
-        /// </summary>
-        /// <param name="champ">The champion</param>
-        /// <param name="name">The name.</param>
-        /// <param name="slot">The slot.</param>
-        /// <param name="inculded">if set to <c>true</c> [inculded].</param>
-        public Particle(string champ, string name, float radius, double interval = 0.5, float delay = 0, EmulationFlags etype = EmulationFlags.None)
-        {
-            Name = name;
-            Radius = radius;
-            ChampionString = champ;
-            Interval = interval;
-            DelayFromStart = delay;
-            EmulationFlags = etype;
-        }
-
-        #endregion
-
         #region Override Methods
 
         /// <summary>
@@ -111,43 +110,44 @@ namespace Trinity.Base
             foreach (var b in Bootstrap.Allies)
             {
                 var unit = b.Value;
-                if (!Included) continue;
-
-                if (Obj == null)
+                if (Included)
                 {
-                    Included = false;
-                    break;
-                }
-                
-                if (!PredictionSwitch[Name + "ene"].IsOn) continue;
+                    if (Obj == null)
+                    {
+                        Included = false;
+                        break;
+                    }
 
-                if (unit.Instance.Position.Distance(Obj.Position) <= Radius + unit.Instance.UnitComponentInfo.UnitBoundingRadius + 35)
-                    // check delay (e.g fizz bait)
-                    if ((int) (GameEngine.GameTime * 1000) - CreatedTickTime >= DelayFromStart)
-                        // limit the damage using an interval
-                        if ((int) (GameEngine.GameTime * 1000) - Limiter >= Interval * 1000)
-                        {
-                            unit.InDanger = EmulationFlags.Equals(EmulationFlags.Danger);
-                            unit.InCrowdControl = EmulationFlags.Equals(EmulationFlags.CrowdControl);
-                            unit.InExtremeDanger = EmulationFlags.Equals(EmulationFlags.Ultimate);
-                            
-                            unit.PredictionFlags.Add(PredictionFlag.Particle);
-                            unit.AggroTick = (int) (GameEngine.GameTime * 1000);
-                            
-                            Limiter = (int) (GameEngine.GameTime * 1000);
-                        }
+                    if (!PredictionSwitch[Name + "ene"].IsOn) continue;
+                    if (unit.Instance.Position.Distance(Obj.Position) <=
+                        Radius + unit.Instance.UnitComponentInfo.UnitBoundingRadius + 35)
+                        // check delay (e.g fizz bait)
+                        if ((int) (GameEngine.GameTime * 1000) - CreatedTickTime >= DelayFromStart)
+                            // limit the damage using an interval
+                            if ((int) (GameEngine.GameTime * 1000) - Limiter >= Interval * 1000)
+                            {
+                                unit.InDanger = EmulationFlags.Equals(EmulationFlags.Danger);
+                                unit.InCrowdControl = EmulationFlags.Equals(EmulationFlags.CrowdControl);
+                                unit.InExtremeDanger = EmulationFlags.Equals(EmulationFlags.Ultimate);
+
+                                unit.PredictionFlags.Add(PredictionFlag.Particle);
+                                unit.AggroTick = (int) (GameEngine.GameTime * 1000);
+
+                                Limiter = (int) (GameEngine.GameTime * 1000);
+                            }
+                }
             }
         }
 
         public override void CreateTab()
         {
-            this.PredictionSwitch[Name + "ene"] = new Switch
+            PredictionSwitch[Name + "ene"] = new Switch
             {
                 IsOn = true,
                 Title = "[vfx] Predict " + Name.ToLower()
             };
-            
-            this.PredictionTab.AddItem(PredictionSwitch[Name + "ene"]);
+
+            PredictionTab.AddItem(PredictionSwitch[Name + "ene"]);
         }
 
         /// <summary>
