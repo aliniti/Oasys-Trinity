@@ -19,6 +19,7 @@
 
     public static class Bootstrap
     {
+        public static int LastActivationTs { get; set; }
         public static readonly Dictionary<uint, Champion> Allies = new();
         public static readonly Dictionary<uint, Champion> Enemies = new();
 
@@ -75,10 +76,24 @@
         /// </summary>
         private static void InitializeTrinity()
         {
+            #region Tidy : Purify Item Menu
+
+            var cleanseItemMenu = new Tab("Trinity: Purifiers");
+            
+            foreach (var item in Lists.CleanseItems)
+            {
+                item.OnItemInitialize += () => Lists.InitializedTickItems.Add(item);
+                item.OnItemDispose += () => Lists.InitializedTickItems.Remove(item);
+                item.Initialize(cleanseItemMenu);
+            }
+            
+            MenuManager.AddTab(cleanseItemMenu);
+
+            #endregion
             
             #region Tidy : Offensive Item Menu
 
-            var offensiveItemMenu = new Tab("Trinity: Offensive");
+            var offensiveItemMenu = new Tab("Trinity: Offensives");
 
             foreach (var item in Lists.OffensiveItems)
             {
@@ -93,7 +108,7 @@
 
             #region Tidy : Defensive Item Menu
 
-            var defensiveItemMenu = new Tab("Trinity: Defensive");
+            var defensiveItemMenu = new Tab("Trinity: Defensives");
 
             foreach (var item in Lists.DefensiveItems)
             {

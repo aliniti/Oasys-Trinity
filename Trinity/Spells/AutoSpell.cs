@@ -30,15 +30,7 @@
         ///     The use PCT.
         /// </value>
         public int UsePct { get; set; }
-        
-        /// <summary>
-        ///     Gets or sets the last used time stamp.
-        /// </summary>
-        /// <value>
-        ///     The last used time stamp.
-        /// </value>
-        public int LastUsedTimeStamp { get; set; }
-        
+
         /// <summary>
         ///     Gets or sets the type of the targeting.
         /// </summary>
@@ -161,7 +153,7 @@
                 if (myChampionOnly != null)
                     if (myChampionOnly.HasAggro(UsePct > 55))
                     {
-                        this.CheckSpellAuras(myChampionOnly.Instance);
+                        this.CheckSpellAuras(myChampionOnly);
                         this.CheckSpellDangerousSpells(myChampionOnly);
                         this.CheckSpellAllyLowHealth(myChampionOnly.Instance);
                         this.CheckSpellAllyLowMana(myChampionOnly.Instance);
@@ -176,7 +168,7 @@
                         if (UnitManager.MyChampion.Position.Distance(hero.Instance.Position) <= Range)
                             if (hero.HasAggro(UsePct > 55) && hero.Instance.Position.IsOnScreen())
                             {
-                                this.CheckSpellAuras(hero.Instance);
+                                this.CheckSpellAuras(hero);
                                 this.CheckSpellDangerousSpells(hero);
                                 this.CheckSpellAllyLowHealth(hero.Instance);
                                 this.CheckSpellAllyLowMana(hero.Instance);

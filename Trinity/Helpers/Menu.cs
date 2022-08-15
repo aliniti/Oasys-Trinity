@@ -157,6 +157,39 @@
         public static void CreateSpellTabAuraCleanse(this AutoSpell spell)
         {
             var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
+            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellCounter[tabName + "MinimumBuffs"] = new Counter
+            {
+                Title = "Minimum Buffs to Use",
+                MaxValue = 5,
+                MinValue = 1,
+                Value = 1,
+                ValueFrequency = 1
+            });
+
+            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellCounter[tabName + "MinimumBuffsDuration"] = new Counter
+            {
+                Title = "Minimum Buff Duration (in ms)",
+                MaxValue = 2000,
+                MinValue = 250,
+                Value = 1000,
+                ValueFrequency = 250
+            });
+
+            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "SwitchMinimumBuffHP"] = new Switch
+            {
+                IsOn = false,
+                Title = "Enable Minimum HP (%) to Use"
+            });
+
+            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellCounter[tabName + "MinimumBuffsHP"] = new Counter
+            {
+                Title = "Minimum HP (%) to Use",
+                MaxValue = 100,
+                MinValue = 20,
+                Value = 65,
+                ValueFrequency = 15
+            });
+            
             spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Ignite"] = new Switch
             {
                 IsOn = true,
@@ -245,39 +278,6 @@
             {
                 IsOn = false,
                 Title = "-> Poison"
-            });
-
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellCounter[tabName + "MinimumBuffs"] = new Counter
-            {
-                Title = "-> Minimum Buffs to Use",
-                MaxValue = 5,
-                MinValue = 1,
-                Value = 1,
-                ValueFrequency = 1
-            });
-
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellCounter[tabName + "MinimumBuffsDuration"] = new Counter
-            {
-                Title = "-> Minimum Buff Duration (in ms)",
-                MaxValue = 2000,
-                MinValue = 250,
-                Value = 1000,
-                ValueFrequency = 250
-            });
-
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "SwitchMinimumBuffHP"] = new Switch
-            {
-                IsOn = false,
-                Title = "-> Enable Minimum HP (%) to Use"
-            });
-
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellCounter[tabName + "MinimumBuffsHP"] = new Counter
-            {
-                Title = "-> Minimum HP (%) to Use",
-                MaxValue = 100,
-                MinValue = 20,
-                Value = 100,
-                ValueFrequency = 15
             });
         }
 
@@ -420,6 +420,43 @@
         public static void CreateItemTabAuraCleanse(this ActiveItem item, int pctUse = 100)
         {
             item.ItemGroup[item.ItemId + "grp"].AddItem(
+                item.ItemCounter[item.ItemId + "MinimumBuffs"] = new Counter
+                {
+                    Title = "Minimum Buffs to Use",
+                    MaxValue = 5,
+                    MinValue = 1,
+                    Value = 1,
+                    ValueFrequency = 1
+                });
+
+            item.ItemGroup[item.ItemId + "grp"].AddItem(
+                item.ItemCounter[item.ItemId + "MinimumBuffsDuration"] = new Counter
+                {
+                    Title = "Minimum Buff Duration (in ms)",
+                    MaxValue = 2000,
+                    MinValue = 250,
+                    Value = 1000,
+                    ValueFrequency = 250
+                });
+
+            item.ItemGroup[item.ItemId + "grp"].AddItem(
+                item.ItemSwitch[item.ItemId + "SwitchMinimumBuffHP"] = new Switch
+                {
+                    IsOn = false,
+                    Title = "Enable Minimum HP (%) to Use"
+                });
+
+            item.ItemGroup[item.ItemId + "grp"].AddItem(
+                item.ItemCounter[item.ItemId + "MinimumBuffsHP"] = new Counter
+                {
+                    Title = "Minimum HP (%) to Use",
+                    MaxValue = 100,
+                    MinValue = 20,
+                    Value = 65,
+                    ValueFrequency = 15
+                });
+            
+            item.ItemGroup[item.ItemId + "grp"].AddItem(
                 item.ItemSwitch[item.ItemId + "Ignite"] = new Switch
                 {
                     IsOn = true,
@@ -522,43 +559,6 @@
                 {
                     IsOn = false,
                     Title = "-> Posion"
-                });
-
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
-                item.ItemCounter[item.ItemId + "MinimumBuffs"] = new Counter
-                {
-                    Title = "-> Minimum Buffs to Use",
-                    MaxValue = 5,
-                    MinValue = 1,
-                    Value = 1,
-                    ValueFrequency = 1
-                });
-
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
-                item.ItemCounter[item.ItemId + "MinimumBuffsDuration"] = new Counter
-                {
-                    Title = "-> Minimum Buff Duration (in ms)",
-                    MaxValue = 2000,
-                    MinValue = 250,
-                    Value = 1000,
-                    ValueFrequency = 250
-                });
-
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
-                item.ItemSwitch[item.ItemId + "SwitchMinimumBuffHP"] = new Switch
-                {
-                    IsOn = false,
-                    Title = "-> Enable Minimum HP (%) to Use"
-                });
-
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
-                item.ItemCounter[item.ItemId + "MinimumBuffsHP"] = new Counter
-                {
-                    Title = "-> Minimum HP (%) to Use",
-                    MaxValue = 100,
-                    MinValue = 20,
-                    Value = 100,
-                    ValueFrequency = 15
                 });
         }
 

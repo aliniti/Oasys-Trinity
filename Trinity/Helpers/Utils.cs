@@ -361,31 +361,36 @@
         /// <param name="item">The item.</param>
         /// <param name="unit">The unit.</param>
         /// <returns></returns>
-        public static void UseItem(this ActiveItem item, AIBaseClient unit)
+        public static bool UseItem(this ActiveItem item, AIBaseClient unit)
         {
-            if (!IsSafeCast(unit)) return;
-            if ((int) (GameEngine.GameTime * 1000) - item.LastUsedTimeStamp < 100) return;
+            if (!IsSafeCast(unit)) return false;
+            if ((int) (GameEngine.GameTime * 1000) - Bootstrap.LastActivationTs < 750) return false;
 
             if (item.TargetingType.ToString().Contains("Proximity"))
                 if (item.SpellClass.IsSpellReady)
                 {
                     ItemCastProvider.CastItem(item.ItemId);
-                    item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                    Bootstrap.LastActivationTs = (int) (GameEngine.GameTime * 1000);
+                    return true;
                 }
 
             if (item.TargetingType.ToString().Contains("Unit"))
                 if (unit != null && item.SpellClass.IsSpellReady)
                 {
                     ItemCastProvider.CastItem(item.ItemId, unit.Position);
-                    item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                    Bootstrap.LastActivationTs = (int) (GameEngine.GameTime * 1000);
+                    return true;
                 }
 
             if (item.TargetingType.ToString().Contains("Skillshot"))
                 if (unit != null && item.SpellClass.IsSpellReady)
                 {
                     ItemCastProvider.CastItem(item.ItemId, unit.Position);
-                    item.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                    Bootstrap.LastActivationTs = (int) (GameEngine.GameTime * 1000);
+                    return true;
                 }
+
+            return false;
         }
 
         /// <summary>
@@ -394,26 +399,31 @@
         /// <param name="spell">The spell.</param>
         /// <param name="unit">The unit.</param>
         /// <returns></returns>
-        public static void UseSpell(this AutoSpell spell, AIBaseClient unit)
+        public static bool UseSpell(this AutoSpell spell, AIBaseClient unit)
         {
-            if (!IsSafeCast(unit)) return;
-            if ((int) (GameEngine.GameTime * 1000) - spell.LastUsedTimeStamp < 100) return;
+            if (!IsSafeCast(unit)) return false;
+            if ((int) (GameEngine.GameTime * 1000) - Bootstrap.LastActivationTs < 750) return false;
 
             if (spell.TargetingType.ToString().Contains("Dodge"))
+            {
                 UseSpellOnBestTarget(spell, unit);
+                return true;
+            }
 
             if (spell.TargetingType.ToString().Contains("Proximity"))
                 if (spell.SpellClass.IsSpellReady)
                 {
                     SpellCastProvider.CastSpell(spell.Slot);
-                    spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                    Bootstrap.LastActivationTs = (int) (GameEngine.GameTime * 1000);
+                    return true;
                 }
 
             if (spell.TargetingType.ToString().Contains("Unit"))
                 if (unit != null && spell.SpellClass.IsSpellReady)
                 {
                     SpellCastProvider.CastSpell(spell.Slot, unit.Position);
-                    spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                    Bootstrap.LastActivationTs = (int) (GameEngine.GameTime * 1000);
+                    return true;
                 }
 
             if (spell.TargetingType.ToString().Contains("Skillshot"))
@@ -423,8 +433,11 @@
                         ? GameEngine.WorldMousePosition
                         : unit.Position);
 
-                    spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                    Bootstrap.LastActivationTs = (int) (GameEngine.GameTime * 1000);
+                    return true;
                 }
+
+            return false;
         }
 
         /// <summary>
@@ -463,7 +476,7 @@
             if (tar != null && IsSafeCast(tar))
             {
                 SpellCastProvider.CastSpell(spell.Slot, tar.Position);
-                spell.LastUsedTimeStamp = (int) (GameEngine.GameTime * 1000);
+                Bootstrap.LastActivationTs = (int) (GameEngine.GameTime * 1000);
             }
         }
 
@@ -513,7 +526,7 @@
         public static IEnumerable<BuffEntry> GetAuras(this ActiveItem item, Champion champion)
         {
             return champion.Instance.BuffManager.GetBuffList()
-                .Where(buff => (buff.IsActive &&
+                .Where(buff => (buff.IsActive && buff.Stacks > 0 && buff.Name != "UnknownBuff" &&
                                 ((buff.EntryType == BuffType.Snare && item.ItemSwitch[item.ItemId + "Snares"].IsOn) ||
                                  (buff.EntryType == BuffType.Sleep && item.ItemSwitch[item.ItemId + "Sleep"].IsOn) ||
                                  (buff.EntryType == BuffType.Knockup && item.ItemSwitch[item.ItemId + "Knockups"].IsOn) ||
@@ -541,7 +554,7 @@
         {
             var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
             return champion.Instance.BuffManager.GetBuffList()
-                .Where(buff => (buff.IsActive &&
+                .Where(buff => (buff.IsActive && buff.Stacks > 0 && buff.Name != "UnknownBuff" &&
                                 ((buff.EntryType == BuffType.Snare && spell.SpellSwitch[tabName + "Snares"].IsOn) ||
                                  (buff.EntryType == BuffType.Sleep && spell.SpellSwitch[tabName + "Sleep"].IsOn) ||
                                  (buff.EntryType == BuffType.Knockup && spell.SpellSwitch[tabName + "Knockups"].IsOn) ||
@@ -565,50 +578,52 @@
         /// <param name="item">The item.</param>
         /// <param name="hero">The hero.</param>
         /// <returns></returns>
-        public static void CheckItemAuras(this ActiveItem item, AIHeroClient hero)
+        public static void CheckItemAuras(this ActiveItem item, Champion hero)
         {
             if (item.ActivationTypes.Contains(ActivationType.CheckAuras))
             {
-                var champObj = Bootstrap.Allies.FirstOrDefault(x => x.Value.Instance.NetworkID == hero.NetworkID).Value;
-                if (champObj?.Instance == null) return;
-
-                var healthPct = champObj.Instance.Health / champObj.Instance.MaxHealth * 100;
+                var healthPct = hero.Instance.Health / hero.Instance.MaxHealth * 100;
                 if (healthPct > item.ItemCounter[item.ItemId + "MinimumBuffsHP"].Value &&
                     item.ItemSwitch[item.ItemId + "SwitchMinimumBuffHP"].IsOn)
                     return;
 
-                champObj.AuraInfo[item.ItemId + "BuffCount"] = GetAuras(item, champObj).Count();
-                champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
+                hero.AuraInfo[item.ItemId + "BuffCount"] = GetAuras(item, hero).Count();
+                hero.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
 
-                if (champObj.AuraInfo[item.ItemId + "BuffCount"] > 0)
+                if (hero.AuraInfo[item.ItemId + "BuffCount"] > 0)
                 {
-                    foreach (var buff in GetAuras(item, champObj))
+                    foreach (var buff in GetAuras(item, hero))
                     {
                         var length = (int) (buff.EndTime - buff.StartTime);
-                        if (length >= champObj.AuraInfo[item.ItemId + "BuffHighestTime"]) champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = length * 1000;
+                        if (length >= hero.AuraInfo[item.ItemId + "BuffHighestTime"])
+                        {
+                            hero.AuraInfo[item.ItemId + "BuffHighestTime"] = length * 1000;
+                        }
                     }
 
-                    champObj.AuraInfo[item.ItemId + "BuffTimestamp"] = (int) (GameEngine.GameTime * 1000);
+                    hero.AuraInfo[item.ItemId + "BuffTimestamp"] = (int) (GameEngine.GameTime * 1000);
                 }
                 else
                 {
-                    switch (champObj.AuraInfo[item.ItemId + "BuffHighestTime"])
+                    switch (hero.AuraInfo[item.ItemId + "BuffHighestTime"])
                     {
                         case > 0:
-                            champObj.AuraInfo[item.ItemId + "BuffHighestTime"] -= champObj.AuraInfo[item.ItemId + "BuffHighestTime"];
+                            hero.AuraInfo[item.ItemId + "BuffHighestTime"] -= hero.AuraInfo[item.ItemId + "BuffHighestTime"];
                             break;
                         default:
-                            champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
+                            hero.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
                             break;
                     }
                 }
 
-                if (champObj.AuraInfo[item.ItemId + "BuffCount"] < item.ItemCounter[item.ItemId + "MinimumBuffs"].Value) return;
-                if (champObj.AuraInfo[item.ItemId + "BuffHighestTime"] >= item.ItemCounter[item.ItemId + "MinimumBuffsDuration"].Value)
+                if (hero.AuraInfo[item.ItemId + "BuffCount"] < item.ItemCounter[item.ItemId + "MinimumBuffs"].Value) return;
+                if (hero.AuraInfo[item.ItemId + "BuffHighestTime"] >= item.ItemCounter[item.ItemId + "MinimumBuffsDuration"].Value)
                 {
-                    UseItem(item, champObj.Instance);
-                    champObj.AuraInfo[item.ItemId + "BuffCount"] = 0;
-                    champObj.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
+                    if (UseItem(item, hero.Instance))
+                    {
+                        hero.AuraInfo[item.ItemId + "BuffCount"] = 0;
+                        hero.AuraInfo[item.ItemId + "BuffHighestTime"] = 0;
+                    }
                 }
             }
         }
@@ -619,51 +634,51 @@
         /// <param name="spell">The spell.</param>
         /// <param name="hero">The hero.</param>
         /// <returns></returns>
-        public static void CheckSpellAuras(this AutoSpell spell, AIHeroClient hero)
+        public static void CheckSpellAuras(this AutoSpell spell, Champion hero)
         {
             if (spell.ActivationTypes.Contains(ActivationType.CheckAuras))
             {
                 var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
-                var champObj = Bootstrap.Allies.FirstOrDefault(x => x.Value.Instance.NetworkID == hero.NetworkID).Value;
-                if (champObj?.Instance == null) return;
-
-                var healthPct = champObj.Instance.Health / champObj.Instance.MaxHealth * 100;
+                
+                var healthPct = hero.Instance.Health / hero.Instance.MaxHealth * 100;
                 if (healthPct > spell.SpellCounter[tabName + "MinimumBuffsHP"].Value &&
                     spell.SpellSwitch[tabName + "SwitchMinimumBuffHP"].IsOn)
                     return;
 
-                champObj.AuraInfo[tabName + "BuffCount"] = GetAuras(spell, champObj).Count();
-                champObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
+                hero.AuraInfo[tabName + "BuffCount"] = GetAuras(spell, hero).Count();
+                hero.AuraInfo[tabName + "BuffHighestTime"] = 0;
 
-                if (champObj.AuraInfo[tabName + "BuffCount"] > 0)
+                if (hero.AuraInfo[tabName + "BuffCount"] > 0)
                 {
-                    foreach (var buff in GetAuras(spell, champObj))
+                    foreach (var buff in GetAuras(spell, hero))
                     {
                         var length = (int) (buff.EndTime - buff.StartTime);
-                        if (length >= champObj.AuraInfo[tabName + "BuffHighestTime"]) champObj.AuraInfo[tabName + "BuffHighestTime"] = length * 1000;
+                        if (length >= hero.AuraInfo[tabName + "BuffHighestTime"]) hero.AuraInfo[tabName + "BuffHighestTime"] = length * 1000;
                     }
 
-                    champObj.AuraInfo[tabName + "BuffTimestamp"] = (int) (GameEngine.GameTime * 1000);
+                    hero.AuraInfo[tabName + "BuffTimestamp"] = (int) (GameEngine.GameTime * 1000);
                 }
                 else
                 {
-                    switch (champObj.AuraInfo[tabName + "BuffHighestTime"])
+                    switch (hero.AuraInfo[tabName + "BuffHighestTime"])
                     {
                         case > 0:
-                            champObj.AuraInfo[tabName + "BuffHighestTime"] -= champObj.AuraInfo[tabName + "BuffHighestTime"];
+                            hero.AuraInfo[tabName + "BuffHighestTime"] -= hero.AuraInfo[tabName + "BuffHighestTime"];
                             break;
                         default:
-                            champObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
+                            hero.AuraInfo[tabName + "BuffHighestTime"] = 0;
                             break;
                     }
                 }
 
-                if (champObj.AuraInfo[tabName + "BuffCount"] < spell.SpellCounter[tabName + "MinimumBuffs"].Value) return;
-                if (champObj.AuraInfo[tabName + "BuffHighestTime"] >= spell.SpellCounter[tabName + "MinimumBuffsDuration"].Value)
+                if (hero.AuraInfo[tabName + "BuffCount"] < spell.SpellCounter[tabName + "MinimumBuffs"].Value) return;
+                if (hero.AuraInfo[tabName + "BuffHighestTime"] >= spell.SpellCounter[tabName + "MinimumBuffsDuration"].Value)
                 {
-                    UseSpell(spell, champObj.Instance);
-                    champObj.AuraInfo[tabName + "BuffCount"] = 0;
-                    champObj.AuraInfo[tabName + "BuffHighestTime"] = 0;
+                    if (UseSpell(spell, hero.Instance))
+                    {
+                        hero.AuraInfo[tabName + "BuffCount"] = 0;
+                        hero.AuraInfo[tabName + "BuffHighestTime"] = 0;
+                    }
                 }
             }
         }

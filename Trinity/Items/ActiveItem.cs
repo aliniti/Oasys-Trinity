@@ -38,15 +38,7 @@
         ///     The use PCT.
         /// </value>
         public int UsePct { get; set; }
-        
-        /// <summary>
-        ///     Gets or sets the last used time stamp.
-        /// </summary>
-        /// <value>
-        ///     The last used time stamp.
-        /// </value>
-        public int LastUsedTimeStamp { get; set; }
-        
+
         /// <summary>
         ///     Gets or sets the name of the item buff.
         /// </summary>
@@ -140,7 +132,7 @@
                 {
                     if (ItemBuffName != null && UnitManager.MyChampion.BuffManager.HasBuff(ItemBuffName)) return;
 
-                    this.CheckItemAuras(myHero.Instance);
+                    this.CheckItemAuras(myHero);
                     this.CheckItemProximityCount(myHero.Instance);
                     this.CheckItemDangerousSpells(myHero);
                     
@@ -163,7 +155,7 @@
                     {
                         if (hero.Instance.Position.IsOnScreen())
                         {
-                            this.CheckItemAuras(hero.Instance);
+                            this.CheckItemAuras(hero);
                             this.CheckItemProximityCount(hero.Instance);
                             this.CheckItemDangerousSpells(hero);
 
