@@ -671,8 +671,13 @@
         public static bool CheckMissileSegment(this Champion hero, AIBaseClient unit)
         {
             if (unit == null) return false;
+            
+            // todo: failsafe: need a better way to implement this
+            if ((int) (GameEngine.GameTime * 1000) - hero.AggroTick > 500)
+                hero.ResetAggro();
+            
             if (!unit.IsObject(ObjectTypeFlag.AIMissileClient)) return false;
-
+            
             var missile = unit.As<AIMissileClient>();
             if (missile is null) return false;
 

@@ -479,7 +479,7 @@ namespace Trinity.Helpers
                 CastType = CastType.Unit,
                 CastRange = 660f,
                 CastDelay = 250f,
-                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.Gapcloser },
+                EmuFlags = new[] { EmulationFlags.Initiator, EmulationFlags.CrowdControl },
                 CastSpeed = 2200
             });
 

@@ -75,20 +75,6 @@
         /// </summary>
         private static void InitializeTrinity()
         {
-            #region Tidy : Cleanse Item Menu
-
-            var cleanseItemMenu = new Tab("Trinity: Cleanse");
-
-            foreach (var item in Lists.CleanseItems)
-            {
-                item.OnItemInitialize += () => Lists.InitializedTickItems.Add(item);
-                item.OnItemDispose += () => Lists.InitializedTickItems.Remove(item);
-                item.Initialize(cleanseItemMenu);
-            }
-
-            MenuManager.AddTab(cleanseItemMenu);
-
-            #endregion
             
             #region Tidy : Offensive Item Menu
 
