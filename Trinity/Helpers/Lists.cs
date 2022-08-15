@@ -374,8 +374,8 @@ namespace Trinity.Helpers
             new AutoSpell(25, "Barrier", "SummonerBarrier", TargetingType.ProximityAlly, float.MaxValue,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
 
-            new AutoSpell(100, "Cleanse", "SummonerBoost", TargetingType.ProximityAlly, 1200,
-                new[] { ActivationType.CheckAuras, ActivationType.CheckOnlyOnMe })
+            // new AutoSpell(100, "Cleanse", "SummonerBoost", TargetingType.ProximityAlly, 1200,
+            //     new[] { ActivationType.CheckAuras, ActivationType.CheckOnlyOnMe })
         };
 
         /// <summary>
