@@ -1048,8 +1048,7 @@ namespace Trinity.Helpers
                 EmuFlags = new EmulationFlags[] { },
                 CastSpeed = 4800,
             });
-
-           
+            
             #endregion
 
             #region Blitzcrank
@@ -1122,10 +1121,11 @@ namespace Trinity.Helpers
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1150f,
+                Radius = 120f,
                 CastDelay = 250f,
                 EmuFlags = new[] { EmulationFlags.CrowdControl },
                 MissileName = "brandqmissile",
-                CastSpeed = 1200
+                CastSpeed = 1600
             });
 
             HeroSpells.Add(new SpellData
@@ -1133,12 +1133,13 @@ namespace Trinity.Helpers
                 SpellName = "brandw",
                 ChampionName = "brand",
                 Slot = SpellSlot.W,
+                DisplayName = "Pillar of Flame",
+                CastRange = 900f,
+                Radius = 260f,
+                CastDelay = 250f,
                 CastType = CastType.Location,
-                CastRange = 240f,
-                CastDelay = 550f,
-                EmuFlags = new[] { EmulationFlags.Danger },
-                MissileName = "",
-                CastSpeed = 20
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 4800,
             });
 
             HeroSpells.Add(new SpellData
@@ -1146,11 +1147,14 @@ namespace Trinity.Helpers
                 SpellName = "brande",
                 ChampionName = "brand",
                 Slot = SpellSlot.E,
-                CastType = CastType.Unit,
-                CastRange = 625f,
+                DisplayName = "Conflagration",
+                CastRange = 675f,
+                Radius = 300f,
+                SecondaryRadius = 600f,
                 CastDelay = 250f,
+                CastType = CastType.Unit,
                 EmuFlags = new EmulationFlags[] { },
-                CastSpeed = 4800
+                CastSpeed = 4800,
             });
 
             HeroSpells.Add(new SpellData
@@ -1158,11 +1162,13 @@ namespace Trinity.Helpers
                 SpellName = "brandr",
                 ChampionName = "brand",
                 Slot = SpellSlot.R,
-                CastType = CastType.Unit,
+                DisplayName = "Pyroclasm",
                 CastRange = 750f,
+                Radius = 600f,
                 CastDelay = 250f,
-                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
-                CastSpeed = 1000
+                CastType = CastType.Unit,
+                EmuFlags = new EmulationFlags[] { },
+                CastSpeed = 750,
             });
 
             #endregion
@@ -1173,40 +1179,30 @@ namespace Trinity.Helpers
                 SpellName = "braumq",
                 ChampionName = "braum",
                 Slot = SpellSlot.Q,
+                DisplayName = "Winters Bite",
                 CastType = CastType.Direction,
                 CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
                 FixedRange = true,
                 CastRange = 1100f,
+                Radius = 120f,
                 CastDelay = 250f,
                 EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
                 MissileName = "braumqmissile",
-                CastSpeed = 1200
+                CastSpeed = 1700
             });
-
-            HeroSpells.Add(new SpellData
-            {
-                SpellName = "braumqmissle",
-                ChampionName = "braum",
-                Slot = SpellSlot.Q,
-                CastType = CastType.Direction,
-                CollidesWith = new[] { CollisionObjectType.EnemyMinions, CollisionObjectType.EnemyHeroes },
-                FixedRange = true,
-                CastRange = 1100f,
-                CastDelay = 250f,
-                EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
-                CastSpeed = 1200
-            });
-
+            
             HeroSpells.Add(new SpellData
             {
                 SpellName = "braumw",
                 ChampionName = "braum",
                 Slot = SpellSlot.W,
-                CastType = CastType.Unit,
-                CastRange = 0f,
+                DisplayName = "Stand Behind Me",
+                CastRange = 650f,
+                Radius = 0f,
                 CastDelay = 250f,
+                CastType = CastType.Unit,
                 EmuFlags = new[] { EmulationFlags.Gapcloser },
-                CastSpeed = 1500
+                CastSpeed = 4800,
             });
 
             HeroSpells.Add(new SpellData
@@ -1214,11 +1210,13 @@ namespace Trinity.Helpers
                 SpellName = "braume",
                 ChampionName = "braum",
                 Slot = SpellSlot.E,
-                CastType = CastType.Proximity,
+                DisplayName = "Unbreakable",
                 CastRange = 0f,
+                Radius = 0f,
                 CastDelay = 250f,
+                CastType = CastType.Direction,
                 EmuFlags = new EmulationFlags[] { },
-                CastSpeed = 4800
+                CastSpeed = 4800,
             });
 
             HeroSpells.Add(new SpellData
@@ -1226,9 +1224,11 @@ namespace Trinity.Helpers
                 SpellName = "braumrwrapper",
                 ChampionName = "braum",
                 Slot = SpellSlot.R,
+                DisplayName = "Glacial Fissure",
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 1250f,
+                Radius = 230f,
                 CastDelay = 250f,
                 EmuFlags =
                     new[]
@@ -1237,7 +1237,7 @@ namespace Trinity.Helpers
                         EmulationFlags.CrowdControl, EmulationFlags.Initiator
                     },
                 MissileName = "braumrmissile",
-                CastSpeed = 1200
+                CastSpeed = 1400
             });
             
             #endregion
@@ -1379,12 +1379,14 @@ namespace Trinity.Helpers
                 SpellName = "cassiopeiaq",
                 ChampionName = "cassiopeia",
                 Slot = SpellSlot.Q,
-                CastType = CastType.Location,
-                CastRange = 925f,
+                DisplayName = "Noxious Blast",
+                CastRange = 850f,
+                Radius = 200f,
                 CastDelay = 250f,
+                CastType = CastType.Location,
                 EmuFlags = new EmulationFlags[] { },
                 MissileName = "cassiopeianoxiousblast",
-                CastSpeed = 4800
+                CastSpeed = 4800,
             });
 
             HeroSpells.Add(new SpellData
@@ -1392,12 +1394,14 @@ namespace Trinity.Helpers
                 SpellName = "cassiopeiw",
                 ChampionName = "cassiopeia",
                 Slot = SpellSlot.W,
+                DisplayName = "Miasma",
                 CastType = CastType.Location,
                 IsPerpindicular = true,
-                CastRange = 925f,
+                CastRange = 700f,
+                Radius = 200f,
                 CastDelay = 250f,
                 EmuFlags = new[] { EmulationFlags.CrowdControl },
-                CastSpeed = 2500
+                CastSpeed = 4800
             });
 
             HeroSpells.Add(new SpellData
@@ -1405,11 +1409,13 @@ namespace Trinity.Helpers
                 SpellName = "cassiopeiae",
                 ChampionName = "cassiopeia",
                 Slot = SpellSlot.E,
-                CastType = CastType.Unit,
+                DisplayName = "Twin Fang",
                 CastRange = 700f,
-                CastDelay = 250f,
+                Radius = 0f,
+                CastDelay = 125f,
+                CastType = CastType.Unit,
                 EmuFlags = new EmulationFlags[] { },
-                CastSpeed = 1900
+                CastSpeed = 2500,
             });
 
             HeroSpells.Add(new SpellData
@@ -1417,10 +1423,12 @@ namespace Trinity.Helpers
                 SpellName = "cassiopeiar",
                 ChampionName = "cassiopeia",
                 Slot = SpellSlot.R,
+                DisplayName = "Petrifying Gaze",
                 CastType = CastType.Direction,
                 FixedRange = true,
-                CastRange = 875f,
-                CastDelay = 350f,
+                CastRange = 0f,
+                Radius = 850f,
+                CastDelay = 500f,
                 EmuFlags =
                     new[]
                     {
@@ -1458,10 +1466,11 @@ namespace Trinity.Helpers
                 SpellName = "rupture",
                 ChampionName = "chogath",
                 Slot = SpellSlot.Q,
+                DisplayName = "Rupture",
                 CastType = CastType.Location,
                 CastRange = 950f,
                 Radius = 250f,
-                CastDelay = 900f,
+                CastDelay = 500f,
                 EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.CrowdControl },
                 MissileName = "",
                 CastSpeed = 4800
@@ -1472,6 +1481,7 @@ namespace Trinity.Helpers
                 SpellName = "feralscream",
                 ChampionName = "chogath",
                 Slot = SpellSlot.W,
+                DisplayName = "Feral Scream",
                 CastType = CastType.Direction,
                 FixedRange = true,
                 CastRange = 300f,
@@ -1486,11 +1496,13 @@ namespace Trinity.Helpers
                 SpellName = "vorpalspikes",
                 ChampionName = "chogath",
                 Slot = SpellSlot.E,
+                DisplayName = "Vorpal Spikes",
+                CastRange = 500f,
+                Radius = 340f,
+                CastDelay = 250f,
                 CastType = CastType.Proximity,
-                CastRange = 0f,
-                CastDelay = 0f,
                 EmuFlags = new EmulationFlags[] { },
-                CastSpeed = 347
+                CastSpeed = 4800,
             });
 
             HeroSpells.Add(new SpellData
@@ -1498,8 +1510,10 @@ namespace Trinity.Helpers
                 SpellName = "feast",
                 ChampionName = "chogath",
                 Slot = SpellSlot.R,
+                DisplayName = "Feast",
                 CastType = CastType.Unit,
-                CastRange = 300f,
+                CastRange = 175f,
+                SecondaryCastRange = 300f,
                 CastDelay = 250f,
                 EmuFlags = new[] { EmulationFlags.Danger, EmulationFlags.Ultimate },
                 CastSpeed = 4800

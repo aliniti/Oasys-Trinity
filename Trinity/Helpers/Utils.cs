@@ -703,12 +703,12 @@
             if (source == null) return false;
             
             var gameTime = (int) (GameEngine.GameTime * 1000);
-            if (missile.SpellData.SpellWidth < 1) return  false;
+            if (missile.SpellData.SpellWidth < 1) return false;
             
             SpellData entry = null;
             foreach (var x in SpellData.HeroSpells)
             {
-                if (x.ChampionName.ToLower() != unit.ModelName.ToLower()) continue;
+                if (x.ChampionName.ToLower() != source.ModelName.ToLower()) continue;
                 if (x.MissileName.ToLower() == missile.Name.ToLower() || x.Slot == (SpellSlot) missile.Slot)
                 {
                     entry = x;
