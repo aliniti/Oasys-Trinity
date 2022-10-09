@@ -259,10 +259,6 @@ namespace Trinity.Helpers
             new ActiveItem(90, ItemID.Youmuus_Ghostblade, TargetingType.ProximityEnemy, 1100,
                 new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckOnlyOnMe }),
 
-            // item: Blade_of_the_Ruined_King
-            new ActiveItem(90, ItemID.Blade_of_The_Ruined_King, TargetingType.EnemyUnit, 575,
-                new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckOnlyOnMe }),
-
             // item: Hextech_Protobelt_RocketBelt
             new ActiveItem(75, ItemID.Hextech_Rocketbelt, TargetingType.SkillshotEnemy, 575,
                 new[] { ActivationType.CheckEnemyLowHP, ActivationType.CheckOnlyOnMe }),
@@ -411,7 +407,7 @@ namespace Trinity.Helpers
             new AutoSpell(90, "Lux", CastSlot.W, TargetingType.SkillshotAlly, 1075,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, ActivationType.CheckPlayerMana }),
 
-            new AutoSpell(90, "Annie", CastSlot.E, TargetingType.SkillshotAlly, 800,
+            new AutoSpell(90, "Annie", CastSlot.E, TargetingType.AllyUnit, 800,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, ActivationType.CheckPlayerMana }),
 
             new AutoSpell(90, "Nautilus", CastSlot.W, TargetingType.ProximityAlly, float.MaxValue,
@@ -431,13 +427,13 @@ namespace Trinity.Helpers
             new AutoSpell(25, "Kindred", CastSlot.R, TargetingType.AllyUnit, 400,
                 new[] { ActivationType.CheckAllyLowHP }),
 
-            new AutoSpell(25, "Aatrox", CastSlot.R, TargetingType.AllyUnit, float.MaxValue,
+            new AutoSpell(25, "Aatrox", CastSlot.R, TargetingType.ProximityAlly, float.MaxValue,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
 
             new AutoSpell(25, "Lulu", CastSlot.R, TargetingType.AllyUnit, 900,
                 new[] { ActivationType.CheckAllyLowHP }),
 
-            new AutoSpell(25, "Tryndamere", CastSlot.R, TargetingType.AllyUnit, float.MaxValue,
+            new AutoSpell(25, "Tryndamere", CastSlot.R, TargetingType.ProximityAlly, float.MaxValue,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
 
             new AutoSpell(25, "Soraka", CastSlot.R, TargetingType.ProximityAlly, float.MaxValue,

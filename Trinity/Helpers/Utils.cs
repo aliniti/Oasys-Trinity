@@ -11,6 +11,7 @@
     using System.Linq;
 
     using Oasys.Common;
+    using Oasys.Common.Logic;
     using Oasys.Common.Enums.GameEnums;
     using Oasys.Common.Extensions;
     using Oasys.Common.GameObject.Clients;
@@ -99,7 +100,7 @@
             return null;
         }
 
-        public static List<AIBaseClient> GetAllyUnitsOnSegment(this ProjectionInfo proj, float radius, bool heroes, bool minions)
+        public static List<AIBaseClient> GetAllyUnitsOnSegment(this Oasys.Common.Logic.Geometry.ProjectionInfo proj, float radius, bool heroes, bool minions)
         {
             var objList = new List<AIBaseClient>();
 
@@ -692,7 +693,7 @@
                 hero.ResetAggro();
             
             if (!unit.IsObject(ObjectTypeFlag.AIMissileClient)) return false;
-            
+
             var missile = unit.As<AIMissileClient>();
             if (missile is null) return false;
 
@@ -701,7 +702,7 @@
 
             var source = GetHeroByIndex(missile.SourceIndex);
             if (source == null) return false;
-            
+
             var gameTime = (int) (GameEngine.GameTime * 1000);
             if (missile.SpellData.SpellWidth < 1) return false;
             
@@ -722,17 +723,17 @@
                 }
             }
             
-            var startPos = missile.StartPosition;
-            var endPos = missile.EndPosition;
+            var startPos = missile.StartPosition.ToVector2();
+            var endPos = missile.EndPosition.ToVector2();
             var direction = (endPos - startPos).Normalized();
             var radius = (int) Math.Max(50, missile.SpellData.SpellWidth) + cRadius;
 
             if (startPos.Distance(endPos) > missile.SpellData.CastRange)
                 endPos = startPos + direction * missile.SpellData.CastRange;
 
-            var pInfo = hero.Instance.Position.ProjectOn(startPos, endPos);
+            var pInfo = hero.Instance.Position.ToVector2().ProjectOn(startPos, endPos);
             var nearSegment = hero.Instance.Position.Distance(pInfo.SegmentPoint) <= radius;
-                
+
             if (!pInfo.IsOnSegment || !nearSegment) return false;
             if (entry != null)
             {
@@ -802,15 +803,15 @@
             }
             else
             {
-                var startPos = currentSpell.SpellStartPosition;
-                var endPos = currentSpell.SpellEndPosition;
+                var startPos = currentSpell.SpellStartPosition.ToVector2();
+                var endPos = currentSpell.SpellEndPosition.ToVector2();
                 var direction = (endPos - startPos).Normalized();
                 var radius = (int) Math.Max(50, currentSpell.SpellData.SpellWidth) + cRadius;
 
                 if (startPos.Distance(endPos) > currentSpell.SpellData.CastRange)
                     endPos = startPos + direction * currentSpell.SpellData.CastRange;
 
-                var pInfo = hero.Instance.Position.ProjectOn(startPos, endPos);
+                var pInfo = hero.Instance.Position.ToVector2().ProjectOn(startPos, endPos);
                 var nearSegment = hero.Instance.Position.Distance(pInfo.SegmentPoint) <= radius;
                 
                 if (!pInfo.IsOnSegment || !nearSegment) return false;

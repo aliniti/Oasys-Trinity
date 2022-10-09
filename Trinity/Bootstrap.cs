@@ -76,6 +76,7 @@
         /// </summary>
         private static void InitializeTrinity()
         {
+
             #region Tidy : Purify Item Menu
 
             var cleanseItemMenu = new Tab("Trinity: Purifiers");
@@ -86,11 +87,11 @@
                 item.OnItemDispose += () => Lists.InitializedTickItems.Remove(item);
                 item.Initialize(cleanseItemMenu);
             }
-            
+
             MenuManager.AddTab(cleanseItemMenu);
 
             #endregion
-            
+
             #region Tidy : Offensive Item Menu
 
             var offensiveItemMenu = new Tab("Trinity: Offensives");
