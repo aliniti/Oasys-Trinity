@@ -20,19 +20,20 @@
         public static void CreateSpellTabEnableSwitch(this AutoSpell spell)
         {
             var tabName = spell.IsSummonerSpell  ? spell.ChampionName : spell.ChampionName + spell.Slot;
-            spell.SpellGroup[tabName + "grp"] = new Group
+            
+            spell.SpellGroupTab = new Tab
             {
                 Title = tabName
             };
 
-            spell.SpellGroup[tabName + "grp"].AddItem(
+            spell.SpellGroupTab.AddItem(
                 spell.SpellSwitch[tabName] = new Switch
                 {
                     IsOn = true,
                     Title = "Use " + tabName
                 });
-
-            spell.SpellTab.AddGroup(spell.SpellGroup[tabName + "grp"]);
+            
+            spell.SpellTab.AddItem(spell.SpellGroupTab);
         }
 
         /// <summary>
@@ -42,7 +43,7 @@
         public static void CreateSpellTabBindingUnit(this AutoSpell spell)
         {
             var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellModeDisplay[tabName + "mode"] = new ModeDisplay
+            spell.SpellGroupTab.AddItem(spell.SpellModeDisplay[tabName + "mode"] = new ModeDisplay
             {
                 Title = "Use " + tabName + " priority unit: ",
                 ModeNames = { "MostAD", "MaxHP" },
@@ -58,7 +59,7 @@
         public static void CreateSpellTabAllyLowHP(this AutoSpell spell, int pctUse = 90)
         {
             var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellCounter[tabName + "ahp"] = new Counter
+            spell.SpellGroupTab.AddItem(spell.SpellCounter[tabName + "ahp"] = new Counter
             {
                 Title = "Use " + tabName + " at ALLY Percent HP < (%)",
                 MaxValue = 100,
@@ -76,7 +77,7 @@
         public static void CreateSpellTabAllyLowMP(this AutoSpell spell, int pctUse = 90)
         {
             var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellCounter[tabName + "amp"] = new Counter
+            spell.SpellGroupTab.AddItem(spell.SpellCounter[tabName + "amp"] = new Counter
             {
                 Title = "Use " + tabName + " at ALLY Percent MP < (%)",
                 MaxValue = 100,
@@ -94,7 +95,7 @@
         public static void CreateSpellTabEnemyLowHP(this AutoSpell spell, int pctUse = 25)
         {
             var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellCounter[tabName + "ehp"] = new Counter
+            spell.SpellGroupTab.AddItem(spell.SpellCounter[tabName + "ehp"] = new Counter
             {
                 Title = "Use " + tabName + " at ENEMY Percent HP < (%)",
                 MaxValue = 100,
@@ -111,7 +112,7 @@
         public static void CreateSpellTabAllyMinimumMP(this AutoSpell spell)
         {
             var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellCounter[tabName + "amm"] = new Counter
+            spell.SpellGroupTab.AddItem(spell.SpellCounter[tabName + "amm"] = new Counter
             {
                 Title = "Use " + tabName + " if Mana > (%)",
                 MaxValue = 100,
@@ -128,21 +129,21 @@
         public static void CreateTabSpellDangerousSpells(this AutoSpell spell, int usePct)
         {
             var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
-            spell.SpellGroup[tabName + "grp"].AddItem(
+            spell.SpellGroupTab.AddItem(
                 spell.SpellSwitch[tabName + "dangernorm"] = new Switch
                 {
                     IsOn = usePct > 60,
                     Title = "Use on Dangerous (Spells)"
                 });
             
-            spell.SpellGroup[tabName+ "grp"].AddItem(
+            spell.SpellGroupTab.AddItem(
                 spell.SpellSwitch[tabName + "dangercc"] = new Switch
                 {
                     IsOn = usePct > 40,
                     Title = "Use on CrowdControl (Spells)"
                 });
             
-            spell.SpellGroup[tabName + "grp"].AddItem(
+            spell.SpellGroupTab.AddItem(
                 spell.SpellSwitch[tabName + "dangerextr"] = new Switch
                 {
                     IsOn = true,
@@ -157,7 +158,7 @@
         public static void CreateSpellTabAuraCleanse(this AutoSpell spell)
         {
             var tabName = spell.IsSummonerSpell ? spell.ChampionName : spell.ChampionName + spell.Slot;
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellCounter[tabName + "MinimumBuffs"] = new Counter
+            spell.SpellGroupTab.AddItem(spell.SpellCounter[tabName + "MinimumBuffs"] = new Counter
             {
                 Title = "Minimum Buffs to Use",
                 MaxValue = 5,
@@ -166,7 +167,7 @@
                 ValueFrequency = 1
             });
 
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellCounter[tabName + "MinimumBuffsDuration"] = new Counter
+            spell.SpellGroupTab.AddItem(spell.SpellCounter[tabName + "MinimumBuffsDuration"] = new Counter
             {
                 Title = "Minimum Buff Duration (in ms)",
                 MaxValue = 2000,
@@ -175,13 +176,13 @@
                 ValueFrequency = 250
             });
 
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "SwitchMinimumBuffHP"] = new Switch
+            spell.SpellGroupTab.AddItem(spell.SpellSwitch[tabName + "SwitchMinimumBuffHP"] = new Switch
             {
                 IsOn = false,
                 Title = "Enable Minimum HP (%) to Use"
             });
 
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellCounter[tabName + "MinimumBuffsHP"] = new Counter
+            spell.SpellGroupTab.AddItem(spell.SpellCounter[tabName + "MinimumBuffsHP"] = new Counter
             {
                 Title = "Minimum HP (%) to Use",
                 MaxValue = 100,
@@ -190,91 +191,91 @@
                 ValueFrequency = 15
             });
             
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Ignite"] = new Switch
+            spell.SpellGroupTab.AddItem(spell.SpellSwitch[tabName + "Ignite"] = new Switch
             {
                 IsOn = true,
                 Title = "-> Ignite"
             });
 
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Exhaust"] = new Switch
+            spell.SpellGroupTab.AddItem(spell.SpellSwitch[tabName + "Exhaust"] = new Switch
             {
                 IsOn = true,
                 Title = "-> Exhaust"
             });
 
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Suppression"] = new Switch
+            spell.SpellGroupTab.AddItem(spell.SpellSwitch[tabName + "Suppression"] = new Switch
             {
                 IsOn = true,
                 Title = "-> Suppression"
             });
 
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Knockups"] = new Switch
+            spell.SpellGroupTab.AddItem(spell.SpellSwitch[tabName + "Knockups"] = new Switch
             {
                 IsOn = false,
                 Title = "-> Knockups"
             });
 
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Sleep"] = new Switch
+            spell.SpellGroupTab.AddItem(spell.SpellSwitch[tabName + "Sleep"] = new Switch
             {
                 IsOn = true,
                 Title = "-> Sleep"
             });
 
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Stuns"] = new Switch
+            spell.SpellGroupTab.AddItem(spell.SpellSwitch[tabName + "Stuns"] = new Switch
             {
                 IsOn = true,
                 Title = "-> Stuns"
             });
 
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Charms"] = new Switch
+            spell.SpellGroupTab.AddItem(spell.SpellSwitch[tabName + "Charms"] = new Switch
             {
                 IsOn = true,
                 Title = "-> Charms"
             });
 
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Taunts"] = new Switch
+            spell.SpellGroupTab.AddItem(spell.SpellSwitch[tabName + "Taunts"] = new Switch
             {
                 IsOn = true,
                 Title = "-> Taunts"
             });
 
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Fear"] = new Switch
+            spell.SpellGroupTab.AddItem(spell.SpellSwitch[tabName + "Fear"] = new Switch
             {
                 IsOn = true,
                 Title = "-> Fear"
             });
 
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Snares"] = new Switch
+            spell.SpellGroupTab.AddItem(spell.SpellSwitch[tabName + "Snares"] = new Switch
             {
                 IsOn = true,
                 Title = "-> Snares"
             });
 
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Polymorphs"] = new Switch
+            spell.SpellGroupTab.AddItem(spell.SpellSwitch[tabName + "Polymorphs"] = new Switch
             {
                 IsOn = true,
                 Title = "-> Polymorphs"
             });
 
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Silence"] = new Switch
+            spell.SpellGroupTab.AddItem(spell.SpellSwitch[tabName + "Silence"] = new Switch
             {
                 IsOn = false,
                 Title = "-> Silence"
             });
 
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Blinds"] = new Switch
+            spell.SpellGroupTab.AddItem(spell.SpellSwitch[tabName + "Blinds"] = new Switch
             {
                 IsOn = false,
                 Title = "-> Blinds"
             });
 
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Slows"] = new Switch
+            spell.SpellGroupTab.AddItem(spell.SpellSwitch[tabName + "Slows"] = new Switch
             {
                 IsOn = false,
                 Title = "-> Slows"
             });
 
-            spell.SpellGroup[tabName + "grp"].AddItem(spell.SpellSwitch[tabName + "Poison"] = new Switch
+            spell.SpellGroupTab.AddItem(spell.SpellSwitch[tabName + "Poison"] = new Switch
             {
                 IsOn = false,
                 Title = "-> Poison"
@@ -287,18 +288,18 @@
         /// <param name="item">The item.</param>
         public static void CreateItemTabEnableSwitch(this ActiveItem item)
         {
-            item.ItemGroup[item.ItemId + "grp"] = new Group
+            item.ItemGroupTab = new Tab
             {
                 Title = Lists.TranslationEng[item.ItemId]
             };
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(item.ItemSwitch[item.ItemId.ToString()] = new Switch
+            item.ItemGroupTab.AddItem(item.ItemSwitch[item.ItemId.ToString()] = new Switch
             {
                 IsOn = true,
                 Title = "Use " + Lists.TranslationEng[item.ItemId]
             });
 
-            item.ItemTab.AddGroup(item.ItemGroup[item.ItemId + "grp"]);
+            item.ItemTab.AddItem(item.ItemGroupTab);
         }
 
         /// <summary>
@@ -307,7 +308,7 @@
         /// <param name="item">The item.</param>
         public static void CreateItemTabBindingUnit(this ActiveItem item)
         {
-            item.ItemGroup[item.ItemId + "grp"].AddItem(item.ItemModeDisplay[item.ItemId + "mode"] = new ModeDisplay
+            item.ItemGroupTab.AddItem(item.ItemModeDisplay[item.ItemId + "mode"] = new ModeDisplay
             {
                 Title = "Use " + Lists.TranslationEng[item.ItemId] + " priority unit: ",
                 ModeNames = { "MostAD", "MaxHP" },
@@ -322,7 +323,7 @@
         /// <param name="pctUse">The PCT use.</param>
         public static void CreateItemTabEnemyLowHealth(this ActiveItem item, int pctUse = 95)
         {
-            item.ItemGroup[item.ItemId + "grp"].AddItem(item.ItemCounter[item.ItemId + "ehp"] = new Counter
+            item.ItemGroupTab.AddItem(item.ItemCounter[item.ItemId + "ehp"] = new Counter
             {
                 Title = "Use " + Lists.TranslationEng[item.ItemId] + " at Enemy Percent HP < (%)",
                 MaxValue = 100,
@@ -339,7 +340,7 @@
         /// <param name="pctUse">The PCT use.</param>
         public static void CreateItemTabAllyLowHealth(this ActiveItem item, int pctUse = 80)
         {
-            item.ItemGroup[item.ItemId + "grp"].AddItem(item.ItemCounter[item.ItemId + "ahp"] = new Counter
+            item.ItemGroupTab.AddItem(item.ItemCounter[item.ItemId + "ahp"] = new Counter
             {
                 Title = "Use " + Lists.TranslationEng[item.ItemId] + " at Ally Percent HP < (%)",
                 MaxValue = 100,
@@ -356,7 +357,7 @@
         /// <param name="pctUse">The PCT use.</param>
         public static void CreateItemTabAllyLowMana(this ActiveItem item, int pctUse = 55)
         {
-            item.ItemGroup[item.ItemId + "grp"].AddItem(item.ItemCounter[item.ItemId + "amp"] = new Counter
+            item.ItemGroupTab.AddItem(item.ItemCounter[item.ItemId + "amp"] = new Counter
             {
                 Title = "Use " + Lists.TranslationEng[item.ItemId] + " at Ally Percent MP < (%)",
                 MaxValue = 100,
@@ -373,7 +374,7 @@
         /// <param name="pctUse">The PCT use.</param>
         public static void CreateItemCheckProximityCount(this ActiveItem item, int pctUse = 2)
         {
-            item.ItemGroup[item.ItemId + "grp"].AddItem(item.ItemCounter[item.ItemId + "aoe"] = new Counter
+            item.ItemGroupTab.AddItem(item.ItemCounter[item.ItemId + "aoe"] = new Counter
             {
                 Title = "Use " + Lists.TranslationEng[item.ItemId] + " when Enemies Near >=",
                 MaxValue = 5,
@@ -389,21 +390,21 @@
         /// <param name="item">The item.</param>
         public static void CreateTabItemDangerousSpells(this ActiveItem item, int usePct)
         {
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "dangernorm"] = new Switch
                 {
                     IsOn = usePct > 60,
                     Title = "Use on Dangerous (Spells)"
                 });
             
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "dangercc"] = new Switch
                 {
                     IsOn = usePct > 40,
                     Title = "Use on CrowdControl (Spells)"
                 });
             
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "dangerextr"] = new Switch
                 {
                     IsOn = true,
@@ -419,7 +420,7 @@
         /// <param name="pctUse">The PCT use.</param>
         public static void CreateItemTabAuraCleanse(this ActiveItem item, int pctUse = 100)
         {
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemCounter[item.ItemId + "MinimumBuffs"] = new Counter
                 {
                     Title = "Minimum Buffs to Use",
@@ -429,7 +430,7 @@
                     ValueFrequency = 1
                 });
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemCounter[item.ItemId + "MinimumBuffsDuration"] = new Counter
                 {
                     Title = "Minimum Buff Duration (in ms)",
@@ -439,14 +440,14 @@
                     ValueFrequency = 250
                 });
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "SwitchMinimumBuffHP"] = new Switch
                 {
                     IsOn = false,
                     Title = "Enable Minimum HP (%) to Use"
                 });
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemCounter[item.ItemId + "MinimumBuffsHP"] = new Counter
                 {
                     Title = "Minimum HP (%) to Use",
@@ -456,105 +457,105 @@
                     ValueFrequency = 15
                 });
             
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "Ignite"] = new Switch
                 {
                     IsOn = true,
                     Title = "-> Ignite"
                 });
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "Exhaust"] = new Switch
                 {
                     IsOn = true,
                     Title = "-> Exhaust"
                 });
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "Suppression"] = new Switch
                 {
                     IsOn = true,
                     Title = "-> Suppression"
                 });
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "Knockups"] = new Switch
                 {
                     IsOn = false,
                     Title = "-> Knockups"
                 });
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "Sleep"] = new Switch
                 {
                     IsOn = true,
                     Title = "-> Sleep"
                 });
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "Stuns"] = new Switch
                 {
                     IsOn = true,
                     Title = "-> Stuns"
                 });
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "Charms"] = new Switch
                 {
                     IsOn = true,
                     Title = "-> Charms"
                 });
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "Taunts"] = new Switch
                 {
                     IsOn = true,
                     Title = "-> Taunts"
                 });
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "Fear"] = new Switch
                 {
                     IsOn = true,
                     Title = "-> Fear"
                 });
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "Snares"] = new Switch
                 {
                     IsOn = true,
                     Title = "-> Snares"
                 });
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "Polymorphs"] = new Switch
                 {
                     IsOn = true,
                     Title = "-> Polymorphs"
                 });
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "Silence"] = new Switch
                 {
                     IsOn = false,
                     Title = "-> Silence"
                 });
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "Blinds"] = new Switch
                 {
                     IsOn = false,
                     Title = "-> Blinds"
                 });
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "Slows"] = new Switch
                 {
                     IsOn = false,
                     Title = "-> Slows"
                 });
 
-            item.ItemGroup[item.ItemId + "grp"].AddItem(
+            item.ItemGroupTab.AddItem(
                 item.ItemSwitch[item.ItemId + "Poison"] = new Switch
                 {
                     IsOn = false,

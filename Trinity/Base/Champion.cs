@@ -150,16 +150,16 @@
         {
             var tabname = Instance.ModelName + (Instance.IsEnemy ? "e" : "a");
             
-            ChampionGroup[tabname + "grp"] = new Group  { Title = "[Pred] " + Instance.ModelName };
-            ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "hro"] = new Switch { IsOn = true, Title = "Predict spell/auto attacks" });
-            ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "mis"] = new Switch { IsOn = true, Title = "Predict missiles from fow (beta)" });
-            ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "min"] = new Switch { IsOn = true, Title = "Predict minion attacks" });
-            ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "jgl"] = new Switch { IsOn = true, Title = "Predict neutral monsters attacks" });
-            ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "twr"] = new Switch { IsOn = true, Title = "Predict tower attacks" });
-            ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "vfx"] = new Switch { IsOn = true, Title = "Predict particle/vfx" });
-            ChampionGroup[tabname + "grp"].AddItem(ChampionSwitch[tabname + "buf"] = new Switch { IsOn = true, Title = "Predict buffs" });
+            ChampionGroupTab = new Tab { Title = "[pred] " + Instance.ModelName };
+            ChampionGroupTab.AddItem(ChampionSwitch[tabname + "hro"] = new Switch { IsOn = true, Title = "Predict spell/auto attacks" });
+            ChampionGroupTab.AddItem(ChampionSwitch[tabname + "mis"] = new Switch { IsOn = true, Title = "Predict missiles from fow (beta)" });
+            ChampionGroupTab.AddItem(ChampionSwitch[tabname + "min"] = new Switch { IsOn = true, Title = "Predict minion attacks" });
+            ChampionGroupTab.AddItem(ChampionSwitch[tabname + "jgl"] = new Switch { IsOn = true, Title = "Predict neutral monsters attacks" });
+            ChampionGroupTab.AddItem(ChampionSwitch[tabname + "twr"] = new Switch { IsOn = true, Title = "Predict tower attacks" });
+            ChampionGroupTab.AddItem(ChampionSwitch[tabname + "vfx"] = new Switch { IsOn = true, Title = "Predict particle/vfx" });
+            ChampionGroupTab.AddItem(ChampionSwitch[tabname + "buf"] = new Switch { IsOn = true, Title = "Predict buffs" });
 
-            ChampionTab.AddGroup(ChampionGroup[tabname + "grp"]);
+            ChampionTab.AddItem(ChampionGroupTab);
         }
 
         public override void OnCreate(List<AIBaseClient> callbackobjectlist, AIBaseClient callbackobject, float callbackgametime)

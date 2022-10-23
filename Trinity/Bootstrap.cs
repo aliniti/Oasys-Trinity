@@ -76,10 +76,11 @@
         /// </summary>
         private static void InitializeTrinity()
         {
+            var trinityMenu = new Tab("Trinity");
 
             #region Tidy : Purify Item Menu
 
-            var cleanseItemMenu = new Tab("Trinity: Purifiers");
+            var cleanseItemMenu = new Tab("Purifiers");
             
             foreach (var item in Lists.CleanseItems)
             {
@@ -88,13 +89,13 @@
                 item.Initialize(cleanseItemMenu);
             }
 
-            MenuManager.AddTab(cleanseItemMenu);
+            trinityMenu.AddItem(cleanseItemMenu);
 
             #endregion
 
             #region Tidy : Offensive Item Menu
 
-            var offensiveItemMenu = new Tab("Trinity: Offensives");
+            var offensiveItemMenu = new Tab("Offensives");
 
             foreach (var item in Lists.OffensiveItems)
             {
@@ -103,13 +104,13 @@
                 item.Initialize(offensiveItemMenu);
             }
 
-            MenuManager.AddTab(offensiveItemMenu);
+            trinityMenu.AddItem(offensiveItemMenu);
 
             #endregion
 
             #region Tidy : Defensive Item Menu
 
-            var defensiveItemMenu = new Tab("Trinity: Defensives");
+            var defensiveItemMenu = new Tab("Defensives");
 
             foreach (var item in Lists.DefensiveItems)
             {
@@ -118,13 +119,13 @@
                 item.Initialize(defensiveItemMenu);
             }
 
-            MenuManager.AddTab(defensiveItemMenu);
+            trinityMenu.AddItem(defensiveItemMenu);
 
             #endregion
 
             #region Tidy : Cosumable Item Menu
 
-            var consumablesItemMenu = new Tab("Trinity: Consumables");
+            var consumablesItemMenu = new Tab("Consumables");
 
             foreach (var item in Lists.ConsumableItems)
             {
@@ -133,13 +134,13 @@
                 item.Initialize(consumablesItemMenu);
             }
 
-            MenuManager.AddTab(consumablesItemMenu);
+            trinityMenu.AddItem(consumablesItemMenu);
 
             #endregion
 
             #region Tidy : Summoner Spells Menu
 
-            var summonerSpellMenu = new Tab("Trinity: Summoners");
+            var summonerSpellMenu = new Tab("Summoners");
 
             foreach (var spell in Lists.SummonerTickSpells)
             {
@@ -155,13 +156,13 @@
                 spell.Initialize(summonerSpellMenu);
             }
 
-            MenuManager.AddTab(summonerSpellMenu);
+            trinityMenu.AddItem(summonerSpellMenu);
 
             #endregion
 
             #region Tidy : Auto Spells Menu
 
-            var autoSpellsMenu = new Tab("Trinity: Auto Spells");
+            var autoSpellsMenu = new Tab("Auto Spells");
 
             foreach (var spell in Lists.AutoSpells)
             {
@@ -170,13 +171,13 @@
                 spell.Initialize(autoSpellsMenu);
             }
 
-            MenuManager.AddTab(autoSpellsMenu);
+            trinityMenu.AddItem(autoSpellsMenu);
 
             #endregion
 
             #region Tidy : Prediction Menu
 
-            var config = new Tab("Trinity: Prediction");
+            var config = new Tab("Prediction");
 
             foreach (var troy in Lists.Particles)
             {
@@ -200,7 +201,9 @@
                 aura.Initialize(config);
             }
 
-            MenuManager.AddTab(config);
+            trinityMenu.AddItem(config);
+
+            MenuManager.AddTab(trinityMenu);
 
             #endregion
         }

@@ -31,12 +31,7 @@
         ///     The item counters
         /// </summary>
         public Dictionary<string, Counter> ItemCounter = new();
-
-        /// <summary>
-        ///     The item groups
-        /// </summary>
-        public Dictionary<string, Group> ItemGroup = new();
-
+        
         /// <summary>
         ///     The item mode display
         /// </summary>
@@ -74,6 +69,14 @@
         ///     The item tab.
         /// </value>
         public Tab ItemTab { get; set; }
+        
+        /// <summary>
+        ///     Gets or sets the item group tab.
+        /// </summary>
+        /// <value>
+        ///     The item group tab.
+        /// </value>
+        public Tab ItemGroupTab { get; set; }
 
         #endregion
 

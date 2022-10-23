@@ -149,41 +149,43 @@
         {
             this.CreateSpellTabEnableSwitch();
             var tabName = ChampionName;
-
-            SpellGroup[tabName + "grp"].AddItem(
+            
+            SpellGroupTab.AddItem(
                 SpellSwitch[tabName + "greed"] = new Switch
                 {
                     IsOn = true,
                     Title = "Smite Greed"
                 });
 
-            SpellGroup[tabName + "grp"].AddItem(
+            SpellGroupTab.AddItem(
                 SpellSwitch[tabName + "smt1"] = new Switch
                 {
                     IsOn = true,
                     Title = "Smite Small Minions"
                 });
 
-            SpellGroup[tabName + "grp"].AddItem(
+            SpellGroupTab.AddItem(
                 SpellSwitch[tabName + "smt2"] = new Switch
                 {
                     IsOn = true,
                     Title = "Smite Large Minions"
                 });
 
-            SpellGroup[tabName + "grp"].AddItem(
+            SpellGroupTab.AddItem(
                 SpellSwitch[tabName + "smt3"] = new Switch
                 {
                     IsOn = true,
                     Title = "Smite Epic Minions"
                 });
 
-            SpellGroup[tabName + "grp"].AddItem(
+            SpellGroupTab.AddItem(
                 SpellSwitch[tabName + "draw"] = new Switch
                 {
                     IsOn = true,
                     Title = "Smite Drawings"
                 });
+
+            SpellTab.AddItem(SpellGroupTab);
         }
 
         /// <summary>
@@ -206,7 +208,7 @@
             var myPosToScreen = LeagueNativeRendererManager.WorldToScreen(UnitManager.MyChampion.Position);
 
             RenderFactory.DrawNativeCircle(myPos, Range, circ, 3);
-            RenderFactory.DrawText(text, 8,  myPosToScreen, circ);
+            RenderFactory.DrawText(text, 8, new Vector2(myPosToScreen.X, myPosToScreen.Y + 40), circ);
 
             var damage = SpellClass.SpellData.SpellName == "SummonerSmite" ? 450 : 900;
 

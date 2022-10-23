@@ -15,16 +15,26 @@ namespace Trinity.Base
         private bool _initialized;
 
         /// <summary>
-        ///     The prediction groups
-        /// </summary>
-        public Dictionary<string, Group> ChampionGroup = new();
-        
-        /// <summary>
         ///     The prediction switches
         /// </summary>
         public Dictionary<string, Switch> ChampionSwitch = new();
         
+        /// <summary>
+        ///     Gets or sets the champion tab.
+        /// </summary>
+        /// <value>
+        ///     The champion tab.
+        /// </value>
         public Tab ChampionTab { get; set; }
+        
+        /// <summary>
+        ///     Gets or sets the champion group tab.
+        /// </summary>
+        /// <value>
+        ///     The champion group tab.
+        /// </value>
+        public Tab ChampionGroupTab { get; set; }
+        
         
         public void Initialize(Tab parentTab, Champion champion)
         {

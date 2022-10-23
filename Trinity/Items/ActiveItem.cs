@@ -90,19 +90,19 @@
 
             if (ActivationTypes.Contains(ActivationType.CheckAllyLowHP))
                 this.CreateItemTabAllyLowHealth(UsePct);
-
+            
             if (ActivationTypes.Contains(ActivationType.CheckEnemyLowHP))
                 this.CreateItemTabEnemyLowHealth(UsePct);
-
+            
             if (ActivationTypes.Contains(ActivationType.CheckAllyLowMP))
                 this.CreateItemTabAllyLowMana(UsePct);
-
+            
             if (ActivationTypes.Contains(ActivationType.CheckAuras))
                 this.CreateItemTabAuraCleanse(UsePct);
-
+            
             if (ActivationTypes.Contains(ActivationType.CheckProximityCount))
                 this.CreateItemCheckProximityCount();
-
+            
             if (TargetingType.ToString().Contains("Binding"))
                 this.CreateItemTabBindingUnit();
             

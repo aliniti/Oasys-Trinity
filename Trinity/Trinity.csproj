@@ -2,15 +2,15 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <Version>1.6</Version>
+        <Version>1.6.1</Version>
         <Platforms>AnyCPU;x86;x64</Platforms>
-        <AssemblyVersion>1.6</AssemblyVersion>
-        <FileVersion>1.6</FileVersion>
-        <PackageVersion>1.6</PackageVersion>
+        <AssemblyVersion>1.6.1</AssemblyVersion>
+        <FileVersion>1.6.1</FileVersion>
+        <PackageVersion>1.6.1</PackageVersion>
     </PropertyGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-      <Exec Command="echo F | xcopy &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;C:\Program Files\Xf2dddf8927e5904aea42cdf6b449e1facf\Modules\$(ProjectName).omod&quot; /Y&#xA;echo F | xcopy &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;C:\Users\robin\Documents\GitHub\Oasys-Trinity\$(ProjectName).omod&quot; /Y" />
+      <Exec Command="echo F | xcopy &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;C:\Program Files\J6351825030155836664876686dcff61b6a91254a0458537072a1b26ad151b5cejb\Modules\$(ProjectName).omod&quot; /Y&#xA;echo F | xcopy &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;C:\Users\robin\Documents\GitHub\Oasys-Trinity\$(ProjectName).omod&quot; /Y" />
     </Target>
 
     <ItemGroup>

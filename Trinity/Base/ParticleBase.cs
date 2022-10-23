@@ -24,11 +24,6 @@
         private bool _initialized;
         
         /// <summary>
-        ///     The prediction groups
-        /// </summary>
-        public Dictionary<string, Group> PredictionGroup = new();
-        
-        /// <summary>
         ///     The prediction switches
         /// </summary>
         public Dictionary<string, Switch> PredictionSwitch = new();

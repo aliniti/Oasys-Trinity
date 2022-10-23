@@ -31,11 +31,6 @@
         public Dictionary<string, Counter> SpellCounter = new();
 
         /// <summary>
-        ///     The spell groups
-        /// </summary>
-        public Dictionary<string, Group> SpellGroup = new();
-
-        /// <summary>
         ///     The spell mode display
         /// </summary>
         public Dictionary<string, ModeDisplay> SpellModeDisplay = new();
@@ -104,6 +99,14 @@
         ///     The spell tab.
         /// </value>
         public Tab SpellTab { get; set; }
+        
+        /// <summary>
+        ///     Gets or sets the spell group tab.
+        /// </summary>
+        /// <value>
+        ///     The spell group tab.
+        /// </value>
+        public Tab SpellGroupTab { get; set; }
 
         #endregion
 
