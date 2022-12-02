@@ -86,7 +86,15 @@
             { "Sru_Crab16.1.1", new Offset(new Vector2(-47, -23), 150, 12) },
             { "SRU_RiftHerald17.1.1", new Offset(new Vector2(-41, -20), 155, 9) },
             { "SRU_Baron12.1.1", new Offset(new Vector2(-24, -28), 165, 13) },
-            { "SRU_BaronSpawn12.1.2", new Offset(new Vector2(-24, -28), 165, 13) }
+            { "SRU_BaronSpawn12.1.2", new Offset(new Vector2(-24, -28), 165, 13) },
+            { "SRU_Krug5.1.1", new Offset(new Vector2(-45, -21), 150, 10) },
+            { "SRU_Krug11.1.1", new Offset(new Vector2(-45, -21), 150, 10) },
+            { "SRU_Razorbeak3.1.1", new Offset(new Vector2(-45, -21), 150, 10) },
+            { "SRU_Razorbeak9.1.1", new Offset(new Vector2(-45, -21), 150, 10) },
+            { "SRU_Murkwolf8.1.1", new Offset(new Vector2(-45, -21), 150, 10) },
+            { "SRU_Murkwolf2.1.1", new Offset(new Vector2(-45, -21), 150, 10) },
+            { "SRU_Gromp13.1.1", new Offset(new Vector2(-43, -21), 150, 10) },
+            { "SRU_Gromp14.1.1", new Offset(new Vector2(-43, -21), 150, 10) }
         };
 
         /// <summary>
@@ -199,7 +207,7 @@
             if (!SpellSwitch[tabName + "draw"].IsOn) return;
 
             var circ = SpellClass.IsSpellReady
-                ? new ColorBGRA(255, 220, 0, 75)
+                ? new ColorBGRA(240, 232, 163, 100)
                 : new ColorBGRA(115, 115, 115, 75);
 
             var text = SpellSwitch[tabName].IsOn ? "Smite: ON" : "Smite : OFF";
@@ -208,43 +216,40 @@
             var myPosToScreen = LeagueNativeRendererManager.WorldToScreen(UnitManager.MyChampion.Position);
 
             RenderFactory.DrawNativeCircle(myPos, Range, circ, 3);
-            RenderFactory.DrawText(text, 8, new Vector2(myPosToScreen.X, myPosToScreen.Y + 40), circ);
+            RenderFactory.DrawText(text, 20, new Vector2(myPosToScreen.X, myPosToScreen.Y + 40), circ);
 
             var damage = SpellClass.SpellData.SpellName == "SummonerSmite" ? 450 : 900;
 
             foreach (var minion in ObjectManagerExport.JungleObjectCollection.Select(x => x.Value))
-                if (minion.IsValidTarget(1000) && minion.HealthBarScreenPosition.IsOnScreen())
+                if (minion.IsValidTarget(1000) && minion.Position.IsOnScreen())
                 {
                     if (minion.Name.Contains("Mini")) continue;
                     if (minion.Name.Contains("Camp")) continue;
                     if (minion.Name.Contains("Dragon")) continue;
                     if (minion.Name.Contains("Plant")) continue;
-
-                    if (!SmallMinions.Any(x => minion.Name.Contains(x)))
+                    
+                    try
                     {
-                        try
-                        {
-                            var height = Offsets[minion.Name].Height;
-                            var width = Offsets[minion.Name].Width;
-                            var yoffset = Offsets[minion.Name].YValue;
-                            var xoffset = Offsets[minion.Name].XValue;
+                        var height = Offsets[minion.Name].Height;
+                        var width = Offsets[minion.Name].Width;
+                        var yoffset = Offsets[minion.Name].YValue;
+                        var xoffset = Offsets[minion.Name].XValue;
 
-                            var barpos = minion.HealthBarScreenPosition;
-                            var pctafter = Math.Max(0, minion.Health - damage) / minion.MaxHealth;
+                        var barpos = minion.HealthBarScreenPosition;
+                        var pctafter = Math.Max(0, minion.Health - damage) / minion.MaxHealth;
 
-                            var yaxis = barpos.Y + yoffset;
-                            var xaxisnow = barpos.X + xoffset + width * pctafter;
-                            var xaxisfull = barpos.X + xoffset + width * (minion.Health / minion.MaxHealth);
-                            var range = xaxisfull - xaxisnow;
-                            var pos = barpos.X + xoffset + 12 + 138 * pctafter;
+                        var yaxis = barpos.Y + yoffset;
+                        var xaxisnow = barpos.X + xoffset + width * pctafter;
+                        var xaxisfull = barpos.X + xoffset + width * (minion.Health / minion.MaxHealth);
+                        var range = xaxisfull - xaxisnow;
+                        var pos = barpos.X + xoffset + 12 + 138 * pctafter;
 
-                            for (var i = 0; i < range; i++)
-                                RenderFactory.DrawLine(pos + i, yaxis, pos + i, yaxis + height, 1, circ);
-                        }
-                        catch (Exception e)
-                        {
-                            // ignored
-                        }
+                        for (var i = 0; i < range; i++)
+                            RenderFactory.DrawLine(pos + i, yaxis, pos + i, yaxis + height, 1, circ);
+                    }
+                    catch (Exception e)
+                    {
+                        // ignored
                     }
                 }
         }
