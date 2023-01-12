@@ -2,16 +2,19 @@
 {
     #region
 
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using Helpers;
+    
     using Oasys.Common;
     using Oasys.Common.Extensions;
     using Oasys.Common.Menu.ItemComponents;
     using Oasys.SDK;
     using Oasys.SDK.Rendering;
     using SharpDX;
+    
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows.Forms;
 
     #endregion
 
@@ -155,7 +158,7 @@
         /// </summary>
         public override void CreateTab()
         {
-            this.CreateSpellTabEnableSwitch();
+            this.CreateSpellTabEnableSwitch(Keys.M);
             var tabName = ChampionName;
             
             SpellGroupTab.AddItem(
@@ -203,23 +206,24 @@
         {
             this.CorrectSpellClass();
             var tabName = ChampionName;
-
+        
             if (!SpellSwitch[tabName + "draw"].IsOn) return;
-
+        
             var circ = SpellClass.IsSpellReady
                 ? new ColorBGRA(240, 232, 163, 100)
                 : new ColorBGRA(115, 115, 115, 75);
-
-            var text = SpellSwitch[tabName].IsOn ? "Smite: ON" : "Smite : OFF";
-
+        
+            var key = "(" + SpellKeybind[tabName].SelectedKey + ")";
+            var text = SpellSwitch[tabName].IsOn ? key + " Smite: ON" : key + " Smite : OFF";
+        
             var myPos = UnitManager.MyChampion.Position;
             var myPosToScreen = LeagueNativeRendererManager.WorldToScreen(UnitManager.MyChampion.Position);
-
+        
             RenderFactory.DrawNativeCircle(myPos, Range, circ, 3);
             RenderFactory.DrawText(text, 20, new Vector2(myPosToScreen.X, myPosToScreen.Y + 40), circ);
-
+        
             var damage = SpellClass.SpellData.SpellName == "SummonerSmite" ? 450 : 900;
-
+        
             foreach (var minion in ObjectManagerExport.JungleObjectCollection.Select(x => x.Value))
                 if (minion.IsValidTarget(1000) && minion.Position.IsOnScreen())
                 {
@@ -234,16 +238,16 @@
                         var width = Offsets[minion.Name].Width;
                         var yoffset = Offsets[minion.Name].YValue;
                         var xoffset = Offsets[minion.Name].XValue;
-
+        
                         var barpos = minion.HealthBarScreenPosition;
                         var pctafter = Math.Max(0, minion.Health - damage) / minion.MaxHealth;
-
+        
                         var yaxis = barpos.Y + yoffset;
                         var xaxisnow = barpos.X + xoffset + width * pctafter;
                         var xaxisfull = barpos.X + xoffset + width * (minion.Health / minion.MaxHealth);
                         var range = xaxisfull - xaxisnow;
                         var pos = barpos.X + xoffset + 12 + 138 * pctafter;
-
+        
                         for (var i = 0; i < range; i++)
                             RenderFactory.DrawLine(pos + i, yaxis, pos + i, yaxis + height, 1, circ);
                     }

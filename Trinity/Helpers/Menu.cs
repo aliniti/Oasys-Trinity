@@ -1,11 +1,16 @@
 ﻿namespace Trinity.Helpers
 {
     #region
-
+    
     using Items;
+    using Spells;
+    
     using Oasys.Common.Menu;
     using Oasys.Common.Menu.ItemComponents;
-    using Spells;
+    using Oasys.SDK.InputProviders;
+    using Oasys.Common.Tools.Devices;
+
+    using System.Windows.Forms;
 
     #endregion
 
@@ -17,7 +22,8 @@
         ///     Creates the spell tab enable switch.
         /// </summary>
         /// <param name="spell">The spell.</param>
-        public static void CreateSpellTabEnableSwitch(this AutoSpell spell)
+        /// <param name="key">The key</param>
+        public static void CreateSpellTabEnableSwitch(this AutoSpell spell, Keys key = Keys.None)
         {
             var tabName = spell.IsSummonerSpell  ? spell.ChampionName : spell.ChampionName + spell.Slot;
             
@@ -25,15 +31,43 @@
             {
                 Title = tabName
             };
-
+        
             spell.SpellGroupTab.AddItem(
                 spell.SpellSwitch[tabName] = new Switch
                 {
                     IsOn = true,
                     Title = "Use " + tabName
                 });
-            
-            spell.SpellTab.AddItem(spell.SpellGroupTab);
+
+            if (key != Keys.None)
+            {
+                spell.SpellGroupTab.AddItem(
+                    spell.SpellKeybind[tabName] = new KeyBinding
+                    {
+                        SelectedKey = key,
+                        Title = tabName + " Toggle Key"
+                    });
+
+                KeyboardProvider.OnKeyPress += (pressed, state) =>
+                {
+                    if (pressed == key && state == Keyboard.KeyPressState.Up)
+                    {
+                        switch (spell.SpellSwitch[tabName].IsOn)
+                        {
+                            // toggle state
+                            case true:
+                                spell.SpellSwitch[tabName].IsOn = false;
+                                return;
+                            // toggle state
+                            case false:
+                                spell.SpellSwitch[tabName].IsOn = true;
+                                return;
+                        }
+                    }
+                };
+            }
+
+            //spell.SpellTab.AddItem(spell.SpellGroupTab);
         }
 
         /// <summary>

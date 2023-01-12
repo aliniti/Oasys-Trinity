@@ -1,14 +1,21 @@
 ﻿namespace Trinity.Spells.UniqueSpells
 {
     #region
-
-    using System.Linq;
+    
     using Helpers;
+    
     using Oasys.Common;
     using Oasys.Common.Extensions;
     using Oasys.Common.GameObject.Clients;
     using Oasys.Common.Menu.ItemComponents;
+    
     using Oasys.SDK;
+    using Oasys.SDK.Rendering;
+    
+    using System.Linq;
+    using System.Windows.Forms;
+    using Oasys.SDK.Tools;
+    using SharpDX;
 
     #endregion
 
@@ -39,8 +46,8 @@
         /// </summary>
         public override void CreateTab()
         {
-            this.CreateSpellTabEnableSwitch();
-            var tabname = ChampionName;
+            this.CreateSpellTabEnableSwitch(Keys.N);
+            var tabName = ChampionName;
 
             SpellGroupTab.AddItem(SpellSwitch["igcombo"] = new Switch
             {
@@ -72,7 +79,38 @@
                 Title = "Ignite on KS"
             });
             
+            SpellGroupTab.AddItem(
+                SpellSwitch[tabName + "draw"] = new Switch
+                {
+                    IsOn = true,
+                    Title = "Ignite Drawings"
+                });
+            
             SpellTab.AddItem(SpellGroupTab);
+        }
+        
+        /// <summary>
+        ///     Called when [on render].
+        /// </summary>
+        public override void OnRender()
+        {
+            //this.CorrectSpellClass();
+            var tabName = ChampionName;
+
+            if (!SpellSwitch[tabName + "draw"].IsOn) return;
+
+            var circ = SpellClass.IsSpellReady
+                ? new ColorBGRA(255, 102, 51, 100)
+                : new ColorBGRA(115, 115, 115, 75);
+
+            var key = "(" + SpellKeybind[tabName].SelectedKey + ")";
+            var text = SpellSwitch[tabName].IsOn ? key + " Ignite: ON" : key + " Ignite: OFF";
+
+            var myPos = UnitManager.MyChampion.Position;
+            var myPosToScreen = LeagueNativeRendererManager.WorldToScreen(UnitManager.MyChampion.Position);
+
+            RenderFactory.DrawNativeCircle(myPos, Range, circ, 3);
+            RenderFactory.DrawText(text, 20, new Vector2(myPosToScreen.X, myPosToScreen.Y + 20), circ);
         }
 
         /// <summary>

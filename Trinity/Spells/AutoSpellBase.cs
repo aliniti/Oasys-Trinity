@@ -39,6 +39,11 @@
         ///     The spell switches
         /// </summary>
         public Dictionary<string, Switch> SpellSwitch = new();
+        
+        /// <summary>
+        ///     The spell keybinds
+        /// </summary>
+        public Dictionary<string, KeyBinding> SpellKeybind = new();
 
         #endregion
 

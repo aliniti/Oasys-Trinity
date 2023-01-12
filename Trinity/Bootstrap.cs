@@ -254,9 +254,15 @@
             
             foreach (var initializedTickItem in Lists.InitializedTickItems)
                 initializedTickItem.OnRender();
+            
+            foreach (var initializedInputItem in Lists.InitializedInputItems)
+                initializedInputItem.OnRender();
 
             foreach (var initializedTickSpell in Lists.InitializedTickSpells)
                 initializedTickSpell.OnRender();
+            
+            foreach (var initializedInputSpell in Lists.InitializedInputSpells)
+                initializedInputSpell.OnRender();
         }
 
         /// <summary>

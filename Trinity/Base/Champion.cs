@@ -3,10 +3,14 @@
     #region
     
     using Helpers;
+    
+    using Oasys.SDK;
+    using Oasys.SDK.InputProviders;
     using Oasys.Common;
     using Oasys.Common.GameObject.Clients;
     using Oasys.Common.Menu;
     using Oasys.Common.Menu.ItemComponents;
+
     using System.Collections.Generic;
 
     #endregion
@@ -118,15 +122,24 @@
                 var unit = u.Value;
                 if (unit.IsEnemy)
                     if (this.CheckProjectionSegment(unit))
-                        PredictionFlags.Add(PredictionFlag.Hero);
+                        this.PredictionFlags.Add(PredictionFlag.Hero);
             }
 
             foreach (var t in ObjectManagerExport.TurretCollection)
             {
                 var turret = t.Value;
                 if (turret.IsEnemy)
+                {
+                    var turretDmg = DamageCalculator.GetNextBasicAttackDamage(turret, this.Instance);
                     if (this.CheckProjectionSegment(turret))
-                        PredictionFlags.Add(PredictionFlag.Tower);
+                    {
+                        var combo = KeyboardProvider.IsKeyPressed(Oasys.Common.Settings.Orbwalker.GetComboKey());
+                        if (!combo || !this.Instance.IsMe || turretDmg >= this.Instance.Health)
+                        {
+                            this.PredictionFlags.Add(PredictionFlag.Tower);
+                        }
+                    }
+                }
             }
 
             foreach (var t in ObjectManagerExport.JungleObjectCollection)
@@ -134,7 +147,7 @@
                 var minion = t.Value;
                 if (minion.IsNeutral)
                     if (this.CheckProjectionSegment(minion))
-                        PredictionFlags.Add(PredictionFlag.Monster);
+                        this.PredictionFlags.Add(PredictionFlag.Monster);
             }
             
             foreach (var t in ObjectManagerExport.MinionCollection)
@@ -142,7 +155,7 @@
                 var minion = t.Value;
                 if (minion.IsEnemy)
                     if (this.CheckProjectionSegment(minion))
-                        PredictionFlags.Add(PredictionFlag.Minion);
+                        this.PredictionFlags.Add(PredictionFlag.Minion);
             }
         }
         
@@ -150,7 +163,7 @@
         {
             var tabname = Instance.ModelName + (Instance.IsEnemy ? "e" : "a");
             
-            ChampionGroupTab = new Tab { Title = "[pred] " + Instance.ModelName };
+            ChampionGroupTab = new Tab { Title = "[advanced] " + this.Instance.ModelName };
             ChampionGroupTab.AddItem(ChampionSwitch[tabname + "hro"] = new Switch { IsOn = true, Title = "Predict spell/auto attacks" });
             ChampionGroupTab.AddItem(ChampionSwitch[tabname + "mis"] = new Switch { IsOn = true, Title = "Predict missiles from fow (beta)" });
             ChampionGroupTab.AddItem(ChampionSwitch[tabname + "min"] = new Switch { IsOn = true, Title = "Predict minion attacks" });
@@ -166,7 +179,7 @@
         {
             if (callbackobject.IsEnemy)
                 if (this.CheckMissileSegment(callbackobject))
-                    PredictionFlags.Add(PredictionFlag.Missile);
+                    this.PredictionFlags.Add(PredictionFlag.Missile);
         }
 
         #endregion
