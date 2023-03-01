@@ -71,6 +71,8 @@ namespace Trinity.Helpers
             [ItemID.Quicksilver_Sash] = "Quicksilver Sash",
             [ItemID.Mercurial_Scimitar] = "Mercurial Scimitar",
             [ItemID.Stopwatch] = "Stopwatch",
+            [ItemID.Commencing_Stopwatch] = "Commencing Stopwatch",
+            [ItemID.Perfectly_Timed_Stopwatch] = "Perfectly Timed Stopwatch",
             [ItemID.Zhonyas_Hourglass] = "Zhonya's Hourglass",
             [ItemID.Your_Cut] = "Your Cut (Pyke)",
             [ItemID.Blade_of_The_Ruined_King] = "Blade of the Ruined King",
@@ -179,6 +181,12 @@ namespace Trinity.Helpers
         {
             // item: Stopwatch
             new ActiveItem(35, ItemID.Stopwatch, TargetingType.ProximityAlly, 1200,
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, ActivationType.CheckOnlyOnMe }),
+            
+            new ActiveItem(35, ItemID.Commencing_Stopwatch, TargetingType.ProximityAlly, 1200,
+                new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, ActivationType.CheckOnlyOnMe }),
+            
+            new ActiveItem(35, ItemID.Perfectly_Timed_Stopwatch, TargetingType.ProximityAlly, 1200,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous, ActivationType.CheckOnlyOnMe }),
 
             // item: Zhonyas_Hourglass
