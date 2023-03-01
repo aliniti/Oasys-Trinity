@@ -206,6 +206,7 @@
         {
             this.CorrectSpellClass();
             var tabName = ChampionName;
+            var spellName = SpellClass.SpellData.SpellName;
         
             if (!SpellSwitch[tabName + "draw"].IsOn) return;
         
@@ -222,7 +223,13 @@
             RenderFactory.DrawNativeCircle(myPos, Range, circ, 3);
             RenderFactory.DrawText(text, 20, new Vector2(myPosToScreen.X, myPosToScreen.Y + 40), circ);
         
-            var damage = SpellClass.SpellData.SpellName == "SummonerSmite" ? 450 : 900;
+            var damage = 600;
+
+            if (spellName.Contains("SmitePlayerGanker"))
+                damage = 900;
+
+            if (spellName.Contains("SmiteAvatar"))
+                damage = 1200;
         
             foreach (var minion in ObjectManagerExport.JungleObjectCollection.Select(x => x.Value))
                 if (minion.IsValidTarget(1000) && minion.Position.IsOnScreen())
@@ -265,11 +272,18 @@
         {
             this.CorrectSpellClass();
             var tabName = ChampionName;
+            var spellName = SpellClass.SpellData.SpellName;
 
             if (!SpellClass.IsSpellReady) return;
             if (!SpellSwitch[tabName].IsOn) return;
 
-            var damage = SpellClass.SpellData.SpellName == "SummonerSmite" ? 450 : 900;
+            var damage = 600;
+
+            if (spellName.Contains("SmitePlayerGanker"))
+                damage = 900;
+
+            if (spellName.Contains("SmiteAvatar"))
+                damage = 1200;
 
             foreach (var minion in ObjectManagerExport.JungleObjectCollection.Select(x => x.Value))
             {

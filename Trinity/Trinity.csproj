@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0-windows</TargetFramework>
+        <TargetFramework>net7.0-windows</TargetFramework>
         <UseWindowsForms>true</UseWindowsForms>
-        <Version>1.6.4</Version>
+        <Version>1.6.5</Version>
         <Platforms>AnyCPU;x86;x64</Platforms>
-        <AssemblyVersion>1.6.4</AssemblyVersion>
-        <FileVersion>1.6.4</FileVersion>
-        <PackageVersion>1.6.4</PackageVersion>
+        <AssemblyVersion>1.6.5</AssemblyVersion>
+        <FileVersion>1.6.5</FileVersion>
+        <PackageVersion>1.6.5</PackageVersion>
     </PropertyGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
