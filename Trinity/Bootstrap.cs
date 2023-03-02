@@ -185,6 +185,13 @@
                 troy.OnEmitterDispose += () => Lists.InitializedParticles.Remove(troy);
                 troy.Initialize(config);
             }
+
+            foreach (var aura in Lists.Auras)
+            {
+                aura.OnAuraInitialize += () => Lists.InitializedAuras.Add(aura);
+                aura.OnAuraDispose += () => Lists.InitializedAuras.Remove(aura);
+                aura.Initialize(config);
+            }
             
             foreach (var championBase in Lists.AllChampions)
             {
@@ -192,13 +199,6 @@
                 hero.OnChampionInitialize += () => Lists.InitializedChampions.Add(hero);
                 hero.OnChampionDispose += () => Lists.InitializedChampions.Remove(hero);
                 hero.Initialize(config, hero);
-            }
-            
-            foreach (var aura in Lists.Auras)
-            {
-                aura.OnAuraInitialize += () => Lists.InitializedAuras.Add(aura);
-                aura.OnAuraDispose += () => Lists.InitializedAuras.Remove(aura);
-                aura.Initialize(config);
             }
 
             trinityMenu.AddItem(config);

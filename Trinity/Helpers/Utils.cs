@@ -28,7 +28,7 @@
         /// <summary>
         ///     Resets the champion aggro values
         /// </summary>
-        /// <param name="hero"></param>
+        /// <param name="hero">The hero.</param>
         public static void ResetAggro(this Champion hero)
         {
             hero.AggroTick = 0;
@@ -41,7 +41,7 @@
         /// <summary>
         ///     Checks if the enemy exists by string
         /// </summary>
-        /// <param name="champion"></param>
+        /// <param name="champion">The champion name.</param>
         /// <returns></returns>
         public static bool EnemyExists(this string champion)
         {
@@ -51,7 +51,7 @@
         /// <summary>
         ///     Checks if the enemy exists by string
         /// </summary>
-        /// <param name="champion"></param>
+        /// <param name="champion">The champion name.</param>
         /// <returns></returns>
         public static bool EnemyExistsExport(this string champion)
         {
@@ -61,14 +61,19 @@
         /// <summary>
         ///     Checks if the hero has the buff of type
         /// </summary>
-        /// <param name="hero"></param>
-        /// <param name="type"></param>
+        /// <param name="hero">The hero.</param>
+        /// <param name="type">The buff type.</param>
         /// <returns></returns>
         public static bool HasBuffOfType(this AIHeroClient hero, BuffType type)
         {
             return hero.BuffManager.GetBuffList().FirstOrDefault(x =>  x.IsActive && x.EntryType == type) != null;
         }
 
+        /// <summary>
+        ///     Gets the hero by index.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns></returns>
         public static AIBaseClient GetHeroByIndex(short index)
         {
             return ObjectManagerExport.HeroCollection.Values.FirstOrDefault(v => v.Index == index);

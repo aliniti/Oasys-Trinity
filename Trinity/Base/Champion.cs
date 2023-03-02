@@ -163,7 +163,7 @@
         {
             var tabname = Instance.ModelName + (Instance.IsEnemy ? "e" : "a");
             
-            ChampionGroupTab = new Tab { Title = "[advanced] " + this.Instance.ModelName };
+            ChampionGroupTab = new Tab { Title = "[hero] " + this.Instance.ModelName };
             ChampionGroupTab.AddItem(ChampionSwitch[tabname + "hro"] = new Switch { IsOn = true, Title = "Predict spell/auto attacks" });
             ChampionGroupTab.AddItem(ChampionSwitch[tabname + "mis"] = new Switch { IsOn = true, Title = "Predict missiles from fow (beta)" });
             ChampionGroupTab.AddItem(ChampionSwitch[tabname + "min"] = new Switch { IsOn = true, Title = "Predict minion attacks" });

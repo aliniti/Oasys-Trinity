@@ -97,10 +97,9 @@
 
             GameEvents.OnBuyItem += GameEvents_OnBuyItem;
             GameEvents.OnSellItem += GameEvents_OnSellItem;
-            
+            GameEvents.OnItemUpgrade += GameEvents_OnItemUpgrade;
             CreateTab();
         }
-
 
         /// <summary>
         ///     Initializes the item.
@@ -132,6 +131,15 @@
             SpellClass = null;
             OnItemDispose?.Invoke();
         }
+        
+        /// <summary>
+        ///     Updates the item.
+        /// </summary>
+        private void UpdateItem()
+        {
+            DisposeItem();
+            InitializeItem();
+        }
 
         public abstract void OnTick();
         public abstract void CreateTab();
@@ -147,11 +155,11 @@
         /// <param name="heroUpdatingItem">The hero updating item.</param>
         /// <param name="updatedItemList">The updated item list.</param>
         /// <param name="updatedItem">The updated item.</param>
-        /// <param name="updatedGametime">The updated gametime.</param>
+        /// <param name="updatedGameTime">The updated game time.</param>
         private async Task GameEvents_OnSellItem(Hero heroUpdatingItem, List<HeroInventory.Item> updatedItemList,
-            HeroInventory.Item updatedItem, float updatedGametime)
+            HeroInventory.Item updatedItem, float updatedGameTime)
         {
-            if (updatedItem.ID == ItemId)
+            if (updatedItem.ID == this.ItemId)
                 if (heroUpdatingItem.NetworkID == UnitManager.MyChampion.NetworkID)
                     DisposeItem();
         }
@@ -162,13 +170,28 @@
         /// <param name="heroUpdatingItem">The hero updating item.</param>
         /// <param name="updatedItemList">The updated item list.</param>
         /// <param name="updatedItem">The updated item.</param>
-        /// <param name="updatedGametime">The updated gametime.</param>
+        /// <param name="updatedGameTime">The updated game time.</param>
         private async Task GameEvents_OnBuyItem(Hero heroUpdatingItem, List<HeroInventory.Item> updatedItemList,
-            HeroInventory.Item updatedItem, float updatedGametime)
+            HeroInventory.Item updatedItem, float updatedGameTime)
         {
-            if (updatedItem.ID == ItemId)
+            if (updatedItem.ID == this.ItemId)
                 if (heroUpdatingItem.NetworkID == UnitManager.MyChampion.NetworkID)
                     InitializeItem();
+        }
+        
+        /// <summary>
+        ///     Events on item upgrade.
+        /// </summary>
+        /// <param name="heroUpdatingItem">The hero updating item.</param>
+        /// <param name="updatedItemList">The updated item list.</param>
+        /// <param name="updatedItem">The updated item.</param>
+        /// <param name="updatedGameTime">The updated game time.</param>
+        private async Task GameEvents_OnItemUpgrade(Hero heroUpdatingItem, List<HeroInventory.Item> updatedItemList, 
+            HeroInventory.Item updatedItem, float updatedGameTime)
+        {
+            if (updatedItem.ID == this.ItemId)
+                if (heroUpdatingItem.NetworkID == UnitManager.MyChampion.NetworkID)
+                    UpdateItem();
         }
 
         #endregion
