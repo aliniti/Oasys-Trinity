@@ -88,7 +88,7 @@ namespace Trinity.Helpers
         public static readonly List<Buff> Auras = new ()
         {
             new Buff("All", "summonerdot"),
-            new Buff("All", "itemsmitechallenge"),
+            //new Buff("All", "itemsmitechallenge"),
             new Buff("Ahri", "ahrifoxfire", 525f),
             new Buff("Alistar", "alistare", 300f),
             new Buff("Amumu", "auraofdespair", 175f),
@@ -431,7 +431,7 @@ namespace Trinity.Helpers
             new AutoSpell(25, "Zilean", CastSlot.R, TargetingType.AllyUnit, 900,
                 new[] { ActivationType.CheckAllyLowHP }),
 
-            new AutoSpell(25, "Kindred", CastSlot.R, TargetingType.AllyUnit, 400,
+            new AutoSpell(25, "Kindred", CastSlot.R, TargetingType.ProximityAlly, 400,
                 new[] { ActivationType.CheckAllyLowHP }),
 
             new AutoSpell(25, "Aatrox", CastSlot.R, TargetingType.ProximityAlly, float.MaxValue,
@@ -449,7 +449,7 @@ namespace Trinity.Helpers
             new AutoSpell(25, "Kayle", CastSlot.R, TargetingType.AllyUnit, 900,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckDangerous }),
 
-            new AutoSpell(25, "Mundo", CastSlot.R, TargetingType.ProximityAlly, float.MaxValue,
+            new AutoSpell(25, "DrMundo", CastSlot.R, TargetingType.ProximityAlly, float.MaxValue,
                 new[] { ActivationType.CheckAllyLowHP, ActivationType.CheckOnlyOnMe }),
 
             #endregion

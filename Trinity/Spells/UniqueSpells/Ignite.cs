@@ -85,8 +85,6 @@
                     IsOn = true,
                     Title = "Ignite Drawings"
                 });
-            
-            SpellTab.AddItem(SpellGroupTab);
         }
         
         /// <summary>

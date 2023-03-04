@@ -195,8 +195,6 @@
                     IsOn = true,
                     Title = "Smite Drawings"
                 });
-
-            SpellTab.AddItem(SpellGroupTab);
         }
 
         /// <summary>

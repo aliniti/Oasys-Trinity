@@ -67,7 +67,7 @@
                 };
             }
 
-            //spell.SpellTab.AddItem(spell.SpellGroupTab);
+            spell.SpellTab.AddItem(spell.SpellGroupTab);
         }
 
         /// <summary>
