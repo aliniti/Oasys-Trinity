@@ -1,7 +1,6 @@
 namespace Trinity.Base
 {
     #region
-    
     using System.Collections.Generic;
     using Oasys.Common.Extensions;
     using Oasys.Common.GameObject;
@@ -9,7 +8,6 @@ namespace Trinity.Base
     using Oasys.Common.Menu.ItemComponents;
     using Oasys.SDK;
     using Helpers;
-    
     #endregion
 
     public class Particle : ParticleBase
@@ -155,12 +153,15 @@ namespace Trinity.Base
         /// </summary>
         public override void OnCreate(List<AIBaseClient> objList, AIBaseClient obj, float callbackGameTime)
         {
-            if (obj.Name.ToLower().Contains(Name.ToLower()))
+            if (obj.Name.Contains(ChampionString))
             {
-                Obj = obj;
-                CreatedTickTime = (int) (GameEngine.GameTime * 1000);
-                Included = true;
-                //Logger.Log(obj.Name.ToLower() + " : created");
+                if (obj.Name.ToLower().Contains(Name.ToLower()))
+                {
+                    Obj = obj;
+                    CreatedTickTime = (int) (GameEngine.GameTime * 1000);
+                    Included = true;
+                    //Logger.Log(obj.Name.ToLower() + " : created");
+                }
             }
         }
 

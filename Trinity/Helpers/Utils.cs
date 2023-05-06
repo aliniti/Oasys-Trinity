@@ -345,7 +345,7 @@
         {
             if (unit is AIHeroClient hero)
             {
-                if (hero.IsRecalling || hero.IsCastingSpell || hero.IsEmpoweredRecalling
+                if (hero.IsRecalling() || hero.IsCastingSpell /*|| hero.IsEmpoweredRecalling*/
                     || hero.IsChanneling)
                     return false;
 
@@ -714,8 +714,10 @@
             SpellData entry = null;
             foreach (var x in SpellData.HeroSpells)
             {
-                if (x.ChampionName.ToLower() != source.ModelName.ToLower()) continue;
-                if (x.MissileName.ToLower() == missile.Name.ToLower() || x.Slot == (SpellSlot) missile.Slot)
+                if (x.ChampionName.ToLower() != source.ModelName.ToLower())
+                    continue;
+
+                if (x.MissileName.ToLower() == missile.Name.ToLower())
                 {
                     entry = x;
                     break;
@@ -732,9 +734,6 @@
             var endPos = missile.EndPosition.ToVector2();
             var direction = (endPos - startPos).Normalized();
             var radius = (int) Math.Max(50, missile.SpellData.SpellWidth) + cRadius;
-
-            if (startPos.Distance(endPos) > missile.SpellData.CastRange)
-                endPos = startPos + direction * missile.SpellData.CastRange;
 
             var pInfo = hero.Instance.Position.ToVector2().ProjectOn(startPos, endPos);
             var nearSegment = hero.Instance.Position.Distance(pInfo.SegmentPoint) <= radius;
@@ -813,8 +812,11 @@
                 var direction = (endPos - startPos).Normalized();
                 var radius = (int) Math.Max(50, currentSpell.SpellData.SpellWidth) + cRadius;
 
-                if (startPos.Distance(endPos) > currentSpell.SpellData.CastRange)
-                    endPos = startPos + direction * currentSpell.SpellData.CastRange;
+                if (entry != null)
+                {
+                    if (startPos.Distance(endPos) > entry.CastRange)
+                        endPos = startPos + direction * entry.CastRange;
+                }
 
                 var pInfo = hero.Instance.Position.ToVector2().ProjectOn(startPos, endPos);
                 var nearSegment = hero.Instance.Position.Distance(pInfo.SegmentPoint) <= radius;

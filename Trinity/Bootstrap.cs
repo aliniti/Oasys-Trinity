@@ -1,7 +1,6 @@
 ﻿namespace Trinity
 {
     #region
-    
     using Base;
     using Helpers;
  
@@ -14,7 +13,6 @@
 
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
     #endregion
 
     public static class Bootstrap
@@ -45,7 +43,7 @@
         private static async Task OnGameLoadComplete()
         {            
             Lists.Populate();
-            
+
             CoreEvents.OnCoreMainTick += OnCoreMainTick;
             CoreEvents.OnCoreMainInputAsync += OnCoreMainInputAsync;
             CoreEvents.OnCoreRender += OnCoreRender;
@@ -268,22 +266,22 @@
         /// <summary>
         ///     Game events [on create object].
         /// </summary>
-        private static async Task OnCreateObject(List<AIBaseClient> callbackobjectlist, AIBaseClient callbackobject, float callbackgametime)
+        private static async Task OnCreateObject(List<AIBaseClient> callbackObjectList, AIBaseClient callbackObject, float callbackGameTime)
         {
             foreach (var initializedEmitter in Lists.InitializedParticles)
-                initializedEmitter.OnCreate(callbackobjectlist, callbackobject, callbackgametime);
+                initializedEmitter.OnCreate(callbackObjectList, callbackObject, callbackGameTime);
             
             foreach (var initializedChampion in Lists.InitializedChampions)
-                initializedChampion.OnCreate(callbackobjectlist, callbackobject, callbackgametime);
+                initializedChampion.OnCreate(callbackObjectList, callbackObject, callbackGameTime);
         }
         
         /// <summary>
         ///     Game events [on delete object].
         /// </summary>
-        private static async Task OnDeleteObject(List<AIBaseClient> callbackobjectlist, AIBaseClient callbackobject, float callbackgametime)
+        private static async Task OnDeleteObject(List<AIBaseClient> callbackObjectList, AIBaseClient callbackObject, float callbackGameTime)
         {
             foreach (var initializedEmitter in Lists.InitializedParticles)
-                initializedEmitter.OnDelete(callbackobjectlist, callbackobject, callbackgametime);
+                initializedEmitter.OnDelete(callbackObjectList, callbackObject, callbackGameTime);
         }
 
         #endregion

@@ -115,7 +115,7 @@
 
         public override void OnTick()
         {
-            if (Instance.IsEnemy) return;
+            if (Instance.IsEnemy || !Instance.IsAlive) return;
             
             foreach (var u in ObjectManagerExport.HeroCollection)
             {

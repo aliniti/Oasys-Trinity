@@ -104,7 +104,7 @@
         /// <summary>
         ///     Initializes the item.
         /// </summary>
-        public virtual void InitializeItem()
+        protected virtual void InitializeItem()
         {
             if (_initialized) return;
 
