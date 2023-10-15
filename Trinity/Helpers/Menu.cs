@@ -97,7 +97,7 @@
             {
                 Title = "Use " + tabName + " at ALLY Percent HP < (%)",
                 MaxValue = 100,
-                MinValue = 10,
+                MinValue = 0,
                 Value = pctUse,
                 ValueFrequency = 5
             });
@@ -115,7 +115,7 @@
             {
                 Title = "Use " + tabName + " at ALLY Percent MP < (%)",
                 MaxValue = 100,
-                MinValue = 10,
+                MinValue = 0,
                 Value = pctUse,
                 ValueFrequency = 5
             });
@@ -133,7 +133,7 @@
             {
                 Title = "Use " + tabName + " at ENEMY Percent HP < (%)",
                 MaxValue = 100,
-                MinValue = 10,
+                MinValue = 0,
                 Value = pctUse,
                 ValueFrequency = 5
             });
@@ -150,7 +150,7 @@
             {
                 Title = "Use " + tabName + " if Mana > (%)",
                 MaxValue = 100,
-                MinValue = 10,
+                MinValue = 0,
                 Value = 35,
                 ValueFrequency = 5
             });
