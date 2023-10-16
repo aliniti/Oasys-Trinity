@@ -165,8 +165,8 @@
             
             ChampionGroupTab = new Tab { Title = "[hero] " + this.Instance.ModelName };
             ChampionGroupTab.AddItem(ChampionSwitch[tabname + "hro"] = new Switch { IsOn = true, Title = "Predict spell/auto attacks" });
-            ChampionGroupTab.AddItem(ChampionSwitch[tabname + "mis"] = new Switch { IsOn = true, Title = "Predict missiles from fow (beta)" });
-            ChampionGroupTab.AddItem(ChampionSwitch[tabname + "min"] = new Switch { IsOn = true, Title = "Predict minion attacks" });
+            ChampionGroupTab.AddItem(ChampionSwitch[tabname + "mis"] = new Switch { IsOn = true, Title = "Predict missiles from fow (wip)" });
+            ChampionGroupTab.AddItem(ChampionSwitch[tabname + "min"] = new Switch { IsOn = false, Title = "Predict minion attacks (wip)" });
             ChampionGroupTab.AddItem(ChampionSwitch[tabname + "jgl"] = new Switch { IsOn = true, Title = "Predict neutral monsters attacks" });
             ChampionGroupTab.AddItem(ChampionSwitch[tabname + "twr"] = new Switch { IsOn = true, Title = "Predict tower attacks" });
             ChampionGroupTab.AddItem(ChampionSwitch[tabname + "vfx"] = new Switch { IsOn = true, Title = "Predict particle/vfx" });
