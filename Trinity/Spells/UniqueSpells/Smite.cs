@@ -97,7 +97,16 @@
             { "SRU_Murkwolf8.1.1", new Offset(new Vector2(-45, -21), 150, 10) },
             { "SRU_Murkwolf2.1.1", new Offset(new Vector2(-45, -21), 150, 10) },
             { "SRU_Gromp13.1.1", new Offset(new Vector2(-43, -21), 150, 10) },
-            { "SRU_Gromp14.1.1", new Offset(new Vector2(-43, -21), 150, 10) }
+            { "SRU_Gromp14.1.1", new Offset(new Vector2(-43, -21), 150, 10) },
+            { "SRU_Blue2.1.1", new Offset(new Vector2(-42, -20), 150, 9) },
+            { "SRU_Krug6.1.1", new Offset(new Vector2(-45, -21), 150, 10) },
+            { "SRU_Murkwolf7.1.1", new Offset(new Vector2(-45, -21), 150, 10) },
+            { "SRU_Red11.1.1", new Offset(new Vector2(-42, -20), 150, 9) },
+            { "SRU_Razorbeak10.1.1", new Offset(new Vector2(-45, -21), 150, 10) },
+            { "SRU_Gromp3.1.1", new Offset(new Vector2(-43, -21), 150, 10) },
+            { "SRU_Gromp4.1.1", new Offset(new Vector2(-43, -21), 150, 10) },
+            { "SLIME_Crab13.1.1", new Offset(new Vector2(-47, -23), 150, 12) },
+            { "SRU_RiftHerald12.1.1", new Offset(new Vector2(-41, -20), 155, 9) },
         };
 
         /// <summary>
@@ -118,7 +127,8 @@
         {
             "SRU_Blue",
             "SRU_Red",
-            "Sru_Crab"
+            "Sru_Crab",
+            "SLIME_Crab"
         };
 
         /// <summary>
@@ -287,7 +297,7 @@
             {
                 var minionRadius = minion.UnitComponentInfo.UnitBoundingRadius;
                 var myHeroRadius = ObjectManagerExport.LocalPlayer.UnitComponentInfo.UnitBoundingRadius;
-
+                
                 if (minion.IsValidTarget(Range + minionRadius + myHeroRadius) && !minion.Name.Contains("Mini"))
                     if (damage >= minion.Health)
                     {
