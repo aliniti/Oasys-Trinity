@@ -13,6 +13,7 @@
 
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     #endregion
 
     public static class Bootstrap
@@ -20,12 +21,9 @@
         public static int LastActivationTs { get; set; }
         public static readonly Dictionary<uint, Champion> Allies = new();
         public static readonly Dictionary<uint, Champion> Enemies = new();
-
-        #region Public Methods and Operators
-
-        /// <summary>
-        ///     The Oasys module entry point
-        /// </summary>
+        
+        #region Tidy : OnExecute
+        
         [Oasys.SDK.OasysModuleEntryPoint]
         public static void Execute()
         {
@@ -35,11 +33,7 @@
 
         #endregion
 
-        #region Private Methods and Operators
-
-        /// <summary>
-        ///     Games events [on game load complete].
-        /// </summary>
+        #region Tidy : OnStart & OnEnd
         private static async Task OnGameLoadComplete()
         {            
             Lists.Populate();
@@ -53,10 +47,7 @@
             
             InitializeTrinity();
         }
-
-        /// <summary>
-        ///     Games events [on game match complete].
-        /// </summary>
+        
         private static async Task OnGameMatchComplete()
         {
             Lists.Dispose();
@@ -69,12 +60,11 @@
             Oasys.SDK.Events.GameEvents.OnDeleteObject -= OnDeleteObject;
         }
         
-        /// <summary>
-        ///     Initializes the trinity add-on.
-        /// </summary>
+        #endregion
+        
         private static void InitializeTrinity()
         {
-            var trinityMenu = new Tab("Trinity");
+            var menu = new Tab("Trinity");
 
             #region Tidy : Purify Item Menu
 
@@ -87,7 +77,7 @@
                 item.Initialize(cleanseItemMenu);
             }
 
-            trinityMenu.AddItem(cleanseItemMenu);
+            menu.AddItem(cleanseItemMenu);
 
             #endregion
 
@@ -102,7 +92,7 @@
                 item.Initialize(offensiveItemMenu);
             }
 
-            trinityMenu.AddItem(offensiveItemMenu);
+            menu.AddItem(offensiveItemMenu);
 
             #endregion
 
@@ -117,7 +107,7 @@
                 item.Initialize(defensiveItemMenu);
             }
 
-            trinityMenu.AddItem(defensiveItemMenu);
+            menu.AddItem(defensiveItemMenu);
 
             #endregion
 
@@ -132,7 +122,7 @@
                 item.Initialize(consumablesItemMenu);
             }
 
-            trinityMenu.AddItem(consumablesItemMenu);
+            menu.AddItem(consumablesItemMenu);
 
             #endregion
 
@@ -154,7 +144,7 @@
                 spell.Initialize(summonerSpellMenu);
             }
 
-            trinityMenu.AddItem(summonerSpellMenu);
+            menu.AddItem(summonerSpellMenu);
 
             #endregion
 
@@ -169,46 +159,60 @@
                 spell.Initialize(autoSpellsMenu);
             }
 
-            trinityMenu.AddItem(autoSpellsMenu);
+            menu.AddItem(autoSpellsMenu);
 
             #endregion
-
-            #region Tidy : Prediction Menu
-
-            var config = new Tab("Prediction");
-
-            foreach (var troy in Lists.Particles)
-            {
-                troy.OnEmitterInitialize += () => Lists.InitializedParticles.Add(troy);
-                troy.OnEmitterDispose += () => Lists.InitializedParticles.Remove(troy);
-                troy.Initialize(config);
-            }
-
+            
+            #region Tidy : Advanced Menu
+            
+            var advancedMenu = new Tab("Advanced");
+            
+            var auras = new Tab("Auras");
             foreach (var aura in Lists.Auras)
             {
                 aura.OnAuraInitialize += () => Lists.InitializedAuras.Add(aura);
                 aura.OnAuraDispose += () => Lists.InitializedAuras.Remove(aura);
-                aura.Initialize(config);
+                aura.Initialize(auras);
             }
             
+            var types = new Tab("Aura Types");
+            foreach (var aura in Lists.AuraTypes)
+            {
+                aura.OnAuraInitialize += () => Lists.InitializedAuras.Add(aura);
+                aura.OnAuraDispose += () => Lists.InitializedAuras.Remove(aura);
+                aura.Initialize(types);
+            }
+            
+            var heroes = new Tab("Heroes");
             foreach (var championBase in Lists.AllChampions)
             {
                 var hero = (Champion) championBase;
                 hero.OnChampionInitialize += () => Lists.InitializedChampions.Add(hero);
                 hero.OnChampionDispose += () => Lists.InitializedChampions.Remove(hero);
-                hero.Initialize(config, hero);
+                hero.Initialize(heroes, hero);
             }
-
-            trinityMenu.AddItem(config);
-
-            MenuManager.AddTab(trinityMenu);
-
+            
+            var particles = new Tab("Particles");
+            foreach (var troy in Lists.Particles)
+            {
+                troy.OnEmitterInitialize += () => Lists.InitializedParticles.Add(troy);
+                troy.OnEmitterDispose += () => Lists.InitializedParticles.Remove(troy);
+                troy.Initialize(particles);
+            }
+            
             #endregion
+            
+            advancedMenu.AddItem(auras);
+            advancedMenu.AddItem(types);
+            advancedMenu.AddItem(heroes);
+            advancedMenu.AddItem(particles);
+            
+            menu.AddItem(advancedMenu);
+            MenuManager.AddTab(menu);
         }
 
-        /// <summary>
-        ///     Cores events [on core main tick].
-        /// </summary>
+        #region  Tidy: OnTick
+        
         private static async Task OnCoreMainTick()
         {
             if (!GameEngine.IsGameWindowFocused) return;
@@ -228,10 +232,10 @@
             foreach (var initializedChampion in Lists.InitializedChampions)
                 initializedChampion.OnTick();
         }
+        
+        #endregion
 
-        /// <summary>
-        ///     Cores events [on core main input asynchronous].
-        /// </summary>
+        #region Tidy : OnMainInput
         private static async Task OnCoreMainInputAsync()
         {
             if (!GameEngine.IsGameWindowFocused) return;
@@ -242,10 +246,28 @@
             foreach (var initializedInputSpell in Lists.InitializedInputSpells)
                 initializedInputSpell.OnTick();
         }
-
-        /// <summary>
-        ///     Cores events [on core render].
-        /// </summary>
+        
+        #endregion
+        
+        #region Tidy: OnCreate & OnDelete
+        private static async Task OnCreateObject(List<AIBaseClient> callbackObjectList, AIBaseClient callbackObject, float callbackGameTime)
+        {
+            foreach (var initializedEmitter in Lists.InitializedParticles)
+                initializedEmitter.OnCreate(callbackObjectList, callbackObject, callbackGameTime);
+            
+            foreach (var initializedChampion in Lists.InitializedChampions)
+                initializedChampion.OnCreate(callbackObjectList, callbackObject, callbackGameTime);
+        }
+        
+        private static async Task OnDeleteObject(List<AIBaseClient> callbackObjectList, AIBaseClient callbackObject, float callbackGameTime)
+        {
+            foreach (var initializedEmitter in Lists.InitializedParticles)
+                initializedEmitter.OnDelete(callbackObjectList, callbackObject, callbackGameTime);
+        }
+        
+        #endregion
+        
+        #region Tidy : OnRender
         private static void OnCoreRender()
         {
             if (!GameEngine.IsGameWindowFocused) return;
@@ -261,29 +283,11 @@
             
             foreach (var initializedInputSpell in Lists.InitializedInputSpells)
                 initializedInputSpell.OnRender();
-        }
-
-        /// <summary>
-        ///     Game events [on create object].
-        /// </summary>
-        private static async Task OnCreateObject(List<AIBaseClient> callbackObjectList, AIBaseClient callbackObject, float callbackGameTime)
-        {
-            foreach (var initializedEmitter in Lists.InitializedParticles)
-                initializedEmitter.OnCreate(callbackObjectList, callbackObject, callbackGameTime);
             
             foreach (var initializedChampion in Lists.InitializedChampions)
-                initializedChampion.OnCreate(callbackObjectList, callbackObject, callbackGameTime);
+                initializedChampion.OnRender();
         }
         
-        /// <summary>
-        ///     Game events [on delete object].
-        /// </summary>
-        private static async Task OnDeleteObject(List<AIBaseClient> callbackObjectList, AIBaseClient callbackObject, float callbackGameTime)
-        {
-            foreach (var initializedEmitter in Lists.InitializedParticles)
-                initializedEmitter.OnDelete(callbackObjectList, callbackObject, callbackGameTime);
-        }
-
         #endregion
     }
 }
