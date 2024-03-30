@@ -83,6 +83,11 @@
 
         #region Override Methods
 
+        /// <summary> 
+        /// <c>CreateTab</c> creates item tabs for various types based on activations types 
+        /// and targets, including Enemy Low Health, Ally Low Health, Mana, Aura Cleanse, 
+        /// Proximity Count, Binding Unit, and Dangerous Spells. 
+        /// </summary> 
         public override void CreateTab()
         {
             // the enable disable switch
@@ -110,10 +115,18 @@
                 this.CreateTabItemDangerousSpells(UsePct);
         }
 
+        /// <summary> 
+        /// <c>OnRender</c> renders the component. 
+        /// </summary> 
         public override void OnRender()
         {
         }
 
+        /// <summary> 
+        /// <c>OnTick</c> checks items for various effects and takes actions based on those 
+        /// effects, such as checking item auras, proximity count, and dangerous spells. It 
+        /// also checks for low health or low mana allies and acts accordingly. 
+        /// </summary> 
         public override void OnTick()
         {
             if (!ItemSwitch[ItemId.ToString()].IsOn) return;
